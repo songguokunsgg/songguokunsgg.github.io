@@ -1,0 +1,833 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fansong Yan">
+  <meta name="keywords" content="技术、生活、游戏">
+  
+    <meta name="description" content="基于 windows host，USB 外接虚拟黑群晖方案分享简介在校期间试了很多类型的网盘，包括 Onedrive, seafile（学校搭建），百度网盘等，都不是很满意。 Onedrive：网速慢 seafile：综合体验最好，学校自建。但是学校运维不太行，隔三差五崩掉，急用的时候简直崩溃。 百度网盘：你还是老实做个资源站吧 最终我决定搞一个黑群晖，正好快毕业了，把手里的机械君利用起来，做一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于 windows host，USB 外接虚拟黑群晖方案分享">
+<meta property="og:url" content="http://songguokunsgg.github.io/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/index.html">
+<meta property="og:site_name" content="菘菓菌 sgg">
+<meta property="og:description" content="基于 windows host，USB 外接虚拟黑群晖方案分享简介在校期间试了很多类型的网盘，包括 Onedrive, seafile（学校搭建），百度网盘等，都不是很满意。 Onedrive：网速慢 seafile：综合体验最好，学校自建。但是学校运维不太行，隔三差五崩掉，急用的时候简直崩溃。 百度网盘：你还是老实做个资源站吧 最终我决定搞一个黑群晖，正好快毕业了，把手里的机械君利用起来，做一个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-33d353a13c80e0f1fcf3428b98288bb3_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-e2b34adff51daae17b21119ea07573b7_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-829982a6d01365929258b99bcfb11b10_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-857af01419147db1d74e957aa1e63dc1_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-0dd3be70291db9726facb97469e8da15_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-2aac833a183dba24416142253622ba07_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-f78ad3dd9b44630487f48a723c275ea8_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-0d20dbc7add9db98d41eea32420a76b6_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-c7584d0837975168edbeb6b4c98e07f7_b.jpg">
+<meta property="article:published_time" content="2024-05-20T08:38:44.000Z">
+<meta property="article:modified_time" content="2024-08-25T08:34:59.517Z">
+<meta property="article:author" content="Fansong Yan">
+<meta property="article:tag" content="技术">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://songguokunsgg.github.io/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-33d353a13c80e0f1fcf3428b98288bb3_b.jpg">
+  
+  
+  
+  <title>基于 windows host，USB 外接虚拟黑群晖方案分享 - 菘菓菌 sgg</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"songguokunsgg.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","app_key":"0RaTUR0yFhlAjxM4uYyXvPSj","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>菘菓菌 sgg</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/technology-stack/" target="_self">
+                <i class="iconfont icon-codepen-fill"></i>
+                <span>技术栈</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="基于 windows host，USB 外接虚拟黑群晖方案分享"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Fansong Yan
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-05-20 16:38" pubdate>
+          2024年5月20日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">基于 windows host，USB 外接虚拟黑群晖方案分享</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="基于-windows-host，USB-外接虚拟黑群晖方案分享"><a href="#基于-windows-host，USB-外接虚拟黑群晖方案分享" class="headerlink" title="基于 windows host，USB 外接虚拟黑群晖方案分享"></a>基于 windows host，USB 外接虚拟黑群晖方案分享</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>在校期间试了很多类型的网盘，包括 Onedrive, seafile（学校搭建），百度网盘等，都不是很满意。</p>
+<p>Onedrive：网速慢</p>
+<p>seafile：综合体验最好，学校自建。但是学校运维不太行，隔三差五崩掉，急用的时候简直崩溃。</p>
+<p>百度网盘：你还是老实做个资源站吧</p>
+<p>最终我决定搞一个黑群晖，正好快毕业了，把手里的机械君利用起来，做一个小型 All in One。</p>
+<h3 id="为什么用-windows-做-host？"><a href="#为什么用-windows-做-host？" class="headerlink" title="为什么用 windows 做 host？"></a>为什么用 windows 做 host？</h3><p>其实我一开始是用的 NixOS，搭配 KVM 做虚拟黑群晖，其实这样做没啥问题，非常稳定，但是我偶尔要用一下电脑的话，就还得再开一个 windows 虚拟机，以使用 office、raylink 等软件。</p>
+<p>考虑到有虚拟 NAS 之后，本地存储需求将会急剧减少，所以我觉得把闲置的 128G 硬盘拿来装 win10 LTSC（稳定），然后装几个常用软件和 vmware，存储需求就用 vmware 虚拟黑群晖，NAT 方案，我表达能力不太行，用图说话。</p>
+<p><img src="/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-33d353a13c80e0f1fcf3428b98288bb3_b.jpg" srcset="/img/loading.gif" lazyload>  </p>
+<p>NAT 简单模型</p>
+<p>等毕业之后，如果有路由器的话，也可以从 NAT 很方便地改为<strong>桥接</strong>，从而满足不同的需求。</p>
+<p><img src="/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-e2b34adff51daae17b21119ea07573b7_b.jpg" srcset="/img/loading.gif" lazyload>  </p>
+<p>桥接设备</p>
+<p>注：由于需要做内网穿透，所以最好令内网访问与公网访问端口一致，方便做 DNS 劫持，从而实现内外网只能切换，所以可能需要做端口转发或者<strong>直接修改端口（推荐），</strong>让 5001 端口映射或修改为内网穿透的端口。这种情况下，将群晖链接到一台可以做 DNS 劫持的设备最合适。</p>
+<p>第一张图中，电脑本身可以做 DNS 劫持（选择 <strong>NAT</strong> 的原因）。</p>
+<p>第二张图中，路由器可以做 DNS 劫持，或者直接修改群晖端口好（<strong>桥接</strong>的原因）。</p>
+<p>不过还是得根据实际需求来。</p>
+<p>例如，穿透后的公网为 <a target="_blank" rel="noopener" href="http://example.com:58819/">http://example.com:58819</a></p>
+<p>进行端口转发或修改端口 5001 -&gt; 58819</p>
+<p>这时候，你可以用 192.168.XX.XX:58819 进行内网访问，也可以用 <a target="_blank" rel="noopener" href="http://example.com:58819/">http://example.com:58819/</a> 进行公网访问。</p>
+<p>此时，将内网的 <a target="_blank" rel="noopener" href="http://example.com/">http://example.com/</a> 进行劫持，<a target="_blank" rel="noopener" href="http://example.com/">http://example.com/</a> -&gt; 192.168.XX.XX。</p>
+<p>就可以实现，连路由器的时候用内网，否则联公网（想出这个方案的真是人才）。</p>
+<p>这个是后话，可能后面会对这篇文章进行补充。</p>
+<h2 id="安装-DS918-黑群晖"><a href="#安装-DS918-黑群晖" class="headerlink" title="安装 DS918+ 黑群晖"></a>安装 DS918+ 黑群晖</h2><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv30010953/">https://www.bilibili.com/read/cv30010953/</a> （USB 改内置）</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/RROrg/rr/releases">https://github.com/RROrg/rr/releases</a> （黑群晖引导文件）下载 rr-<version>.img.zip 文件解压</version></p>
+<h3 id="硬盘格式转换"><a href="#硬盘格式转换" class="headerlink" title="硬盘格式转换"></a>硬盘格式转换</h3><p><a target="_blank" rel="noopener" href="https://www.starwindsoftware.com/download-starwind-products">https://www.starwindsoftware.com/download-starwind-products</a></p>
+<p>使用这个软件将 img 的 raw 硬盘转换为 vmdk</p>
+<h3 id="虚拟机创建"><a href="#虚拟机创建" class="headerlink" title="虚拟机创建"></a>虚拟机创建</h3><p>使用 vmware 创建一台 linux64 虚拟机，使用转换好的硬盘，除此之外，还需要添加一块 sata 系统盘，留下这些硬件即可（CD&#x2F;DVD 也可以不要），配置不用太高，内存最好 4G+。</p>
+<p><img src="/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-829982a6d01365929258b99bcfb11b10_b.jpg" srcset="/img/loading.gif" lazyload><br>启动模式可以调成 UEFI。</p>
+<p>注：群晖跟一般的电脑系统不一样，每插一块硬盘，该硬盘上面都会安装一个系统，从而实现硬盘拔插或坏掉不影响系统使用。这里添加的硬盘只是装系统用的，后面会使用 sata 或 usb 的实体硬盘进行数据存储。如果系统稳定的话，这块 sata 盘可以删掉。</p>
+<h3 id="安装黑群晖系统"><a href="#安装黑群晖系统" class="headerlink" title="安装黑群晖系统"></a>安装黑群晖系统</h3><p><a target="_blank" rel="noopener" href="https://post.smzdm.com/p/am3epen4/">https://post.smzdm.com/p/am3epen4/</a></p>
+<p>根据这篇文章安装即可，主要为四个步骤</p>
+<ol>
+<li>更换语言</li>
+<li>选择型号（如果只使用 SATA，可以选择 DS923+；如果需要外接 USB 硬盘，选 DS918+）</li>
+<li>版本选择：最新版</li>
+<li>编译引导并启动</li>
+</ol>
+<p>然后浏览器 ip:5000 进入系统安装页面，点击安装，不要启动数据收集和更新等等服务。</p>
+<p>注：这一步直接选择<strong>自动下载</strong>即可，一般都能安装成功，如果不行再手动下载安装。</p>
+<p><img src="/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-857af01419147db1d74e957aa1e63dc1_b.jpg" srcset="/img/loading.gif" lazyload><br>装好之后进入系统，进行一些初始化啥的，不赘述。</p>
+<h3 id="将-USB-设定为内置硬盘"><a href="#将-USB-设定为内置硬盘" class="headerlink" title="将 USB 设定为内置硬盘"></a>将 USB 设定为内置硬盘</h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv30010953/">https://www.bilibili.com/read/cv30010953/</a></p>
+<p>直接跳到，<strong>使用 RR 的设置方法</strong>。</p>
+<p>跟着教程走就行，主要说一下计算。</p>
+<p>打开计算器</p>
+<p><img src="/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-0dd3be70291db9726facb97469e8da15_b.jpg" srcset="/img/loading.gif" lazyload><br>功能比较简陋，需要在“查看”调成程序员模式，并调成程序员模式</p>
+<p><img src="/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-2aac833a183dba24416142253622ba07_b.jpg" srcset="/img/loading.gif" lazyload><br>然后用“or”按钮计算 usbportcfg | internalportcfg</p>
+<p>然后设定 usbportcfg&#x3D;0，internalportcfg&#x3D;计算出的值即可，以我为例</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs elixir">root<span class="hljs-variable">@HeiSynology</span><span class="hljs-symbol">:/etc</span>.defaults<span class="hljs-variable">$ </span>cat synoinfo.conf  | grep usbport<br>usbportcfg=<span class="hljs-string">&quot;0x3f00000&quot;</span><br>root<span class="hljs-variable">@HeiSynology</span><span class="hljs-symbol">:/etc</span>.defaults<span class="hljs-variable">$ </span>cat synoinfo.conf  | grep internalport<br>internalportcfg=<span class="hljs-string">&quot;0xfffff&quot;</span><br></code></pre></td></tr></table></figure>
+<p>计算 0x3f00000 | 0xffff &#x3D; 3FFFFFF</p>
+<p>所以设定</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">usbportcfg</span><span class="hljs-operator">=</span><span class="hljs-number">0</span><br><span class="hljs-attribute">internalportcfg</span><span class="hljs-operator">=</span><span class="hljs-number">0</span>x3FFFFFF<br></code></pre></td></tr></table></figure>
+<p>然后重新编译引导，启动，就可以看到 usb 硬盘被识别为内置。</p>
+<p><img src="/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-f78ad3dd9b44630487f48a723c275ea8_b.jpg" srcset="/img/loading.gif" lazyload><br>硬盘 2 是虚拟硬盘，硬盘 17 是我的测使用 U 盘。</p>
+<h3 id="固定-ip"><a href="#固定-ip" class="headerlink" title="固定 ip"></a>固定 ip</h3><p>vmware 创建的虚拟机 ipv4 地址似乎不会变，不用动。</p>
+<h2 id="公网访问"><a href="#公网访问" class="headerlink" title="公网访问"></a>公网访问</h2><p><a target="_blank" rel="noopener" href="https://doc.natfrp.com/app/synology.html">https://doc.natfrp.com/app/synology.html</a></p>
+<p>在群晖系统中把访问端口修改为你申请到的内网穿透端口，例如 58819。</p>
+<p>确认你此时能够在内网通过 内网 ip:58819 访问管理页面</p>
+<p>然后做好内网穿透。</p>
+<p>实测，穿透 5001 &#x3D;&gt; 58819 端口基本上够用了，内网里面手机电脑连接 photos，drive 都可以直接用 5001 &#x3D;&gt; 58819 端口进行登陆。</p>
+<p><strong>但是外网有坑</strong></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/679868467">https://zhuanlan.zhihu.com/p/679868467</a></p>
+<p>如果电脑端需要外网连接 Drive，需要再映射一下 6690 端口，手机端和内网不用，直接 58819 访问即可。</p>
+<h2 id="功能修复"><a href="#功能修复" class="headerlink" title="功能修复"></a>功能修复</h2><p><a target="_blank" rel="noopener" href="https://post.smzdm.com/p/a7pw05r9/">https://post.smzdm.com/p/a7pw05r9/</a></p>
+<p>主要是视频解码方面的内容，按以上文章一键修复。</p>
+<h3 id="洗白：修复除-QC-外功能"><a href="#洗白：修复除-QC-外功能" class="headerlink" title="洗白：修复除 QC 外功能"></a>洗白：修复除 QC 外功能</h3><p><img src="/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-0d20dbc7add9db98d41eea32420a76b6_b.jpg" srcset="/img/loading.gif" lazyload><br><img src="/2024/05/20/%E5%9F%BA%E4%BA%8E_windows_hostUSB_%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB_EberyThingSay/v2-c7584d0837975168edbeb6b4c98e07f7_b.jpg" srcset="/img/loading.gif" lazyload><br>找到这个自定义 SN&#x2F;MAC 的选项，输入购买的 SN &#x2F;MAC 即可。</p>
+<h2 id="Drive-空文件夹问题"><a href="#Drive-空文件夹问题" class="headerlink" title="Drive 空文件夹问题"></a>Drive 空文件夹问题</h2><p>表现：某文件夹在网页端有内容，但使用 Drive 进行按需同步的时候，文件夹显示为空。</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/681513928">https://zhuanlan.zhihu.com/p/681513928</a></p>
+<p>将 homes&#x2F;user 的属性勾选“应用到这个文件夹、子文件夹及文件夹”即可。</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li>如果虚拟机关机了，启动虚拟机时要把硬盘及时连通进去。</li>
+<li>如果 host 不常使用的话，还是建议用 PVE 或者 linux 做 host，windows 还是有些不稳定。</li>
+<li>如果 host windows 要搞操作，先关掉虚拟机再操作，比如垃圾清理内存释放之类的。</li>
+<li>如果你不幸在操作之后，群晖系统出现<strong>硬盘损坏的提示</strong>，不用慌，重启一下虚拟机，自动修复硬盘即可。</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/NAS/" class="category-chain-item">NAS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF/" class="print-no-link">#技术</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>基于 windows host，USB 外接虚拟黑群晖方案分享</div>
+      <div>http://songguokunsgg.github.io/2024/05/20/基于_windows_hostUSB_外接虚拟黑群晖方案分享_EberyThingSay/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Fansong Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年5月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/07/%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B_EberyThingSay/" title="黑群晖 NAS Two in One 从入坑到入土——激进向教程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">黑群晖 NAS Two in One 从入坑到入土——激进向教程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/05/13/PVE_%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F_EberyThingSay/" title="PVE 内网穿透">
+                        <span class="hidden-mobile">PVE 内网穿透</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","appKey":"0RaTUR0yFhlAjxM4uYyXvPSj","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
