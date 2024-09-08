@@ -19,27 +19,22 @@
   <meta name="author" content="Fansong Yan">
   <meta name="keywords" content="技术、生活、游戏">
   
-    <meta name="description" content="如何解决群晖 NAS 中异常的 Jellygin CPU 占用占用原因主要有两点原因：  Jellyfin 的转码、缩略图生成等功能需要占用大量的资源，而且这种资源占用是实时的，任何时候都可能进行，表现为 Jellyfin 一直有大量的 CPU 占用和磁盘读取。 目录异常。例如，错误地将监控视频目录添加到了 Jellyfin 的媒体库中，这类视频数量大，体积小，而 Jellyfin 会处理每个视频">
+    <meta name="description" content="入职日记（一）——新的开始，旧的回忆我曾经无数次幻想过这一天，但当它真正到来时，我才发现，即便已经25岁，但我仍是个孩子，还没有做好面对生活的准备，还没有拥有直面生活的勇气。 去年10月，我在字节跳动进行了为期四个月的实习生活，那是我真正意义上的第一份工作。这份工作难度适中，可学习性较强，狠狠地戳中了我的舒适区。但面对毕业要求，我不得不结束了这一段实习，也等于放弃了拥有这份正式工作的机会。 千盼万">
 <meta property="og:type" content="article">
-<meta property="og:title" content="如何解决群晖 NAS 中异常的 Jellygin CPU 占用">
-<meta property="og:url" content="http://songguokunsgg.github.io/2024/08/25/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3Jellyfin%E5%BC%82%E5%B8%B8%E7%9A%84CPU%E5%8D%A0%E7%94%A8/index.html">
+<meta property="og:title" content="入职日记（一）——新的开始，旧的回忆">
+<meta property="og:url" content="http://songguokunsgg.github.io/2024/08/27/%E5%85%A5%E8%81%8C%E6%97%A5%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B%EF%BC%8C%E6%97%A7%E7%9A%84%E5%9B%9E%E5%BF%86/index.html">
 <meta property="og:site_name" content="菘菓菌 sgg">
-<meta property="og:description" content="如何解决群晖 NAS 中异常的 Jellygin CPU 占用占用原因主要有两点原因：  Jellyfin 的转码、缩略图生成等功能需要占用大量的资源，而且这种资源占用是实时的，任何时候都可能进行，表现为 Jellyfin 一直有大量的 CPU 占用和磁盘读取。 目录异常。例如，错误地将监控视频目录添加到了 Jellyfin 的媒体库中，这类视频数量大，体积小，而 Jellyfin 会处理每个视频">
+<meta property="og:description" content="入职日记（一）——新的开始，旧的回忆我曾经无数次幻想过这一天，但当它真正到来时，我才发现，即便已经25岁，但我仍是个孩子，还没有做好面对生活的准备，还没有拥有直面生活的勇气。 去年10月，我在字节跳动进行了为期四个月的实习生活，那是我真正意义上的第一份工作。这份工作难度适中，可学习性较强，狠狠地戳中了我的舒适区。但面对毕业要求，我不得不结束了这一段实习，也等于放弃了拥有这份正式工作的机会。 千盼万">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://songguokunsgg.github.io/2024/08/25/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3Jellyfin%E5%BC%82%E5%B8%B8%E7%9A%84CPU%E5%8D%A0%E7%94%A8/%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F.png">
-<meta property="og:image" content="http://songguokunsgg.github.io/2024/08/25/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3Jellyfin%E5%BC%82%E5%B8%B8%E7%9A%84CPU%E5%8D%A0%E7%94%A8/%E5%8E%BB%E9%99%A4jellyfin%E5%88%AE%E5%89%8A%E5%8A%9F%E8%83%BD.png">
-<meta property="og:image" content="http://songguokunsgg.github.io/2024/08/25/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3Jellyfin%E5%BC%82%E5%B8%B8%E7%9A%84CPU%E5%8D%A0%E7%94%A8/%E4%BF%9D%E7%95%99%E7%9A%84%E5%AA%92%E4%BD%93%E5%BA%93.png">
-<meta property="og:image" content="http://songguokunsgg.github.io/2024/08/25/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3Jellyfin%E5%BC%82%E5%B8%B8%E7%9A%84CPU%E5%8D%A0%E7%94%A8/%E5%85%B3%E9%97%AD%E4%B8%80%E4%BA%9B%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1.png">
-<meta property="article:published_time" content="2024-08-25T08:38:56.000Z">
-<meta property="article:modified_time" content="2024-08-25T08:50:38.835Z">
+<meta property="article:published_time" content="2024-08-27T14:38:08.000Z">
+<meta property="article:modified_time" content="2024-09-08T04:05:42.436Z">
 <meta property="article:author" content="Fansong Yan">
-<meta property="article:tag" content="技术">
+<meta property="article:tag" content="个人日记">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://songguokunsgg.github.io/2024/08/25/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3Jellyfin%E5%BC%82%E5%B8%B8%E7%9A%84CPU%E5%8D%A0%E7%94%A8/%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F.png">
   
   
   
-  <title>如何解决群晖 NAS 中异常的 Jellygin CPU 占用 - 菘菓菌 sgg</title>
+  <title>入职日记（一）——新的开始，旧的回忆 - 菘菓菌 sgg</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -234,7 +229,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="如何解决群晖 NAS 中异常的 Jellygin CPU 占用"></span>
+            <span id="subtitle" data-typed-text="入职日记（一）——新的开始，旧的回忆"></span>
           
         </div>
 
@@ -250,8 +245,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-25 16:38" pubdate>
-          2024年8月25日 下午
+        <time datetime="2024-08-27 22:38" pubdate>
+          2024年8月27日 晚上
         </time>
       </span>
     
@@ -262,7 +257,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          323 字
+          722 字
         
       </span>
     
@@ -273,7 +268,7 @@
         
         
         
-          3 分钟
+          7 分钟
         
       </span>
     
@@ -319,26 +314,19 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">如何解决群晖 NAS 中异常的 Jellygin CPU 占用</h1>
+            <h1 id="seo-header">入职日记（一）——新的开始，旧的回忆</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="如何解决群晖-NAS-中异常的-Jellygin-CPU-占用"><a href="#如何解决群晖-NAS-中异常的-Jellygin-CPU-占用" class="headerlink" title="如何解决群晖 NAS 中异常的 Jellygin CPU 占用"></a>如何解决群晖 NAS 中异常的 Jellygin CPU 占用</h1><h2 id="占用原因"><a href="#占用原因" class="headerlink" title="占用原因"></a>占用原因</h2><p>主要有两点原因：</p>
-<ol>
-<li>Jellyfin 的转码、缩略图生成等功能需要占用大量的资源，而且这种资源占用是实时的，任何时候都可能进行，表现为 Jellyfin 一直有大量的 CPU 占用和磁盘读取。</li>
-<li>目录异常。例如，错误地将监控视频目录添加到了 Jellyfin 的媒体库中，这类视频数量大，体积小，而 Jellyfin 会处理每个视频，导致异常的资源占用。</li>
-</ol>
-<p>下面尝试解决这几个问题。</p>
-<h2 id="启用硬件加速（N100-为例）"><a href="#启用硬件加速（N100-为例）" class="headerlink" title="启用硬件加速（N100 为例）"></a>启用硬件加速（N100 为例）</h2><p><img src="/2024/08/25/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3Jellyfin%E5%BC%82%E5%B8%B8%E7%9A%84CPU%E5%8D%A0%E7%94%A8/%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="使用-tinyMediaManager-代替-jellyfin-的刮削"><a href="#使用-tinyMediaManager-代替-jellyfin-的刮削" class="headerlink" title="使用 tinyMediaManager 代替 jellyfin 的刮削"></a>使用 tinyMediaManager 代替 jellyfin 的刮削</h2><p><img src="/2024/08/25/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3Jellyfin%E5%BC%82%E5%B8%B8%E7%9A%84CPU%E5%8D%A0%E7%94%A8/%E5%8E%BB%E9%99%A4jellyfin%E5%88%AE%E5%89%8A%E5%8A%9F%E8%83%BD.png" srcset="/img/loading.gif" lazyload></p>
-<p>在 tMM 中把刮削格式设置为 jellyfin，第一次打开软件的时候有提示。</p>
-<p>tMM 的使用就不在这里讲了，功能比 Jellyfin 自带的强大太多。</p>
-<h2 id="去除无用的媒体库"><a href="#去除无用的媒体库" class="headerlink" title="去除无用的媒体库"></a>去除无用的媒体库</h2><p>我只保留了电影和电视剧两个文件夹。</p>
-<p><img src="/2024/08/25/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3Jellyfin%E5%BC%82%E5%B8%B8%E7%9A%84CPU%E5%8D%A0%E7%94%A8/%E4%BF%9D%E7%95%99%E7%9A%84%E5%AA%92%E4%BD%93%E5%BA%93.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="去除无用的定时任务"><a href="#去除无用的定时任务" class="headerlink" title="去除无用的定时任务"></a>去除无用的定时任务</h2><p><img src="/2024/08/25/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3Jellyfin%E5%BC%82%E5%B8%B8%E7%9A%84CPU%E5%8D%A0%E7%94%A8/%E5%85%B3%E9%97%AD%E4%B8%80%E4%BA%9B%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1.png" srcset="/img/loading.gif" lazyload></p>
-<p>像提取章节库、时间轴缩略图这些功能可有可无，而且很占资源，建议关闭。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>说白了，就是让 Jellyfin 做一个媒体服务器该做的事，负责播放和展示就行了。刮削之类的功能应该交给更专业的程序完成。</p>
+                <h1 id="入职日记（一）——新的开始，旧的回忆"><a href="#入职日记（一）——新的开始，旧的回忆" class="headerlink" title="入职日记（一）——新的开始，旧的回忆"></a>入职日记（一）——新的开始，旧的回忆</h1><p>我曾经无数次幻想过这一天，但当它真正到来时，我才发现，即便已经25岁，但我仍是个孩子，还没有做好面对生活的准备，还没有拥有直面生活的勇气。</p>
+<p>去年10月，我在字节跳动进行了为期四个月的实习生活，那是我真正意义上的第一份工作。这份工作难度适中，可学习性较强，狠狠地戳中了我的舒适区。但面对毕业要求，我不得不结束了这一段实习，也等于放弃了拥有这份正式工作的机会。</p>
+<p>千盼万盼，我终于结束了长达19年的学生生涯，纷飞的试卷、动人的旋律、深夜的等待、无从相见的背影，都在这一天，永远地与我说了再见。人生的新篇章，从这一天开始。</p>
+<p>我本是这么想的。老爸给我找了一间房子，暂住一个月，条件很差，老式的风扇，桌柜，十多年没见过的大脑壳显示器，下方放置着一个积满灰尘的主机。一瞬间，我仿佛又回到了十年前……</p>
+<p>13岁的我，想快快长大，却不知，童年才是上天赐予我的美好时光，那时，我拥有年轻的妈妈，拥有真心的朋友，拥有各种各样的爱。每个人都会认为，这些东西它可以永远拥有。然而，它们却总是在不经意间，在你未曾感觉到的瞬间，离你而去。就像现在，我呆在这一间简陋的房屋，感到很不适应。但把时间会转到我出生之前，爸爸妈妈最大的愿望就是拥有一个像这样的简陋小屋，对于他们来说，这是一个安定的家。时光兜兜转转，日子越过越好，当这间曾被作为终点房屋成为我的起点，我却感到失望、恐惧、不知所措。在那些年的日日夜夜，父母也许也曾躺在这样简陋的床上，思考着如何让生活变得更好一点。</p>
+<p>18岁的我，背井离乡，远走潇湘求学，一待就是七年之久。七年足以改变很多事情。在找到自己真爱的同时，也失去了爷爷奶奶，失去了老张，失去了很多的亲人。</p>
+<p>25岁，我如愿以偿地回到了重庆。在长沙，我曾与小左畅聊未来，但今天回头看，什么都没有兑现，但终会兑现的。我坐在这间小旧屋中写下这篇文章，不知在技术博客中写这些日记是否合适，没关系，至少我能在互联网上证明我来过，这就够了。</p>
+<p>愿所有人幸福。</p>
 
                 
               </div>
@@ -357,7 +345,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/NAS/" class="category-chain-item">NAS</a>
+  <a href="/categories/%E5%B7%A5%E4%BD%9C/" class="category-chain-item">工作</a>
   
   
 
@@ -372,7 +360,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%8A%80%E6%9C%AF/" class="print-no-link">#技术</a>
+        <a href="/tags/%E4%B8%AA%E4%BA%BA%E6%97%A5%E8%AE%B0/" class="print-no-link">#个人日记</a>
       
     </div>
   
@@ -384,8 +372,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>如何解决群晖 NAS 中异常的 Jellygin CPU 占用</div>
-      <div>http://songguokunsgg.github.io/2024/08/25/如何解决Jellyfin异常的CPU占用/</div>
+      <div>入职日记（一）——新的开始，旧的回忆</div>
+      <div>http://songguokunsgg.github.io/2024/08/27/入职日记（一）——新的开始，旧的回忆/</div>
     </div>
     <div class="license-meta">
       
@@ -397,7 +385,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年8月25日</div>
+          <div>2024年8月27日</div>
         </div>
       
       
@@ -429,18 +417,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/08/27/%E5%85%A5%E8%81%8C%E6%97%A5%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E6%96%B0%E7%9A%84%E5%BC%80%E5%A7%8B%EF%BC%8C%E6%97%A7%E7%9A%84%E5%9B%9E%E5%BF%86/" title="入职日记（一）——新的开始，旧的回忆">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">入职日记（一）——新的开始，旧的回忆</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/07/15/%E9%BB%91%E7%BE%A4%E6%99%96_NAS_%E5%9C%A8OpenWRT%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8IPv6/" title="黑群晖 NAS —— 在 OpenWRT 旁路由中启用 IPv6">
-                        <span class="hidden-mobile">黑群晖 NAS —— 在 OpenWRT 旁路由中启用 IPv6</span>
+                      <a href="/2024/08/25/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3Jellyfin%E5%BC%82%E5%B8%B8%E7%9A%84CPU%E5%8D%A0%E7%94%A8/" title="如何解决群晖 NAS 中异常的 Jellygin CPU 占用">
+                        <span class="hidden-mobile">如何解决群晖 NAS 中异常的 Jellygin CPU 占用</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
