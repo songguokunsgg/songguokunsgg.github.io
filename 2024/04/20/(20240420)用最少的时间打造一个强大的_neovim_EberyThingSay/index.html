@@ -1,0 +1,766 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fansong Yan">
+  <meta name="keywords" content="技术、生活、游戏">
+  
+    <meta name="description" content="用最少的时间打造一个强大的 neovimvim 的作者去世一段时间了，所以我将这篇文章从新组织了一次。2024 年，vim 还是存在一些小问题，在 windows 和 macos 上的体验不太好，所以我现在换用 neovim 了，这套配置还是依然适用，vim 和 neovim。 为什么不用 lua 写配置以前写过一套 lua 的配置，但是，就这点配置，这点插件，性能差距不大，用 vimscript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用最少的时间打造一个强大的 neovim">
+<meta property="og:url" content="http://songguokunsgg.github.io/2024/04/20/(20240420)%E7%94%A8%E6%9C%80%E5%B0%91%E7%9A%84%E6%97%B6%E9%97%B4%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E5%BC%BA%E5%A4%A7%E7%9A%84_neovim_EberyThingSay/index.html">
+<meta property="og:site_name" content="菘菓菌 sgg">
+<meta property="og:description" content="用最少的时间打造一个强大的 neovimvim 的作者去世一段时间了，所以我将这篇文章从新组织了一次。2024 年，vim 还是存在一些小问题，在 windows 和 macos 上的体验不太好，所以我现在换用 neovim 了，这套配置还是依然适用，vim 和 neovim。 为什么不用 lua 写配置以前写过一套 lua 的配置，但是，就这点配置，这点插件，性能差距不大，用 vimscript">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-20T03:38:02.000Z">
+<meta property="article:modified_time" content="2024-09-25T14:21:52.822Z">
+<meta property="article:author" content="Fansong Yan">
+<meta property="article:tag" content="技术">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>用最少的时间打造一个强大的 neovim - 菘菓菌 sgg</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"songguokunsgg.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","app_key":"0RaTUR0yFhlAjxM4uYyXvPSj","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>菘菓菌 sgg</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/technology-stack/" target="_self">
+                <i class="iconfont icon-codepen-fill"></i>
+                <span>技术栈</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="用最少的时间打造一个强大的 neovim"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Fansong Yan
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-20 11:38" pubdate>
+          2024年4月20日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">用最少的时间打造一个强大的 neovim</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="用最少的时间打造一个强大的-neovim"><a href="#用最少的时间打造一个强大的-neovim" class="headerlink" title="用最少的时间打造一个强大的 neovim"></a>用最少的时间打造一个强大的 neovim</h1><p>vim 的作者去世一段时间了，所以我将这篇文章从新组织了一次。2024 年，vim 还是存在一些小问题，在 windows 和 macos 上的体验不太好，所以我现在换用 neovim 了，这套配置还是依然适用，vim 和 neovim。</p>
+<h3 id="为什么不用-lua-写配置"><a href="#为什么不用-lua-写配置" class="headerlink" title="为什么不用 lua 写配置"></a>为什么不用 lua 写配置</h3><p>以前写过一套 lua 的配置，但是，就这点配置，这点插件，性能差距不大，用 vimscript 写的话，适用性更好，用 vim 和 neovim 的人都能用。</p>
+<h3 id="适用人群"><a href="#适用人群" class="headerlink" title="适用人群"></a>适用人群</h3><p>简单的代码或者文本编辑，无需将 neovim 配置成 IDE。</p>
+<h3 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h3><p>配了几个轻量插件，实用性更强，需要安装<a target="_blank" rel="noopener" href="https://github.com/junegunn/vim-plug">https://github.com/junegunn/vim-plug</a>，兼顾了外观和功能。</p>
+<p>注意：如果你使用的是 windows 下 git 自带的 vim，则会被认为处在 linux 环境下，安装 vimplug 的目录需要选择 linux 的目录。</p>
+<p>把下面的代码放在 ~&#x2F;.config&#x2F;nvim&#x2F;init.vim 里面</p>
+<p>vim 的话是 ~&#x2F;.vimrc</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-keyword">let</span> <span class="hljs-variable">g:iswindows</span> = <span class="hljs-number">0</span><br><span class="hljs-keyword">let</span> <span class="hljs-variable">g:islinux</span> = <span class="hljs-number">0</span><br><span class="hljs-keyword">if</span>(<span class="hljs-built_in">has</span>(<span class="hljs-string">&quot;win32&quot;</span>) || <span class="hljs-built_in">has</span>(<span class="hljs-string">&quot;win64&quot;</span>) || <span class="hljs-built_in">has</span>(<span class="hljs-string">&quot;win95&quot;</span>) || <span class="hljs-built_in">has</span>(<span class="hljs-string">&quot;win16&quot;</span>))<br>        <span class="hljs-keyword">set</span> <span class="hljs-keyword">shell</span>=powershell<br>        <span class="hljs-keyword">set</span> shellcmdflag=-<span class="hljs-keyword">command</span><br>        <span class="hljs-comment">&quot; 设置默认终端，不然会使用cmd</span><br>        <span class="hljs-keyword">let</span> <span class="hljs-variable">g:iswindows</span> = <span class="hljs-number">1</span><br><span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">set</span> encoding=utf-<span class="hljs-number">8</span><br>        <span class="hljs-comment">&quot; 编码设置</span><br>        <span class="hljs-keyword">let</span> <span class="hljs-variable">g:islinux</span> = <span class="hljs-number">1</span><br><span class="hljs-keyword">endif</span><br><span class="hljs-comment">&quot; 首先进行平台判断</span><br><br><span class="hljs-keyword">if</span> <span class="hljs-built_in">has</span>(<span class="hljs-string">&quot;gui_running&quot;</span>)<br>        <span class="hljs-keyword">set</span> guifont=Source\ Code\ Pro:h16<br><span class="hljs-keyword">endif</span><br><span class="hljs-comment">&quot; gui判断</span><br><br><span class="hljs-comment">&quot; Configuration file for vim</span><br><span class="hljs-keyword">set</span> modelines=<span class="hljs-number">0</span><span class="hljs-comment">&quot; CVE-2007-2438</span><br><br><span class="hljs-string">&quot; let &amp;t_SI.=&quot;</span>\<span class="hljs-keyword">e</span>[<span class="hljs-number">5</span> q<span class="hljs-string">&quot; &quot;</span>SI = INSERT <span class="hljs-keyword">mode</span><br><span class="hljs-string">&quot; let &amp;t_SR.=&quot;</span>\<span class="hljs-keyword">e</span>[<span class="hljs-number">4</span> q<span class="hljs-string">&quot; &quot;</span>SR = REPLACE <span class="hljs-keyword">mode</span><br><span class="hljs-string">&quot; let &amp;t_EI.=&quot;</span>\<span class="hljs-keyword">e</span>[<span class="hljs-number">1</span> q<span class="hljs-string">&quot; &quot;</span>EI = NORMAL <span class="hljs-keyword">mode</span> (ELSE)<br><span class="hljs-comment">&quot; 正确设置光标，使用 vim 的话取消注释这三行</span><br><br><span class="hljs-keyword">syntax</span> <span class="hljs-keyword">on</span><br><span class="hljs-comment">&quot; 语法高亮</span><br><br><span class="hljs-keyword">autocmd</span> InsertLeave * <span class="hljs-keyword">se</span> nocul<br><span class="hljs-keyword">autocmd</span> InsertEnter * <span class="hljs-keyword">se</span> cul<br><span class="hljs-comment">&quot; 用浅色高亮当前行</span><br><br><span class="hljs-keyword">set</span> smartindent<br><span class="hljs-comment">&quot; 智能对齐</span><br><br><span class="hljs-keyword">set</span> autoindent<br><span class="hljs-comment">&quot; 自动对齐</span><br><br><span class="hljs-keyword">set</span> <span class="hljs-keyword">confirm</span><br><span class="hljs-comment">&quot; 在处理未保存或只读文件的时候，弹出确认</span><br><br><span class="hljs-keyword">set</span> tabstop=<span class="hljs-number">2</span><br><span class="hljs-comment">&quot; Tab键的宽度</span><br><br><span class="hljs-keyword">set</span> softtabstop=<span class="hljs-number">4</span><br><span class="hljs-keyword">set</span> <span class="hljs-built_in">shiftwidth</span>=<span class="hljs-number">4</span><br><span class="hljs-comment">&quot;  统一缩进为 4</span><br><br><span class="hljs-keyword">set</span> noexpandtab<br><span class="hljs-comment">&quot; 不要用空格代替制表符</span><br><br><span class="hljs-keyword">set</span> <span class="hljs-keyword">number</span><br><span class="hljs-comment">&quot; 显示行号</span><br><br><span class="hljs-keyword">set</span> <span class="hljs-keyword">history</span>=<span class="hljs-number">50</span><br><span class="hljs-comment">&quot; 历史纪录数</span><br><br><span class="hljs-keyword">set</span> hlsearch<br><span class="hljs-keyword">set</span> incsearch<br><span class="hljs-comment">&quot; 搜索逐字符高亮</span><br><br><span class="hljs-keyword">set</span> gdefault<br><span class="hljs-comment">&quot; 行内替换</span><br><br><span class="hljs-keyword">set</span> langmenu=zn_CN.UTF-<span class="hljs-number">8</span><br><span class="hljs-keyword">set</span> helplang=<span class="hljs-keyword">cn</span><br><span class="hljs-comment">&quot; 语言设置</span><br><br><span class="hljs-keyword">set</span> cmdheight=<span class="hljs-number">2</span><br><span class="hljs-comment">&quot; 命令行（在状态行）的高度，默认为1,这里是2</span><br><br><span class="hljs-keyword">set</span> ruler<br><span class="hljs-comment">&quot; 在编辑过程中，在右下角显示光标位置的状态行</span><br><br><span class="hljs-keyword">set</span> laststatus=<span class="hljs-number">2</span><br><span class="hljs-comment">&quot; 总是显示状态行</span><br><br><span class="hljs-keyword">set</span> showcmd<br><span class="hljs-comment">&quot; 在状态行显示目前所执行的命令，未完成的指令片段亦会显示出来</span><br><br><span class="hljs-keyword">set</span> scrolloff=<span class="hljs-number">3</span><br><span class="hljs-comment">&quot; 光标移动到buffer的顶部和底部时保持3行距离</span><br><br><span class="hljs-keyword">set</span> showmatch<br><span class="hljs-comment">&quot; 高亮显示对应的括号</span><br><br><span class="hljs-keyword">set</span> matchtime=<span class="hljs-number">5</span><br><span class="hljs-comment">&quot; 对应括号高亮的时间（单位是十分之一秒）</span><br><br><span class="hljs-keyword">set</span> autowrite<br><span class="hljs-comment">&quot; 在切换buffer时自动保存当前文件</span><br><br><span class="hljs-keyword">set</span> wildmenu<br><span class="hljs-comment">&quot; 增强模式中的命令行自动完成操作</span><br><br><span class="hljs-keyword">set</span> linespace=<span class="hljs-number">2</span><br><span class="hljs-comment">&quot; 字符间插入的像素行数目</span><br><br><span class="hljs-keyword">set</span> whichwrap=<span class="hljs-keyword">b</span>,s,&lt;,&gt;,[,]<br><span class="hljs-comment">&quot; 开启Normal或Visual模式下Backspace键，空格键，左方向键，右方向键，Insert或replace模式下左方向键，右方向键跳行的功能。</span><br><br><span class="hljs-keyword">filetype</span> plugin <span class="hljs-built_in">indent</span> <span class="hljs-keyword">on</span><br><span class="hljs-comment">&quot; 分为三部分命令：file on, file plugin on, file indent on.分别表示自动识别文件类型，用文件类型脚本，使用缩进定义文件。</span><br><br><span class="hljs-keyword">if</span> <span class="hljs-built_in">executable</span>(<span class="hljs-string">&#x27;clipboard-provider&#x27;</span>)<br>  <span class="hljs-keyword">let</span> <span class="hljs-variable">g:clipboard</span> = &#123;<br>          \ <span class="hljs-string">&#x27;name&#x27;</span>: <span class="hljs-string">&#x27;myClipboard&#x27;</span>,<br>          \     <span class="hljs-string">&#x27;copy&#x27;</span>: &#123;<br>          \         <span class="hljs-string">&#x27;+&#x27;</span>: <span class="hljs-string">&#x27;clipboard-provider copy&#x27;</span>,<br>          \         <span class="hljs-string">&#x27;*&#x27;</span>: <span class="hljs-string">&#x27;clipboard-provider copy&#x27;</span>,<br>          \     &#125;,<br>          \     <span class="hljs-string">&#x27;paste&#x27;</span>: &#123;<br>          \         <span class="hljs-string">&#x27;+&#x27;</span>: <span class="hljs-string">&#x27;clipboard-provider paste&#x27;</span>,<br>          \         <span class="hljs-string">&#x27;*&#x27;</span>: <span class="hljs-string">&#x27;clipboard-provider paste&#x27;</span>,<br>          \     &#125;,<br>          \ &#125;<br><span class="hljs-keyword">endif</span><br><span class="hljs-string">&quot; 使用系统剪切板 &quot;</span>+<span class="hljs-keyword">y</span> <span class="hljs-comment">&quot;+p</span><br><br><span class="hljs-comment">&quot; vim-plug 安装</span><br><span class="hljs-string">&quot; sh -c &#x27;curl -fLo &quot;</span>$&#123;XDG_DATA_HOME:-$HOME/.local/share&#125;<span class="hljs-comment">&quot;/nvim/site/autoload/plug.vim --create-dirs \</span><br><span class="hljs-comment">&quot;   https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim&#x27;</span><br><span class="hljs-keyword">call</span> plug#begin(<span class="hljs-string">&#x27;~/.vim/plugged/&#x27;</span>)<br>Plug <span class="hljs-string">&#x27;skywind3000/vim-auto-popmenu&#x27;</span><br>Plug <span class="hljs-string">&#x27;skywind3000/vim-dict&#x27;</span><br>Plug <span class="hljs-string">&#x27;preservim/nerdtree&#x27;</span><br>Plug <span class="hljs-string">&#x27;jiangmiao/auto-pairs&#x27;</span><br>Plug <span class="hljs-string">&#x27;vim-airline/vim-airline&#x27;</span><br>Plug <span class="hljs-string">&#x27;vim-airline/vim-airline-themes&#x27;</span><br>Plug <span class="hljs-string">&#x27;morhetz/gruvbox&#x27;</span><br>Plug <span class="hljs-string">&#x27;neoclide/coc.nvim&#x27;</span>, &#123;<span class="hljs-string">&#x27;branch&#x27;</span>: <span class="hljs-string">&#x27;release&#x27;</span>&#125;<br>Plug <span class="hljs-string">&#x27;skywind3000/asynctasks.vim&#x27;</span><br>Plug <span class="hljs-string">&#x27;skywind3000/asyncrun.vim&#x27;</span><br><span class="hljs-keyword">call</span> plug#end()<br><br><span class="hljs-comment">&quot; 代码补全配置</span><br><span class="hljs-string">&quot; 设定需要生效的文件类型，如果是 &quot;</span>*<span class="hljs-comment">&quot; 的话，代表所有类型</span><br><span class="hljs-keyword">let</span> <span class="hljs-variable">g:apc_enable_ft</span> = &#123;<span class="hljs-string">&#x27;*&#x27;</span>:<span class="hljs-number">1</span>&#125;<br><span class="hljs-comment">&quot; 设定从字典文件以及当前打开的文件里收集补全单词，详情看 &#x27;:help cpt&#x27;</span><br><span class="hljs-keyword">set</span> cpt=.,<span class="hljs-keyword">k</span>,<span class="hljs-keyword">w</span>,<span class="hljs-keyword">b</span><br><br><span class="hljs-comment">&quot; 不要自动选中第一个选项。</span><br><span class="hljs-keyword">set</span> completeopt=<span class="hljs-keyword">menu</span>,menuone,noselect<br><br><span class="hljs-comment">&quot; 禁止在下方显示一些啰嗦的提示</span><br><span class="hljs-keyword">set</span> shortmess+=<span class="hljs-keyword">c</span><br><br><span class="hljs-comment">&quot; nerdtree 按F1 打开关闭</span><br><span class="hljs-keyword">map</span> <span class="hljs-symbol">&lt;F1&gt;</span> :NERDTreeToggle<span class="hljs-symbol">&lt;CR&gt;</span><br><br><span class="hljs-comment">&quot; 状态栏设置</span><br><span class="hljs-keyword">set</span> laststatus=<span class="hljs-number">2</span>  <span class="hljs-comment">&quot;永远显示状态栏</span><br><span class="hljs-keyword">let</span> <span class="hljs-variable">g:airline_powerline_fonts</span> = <span class="hljs-number">1</span>  <span class="hljs-comment">&quot; 支持 powerline 字体</span><br><span class="hljs-keyword">let</span> <span class="hljs-variable">g:airline</span>#extensions#tabline#enabled = <span class="hljs-number">1</span> <span class="hljs-comment">&quot; 显示窗口tab和buffer</span><br><span class="hljs-keyword">let</span> <span class="hljs-variable">g:airline_theme</span>=<span class="hljs-string">&#x27;molokai&#x27;</span>  <span class="hljs-comment">&quot; murmur配色不错</span><br><br><span class="hljs-keyword">if</span> !exists(<span class="hljs-string">&#x27;g:airline_symbols&#x27;</span>)<br><span class="hljs-keyword">let</span> <span class="hljs-variable">g:airline_symbols</span> = &#123;&#125;<br><span class="hljs-keyword">endif</span><br><span class="hljs-keyword">let</span> <span class="hljs-variable">g:airline_left_sep</span> = <span class="hljs-string">&#x27;▶&#x27;</span><br><span class="hljs-keyword">let</span> <span class="hljs-variable">g:airline_left_alt_sep</span> = <span class="hljs-string">&#x27;❯&#x27;</span><br><span class="hljs-keyword">let</span> <span class="hljs-variable">g:airline_right_sep</span> = <span class="hljs-string">&#x27;◀&#x27;</span><br><span class="hljs-keyword">let</span> <span class="hljs-variable">g:airline_right_alt_sep</span> = <span class="hljs-string">&#x27;❮&#x27;</span><br><span class="hljs-keyword">let</span> <span class="hljs-variable">g:airline_symbols</span>.linenr = <span class="hljs-string">&#x27;¶&#x27;</span><br><span class="hljs-keyword">let</span> <span class="hljs-variable">g:airline_symbols</span>.branch = <span class="hljs-string">&#x27;⎇&#x27;</span><br><br><span class="hljs-comment">&quot; colorscheme pablo</span><br><span class="hljs-comment">&quot; colorscheme torte</span><br><span class="hljs-comment">&quot; colorscheme koehler</span><br><span class="hljs-keyword">colorscheme</span> gruvbox<br><span class="hljs-keyword">set</span> background=dark<br><span class="hljs-comment">&quot; 设置颜色主题</span><br><br><span class="hljs-comment">&quot; 映射两个代码运行的快捷键</span><br><span class="hljs-keyword">let</span> <span class="hljs-variable">g:asyncrun_open</span> = <span class="hljs-number">10</span><br><span class="hljs-keyword">noremap</span> <span class="hljs-symbol">&lt;silent&gt;</span><span class="hljs-symbol">&lt;C-g&gt;</span> :AsyncTask <span class="hljs-keyword">file</span>-run<span class="hljs-symbol">&lt;cr&gt;</span><br><span class="hljs-keyword">noremap</span> <span class="hljs-symbol">&lt;silent&gt;</span><span class="hljs-symbol">&lt;C-b&gt;</span> :AsyncTask <span class="hljs-keyword">file</span>-build<span class="hljs-symbol">&lt;cr&gt;</span><br></code></pre></td></tr></table></figure>
+<p>去掉了快捷键基本上使用默认配置，F1 打开 nerdtree，Ctrl+g 运行当前文件，Ctrl+b 构建当前项目（但针对这一点我不做过多讲解，否则偏离了文章的主题）。使用 gruvbox 主题</p>
+<p>更新一版，加入了 gui 和平台特性，因为我要在 win 下用 gvim</p>
+<p>再一键安装 Coc 插件，这是我常用的，你可以装自己需要的插件</p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">CocInstall coc-html coc-tsserver coc-sumneko-lua coc-<span class="hljs-keyword">sh </span>coc-pyright coc-<span class="hljs-keyword">json </span>coc-clangd<br></code></pre></td></tr></table></figure>
+<p>然后简单的配置一下 asyncrun, vim ~&#x2F;.vim&#x2F;tasks.ini，我常用的语言配置如下：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs routeros">[file-<span class="hljs-built_in">run</span>]<br><span class="hljs-attribute">command</span>=<span class="hljs-string">&quot;<span class="hljs-variable">$(VIM_FILEPATH)</span>&quot;</span><br>command:<span class="hljs-attribute">python</span>=python <span class="hljs-string">&quot;<span class="hljs-variable">$(VIM_FILENAME)</span>&quot;</span><br>command:<span class="hljs-attribute">javascript</span>=node <span class="hljs-string">&quot;<span class="hljs-variable">$(VIM_FILENAME)</span>&quot;</span><br>command:<span class="hljs-attribute">sh</span>=bash <span class="hljs-string">&quot;<span class="hljs-variable">$(VIM_FILENAME)</span>&quot;</span><br>command:<span class="hljs-attribute">lua</span>=lua <span class="hljs-string">&quot;<span class="hljs-variable">$(VIM_FILENAME)</span>&quot;</span><br>command:<span class="hljs-attribute">rust</span>=rust <span class="hljs-string">&quot;<span class="hljs-variable">$(VIM_FILENAME)</span>&quot;</span><br><span class="hljs-attribute">output</span>=terminal<br><span class="hljs-attribute">cwd</span>=$(VIM_FILEDIR)<br><span class="hljs-attribute">save</span>=2<br></code></pre></td></tr></table></figure>
+<p>这个插件功能十分强大，详情可见<a target="_blank" rel="noopener" href="https://github.com/skywind3000/asynctasks.vim">https://github.com/skywind3000/asynctasks.vim</a></p>
+<p>这样的话，进行一些简易的代码编写和文本编辑都没问题了</p>
+<h3 id="后话"><a href="#后话" class="headerlink" title="后话"></a>后话</h3><p>我并不建议将 neovim 作为大型项目的编辑器，因为它在项目管理，构建上的配置难度比单文件高得多，插件装得太多也会影响 neovim 本身的性能，所以还是专注于简单文本编辑比较好。如果需要管理大型工程，使用 vs、xcode 等 IDE 是更为明智的选择。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/linux/" class="category-chain-item">linux</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF/" class="print-no-link">#技术</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>用最少的时间打造一个强大的 neovim</div>
+      <div>http://songguokunsgg.github.io/2024/04/20/(20240420)用最少的时间打造一个强大的_neovim_EberyThingSay/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Fansong Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/04/22/(20240422)%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A_2024%E5%B9%B4%E4%B8%AD%E7%9A%84vscodelatex%E5%86%99%E4%BD%9C_EberyThingSay/" title="真香警告，2024 年中的 vscode+latex 写作">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">真香警告，2024 年中的 vscode+latex 写作</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/07/(20240407)%E6%9C%BA%E6%A2%B0%E5%90%9B%E8%BF%B7%E4%BD%A0%E4%B8%BB%E6%9C%BA%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97%E5%88%9A%E4%B9%B0%E7%9A%84%E4%B8%80%E5%AE%9A%E8%A6%81%E6%9D%A5%E7%9C%8B%E7%9C%8B_EberyThingSay/" title="机械君迷你主机使用指南 (刚买的一定要来看看)">
+                        <span class="hidden-mobile">机械君迷你主机使用指南 (刚买的一定要来看看)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","appKey":"0RaTUR0yFhlAjxM4uYyXvPSj","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

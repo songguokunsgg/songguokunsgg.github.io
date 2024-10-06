@@ -1,0 +1,799 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fansong Yan">
+  <meta name="keywords" content="技术、生活、游戏">
+  
+    <meta name="description" content="使用 nix-darwin 为 sonoma 配置一个简洁高效的 zsh更新原因：用了很久的 homebrew，感觉不是很完美，就尝试切换到了 nix，挺香的。 不过本文仅适合入门，nix 也仅配置了 flake 和 configuration，不包括 home-manager（macos 上问题太多）。  游戏本 xxxx macbook ++++ 自己拿一台游戏本，整天折腾 linux，消磨了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 nix-darwin 为 sonoma 配置一个简洁高效的 zsh">
+<meta property="og:url" content="http://songguokunsgg.github.io/2024/04/29/(20240429)%E4%BD%BF%E7%94%A8_nix-darwin_%E4%B8%BA_sonoma_%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84_zsh_EberyThingSay/index.html">
+<meta property="og:site_name" content="菘菓菌 sgg">
+<meta property="og:description" content="使用 nix-darwin 为 sonoma 配置一个简洁高效的 zsh更新原因：用了很久的 homebrew，感觉不是很完美，就尝试切换到了 nix，挺香的。 不过本文仅适合入门，nix 也仅配置了 flake 和 configuration，不包括 home-manager（macos 上问题太多）。  游戏本 xxxx macbook ++++ 自己拿一台游戏本，整天折腾 linux，消磨了">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/04/29/(20240429)%E4%BD%BF%E7%94%A8_nix-darwin_%E4%B8%BA_sonoma_%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84_zsh_EberyThingSay/v2-84f7a6bbb8a6e11575afa1e8731a7d12_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/04/29/(20240429)%E4%BD%BF%E7%94%A8_nix-darwin_%E4%B8%BA_sonoma_%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84_zsh_EberyThingSay/v2-f6eca7374890887d630bff2c420a11a5_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/04/29/(20240429)%E4%BD%BF%E7%94%A8_nix-darwin_%E4%B8%BA_sonoma_%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84_zsh_EberyThingSay/v2-3995831831ab86eb202942a276d94213_b.jpg">
+<meta property="article:published_time" content="2024-04-29T13:02:04.000Z">
+<meta property="article:modified_time" content="2024-09-25T14:21:52.825Z">
+<meta property="article:author" content="Fansong Yan">
+<meta property="article:tag" content="技术">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://songguokunsgg.github.io/2024/04/29/(20240429)%E4%BD%BF%E7%94%A8_nix-darwin_%E4%B8%BA_sonoma_%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84_zsh_EberyThingSay/v2-84f7a6bbb8a6e11575afa1e8731a7d12_b.jpg">
+  
+  
+  
+  <title>使用 nix-darwin 为 sonoma 配置一个简洁高效的 zsh - 菘菓菌 sgg</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"songguokunsgg.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","app_key":"0RaTUR0yFhlAjxM4uYyXvPSj","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>菘菓菌 sgg</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/technology-stack/" target="_self">
+                <i class="iconfont icon-codepen-fill"></i>
+                <span>技术栈</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="使用 nix-darwin 为 sonoma 配置一个简洁高效的 zsh"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Fansong Yan
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-04-29 21:02" pubdate>
+          2024年4月29日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">使用 nix-darwin 为 sonoma 配置一个简洁高效的 zsh</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="使用-nix-darwin-为-sonoma-配置一个简洁高效的-zsh"><a href="#使用-nix-darwin-为-sonoma-配置一个简洁高效的-zsh" class="headerlink" title="使用 nix-darwin 为 sonoma 配置一个简洁高效的 zsh"></a>使用 nix-darwin 为 sonoma 配置一个简洁高效的 zsh</h1><p>更新原因：用了很久的 homebrew，感觉不是很完美，就尝试切换到了 nix，挺香的。</p>
+<p>不过本文仅适合入门，nix 也仅配置了 flake 和 configuration，不包括 home-manager（macos 上问题太多）。</p>
+<hr>
+<p>游戏本 xxxx</p>
+<p>macbook ++++</p>
+<p>自己拿一台游戏本，整天折腾 linux，消磨了我很多时光。遂重新审视自己的需求，发现其实游戏玩的不多，故卖之，换 macbook。</p>
+<p>但是终端不像 Arch 那么好配置了，所以还是记录一下吧。</p>
+<h2 id="安装-Darwin-nix"><a href="#安装-Darwin-nix" class="headerlink" title="安装 Darwin-nix"></a>安装 Darwin-nix</h2><p>一行代码解决</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">sh &lt;(curl -L https:<span class="hljs-regexp">//</span>nixos.org<span class="hljs-regexp">/nix/i</span>nstall)<br></code></pre></td></tr></table></figure>
+<p>终端输入 nix，有输出则说明成功，使用 nix 必须使用科学上网工具，如果没有请滑走。</p>
+<h2 id="nix-基本方案说明"><a href="#nix-基本方案说明" class="headerlink" title="nix 基本方案说明"></a>nix 基本方案说明</h2><p>本人仅使用 nix 配置终端工具，且不包括 python（我使用自带 python+pdm，更方便，nix 先天不善于处理 python）</p>
+<h2 id="nix-简单配置"><a href="#nix-简单配置" class="headerlink" title="nix 简单配置"></a>nix 简单配置</h2><p>在 ~&#x2F;.zprofile 中添加</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs swift">export <span class="hljs-type">NIX_PATH</span><span class="hljs-operator">=</span>darwin<span class="hljs-operator">-</span>config<span class="hljs-operator">=</span><span class="hljs-variable">$HOME</span><span class="hljs-regexp">/.nixpkgs/</span>darwin<span class="hljs-operator">-</span>configuration.nix:<span class="hljs-regexp">/nix/</span><span class="hljs-keyword">var</span><span class="hljs-regexp">/nix/</span>profiles<span class="hljs-regexp">/per-user/</span>root<span class="hljs-regexp">/channels:$HOME/</span>.nix<span class="hljs-operator">-</span>defexpr<span class="hljs-regexp">/channels:nixpkgs-overlays=$HOME/</span>.nixpkgs<span class="hljs-regexp">/overlays/</span>:nixpkgs<span class="hljs-operator">-</span>overlays<span class="hljs-operator">=</span><span class="hljs-variable">$HOME</span><span class="hljs-regexp">/.nixpkgs/</span>overlays<span class="hljs-operator">/</span><br></code></pre></td></tr></table></figure>
+<p>然后 clone 我的模板仓库<a target="_blank" rel="noopener" href="https://github.com/songguokunsgg/nixos-darwin-config">https://github.com/songguokunsgg/nixos-darwin-config</a></p>
+<p>将 clone 下来的文件夹移动为 <code>~/.nixpkgs</code></p>
+<p>将 flake.nix 中的主机名修改为你自己的主机名</p>
+<p>然后 cd 到~&#x2F;.nixpkgs, 使用以下命令进行第一次安装</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs brainfuck"><span class="hljs-comment">nix run nix</span><span class="hljs-literal">-</span><span class="hljs-comment">darwin</span> <span class="hljs-literal">--</span><span class="hljs-comment">extra</span><span class="hljs-literal">-</span><span class="hljs-comment">experimental</span><span class="hljs-literal">-</span><span class="hljs-comment">features nix</span><span class="hljs-literal">-</span><span class="hljs-comment">command</span> <span class="hljs-literal">--</span><span class="hljs-comment">extra</span><span class="hljs-literal">-</span><span class="hljs-comment">experimental</span><span class="hljs-literal">-</span><span class="hljs-comment">features flakes</span> <span class="hljs-literal">--</span> <span class="hljs-comment">switch</span> <span class="hljs-literal">--</span><span class="hljs-comment">flake</span> <span class="hljs-string">.</span><br></code></pre></td></tr></table></figure>
+<p>后续使用这两行命令进行升级</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">nix flake update ~<span class="hljs-string">/.nixpkgs</span><br>darwin-rebuild switch <span class="hljs-params">--flake</span> ~<span class="hljs-string">/.nixpkgs</span><br></code></pre></td></tr></table></figure>
+<p>如果没有找到 darwin-rebuild，检查环境变量。</p>
+<p>仓库的 README 有一些其他说明，可酌情查看。</p>
+<h2 id="zsh-配置"><a href="#zsh-配置" class="headerlink" title="zsh 配置"></a>zsh 配置</h2><h3 id="配置思路"><a href="#配置思路" class="headerlink" title="配置思路"></a>配置思路</h3><p>主要用到 4 个插件：</p>
+<ul>
+<li>zsh-autosuggestions</li>
+<li>zsh-syntax-highlighting</li>
+<li>zsh-completions（可选）</li>
+<li>zsh-theme-powerlevel10k（可选）</li>
+</ul>
+<p>前三个是功能性插件，最后一个是主题插件，如果对美观要求不高的话，可以不装最后一个</p>
+<h3 id="拉取功能插件"><a href="#拉取功能插件" class="headerlink" title="拉取功能插件"></a>拉取功能插件</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 自动补全</span><br>git clone --depth=<span class="hljs-number">1</span> https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/zsh-users/</span>zsh-autosuggestions ~<span class="hljs-regexp">/.zsh/</span>plugins/zsh-autosuggestions<br><br><span class="hljs-comment"># 语法高亮</span><br>git clone --depth=<span class="hljs-number">1</span> https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/zsh-users/</span>zsh-syntax-highlighting ~<span class="hljs-regexp">/.zsh/</span>plugins/zsh-syntax-highlighting<br><br><span class="hljs-comment"># 这个插件我也没弄明白是干嘛的，可选。。。。</span><br>git clone --depth=<span class="hljs-number">1</span> https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/zsh-users/</span>zsh-completions ~<span class="hljs-regexp">/.zsh/</span>plugins/zsh-completions<br><br><span class="hljs-comment"># p10k 主题</span><br>git clone --depth=<span class="hljs-number">1</span> https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/romkatv/</span>powerlevel10k.git ~<span class="hljs-regexp">/.zsh/</span>plugins/powerlevel10k<br></code></pre></td></tr></table></figure>
+<p>将 zsh 的插件统一放置在 ~&#x2F;.zsh&#x2F;plugins&#x2F; 下</p>
+<h3 id="安装字体"><a href="#安装字体" class="headerlink" title="安装字体"></a>安装字体</h3><p>推荐使用 nerd-fonts-hack 字体作为终端字体</p>
+<p><img src="/2024/04/29/(20240429)%E4%BD%BF%E7%94%A8_nix-darwin_%E4%B8%BA_sonoma_%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84_zsh_EberyThingSay/v2-84f7a6bbb8a6e11575afa1e8731a7d12_b.jpg" srcset="/img/loading.gif" lazyload>  </p>
+<h3 id="编写-zsh-配置文件"><a href="#编写-zsh-配置文件" class="headerlink" title="编写 zsh 配置文件"></a>编写 zsh 配置文件</h3><p>环境变量存放位置为 ～&#x2F;.zprofile，配置文件在 ~&#x2F;.zshrc，主要编写 ～&#x2F;. zshrc 文件</p>
+<p>将以下代码加入 .zshrc 以使用插件</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs gradle"><span class="hljs-keyword">source</span> ~<span class="hljs-regexp">/.zsh/</span>plugins<span class="hljs-regexp">/zsh-syntax-highlighting/</span>zsh-syntax-highlighting.zsh<br><span class="hljs-keyword">source</span> ~<span class="hljs-regexp">/.zsh/</span>plugins<span class="hljs-regexp">/zsh-autosuggestions/</span>zsh-autosuggestions.zsh<br><span class="hljs-keyword">source</span> ~<span class="hljs-regexp">/.zsh/</span>plugins<span class="hljs-regexp">/zsh-completions/</span>zsh-completions.plugin.zsh<br><span class="hljs-keyword">source</span> ~<span class="hljs-regexp">/.zsh/</span>plugins<span class="hljs-regexp">/powerlevel10k/</span>powerlevel10k.zsh-theme<br></code></pre></td></tr></table></figure>
+<p>然后进行功能配置，直接复制粘贴下面代码即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#color&#123;&#123;&#123;</span><br><span class="hljs-built_in">autoload</span> -U colors &amp;&amp; colors<br><br><span class="hljs-comment">#命令别名 &#123;&#123;&#123;</span><br><span class="hljs-built_in">alias</span> <span class="hljs-built_in">cp</span>=<span class="hljs-string">&#x27;cp -i&#x27;</span><br><span class="hljs-built_in">alias</span> <span class="hljs-built_in">mv</span>=<span class="hljs-string">&#x27;mv -i&#x27;</span><br><span class="hljs-built_in">alias</span> <span class="hljs-built_in">rm</span>=<span class="hljs-string">&#x27;rm -i&#x27;</span><br><span class="hljs-built_in">alias</span> <span class="hljs-built_in">ls</span>=<span class="hljs-string">&#x27;ls -a --color=auto&#x27;</span><br><span class="hljs-built_in">alias</span> grep=<span class="hljs-string">&#x27;grep --color=auto&#x27;</span><br><span class="hljs-built_in">alias</span> vim=<span class="hljs-string">&#x27;nvim&#x27;</span><br><span class="hljs-built_in">alias</span> vi=<span class="hljs-string">&#x27;nvim&#x27;</span><br><br><span class="hljs-comment"># 更新软件</span><br><span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">update</span></span>() &#123;<br>	nix flake update ~/.nixpkgs<br>	darwin-rebuild switch --flake ~/.nixpkgs<br>&#125;<br><br><span class="hljs-comment"># 清理垃圾</span><br><span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">clean</span></span>() &#123;<br>	nix-collect-garbage -d<br>&#125;<br><br><span class="hljs-comment">#终端代理</span><br>hostip=<span class="hljs-string">&quot;127.0.0.1&quot;</span><br><span class="hljs-comment"># hostip=$(cat /etc/resolv.conf |grep -oP &#x27;(?&lt;=nameserver\ ).*&#x27;)</span><br><span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">proxy_on</span></span>() &#123;<br>    proxy_statu=<span class="hljs-string">&quot;on&quot;</span><br>    <span class="hljs-built_in">export</span> https_proxy=<span class="hljs-string">&quot;http://<span class="hljs-variable">$&#123;hostip&#125;</span>:7890&quot;</span><br>    <span class="hljs-built_in">export</span> http_proxy=<span class="hljs-string">&quot;http://<span class="hljs-variable">$&#123;hostip&#125;</span>:7890&quot;</span><br>    <span class="hljs-built_in">export</span> all_proxy=<span class="hljs-string">&quot;socks5://<span class="hljs-variable">$&#123;hostip&#125;</span>:7890&quot;</span><br>    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;终端代理已开启。&quot;</span><br>&#125;<br><br><span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">proxy_off</span></span>()&#123;<br>    <span class="hljs-built_in">unset</span> http_proxy https_proxy all_proxy<br>    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;终端代理已关闭。&quot;</span><br>    proxy_statu=<span class="hljs-string">&quot;off&quot;</span><br>&#125;<br><br><span class="hljs-keyword">for</span> color <span class="hljs-keyword">in</span> RED GREEN YELLOW BLUE MAGENTA CYAN WHITE; <span class="hljs-keyword">do</span><br>	<span class="hljs-built_in">eval</span> _<span class="hljs-variable">$color</span>=<span class="hljs-string">&#x27;%&#123;$terminfo[bold]$fg[$&#123;(L)color&#125;]%&#125;&#x27;</span><br>	<span class="hljs-built_in">eval</span> <span class="hljs-variable">$color</span>=<span class="hljs-string">&#x27;%&#123;$fg[$&#123;(L)color&#125;]%&#125;&#x27;</span><br>	(( count = <span class="hljs-variable">$count</span> + <span class="hljs-number">1</span> ))<br><span class="hljs-keyword">done</span><br>FINISH=<span class="hljs-string">&quot;%&#123;<span class="hljs-variable">$terminfo</span>[sgr0]%&#125;&quot;</span><br><span class="hljs-comment">#&#125;&#125;&#125;</span><br><br><span class="hljs-comment">#命令提示符</span><br>RPROMPT=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$RED</span>%D %T<span class="hljs-variable">$FINISH</span>&quot;</span>)<br>PROMPT=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$CYAN</span>%n@<span class="hljs-variable">$YELLOW</span>%M:<span class="hljs-variable">$GREEN</span>%/<span class="hljs-variable">$_YELLOW</span>&gt;<span class="hljs-variable">$FINISH</span> &quot;</span>)<br><br><span class="hljs-comment">#PROMPT=$(echo &quot;$BLUE%M$GREEN%/</span><br><span class="hljs-comment">#$CYAN%n@$BLUE%M:$GREEN%/$_YELLOW&gt;&gt;&gt;$FINISH &quot;)</span><br><span class="hljs-comment">#标题栏、任务栏样式&#123;&#123;&#123;</span><br><span class="hljs-keyword">case</span> <span class="hljs-variable">$TERM</span> <span class="hljs-keyword">in</span> (*xterm*|*rxvt*|(dt|k|E)term)<br>	<span class="hljs-function"><span class="hljs-title">precmd</span></span> () &#123; <span class="hljs-built_in">print</span> -Pn <span class="hljs-string">&quot;\e]0;%n@%M//%/\a&quot;</span> &#125;<br>	<span class="hljs-function"><span class="hljs-title">preexec</span></span> () &#123; <span class="hljs-built_in">print</span> -Pn <span class="hljs-string">&quot;\e]0;%n@%M//%/\ <span class="hljs-variable">$1</span>\a&quot;</span> &#125;<br>	;;<br><span class="hljs-keyword">esac</span><br><span class="hljs-comment">#&#125;&#125;&#125;</span><br><br><span class="hljs-comment">#编辑器</span><br><span class="hljs-built_in">export</span> EDITOR=vim<br><span class="hljs-comment">#关于历史纪录的配置 &#123;&#123;&#123;</span><br><span class="hljs-comment">#历史纪录条目数量</span><br><span class="hljs-built_in">export</span> HISTSIZE=10000<br><span class="hljs-comment">#注销后保存的历史纪录条目数量</span><br><span class="hljs-built_in">export</span> SAVEHIST=10000<br><span class="hljs-comment">#历史纪录文件</span><br><span class="hljs-built_in">export</span> HISTFILE=~/.zhistory<br><span class="hljs-comment">#以附加的方式写入历史纪录</span><br><span class="hljs-built_in">setopt</span> INC_APPEND_HISTORY<br><span class="hljs-comment">#如果连续输入的命令相同，历史纪录中只保留一个</span><br><span class="hljs-built_in">setopt</span> HIST_IGNORE_DUPS<br><span class="hljs-comment">#为历史纪录中的命令添加时间戳</span><br><span class="hljs-built_in">setopt</span> EXTENDED_HISTORY      <br><br><span class="hljs-comment">#启用 cd 命令的历史纪录，cd -[TAB]进入历史路径</span><br><span class="hljs-built_in">setopt</span> AUTO_PUSHD<br><span class="hljs-comment">#相同的历史路径只保留一个</span><br><span class="hljs-built_in">setopt</span> PUSHD_IGNORE_DUPS<br><br><span class="hljs-comment">#每个目录使用独立的历史纪录&#123;&#123;&#123;</span><br><span class="hljs-function"><span class="hljs-title">cd</span></span>() &#123;<br>	<span class="hljs-built_in">builtin</span> <span class="hljs-built_in">cd</span> <span class="hljs-string">&quot;<span class="hljs-variable">$@</span>&quot;</span>                             <span class="hljs-comment"># do actual cd</span><br>	<span class="hljs-built_in">fc</span> -W                                       <span class="hljs-comment"># write current history  file</span><br>	<span class="hljs-built_in">local</span> HISTDIR=<span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/.zsh_history<span class="hljs-variable">$PWD</span>&quot;</span>      <span class="hljs-comment"># use nested folders for history</span><br>	<span class="hljs-keyword">if</span>  [ ! -d <span class="hljs-string">&quot;<span class="hljs-variable">$HISTDIR</span>&quot;</span> ] ; <span class="hljs-keyword">then</span>          <span class="hljs-comment"># create folder if needed</span><br>		<span class="hljs-built_in">mkdir</span> -p <span class="hljs-string">&quot;<span class="hljs-variable">$HISTDIR</span>&quot;</span><br>	<span class="hljs-keyword">fi</span><br>	<span class="hljs-built_in">export</span> HISTFILE=<span class="hljs-string">&quot;<span class="hljs-variable">$HISTDIR</span>/zhistory&quot;</span>     <span class="hljs-comment"># set new history file</span><br>	<span class="hljs-built_in">touch</span> <span class="hljs-variable">$HISTFILE</span><br>	<span class="hljs-built_in">local</span> ohistsize=<span class="hljs-variable">$HISTSIZE</span><br>	HISTSIZE=0                              <span class="hljs-comment"># Discard previous dir&#x27;s history</span><br>	HISTSIZE=<span class="hljs-variable">$ohistsize</span>                     <span class="hljs-comment"># Prepare for new dir&#x27;s history</span><br>	<span class="hljs-built_in">fc</span> -R                                       <span class="hljs-comment">#read from current histfile</span><br>&#125;<br><span class="hljs-built_in">mkdir</span> -p <span class="hljs-variable">$HOME</span>/.zsh_history<span class="hljs-variable">$PWD</span><br><span class="hljs-built_in">export</span> HISTFILE=<span class="hljs-string">&quot;<span class="hljs-variable">$HOME</span>/.zsh_history<span class="hljs-variable">$PWD</span>/zhistory&quot;</span><br><br><span class="hljs-keyword">function</span> allhistory &#123;<br>	<span class="hljs-built_in">cat</span> $(find <span class="hljs-variable">$HOME</span>/.zsh_history -name zhistory)<br>&#125;<br><br><span class="hljs-keyword">function</span> convhistory &#123;<br>	<span class="hljs-built_in">sort</span> <span class="hljs-variable">$1</span> | <span class="hljs-built_in">uniq</span> |<br>		sed <span class="hljs-string">&#x27;s/^:[0−9]∗:[0-9]*;.∗/\1::::::\2/&#x27;</span> |<br>		awk -F<span class="hljs-string">&quot;::::::&quot;</span> <span class="hljs-string">&#x27;&#123; $1=strftime(&quot;%Y-%m-%d %T&quot;,$1) &quot;|&quot;; print &#125;&#x27;</span><br>	&#125;<br><br><span class="hljs-comment">#使用 histall 命令查看全部历史纪录</span><br><span class="hljs-keyword">function</span> histall &#123;<br>	convhistory =(allhistory) | sed <span class="hljs-string">&#x27;/^.\&#123;20\&#125; *cd/i\\&#x27;</span> <br>&#125;<br><br><span class="hljs-comment">#使用 hist 查看当前目录历史纪录</span><br><span class="hljs-keyword">function</span> hist &#123;<br>	convhistory <span class="hljs-variable">$HISTFILE</span><br>&#125;<br><br><span class="hljs-comment">#全部历史纪录 top50</span><br><span class="hljs-keyword">function</span> top50 &#123; allhistory | awk -F<span class="hljs-string">&#x27;:[ 0-9]*:[0-9]*;&#x27;</span> <span class="hljs-string">&#x27;&#123; $1=&quot;&quot; ; print &#125;&#x27;</span> | sed <span class="hljs-string">&#x27;s/ /\n/g&#x27;</span> | sed <span class="hljs-string">&#x27;/^$/d&#x27;</span> | <span class="hljs-built_in">sort</span> | <span class="hljs-built_in">uniq</span> -c | <span class="hljs-built_in">sort</span> -nr | <span class="hljs-built_in">head</span> -n 50 &#125;<br><br><span class="hljs-comment">#允许在交互模式中使用注释  例如：</span><br><span class="hljs-built_in">setopt</span> INTERACTIVE_COMMENTS      <br><br><span class="hljs-comment">#启用自动 cd，输入目录名回车进入目录</span><br><span class="hljs-built_in">setopt</span> AUTO_CD<br><br><span class="hljs-comment">#扩展路径</span><br><span class="hljs-built_in">setopt</span> complete_in_word<br><br><span class="hljs-comment">#禁用 core dumps</span><br><span class="hljs-built_in">limit</span> coredumpsize 0<br><br><span class="hljs-comment">#Emacs风格 键绑定</span><br><span class="hljs-built_in">bindkey</span> -e<br><br><span class="hljs-comment">#以下字符视为单词的一部分</span><br>WORDCHARS=<span class="hljs-string">&#x27;*?_-[]~=&amp;;!#$%^()&#123;&#125;&lt;&gt;&#x27;</span><br><span class="hljs-comment">#&#125;&#125;&#125;</span><br><br><span class="hljs-comment">#自动补全功能 &#123;&#123;&#123;</span><br><span class="hljs-built_in">setopt</span> AUTO_LIST<br><span class="hljs-built_in">setopt</span> AUTO_MENU<br><br><span class="hljs-comment">#开启此选项，补全时会直接选中菜单项</span><br><span class="hljs-built_in">setopt</span> MENU_COMPLETE<br><br><span class="hljs-built_in">autoload</span> -U compinit<br>compinit<br><br><span class="hljs-comment">#自动补全缓存</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion::complete:*&#x27;</span> use-cache on<br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion::complete:*&#x27;</span> cache-path .zcache<br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:cd:*&#x27;</span> ignore-parents parent <span class="hljs-built_in">pwd</span><br><br><span class="hljs-comment">#自动补全选项</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*&#x27;</span> verbose <span class="hljs-built_in">yes</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*&#x27;</span> menu <span class="hljs-keyword">select</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:*:default&#x27;</span> force-list always<br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*&#x27;</span> select-prompt <span class="hljs-string">&#x27;%SSelect:  lines: %L  matches: %M  [%p]&#x27;</span><br><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:match:*&#x27;</span> original only<br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion::prefix-1:*&#x27;</span> completer _complete<br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:predict:*&#x27;</span> completer _complete<br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:incremental:*&#x27;</span> completer _complete _correct<br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*&#x27;</span> completer _complete _prefix _correct _prefix _match _approximate<br><br><span class="hljs-comment">#路径补全</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*&#x27;</span> <span class="hljs-built_in">expand</span> <span class="hljs-string">&#x27;yes&#x27;</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*&#x27;</span> squeeze-shlashes <span class="hljs-string">&#x27;yes&#x27;</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion::complete:*&#x27;</span> <span class="hljs-string">&#x27;\\&#x27;</span><br><br><span class="hljs-comment">#彩色补全菜单</span><br><span class="hljs-built_in">export</span> CLICOLOR=1<br><span class="hljs-built_in">export</span> LSCOLORS=ExGxFxdaCxDaDahbadeche<br><span class="hljs-built_in">zmodload</span> zsh/complist<br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*&#x27;</span> list-colors <span class="hljs-variable">$&#123;(s.:.)LS_COLORS&#125;</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:*:kill:*:processes&#x27;</span> list-colors <span class="hljs-string">&#x27;=(#b) #([0-9]#)*=0=01;31&#x27;</span><br><br><span class="hljs-comment">#修正大小写</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*&#x27;</span> matcher-list <span class="hljs-string">&#x27;&#x27;</span> <span class="hljs-string">&#x27;m:&#123;a-zA-Z&#125;=&#123;A-Za-z&#125;&#x27;</span><br><span class="hljs-comment">#错误校正</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*&#x27;</span> completer _complete _match _approximate<br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:match:*&#x27;</span> original only<br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:approximate:*&#x27;</span> max-errors 1 numeric<br><br><span class="hljs-comment">#kill 命令补全</span><br>compdef pkill=<span class="hljs-built_in">kill</span><br>compdef pkill=killall<br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:*:kill:*&#x27;</span> menu <span class="hljs-built_in">yes</span> <span class="hljs-keyword">select</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:*:*:*:processes&#x27;</span> force-list always<br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:processes&#x27;</span> <span class="hljs-built_in">command</span> <span class="hljs-string">&#x27;ps -au$USER&#x27;</span><br><br><span class="hljs-comment">#补全类型提示分组</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:matches&#x27;</span> group <span class="hljs-string">&#x27;yes&#x27;</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*&#x27;</span> group-name <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:options&#x27;</span> description <span class="hljs-string">&#x27;yes&#x27;</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:options&#x27;</span> auto-description <span class="hljs-string">&#x27;%d&#x27;</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:descriptions&#x27;</span> format $<span class="hljs-string">&#x27;\e[01;33m -- %d --\e[0m&#x27;</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:messages&#x27;</span> format $<span class="hljs-string">&#x27;\e[01;35m -- %d --\e[0m&#x27;</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:warnings&#x27;</span> format $<span class="hljs-string">&#x27;\e[01;31m -- No Matches Found --\e[0m&#x27;</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:corrections&#x27;</span> format $<span class="hljs-string">&#x27;\e[01;32m -- %d (errors: %e) --\e[0m&#x27;</span><br><br><span class="hljs-comment"># cd ~ 补全顺序</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:-tilde-:*&#x27;</span> group-order <span class="hljs-string">&#x27;named-directories&#x27;</span> <span class="hljs-string">&#x27;path-directories&#x27;</span> <span class="hljs-string">&#x27;users&#x27;</span> <span class="hljs-string">&#x27;expand&#x27;</span><br><span class="hljs-comment">#&#125;&#125;&#125;</span><br><br><span class="hljs-comment">##行编辑高亮模式</span><br><span class="hljs-comment"># Ctrl+@ 设置标记，标记和光标点之间为 region</span><br>zle_highlight=(region:<span class="hljs-built_in">bg</span>=magenta <span class="hljs-comment">#选中区域</span><br>	special:bold      <span class="hljs-comment">#特殊字符</span><br>	isearch:underline)#搜索时使用的关键字<br><br><span class="hljs-comment">##空行(光标在行首)补全 &quot;cd &quot; &#123;&#123;&#123;</span><br>user-<span class="hljs-function"><span class="hljs-title">complete</span></span>()&#123;<br><span class="hljs-keyword">case</span> <span class="hljs-variable">$BUFFER</span> <span class="hljs-keyword">in</span><br>	<span class="hljs-string">&quot;&quot;</span> )                       <span class="hljs-comment"># 空行填入 &quot;cd &quot;</span><br>		BUFFER=<span class="hljs-string">&quot;cd &quot;</span><br>		<span class="hljs-built_in">zle</span> end-of-line<br>		<span class="hljs-built_in">zle</span> expand-or-complete<br>		;;<br>	<span class="hljs-string">&quot;cd --&quot;</span> )                  <span class="hljs-comment"># &quot;cd --&quot; 替换为 &quot;cd +&quot;</span><br>		BUFFER=<span class="hljs-string">&quot;cd +&quot;</span><br>		<span class="hljs-built_in">zle</span> end-of-line<br>		<span class="hljs-built_in">zle</span> expand-or-complete<br>		;;<br>	<span class="hljs-string">&quot;cd +-&quot;</span> )                  <span class="hljs-comment"># &quot;cd +-&quot; 替换为 &quot;cd -&quot;</span><br>		BUFFER=<span class="hljs-string">&quot;cd -&quot;</span><br>		<span class="hljs-built_in">zle</span> end-of-line<br>		<span class="hljs-built_in">zle</span> expand-or-complete<br>		;;<br>	* )<br>		<span class="hljs-built_in">zle</span> expand-or-complete<br>		;;<br><span class="hljs-keyword">esac</span><br>&#125;<br><span class="hljs-built_in">zle</span> -N user-complete<br><span class="hljs-built_in">bindkey</span> <span class="hljs-string">&quot;\t&quot;</span> user-complete<br><span class="hljs-comment">#&#125;&#125;&#125;</span><br><br><span class="hljs-comment">##在命令前插入 sudo &#123;&#123;&#123;</span><br><span class="hljs-comment">#定义功能</span><br>sudo-command-<span class="hljs-function"><span class="hljs-title">line</span></span>() &#123;<br>[[ -z <span class="hljs-variable">$BUFFER</span> ]] &amp;&amp; <span class="hljs-built_in">zle</span> up-history<br>[[ <span class="hljs-variable">$BUFFER</span> != <span class="hljs-built_in">sudo</span>\ * ]] &amp;&amp; BUFFER=<span class="hljs-string">&quot;sudo <span class="hljs-variable">$BUFFER</span>&quot;</span><br><span class="hljs-built_in">zle</span> end-of-line                 <span class="hljs-comment">#光标移动到行末</span><br>&#125;<br><span class="hljs-built_in">zle</span> -N sudo-command-line<br><span class="hljs-comment">#定义快捷键为： [Esc] [Esc]</span><br><span class="hljs-built_in">bindkey</span> <span class="hljs-string">&quot;\e\e&quot;</span> sudo-command-line<br><span class="hljs-comment">#&#125;&#125;&#125;</span><br><span class="hljs-comment">#[Esc][h] man 当前命令时，显示简短说明</span><br><span class="hljs-built_in">alias</span> run-help &gt;&amp;/dev/null &amp;&amp; <span class="hljs-built_in">unalias</span> run-help<br><span class="hljs-built_in">autoload</span> run-help<br><br><span class="hljs-comment">#历史命令 top10</span><br><span class="hljs-built_in">alias</span> top10=<span class="hljs-string">&#x27;print -l  $&#123;(o)history%% *&#125; | uniq -c | sort -nr | head -n 10&#x27;</span><br><span class="hljs-comment">#&#125;&#125;&#125;</span><br><br><span class="hljs-comment">#路径别名 &#123;&#123;&#123;</span><br><span class="hljs-comment">#进入相应的路径时只要 cd ~xxx</span><br><span class="hljs-built_in">hash</span> -d A=<span class="hljs-string">&quot;/media/ayu/dearest&quot;</span><br><span class="hljs-built_in">hash</span> -d H=<span class="hljs-string">&quot;/media/data/backup/ayu&quot;</span><br><span class="hljs-built_in">hash</span> -d E=<span class="hljs-string">&quot;/etc/&quot;</span><br><span class="hljs-built_in">hash</span> -d D=<span class="hljs-string">&quot;/home/ayumi/Documents&quot;</span><br><span class="hljs-comment">#&#125;&#125;&#125;</span><br><br><span class="hljs-comment">#补全 ping</span><br><span class="hljs-built_in">zstyle</span> <span class="hljs-string">&#x27;:completion:*:ping:*&#x27;</span> hosts 192.168.1.&#123;1,50,51,100,101&#125; www.google.com<br><br><span class="hljs-comment">#补全 ssh scp sftp 等</span><br><span class="hljs-built_in">zstyle</span> -e <span class="hljs-string">&#x27;:completion::*:*:*:hosts&#x27;</span> hosts <span class="hljs-string">&#x27;reply=($&#123;=$&#123;$&#123;(f)&quot;$(cat &#123;/etc/ssh_,~/.ssh/known_&#125;hosts(|2)(N) /dev/null)&quot;&#125;%%[# ]*&#125;//,/ &#125;)&#x27;</span><br><br><span class="hljs-comment">#F1 计算器</span><br>arith-eval-<span class="hljs-function"><span class="hljs-title">echo</span></span>() &#123;<br>LBUFFER=<span class="hljs-string">&quot;<span class="hljs-variable">$&#123;LBUFFER&#125;</span>echo \$(( &quot;</span><br>RBUFFER=<span class="hljs-string">&quot; ))<span class="hljs-variable">$RBUFFER</span>&quot;</span><br>&#125;<br><span class="hljs-built_in">zle</span> -N arith-eval-echo<br><span class="hljs-built_in">bindkey</span> <span class="hljs-string">&quot;^[[11~&quot;</span> arith-eval-echo<br><br><span class="hljs-keyword">function</span> timeconv &#123; <span class="hljs-built_in">date</span> -d @<span class="hljs-variable">$1</span> +<span class="hljs-string">&quot;%Y-%m-%d %T&quot;</span> &#125;<br><br><span class="hljs-built_in">zmodload</span> zsh/mathfunc<br><span class="hljs-built_in">autoload</span> -U zsh-mime-setup<br>zsh-mime-setup<br><span class="hljs-built_in">setopt</span> EXTENDED_GLOB<br><br><span class="hljs-built_in">setopt</span> correctall<br><span class="hljs-built_in">autoload</span> compinstall<br><br><span class="hljs-comment">#漂亮又实用的命令高亮界面</span><br><span class="hljs-built_in">setopt</span> extended_glob<br>TOKENS_FOLLOWED_BY_COMMANDS=(<span class="hljs-string">&#x27;|&#x27;</span> <span class="hljs-string">&#x27;||&#x27;</span> <span class="hljs-string">&#x27;;&#x27;</span> <span class="hljs-string">&#x27;&amp;&#x27;</span> <span class="hljs-string">&#x27;&amp;&amp;&#x27;</span> <span class="hljs-string">&#x27;sudo&#x27;</span> <span class="hljs-string">&#x27;do&#x27;</span> <span class="hljs-string">&#x27;time&#x27;</span> <span class="hljs-string">&#x27;strace&#x27;</span>)<br><br>recolor-<span class="hljs-function"><span class="hljs-title">cmd</span></span>() &#123;<br>region_highlight=()<br>colorize=<span class="hljs-literal">true</span><br>start_pos=0<br><span class="hljs-keyword">for</span> arg <span class="hljs-keyword">in</span> <span class="hljs-variable">$&#123;(z)BUFFER&#125;</span>; <span class="hljs-keyword">do</span><br>	((start_pos+=<span class="hljs-variable">$&#123;#BUFFER[$start_pos+1,-1]&#125;</span>-<span class="hljs-variable">$&#123;#<span class="hljs-variable">$&#123;BUFFER[$start_pos+1,-1]## #&#125;</span>&#125;</span>))<br>	((end_pos=<span class="hljs-variable">$start_pos</span>+<span class="hljs-variable">$&#123;#arg&#125;</span>))<br>	<span class="hljs-keyword">if</span> <span class="hljs-variable">$colorize</span>; <span class="hljs-keyword">then</span><br>		colorize=<span class="hljs-literal">false</span><br>		res=$(LC_ALL=C <span class="hljs-built_in">builtin</span> <span class="hljs-built_in">type</span> <span class="hljs-variable">$arg</span> 2&gt;/dev/null)<br>		<span class="hljs-keyword">case</span> <span class="hljs-variable">$res</span> <span class="hljs-keyword">in</span><br>			*<span class="hljs-string">&#x27;reserved word&#x27;</span>*)   style=<span class="hljs-string">&quot;fg=magenta,bold&quot;</span>;;<br>			*<span class="hljs-string">&#x27;alias for&#x27;</span>*)       style=<span class="hljs-string">&quot;fg=cyan,bold&quot;</span>;;<br>			*<span class="hljs-string">&#x27;shell builtin&#x27;</span>*)   style=<span class="hljs-string">&quot;fg=yellow,bold&quot;</span>;;<br>			*<span class="hljs-string">&#x27;shell function&#x27;</span>*)  style=<span class="hljs-string">&#x27;fg=green,bold&#x27;</span>;;<br>			*<span class="hljs-string">&quot;<span class="hljs-variable">$arg</span> is&quot;</span>*)<br>				[[ <span class="hljs-variable">$arg</span> = <span class="hljs-string">&#x27;sudo&#x27;</span> ]] &amp;&amp; style=<span class="hljs-string">&quot;fg=red,bold&quot;</span> || style=<span class="hljs-string">&quot;fg=blue,bold&quot;</span>;;<br>			*)                   style=<span class="hljs-string">&#x27;none,bold&#x27;</span>;;<br>		<span class="hljs-keyword">esac</span><br>		region_highlight+=(<span class="hljs-string">&quot;<span class="hljs-variable">$start_pos</span> <span class="hljs-variable">$end_pos</span> <span class="hljs-variable">$style</span>&quot;</span>)<br>	<span class="hljs-keyword">fi</span><br>	[[ <span class="hljs-variable">$&#123;<span class="hljs-variable">$&#123;TOKENS_FOLLOWED_BY_COMMANDS[(r)<span class="hljs-variable">$&#123;arg//|/\|&#125;</span>]&#125;</span>:+yes&#125;</span> = <span class="hljs-string">&#x27;yes&#x27;</span> ]] &amp;&amp; colorize=<span class="hljs-literal">true</span><br>	start_pos=<span class="hljs-variable">$end_pos</span><br><span class="hljs-keyword">done</span><br>&#125;<br>check-cmd-self-<span class="hljs-function"><span class="hljs-title">insert</span></span>() &#123; <span class="hljs-built_in">zle</span> .self-insert &amp;&amp; recolor-cmd &#125;<br>check-cmd-backward-delete-<span class="hljs-function"><span class="hljs-title">char</span></span>() &#123; <span class="hljs-built_in">zle</span> .backward-delete-char &amp;&amp; recolor-cmd &#125;<br><br><span class="hljs-built_in">zle</span> -N self-insert check-cmd-self-insert<br><span class="hljs-built_in">zle</span> -N backward-delete-char check-cmd-backward-delete-char<br></code></pre></td></tr></table></figure>
+<h3 id="主题配置"><a href="#主题配置" class="headerlink" title="主题配置"></a>主题配置</h3><p>p10k 在首次进入时需要进行配置，按照提示进行即可，配置之后，会在 zshrc 行首和行尾分别添加</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">if</span> [[ -r <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;XDG_CACHE_HOME:-<span class="hljs-variable">$HOME</span>/.cache&#125;</span>/p10k-instant-prompt-<span class="hljs-variable">$&#123;(%):-%n&#125;</span>.zsh&quot;</span> ]]; <span class="hljs-keyword">then</span><br>  <span class="hljs-built_in">source</span> <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;XDG_CACHE_HOME:-<span class="hljs-variable">$HOME</span>/.cache&#125;</span>/p10k-instant-prompt-<span class="hljs-variable">$&#123;(%):-%n&#125;</span>.zsh&quot;</span><br><span class="hljs-keyword">fi</span><br></code></pre></td></tr></table></figure>
+<p>以及</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs lua"># To customize prompt, run `p10k configure` <span class="hljs-keyword">or</span> edit ~/.p10k.zsh.<br><span class="hljs-string">[[ ! -f ~/.p10k.zsh ]]</span> || source ~/.p10k.zsh<br></code></pre></td></tr></table></figure>
+<p>需要把上面三句代码移动到 4 个 source 的后面，否则每次启动终端都会报错</p>
+<p><img src="/2024/04/29/(20240429)%E4%BD%BF%E7%94%A8_nix-darwin_%E4%B8%BA_sonoma_%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84_zsh_EberyThingSay/v2-f6eca7374890887d630bff2c420a11a5_b.jpg" srcset="/img/loading.gif" lazyload>  </p>
+<h3 id="搞定收工"><a href="#搞定收工" class="headerlink" title="搞定收工"></a>搞定收工</h3><p><img src="/2024/04/29/(20240429)%E4%BD%BF%E7%94%A8_nix-darwin_%E4%B8%BA_sonoma_%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84_zsh_EberyThingSay/v2-3995831831ab86eb202942a276d94213_b.jpg" srcset="/img/loading.gif" lazyload>  </p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/macOS/" class="category-chain-item">macOS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF/" class="print-no-link">#技术</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>使用 nix-darwin 为 sonoma 配置一个简洁高效的 zsh</div>
+      <div>http://songguokunsgg.github.io/2024/04/29/(20240429)使用_nix-darwin_为_sonoma_配置一个简洁高效的_zsh_EberyThingSay/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Fansong Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年4月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/05/13/(20240513)PVE_%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F_EberyThingSay/" title="PVE 内网穿透">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">PVE 内网穿透</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/22/(20240422)%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A_2024%E5%B9%B4%E4%B8%AD%E7%9A%84vscodelatex%E5%86%99%E4%BD%9C_EberyThingSay/" title="真香警告，2024 年中的 vscode+latex 写作">
+                        <span class="hidden-mobile">真香警告，2024 年中的 vscode+latex 写作</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","appKey":"0RaTUR0yFhlAjxM4uYyXvPSj","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
