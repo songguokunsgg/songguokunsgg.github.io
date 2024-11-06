@@ -1,0 +1,853 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fansong Yan">
+  <meta name="keywords" content="技术、生活、游戏">
+  
+    <meta name="description" content="java 工程师面试过程中，比较经典的面试题有哪些？说明本文的所有的 Springboot、SQL 资料均来源于网络以及 ChatGPT，本人只进行了些许整理。最初是为自己面试准备的，面试结束了分享给大家。如果您觉得没有帮助，请划走，如果您觉得有所帮助，可以帮忙点个关注，谢谢。 Java 面向对象的三个特征封装：对象只需要选择性的对外公开一些属性和行为。继承：子对象可以继承父对象的属性和行为，并且">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java 工程师面试过程中，比较经典的面试题有哪些？">
+<meta property="og:url" content="http://songguokunsgg.github.io/2022/02/13/(20220213)java_%E5%B7%A5%E7%A8%8B%E5%B8%88%E9%9D%A2%E8%AF%95%E8%BF%87%E7%A8%8B%E4%B8%AD%E6%AF%94%E8%BE%83%E7%BB%8F%E5%85%B8%E7%9A%84%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9C%89%E5%93%AA%E4%BA%9B_EberyThingSay/index.html">
+<meta property="og:site_name" content="菘菓菌 sgg">
+<meta property="og:description" content="java 工程师面试过程中，比较经典的面试题有哪些？说明本文的所有的 Springboot、SQL 资料均来源于网络以及 ChatGPT，本人只进行了些许整理。最初是为自己面试准备的，面试结束了分享给大家。如果您觉得没有帮助，请划走，如果您觉得有所帮助，可以帮忙点个关注，谢谢。 Java 面向对象的三个特征封装：对象只需要选择性的对外公开一些属性和行为。继承：子对象可以继承父对象的属性和行为，并且">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-13T07:32:19.000Z">
+<meta property="article:modified_time" content="2024-11-06T09:19:59.425Z">
+<meta property="article:author" content="Fansong Yan">
+<meta property="article:tag" content="技术">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>java 工程师面试过程中，比较经典的面试题有哪些？ - 菘菓菌 sgg</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"songguokunsgg.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","app_key":"0RaTUR0yFhlAjxM4uYyXvPSj","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>菘菓菌 sgg</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/technology-stack/" target="_self">
+                <i class="iconfont icon-codepen-fill"></i>
+                <span>技术栈</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="java 工程师面试过程中，比较经典的面试题有哪些？"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Fansong Yan
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-02-13 15:32" pubdate>
+          2022年2月13日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          30 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">java 工程师面试过程中，比较经典的面试题有哪些？</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="java-工程师面试过程中，比较经典的面试题有哪些？"><a href="#java-工程师面试过程中，比较经典的面试题有哪些？" class="headerlink" title="java 工程师面试过程中，比较经典的面试题有哪些？"></a>java 工程师面试过程中，比较经典的面试题有哪些？</h1><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>本文的所有的 Springboot、SQL 资料均来源于网络以及 ChatGPT，本人只进行了些许整理。最初是为自己面试准备的，面试结束了分享给大家。如果您觉得没有帮助，请划走，如果您觉得有所帮助，可以帮忙点个关注，谢谢。</p>
+<h3 id="Java-面向对象的三个特征"><a href="#Java-面向对象的三个特征" class="headerlink" title="Java 面向对象的三个特征"></a>Java 面向对象的三个特征</h3><p>封装：对象只需要选择性的对外公开一些属性和行为。继承：子对象可以继承父对象的属性和行为，并且可以在其之上进行修改以适合更特殊的场景需求。多态：允许不同类的对象对同一消息做出响应。</p>
+<h3 id="Java-中基本的数据类型有哪些-以及他们的占用字节"><a href="#Java-中基本的数据类型有哪些-以及他们的占用字节" class="headerlink" title="Java 中基本的数据类型有哪些 以及他们的占用字节"></a>Java 中基本的数据类型有哪些 以及他们的占用字节</h3><p>数据类型占用字节</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>占用字节数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>byte</td>
+<td>1</td>
+</tr>
+<tr>
+<td>short</td>
+<td>2</td>
+</tr>
+<tr>
+<td>int</td>
+<td>4</td>
+</tr>
+<tr>
+<td>long</td>
+<td>8</td>
+</tr>
+<tr>
+<td>float</td>
+<td>4</td>
+</tr>
+<tr>
+<td>double</td>
+<td>8</td>
+</tr>
+<tr>
+<td>char</td>
+<td>2</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<h3 id="int-和-Integer-的区别"><a href="#int-和-Integer-的区别" class="headerlink" title="int 和 Integer 的区别"></a>int 和 Integer 的区别</h3><p>int 是 Java 中的原始类型，Integer 是 Java 为 int 提供的封装类，他们有不同的特征和用法，包括大小、速度、默认值。</p>
+<h3 id="String、StringBuilder、StringBuffer-的区别及使用场景"><a href="#String、StringBuilder、StringBuffer-的区别及使用场景" class="headerlink" title="String、StringBuilder、StringBuffer 的区别及使用场景"></a>String、StringBuilder、StringBuffer 的区别及使用场景</h3><p>String 一旦定义就不可改变，可空赋值。操作少量数据时使用。StringBuilder 可改变，线程不安全。操作单线程大量数据时使用。StringBuffer 可改变，线程安全。操作多线程大量数据时使用。</p>
+<h3 id="ArrayList、Vector-和-LinkedList-的区别及使用场景"><a href="#ArrayList、Vector-和-LinkedList-的区别及使用场景" class="headerlink" title="ArrayList、Vector 和 LinkedList 的区别及使用场景"></a>ArrayList、Vector 和 LinkedList 的区别及使用场景</h3><p>ArrayList 和 Vector 都是使用数组方式存储数据，允许按序号索引元素，但是插入数据会涉及到元素移动等内存操作，所以索引快插入慢。</p>
+<p>ArrayList 懒加载 默认大小### 每次扩容 1.5 倍 线程不安全 性能较高 Vector 实例化时初始化 默认大小### 每次扩容 2 倍 线程安全 性能较低 已弃用</p>
+<p>额外回答加分项：多读少写建议使用 CopyOnWriteArrayList CopyOnWriteArrayList 原理是发生修改的时候复制一份 多写少读或读写比较均匀建议使用 Connections.synchronizedList</p>
+<p>LinkedList 使用双向链表方式存储数据，插入只需要记录本项的前后项，索引需要向前或向后进行遍历，所以插入速度较快，线程不安全，频繁在任意位置插入和删除的情况可以使用，如果需要多线程访问，可以使用 Connections.synchronizedList() 或 ConcurrentLinkedQueue</p>
+<h3 id="Collection-和-Collections-的区别"><a href="#Collection-和-Collections-的区别" class="headerlink" title="Collection 和 Collections 的区别"></a>Collection 和 Collections 的区别</h3><p>Collection 是集合类上级接口，继承他的主要有 List 和 Set Collections 是集合类的帮助类，提供了对集合的搜索、排序、线程安全化等操作。</p>
+<h3 id="List-和-Map-的区别"><a href="#List-和-Map-的区别" class="headerlink" title="List 和 Map 的区别"></a>List 和 Map 的区别</h3><p>List 是存储单列数据的集合，Map 是存储键值对双列数据的集合。List 存储的数据是有顺序且可重复的，Map 存储的数据是无顺序，键不可重复，值可重复的。</p>
+<h3 id="HashMap-和-HashTable-的区别"><a href="#HashMap-和-HashTable-的区别" class="headerlink" title="HashMap 和 HashTable 的区别"></a>HashMap 和 HashTable 的区别</h3><p>HashMap 是 Map 接口的实现，非线程安全，允许空键值。HashTable 是 Dictionary 的子类，线程安全，不允许空键值。几乎被淘汰，建议使用 ConcurrentHashMap 来替代它。HashMap 使用的是快速失败迭代器，在迭代器创建后，除非通过迭代器自身的 remove 或者 add 方法，其他任何方式的修改都会抛出异常。</p>
+<h3 id="HashMap-底层实现原理和扩容机制"><a href="#HashMap-底层实现原理和扩容机制" class="headerlink" title="HashMap 底层实现原理和扩容机制"></a>HashMap 底层实现原理和扩容机制</h3><p>JDK1.8 以前：数组 + 单链表的组合，以键值对的方式存储元素。JDK1.8 及以后：引入红黑树结构，添加元素时，若链表个数大于 8，链表会转换为红黑树，反之小于 6 时会修剪或还原成链表结构。选择 6 和 8 可以有效防止频繁的链表和红黑树转换。扩容条件：</p>
+<p>存放新值的时候当前已有元素个数大于阈值。存放新值的时候当前存放数据发生 hash 碰撞（当前 key 计算的 hash 值换算出来的数组下标位置已经存在值）默认容量是 16，负载因子 0.75，所以扩容阈值是 12。每次扩容的容量是原有的 2 倍。</p>
+<h3 id="HashMap-什么样的类适合作为键"><a href="#HashMap-什么样的类适合作为键" class="headerlink" title="HashMap 什么样的类适合作为键"></a>HashMap 什么样的类适合作为键</h3><p>String 最为常见，因为 String 对象不可变，且重写了 equals 和 hashcode 方法。不可变性是必要的，如果 key 的 hashcode 存入和获取是不一致，就无法找到。获取对象时需要用到 equals 和 hashCode 方法，正确的重写这两个方法是非常重要的，因为两个不相等的对象返回不同的 hashCode 的话，碰撞的几率就会小些，就可以提高 HashMap 的性能。</p>
+<h3 id="final、finally、finalize-的区别"><a href="#final、finally、finalize-的区别" class="headerlink" title="final、finally、finalize 的区别"></a>final、finally、finalize 的区别</h3><p>final 用于修饰属性、方法和类，分别表示属性不可变，方法不可覆盖，类不可继承。finally 是异常处理语句结构的一部分，表示总是执行。finalize 是 Object 类的一个方法，在 GC 执行时会调用被回收对象的此方法。</p>
+<h3 id="sleep-和-wait-的区别"><a href="#sleep-和-wait-的区别" class="headerlink" title="sleep() 和 wait() 的区别"></a>sleep() 和 wait() 的区别</h3><p>sleep() 是 Thread 类的，wait() 是 Object 类的方法 sleep 不会释放锁，wait 会释放锁。sleep 可在任意地方使用，wait notify notifyAll 只能在 synchronized 块。sleep 必须捕获异常，而 wait 不需要。</p>
+<h3 id="抽象类和接口的区别、以及使用场景"><a href="#抽象类和接口的区别、以及使用场景" class="headerlink" title="抽象类和接口的区别、以及使用场景"></a>抽象类和接口的区别、以及使用场景</h3><p>抽象类中可以有构造方法、静态方法、普通方法、普通成员变量。接口中不能有。抽象类中的抽象方法访问类型可以是 public、protected 和默认类型，接口中只能是 public。抽象类中的静态成员变量访问类型可以任意，接口中只能是 public 的。一个类只能继承一个类，但是可以实现多个接口。抽象类和子类为“是不是”的关系。主要用于为一些类提供公共实现代码。接口和实现为“有没有”的关系。主要用于代码的扩展性和可维护性。</p>
+<h3 id="Overload（重载）和-Override（重写）的区别"><a href="#Overload（重载）和-Override（重写）的区别" class="headerlink" title="Overload（重载）和 Override（重写）的区别"></a>Overload（重载）和 Override（重写）的区别</h3><p>重载是一个类中多态性的一种表现，在一个类中定义了多个同名的方法，他们有不同的参数列表。重写是父类与子类之间多态的一种表现，子类中定义了与父类有相同名称和参数的方法时，子类对象使用该方法会调用子类中的定义。</p>
+<h3 id="forward（转发）和-redirect（重定向）的区别"><a href="#forward（转发）和-redirect（重定向）的区别" class="headerlink" title="forward（转发）和 redirect（重定向）的区别"></a>forward（转发）和 redirect（重定向）的区别</h3><p>forward 是服务器请求资源，服务器访问目标 URL，把响应内容发给用户，用户不知道数据是从哪来的。redirect 是服务器向客户端发送一个状态码，告知重新请求该 URL。</p>
+<h3 id="连接池的工作机制"><a href="#连接池的工作机制" class="headerlink" title="连接池的工作机制"></a>连接池的工作机制</h3><p>服务器启动时会建立一定数量的池连接，客户端需要连接时，池会返回一个未使用的连接并将其标记为忙，如果没有空闲连接，池会新建一定数量的连接，当连接使用完毕后，池会将其标记为空闲。</p>
+<h3 id="什么是序列化"><a href="#什么是序列化" class="headerlink" title="什么是序列化"></a>什么是序列化</h3><p>序列化就是一种用来处理对象流的机制，就是将对象的内容进行流化，可以对流化后的对象进行读写操作，也可以将流化后的对象传输于网络之间。可通过实现 java.io.Serializable 接口来实现序列化。</p>
+<h3 id="第三方框架部分"><a href="#第三方框架部分" class="headerlink" title="第三方框架部分"></a>第三方框架部分</h3><h3 id="什么是-AOP、Spring-AOP-的底层原理是什么"><a href="#什么是-AOP、Spring-AOP-的底层原理是什么" class="headerlink" title="什么是 AOP、Spring AOP 的底层原理是什么"></a>什么是 AOP、Spring AOP 的底层原理是什么</h3><p>AOP 是面向切面编程，用于在不改变原有逻辑的基础上增加一些额外的功能，如事务管理、日志、缓存、权限控制等。Spring AOP 是基于代理的。如果目标对象实现了接口，则默认采用 JDK 动态代理。如果目标对象没有实现接口，则采用 CgLib 进行动态代理。如果目标对象实现了接口，且强制 CgLib 代理，则采用 CgLib 动态代理。</p>
+<h3 id="什么是-IOC、IOC-注入方式有哪些"><a href="#什么是-IOC、IOC-注入方式有哪些" class="headerlink" title="什么是 IOC、IOC 注入方式有哪些"></a>什么是 IOC、IOC 注入方式有哪些</h3><p>IOC 翻译为控制反转，他还有个别名为 DI（依赖注入）。IOC 就是由 IOC 容器来负责对象的生命周期和对象之间的关系。控制反转就是本来应该你做的事情，让系统去做，比如通常获取一个对象需要通过 new，而使用 IOC 则是 IOC 将对象创建后注入到被注入的对象中。注解注入（Spring）、构造器注入、setter 方法注入、接口方式注入（不推荐）</p>
+<h3 id="Spring-Boot-的核心注解是什么，它是由哪几个注解组成的"><a href="#Spring-Boot-的核心注解是什么，它是由哪几个注解组成的" class="headerlink" title="Spring Boot 的核心注解是什么，它是由哪几个注解组成的"></a>Spring Boot 的核心注解是什么，它是由哪几个注解组成的</h3><p>核心注解：@SpringBootApplication 包含： @SpringBootConfiguration 实现配置文件功能 @EnableAutoConfiguration 打开自动配置功能 @CompoentScan 组件扫描功能</p>
+<h3 id="SpringBoot-怎么读取配置文件"><a href="#SpringBoot-怎么读取配置文件" class="headerlink" title="SpringBoot 怎么读取配置文件"></a>SpringBoot 怎么读取配置文件</h3><p>属性上使用@Value 注解 类上使用@ConfigurationProperties 注解 读取指定文件注解可在类上使用@PropertySource（不支持 yml 文件读取）注入 Environment 对象获取到。</p>
+<h3 id="SpringCloud-和-Dubbo-的区别"><a href="#SpringCloud-和-Dubbo-的区别" class="headerlink" title="SpringCloud 和 Dubbo 的区别"></a>SpringCloud 和 Dubbo 的区别</h3><p>SpringCloud 采用基于 HTTP 的 REST API，Dubbo 采用 RPC 方式。</p>
+<h3 id="SpringCloud-的-Hystrix-断路器特性"><a href="#SpringCloud-的-Hystrix-断路器特性" class="headerlink" title="SpringCloud 的 Hystrix 断路器特性"></a>SpringCloud 的 Hystrix 断路器特性</h3><p>请求熔断：请求服务失败量超过一定比例（默认 50%）断路器会切换到开路状态，这时所有请求不会发送到后端服务，断路器在保持开路状态一段时间后（默认 5 秒），自动切换到半开路状态。这时如果下一次请求成功，断路器切回闭路状态，否则重新切换到开路状态。服务降级：对于查询操作，可以实现一个 fallback 方法。当请求服务出现异常时，可以使用 fallback 方法返回的值。依赖隔离：通过线程池来实现资源隔离，比如一个服务调用另外两个服务，如果这两个服务在同一线程池，那么如果一个服务卡住，后面的请求又来了，就会导致后面的请求都会卡住等待。请求缓存：缓存上次请求结果，返回给后续请求。请求合并：把多个请求合并成一个请求，提升效率。</p>
+<h3 id="MySQL-数据库部分"><a href="#MySQL-数据库部分" class="headerlink" title="MySQL 数据库部分"></a>MySQL 数据库部分</h3><h3 id="事物的四大特性和隔离级别"><a href="#事物的四大特性和隔离级别" class="headerlink" title="事物的四大特性和隔离级别"></a>事物的四大特性和隔离级别</h3><p>原子性：不可分割的操作单元，要么全部成功，要么回滚。一致性：如果执行事物之前数据库是一致的，那么执行后还是一致的。隔离性：事物操作之间彼此独立和透明，互不影响。持久性：事物一旦提交，其结果就是永久的。未提交读：允许脏读，其他事物只要修改了数据，即使未提交，本事物也能看到修改后的数据值。提交读：只能读取到已提交的数据。可重复读（innoDB 默认）：无论其他事物是否修改并提交了数据，这个事物中的数据不受影响。串行读：完全串行化的读，每次读都要获得锁，读写相互都会阻塞。</p>
+<h3 id="MySQL-优化相关"><a href="#MySQL-优化相关" class="headerlink" title="MySQL 优化相关"></a>MySQL 优化相关</h3><p>使用更小的整数类型、尽可能的定义字段为 not null（否则会导致索引复杂）、只创建需要的索引、分库分表。使用 explain 检查复杂 SQL 语句、LIMIT 语句尽量要跟 order by 或 distinct、插入多条数据时使用单条 INSERT 语句。</p>
+<h3 id="MySQL-存储引擎-InnoDB-和-MyISAM-的区别"><a href="#MySQL-存储引擎-InnoDB-和-MyISAM-的区别" class="headerlink" title="MySQL 存储引擎 InnoDB 和 MyISAM 的区别"></a>MySQL 存储引擎 InnoDB 和 MyISAM 的区别</h3><p>InnoDB 支持事物，MyISAM 不支持。InnoDB 支持外键，MyISAM 不支持。InnoDB 是聚集索引，MyISAM 是非聚集索引。索引和数据文件是分离的。InnoDB 必须要有主键（没有会自己找或创建），MyISAM 可以没有。InnoDB 不保存表的行数，MyISAM 用了一个变量保存表的行数。InnoDB 支持表、行级锁 默认行级锁，MyISAM 只支持表级锁。</p>
+<h3 id="MySQL-在哪些情况下不使用索引"><a href="#MySQL-在哪些情况下不使用索引" class="headerlink" title="MySQL 在哪些情况下不使用索引"></a>MySQL 在哪些情况下不使用索引</h3><p>like 查询使用%开头不能使用索引，但用%结尾的可以使用索引。where 语句中使用&lt;&gt;或!&#x3D;。where 语句中使用 or，且没有把 or 中的所有字段加上索引。where 语句中对字段表达式操作。where 语句中使用 NOT IN。使用简单的 IN 会使用索引。</p>
+<h3 id="MySQL-分库分表策略"><a href="#MySQL-分库分表策略" class="headerlink" title="MySQL 分库分表策略"></a>MySQL 分库分表策略</h3><p>垂直切分：某个表字段过多，可以将不常用或字段长度较大的字段拆分出去到扩展表中。水平切分：分为库内分表和分库分表，是根据表内数据的逻辑关系，按照不同的条件分散到多个数据库或表中。</p>
+<h3 id="MySQL-三个范式"><a href="#MySQL-三个范式" class="headerlink" title="MySQL 三个范式"></a>MySQL 三个范式</h3><ol>
+<li>满足原子性</li>
+<li>满足唯一性</li>
+<li>满足无传递依赖（每个字段依赖且仅依赖于主键</li>
+</ol>
+<p>常用的 SQL 语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> DATABASE <span class="hljs-operator">&lt;</span>database_name<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-type">CHARACTER</span> <span class="hljs-keyword">SET</span> utf8;<br><span class="hljs-keyword">ALTER</span> DATABASE <span class="hljs-operator">&lt;</span>database_name<span class="hljs-operator">&gt;</span>;<br><span class="hljs-keyword">DROP</span> DATABASE [IF <span class="hljs-keyword">EXISTS</span>] <span class="hljs-operator">&lt;</span>database_name<span class="hljs-operator">&gt;</span>;<br><span class="hljs-keyword">SHOW</span> DATABASES <span class="hljs-keyword">LIKE</span> <span class="hljs-operator">&lt;</span><span class="hljs-keyword">module</span><span class="hljs-operator">&gt;</span> <span class="hljs-keyword">WHERE</span> <span class="hljs-operator">&lt;</span><span class="hljs-keyword">condition</span><span class="hljs-operator">&gt;</span>;<br>USE <span class="hljs-operator">&lt;</span>database_name<span class="hljs-operator">&gt;</span>;<br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-operator">&lt;</span>table_name<span class="hljs-operator">&gt;</span>;<br><span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-operator">&lt;</span>table_name<span class="hljs-operator">&gt;</span>;<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-operator">&lt;</span>table_name<span class="hljs-operator">&gt;</span> (column1,column2,...) <span class="hljs-keyword">VALUES</span> (value1,value2,...);<br><span class="hljs-keyword">UPDATE</span> <span class="hljs-operator">&lt;</span>table_name<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">SET</span> column1<span class="hljs-operator">=</span><span class="hljs-number">1</span>,column2<span class="hljs-operator">=</span><span class="hljs-number">2</span> <span class="hljs-keyword">WHERE</span> id<span class="hljs-operator">=</span><span class="hljs-number">61618</span>;<br><span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">FROM</span> <span class="hljs-operator">&lt;</span>table_name<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">WHERE</span> <span class="hljs-operator">&lt;</span><span class="hljs-keyword">condition</span><span class="hljs-operator">&gt;</span>;<br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> <span class="hljs-operator">&lt;</span>table_name<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">WHERE</span> <span class="hljs-operator">&lt;</span><span class="hljs-keyword">condition</span><span class="hljs-operator">&gt;</span>;<br><span class="hljs-keyword">TRUNCATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-operator">&lt;</span>table_name<span class="hljs-operator">&gt;</span><br>MySQL存储引擎<br><span class="hljs-keyword">SHOW</span> ENGINES;<br>MySQL数据类型<br></code></pre></td></tr></table></figure>
+<ol>
+<li>整型：TINYINT, SMALLINT, MEDIUMINT, INT, BIGINT</li>
+<li>浮点型：FLOAT, DOUBLE, DECIMAL(可变)</li>
+<li>字符串：CHAR(8), VARCHAR(255)</li>
+<li>文本：TEXT, BLOB</li>
+<li>时间：DATE, TIME, DATETIME, TIMESTAMP, YEAR</li>
+</ol>
+<h3 id="MySQL-修改表操作"><a href="#MySQL-修改表操作" class="headerlink" title="MySQL 修改表操作"></a>MySQL 修改表操作</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> &lt;<span class="hljs-built_in">table_name</span>&gt; <span class="hljs-keyword">ADD</span> &lt;columnN&gt; <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>;<br><span class="hljs-comment">-- 修改字段定义;</span><br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> &lt;<span class="hljs-built_in">table_name</span>&gt; MODIFY &lt;columnN&gt; <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">50</span>);<br><span class="hljs-comment">-- 展示数据表;</span><br><span class="hljs-keyword">DESC</span> &lt;<span class="hljs-built_in">table_name</span>&gt;;<br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> &lt;<span class="hljs-built_in">table_name</span>&gt; CHANGE <span class="hljs-keyword">COLUMN</span> &lt;old_column&gt; &lt;new_column&gt;;<br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> &lt;<span class="hljs-built_in">table_name</span>&gt; <span class="hljs-keyword">DROP</span> &lt;<span class="hljs-keyword">column</span>&gt;;<br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> &lt;<span class="hljs-built_in">table_name</span>&gt; <span class="hljs-keyword">RENAME</span> <span class="hljs-keyword">AS</span> &lt;new_table_name&gt;;<br><span class="hljs-keyword">RENAME</span> <span class="hljs-keyword">TABLE</span> &lt;<span class="hljs-built_in">table_name</span>&gt; &lt;new_table_name&gt;;<br><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> &lt;<span class="hljs-built_in">table_name</span>&gt;;<br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> &lt;<span class="hljs-built_in">table_name</span>&gt; <span class="hljs-keyword">LIKE</span> &lt;back_table_name&gt;;<br>MySQL运算符<br></code></pre></td></tr></table></figure>
+<ol>
+<li><ul>
+<li><ul>
+<li>* &#x2F;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>&#x3D; &lt; &gt; &lt;&#x3D; &gt;&#x3D; !&#x3D;</li>
+<li>is null, is not null, between and, in , not in, like, not like, regexp</li>
+<li>AND OR XOR NOT</li>
+</ol>
+<h3 id="MySQL-流程控制"><a href="#MySQL-流程控制" class="headerlink" title="MySQL 流程控制"></a>MySQL 流程控制</h3><h3 id="IF"><a href="#IF" class="headerlink" title="IF"></a>IF</h3><figure class="highlight node-repl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs node-repl">IF &lt;condition&gt; THEN<br><span class="hljs-meta prompt_">...</span><br>ELSE IF &lt;condition&gt; THEN<br><span class="hljs-meta prompt_">...</span><br>ELSE <br><span class="hljs-meta prompt_">...</span><br>END IF<br></code></pre></td></tr></table></figure>
+<h3 id="CASE"><a href="#CASE" class="headerlink" title="CASE"></a>CASE</h3><figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs ada"><span class="hljs-keyword">CASE</span> &lt;var&gt;<br><span class="hljs-keyword">WHEN</span> &lt;val&gt; <span class="hljs-keyword">THEN</span><br>...<br><span class="hljs-keyword">WHEN</span> &lt;val&gt; <span class="hljs-keyword">THEN</span><br>...<br><span class="hljs-keyword">WHEN</span> &lt;val&gt; <span class="hljs-keyword">THEN</span><br>...<br><span class="hljs-keyword">END</span> <span class="hljs-keyword">CASE</span><br><span class="hljs-keyword">WHILE</span><br><span class="hljs-keyword">WHILE</span> &lt;condition&gt; <span class="hljs-keyword">THEN</span><br>...<br><span class="hljs-keyword">END</span> <span class="hljs-keyword">WHILE</span><br></code></pre></td></tr></table></figure>
+<h3 id="MySQL-多表联查"><a href="#MySQL-多表联查" class="headerlink" title="MySQL 多表联查"></a>MySQL 多表联查</h3><h3 id="内连接"><a href="#内连接" class="headerlink" title="内连接"></a>内连接</h3><p>两个表存在相同的字段</p>
+<h3 id="外连接"><a href="#外连接" class="headerlink" title="外连接"></a>外连接</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span><br><span class="hljs-keyword">RIGHT</span> <span class="hljs-keyword">JOIN</span><br></code></pre></td></tr></table></figure>
+<p>这种查询建议选择写一段代码进行，提升可读性。</p>
+<h3 id="MySQL-子查询"><a href="#MySQL-子查询" class="headerlink" title="MySQL 子查询"></a>MySQL 子查询</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">IN</span>, &lt;compare&gt;, <span class="hljs-keyword">EXISTS</span>, <span class="hljs-keyword">ANY</span>(挑一个), <span class="hljs-keyword">ALL</span>(选全部)<br><span class="hljs-comment">-- 基本语法, 两个表可以相同也可以不同</span><br><span class="hljs-keyword">SELECT</span> &lt;<span class="hljs-keyword">columns</span>&gt; <span class="hljs-keyword">FROM</span> &lt;table1_name&gt; <span class="hljs-keyword">WHERE</span> &lt;key?&gt; &lt;subQuery&gt; ( <span class="hljs-keyword">SELECT</span> &lt;<span class="hljs-keyword">columns</span>&gt; <span class="hljs-keyword">FROM</span> &lt;table2_name&gt;)<br><br><span class="hljs-comment">-- 例如</span><br><span class="hljs-keyword">SELECT</span> &lt;<span class="hljs-keyword">columns</span>&gt; <span class="hljs-keyword">FROM</span> &lt;table1_name&gt; <span class="hljs-keyword">WHERE</span> id <span class="hljs-keyword">IN</span>( <span class="hljs-keyword">SELECT</span> id <span class="hljs-keyword">FROM</span> &lt;table1_name&gt; <span class="hljs-keyword">WHERE</span> id <span class="hljs-keyword">BETWEEN</span> <span class="hljs-number">7</span> <span class="hljs-keyword">AND</span> <span class="hljs-number">10</span>)<br><span class="hljs-keyword">SELECT</span> &lt;<span class="hljs-keyword">columns</span>&gt; <span class="hljs-keyword">FROM</span> &lt;table1_name&gt; <span class="hljs-keyword">WHERE</span> id &gt; <span class="hljs-keyword">ANY</span>( <span class="hljs-keyword">SELECT</span> id <span class="hljs-keyword">FROM</span> &lt;table1_name&gt; <span class="hljs-keyword">WHERE</span> id <span class="hljs-keyword">BETWEEN</span> <span class="hljs-number">7</span> <span class="hljs-keyword">AND</span> <span class="hljs-number">10</span>)<br></code></pre></td></tr></table></figure>
+<h3 id="MySQL-索引"><a href="#MySQL-索引" class="headerlink" title="MySQL 索引"></a>MySQL 索引</h3><p>主键是一种特殊的索引</p>
+<h3 id="存储过程与函数"><a href="#存储过程与函数" class="headerlink" title="存储过程与函数"></a>存储过程与函数</h3><p>主要区别在于，存储过程一般用于增删改，而函数一般用于计算结果，不改动数据库本身。</p>
+<h3 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h3><figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs oxygene"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">PROCEDURE</span> <span class="hljs-title function_">procedure_name</span> <span class="hljs-params">(<span class="hljs-keyword">IN</span> parameter INTEGER)</span><br><span class="hljs-title function_">BEGIN</span><br><span class="hljs-title function_">IF</span> &lt;<span class="hljs-title function_">condition</span>&gt; <span class="hljs-title function_">THEN</span><br>...<br><span class="hljs-title function_">END</span> <span class="hljs-title function_">IF</span><br><br><span class="hljs-title function_">WHILE</span> &lt;<span class="hljs-title function_">condition</span>&gt; <span class="hljs-title function_">THEN</span><br>...<br><span class="hljs-title function_">END</span> <span class="hljs-title function_">WHILE</span><br><br><span class="hljs-title function_">CASE</span> &lt;<span class="hljs-title function_">var</span>&gt;<br><span class="hljs-title function_">WHEN</span> 1 <span class="hljs-title function_">THEN</span><br>...<br><span class="hljs-title function_">WHEN</span> 2 <span class="hljs-title function_">THEN</span><br>...<br><span class="hljs-title function_">END</span> <span class="hljs-title function_">CASE</span><br><br><span class="hljs-title function_">END</span><br>-- 调用<br>@<span class="hljs-title function_">parameter</span>=7;<br>CALL procedure_name(@parameter)<span class="hljs-punctuation">;</span><br>-- 删除<br>DROP <span class="hljs-keyword">PROCEDURE</span> <span class="hljs-title function_">procedure_name</span>;<br></code></pre></td></tr></table></figure>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">FUNCTION</span> func_name (<span class="hljs-keyword">parameter</span> <span class="hljs-type">INTEGER</span>)<br><span class="hljs-keyword">RETURNS</span> <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">255</span>)<br><span class="hljs-keyword">BEGIN</span><br><span class="hljs-keyword">RETURN</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-operator">&lt;</span><span class="hljs-keyword">column</span><span class="hljs-operator">&gt;</span> <span class="hljs-keyword">FROM</span> <span class="hljs-operator">&lt;</span>table_name<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">WHERE</span> id <span class="hljs-operator">=</span> <span class="hljs-keyword">parameter</span>)<br><span class="hljs-keyword">END</span><br><span class="hljs-comment">-- 调用</span><br><span class="hljs-variable">@parameter</span><span class="hljs-operator">=</span><span class="hljs-number">5</span>;<br>func_name(<span class="hljs-variable">@parameter</span>);<br><span class="hljs-comment">-- 删除</span><br><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">FUNCTION</span> func_name<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/java/" class="category-chain-item">java</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF/" class="print-no-link">#技术</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>java 工程师面试过程中，比较经典的面试题有哪些？</div>
+      <div>http://songguokunsgg.github.io/2022/02/13/(20220213)java_工程师面试过程中比较经典的面试题有哪些_EberyThingSay/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Fansong Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年2月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/11/(20220511)%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E6%98%AF%E4%BB%80%E4%B9%88%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B7%A5%E5%85%B7%E5%8F%AF%E4%BB%A5%E5%81%9A%E5%88%B0_EberyThingSay/" title="内网穿透是什么，有哪些工具可以做到？">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">内网穿透是什么，有哪些工具可以做到？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","appKey":"0RaTUR0yFhlAjxM4uYyXvPSj","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

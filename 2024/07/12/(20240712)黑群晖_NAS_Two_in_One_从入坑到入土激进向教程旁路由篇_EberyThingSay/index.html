@@ -1,0 +1,873 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fansong Yan">
+  <meta name="keywords" content="技术、生活、游戏">
+  
+    <meta name="description" content="黑群晖 NAS Two in One 从入坑到入土——激进向教程 (旁路由篇)说明前面挖了一个坑，利用旁路由域名劫持实现内外网无缝访问 NAS。在浏览下面的内容之前，请确保你现在的路由器本身没有域名劫持（挟持）功能。就是下图这个：    openwrt 的域名劫持功能 如果你的路由器已经支持这个功能，那么只需要添加几个劫持域名即可，不需要配置旁路由。 虚拟 OpenWRT可以通过虚拟机或者 doc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="黑群晖 NAS Two in One 从入坑到入土——激进向教程 (旁路由篇)">
+<meta property="og:url" content="http://songguokunsgg.github.io/2024/07/12/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/index.html">
+<meta property="og:site_name" content="菘菓菌 sgg">
+<meta property="og:description" content="黑群晖 NAS Two in One 从入坑到入土——激进向教程 (旁路由篇)说明前面挖了一个坑，利用旁路由域名劫持实现内外网无缝访问 NAS。在浏览下面的内容之前，请确保你现在的路由器本身没有域名劫持（挟持）功能。就是下图这个：    openwrt 的域名劫持功能 如果你的路由器已经支持这个功能，那么只需要添加几个劫持域名即可，不需要配置旁路由。 虚拟 OpenWRT可以通过虚拟机或者 doc">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-9fc4599a00e90b31866a2dfb25f98c42_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-a9e829bec31a501d4271b4ddd61d796a_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-ecfef6b362e35e77bbc5b7565e71466a_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-6d0d32451a34116e1b8381112049d3b6_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-f7a5759cd1a073a6c7fd7306d60fb4db_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-149468a45ee559b151977c04ce3ef1e3_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-723dc80d4b9f7e6d86d137f9b609ac90_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-b83747c41a905f02df298ce0e4e09606_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-d0fd23e9598193a426dbe6b41bcb9028_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-25c1ae328d84d551a09be4cf6efd01ae_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-8b9b65d37949846ced76e65cb5755eae_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-d7261efd16393b5b51e70165fcc98954_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-66f7b5e61e7a512dfc5c90a5b83f68a5_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-969746c8c49ac74f66aaa10d052ee531_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-c62728b0151db65bfd0a7359d98064af_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-4bb2705e71c35ac4ff9e20d58ca21095_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-19f959d35e0a38fd129f8daac962b49d_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-4fb513b158f63e0495ab367efb8ecae7_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-e44c853c8e188081fe02da693aa4131b_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-71b5c56ffd92b8651609c7dc27a141aa_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-9e949cfac52bf886cfb4bc6bed6491c4_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-33dc707410e989a786e29f24be50a024_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-6e2637288df7de47940eabfce02890b4_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-ed84345e429e7bfbc450e5f4bac8f1e5_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-7612ea0167d04d87c16d7c69071d9206_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-a48938003ed8042b5d16460a053e0100_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-e19d66e8950e05c3429d892042212864_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-e658059e57553f309b00fdbca1e5682b_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-8b20060d2b0fdbee572dd8cf6f06a57c_b.jpg">
+<meta property="article:published_time" content="2024-07-12T04:39:07.000Z">
+<meta property="article:modified_time" content="2024-11-06T09:19:59.479Z">
+<meta property="article:author" content="Fansong Yan">
+<meta property="article:tag" content="技术">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://songguokunsgg.github.io/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-9fc4599a00e90b31866a2dfb25f98c42_b.jpg">
+  
+  
+  
+  <title>黑群晖 NAS Two in One 从入坑到入土——激进向教程 (旁路由篇) - 菘菓菌 sgg</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"songguokunsgg.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","app_key":"0RaTUR0yFhlAjxM4uYyXvPSj","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>菘菓菌 sgg</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/technology-stack/" target="_self">
+                <i class="iconfont icon-codepen-fill"></i>
+                <span>技术栈</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="黑群晖 NAS Two in One 从入坑到入土——激进向教程 (旁路由篇)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Fansong Yan
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-12 12:39" pubdate>
+          2024年7月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">黑群晖 NAS Two in One 从入坑到入土——激进向教程 (旁路由篇)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="黑群晖-NAS-Two-in-One-从入坑到入土——激进向教程-旁路由篇"><a href="#黑群晖-NAS-Two-in-One-从入坑到入土——激进向教程-旁路由篇" class="headerlink" title="黑群晖 NAS Two in One 从入坑到入土——激进向教程 (旁路由篇)"></a>黑群晖 NAS Two in One 从入坑到入土——激进向教程 (旁路由篇)</h1><h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>前面挖了一个坑，利用旁路由域名劫持实现内外网无缝访问 NAS。在浏览下面的内容之前，请确保你现在的路由器本身没有域名劫持（挟持）功能。就是下图这个：</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-9fc4599a00e90b31866a2dfb25f98c42_b.jpg" srcset="/img/loading.gif" lazyload>  </p>
+<p>openwrt 的域名劫持功能</p>
+<p>如果你的路由器已经支持这个功能，那么只需要添加几个劫持域名即可，不需要配置旁路由。</p>
+<h2 id="虚拟-OpenWRT"><a href="#虚拟-OpenWRT" class="headerlink" title="虚拟 OpenWRT"></a>虚拟 OpenWRT</h2><p>可以通过虚拟机或者 docker 虚拟，我没有试过 docker 的方式，理论可行，但我能预想到会有很多坑，比如桥接网络等，为了省事就用虚拟机就好。如果你有单独的旁路由硬件，可以使用 PVE 来虚拟，或者直装虚拟机；如果没有多余的设备，那就用群辉的虚拟机套件就好了。</p>
+<p>多说一句，如果仅仅是为了域名劫持功能就搞一个单独的硬件，我认为有些过头了，毕竟功耗再低的主机也有个 10W 吧，天天开着也是一笔不小的费用。</p>
+<h3 id="下载-OpenWRT-系统包"><a href="#下载-OpenWRT-系统包" class="headerlink" title="下载 OpenWRT 系统包"></a>下载 OpenWRT 系统包</h3><p>方式有很多，给大家推荐 <a href="https://openwrt.ai/?target=x86/64&id=generic">https://openwrt.ai/?target=x86/64&id=generic</a> 这个网站，可以免费定制，也可以免费下载作者编译好的，我们直接下载编译好的版本即可。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-a9e829bec31a501d4271b4ddd61d796a_b.jpg" srcset="/img/loading.gif" lazyload><br>下载带 EFI 的版本即可，这个版本在虚拟机中不使用 UEFI 也可以启动。当然，你要下第一个也可以，应该没啥影响。</p>
+<h3 id="安装群辉虚拟机套件或-PVE"><a href="#安装群辉虚拟机套件或-PVE" class="headerlink" title="安装群辉虚拟机套件或 PVE"></a>安装群辉虚拟机套件或 PVE</h3><p> PVE 的安装就不详细说了，网上随便就能搜到。</p>
+<h3 id="群辉创建-OpenWRT-虚拟机"><a href="#群辉创建-OpenWRT-虚拟机" class="headerlink" title="群辉创建 OpenWRT 虚拟机"></a>群辉创建 OpenWRT 虚拟机</h3><p>群辉套件安装虚拟机，这里借用一下 <a target="_blank" rel="noopener" href="https://blog.yanghong.dev/synology-nas-openwrt/">https://blog.yanghong.dev/synology-nas-openwrt/</a> 的文章，写得很详细。</p>
+<p>在选择硬件配置那一步，我们刚开始不需要很高的配置，可以选择单核 512M 内存，如果后续有去广告等需求，再提高配置。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-ecfef6b362e35e77bbc5b7565e71466a_b.jpg" srcset="/img/loading.gif" lazyload>  </p>
+<p>OpenWRT 配置选择</p>
+<p>PVE 安装 OpenWRT 虚拟机</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-6d0d32451a34116e1b8381112049d3b6_b.jpg" srcset="/img/loading.gif" lazyload><br>右键 pve 节点创建虚拟机。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-f7a5759cd1a073a6c7fd7306d60fb4db_b.jpg" srcset="/img/loading.gif" lazyload><br>ID 用默认的即可，一般为 99+N，N 为你创建的虚拟机数量，这里假设为 100。名称随便写。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-149468a45ee559b151977c04ce3ef1e3_b.jpg" srcset="/img/loading.gif" lazyload><br>选择不使用任何介质。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-723dc80d4b9f7e6d86d137f9b609ac90_b.jpg" srcset="/img/loading.gif" lazyload><br>系统这一栏全部默认。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-b83747c41a905f02df298ce0e4e09606_b.jpg" srcset="/img/loading.gif" lazyload><br>删除这个磁盘，后面几个标签页就改改 CPU 核心数和内存即可，其他全部默认。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-d0fd23e9598193a426dbe6b41bcb9028_b.jpg" srcset="/img/loading.gif" lazyload><br>创建好的虚拟机应该类似这样，然后需要为他添加一块磁盘，也就是我打码的地方。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-25c1ae328d84d551a09be4cf6efd01ae_b.jpg" srcset="/img/loading.gif" lazyload><br>上传系统文件，然后进入终端。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-8b9b65d37949846ced76e65cb5755eae_b.jpg" srcset="/img/loading.gif" lazyload><br>cd 到 &#x2F;var&#x2F;lib&#x2F;vz&#x2F;template&#x2F;iso 中，这个目录存放了你上传的系统镜像</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs elixir">root<span class="hljs-variable">@pve</span><span class="hljs-symbol">:~</span><span class="hljs-comment"># cd /var/lib/vz/template/iso</span><br>root<span class="hljs-variable">@pve</span><span class="hljs-symbol">:/var/lib/vz/template/iso</span><span class="hljs-comment"># ls</span><br>openwrt<span class="hljs-number">-07.06</span>.<span class="hljs-number">2024</span>-x86<span class="hljs-number">-64</span>-generic-squashfs-combined-efi.img<br></code></pre></td></tr></table></figure>
+<p>然后把系统镜像转换为磁盘镜像。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">qm</span> importdisk <span class="hljs-number">100</span> openwrt-<span class="hljs-number">07</span>.<span class="hljs-number">06</span>.<span class="hljs-number">2024</span>-x86-<span class="hljs-number">64</span>-generic-squashfs-combined-efi.img local-lvm<br></code></pre></td></tr></table></figure>
+<p>里面的 100 为虚拟机编号，openwrt-07.06.2024-x86-64-generic-squashfs-combined-efi.img 为系统镜像名称。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-d7261efd16393b5b51e70165fcc98954_b.jpg" srcset="/img/loading.gif" lazyload><br>出现类似的输出代表导入完成，然后虚拟机 100 中会多一个未使用的磁盘，编辑它。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-66f7b5e61e7a512dfc5c90a5b83f68a5_b.jpg" srcset="/img/loading.gif" lazyload><br>总线&#x2F;设备那里选择 SCSI0，添加即可。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-969746c8c49ac74f66aaa10d052ee531_b.jpg" srcset="/img/loading.gif" lazyload><br><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-c62728b0151db65bfd0a7359d98064af_b.jpg" srcset="/img/loading.gif" lazyload><br>这样的话虚拟机硬件就配置完成了，最后在在启动顺序把 scsi 硬盘调整到第一项，打开开机自启动即可。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-4bb2705e71c35ac4ff9e20d58ca21095_b.jpg" srcset="/img/loading.gif" lazyload><br>然后开机测试，如果开不了机的话检查一下 BIOS 是不是选成 EFI 启动了。</p>
+<h2 id="配置-OpenWRT-实现域名劫持"><a href="#配置-OpenWRT-实现域名劫持" class="headerlink" title="配置 OpenWRT 实现域名劫持"></a>配置 OpenWRT 实现域名劫持</h2><p>开机进入控制台，先用 passwd 命令改密码。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-19f959d35e0a38fd129f8daac962b49d_b.jpg" srcset="/img/loading.gif" lazyload>  </p>
+<h3 id="修改-OpenWRT-的-ip、dns、网关"><a href="#修改-OpenWRT-的-ip、dns、网关" class="headerlink" title="修改 OpenWRT 的 ip、dns、网关"></a>修改 OpenWRT 的 ip、dns、网关</h3><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">vim /etc/config/network<br></code></pre></td></tr></table></figure>
+<p>vim 操作请自学。先添加或修改这些内容：</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-4fb513b158f63e0495ab367efb8ecae7_b.jpg" srcset="/img/loading.gif" lazyload>  </p>
+<ul>
+<li>ipaddr 的地址确保和你的路由器在同一网段，如果用户没有特别修改的话路由器地址一般为 192.168.X.1，那么 ip 填 192.168.X.{2,3,4,5 等等} 都可以。比如小米为 192.168.31.1，爱快是 192.168.9.1。netmask 是子网掩码，跟我一样就行。gateway 是网关，甜 192.168.X.1。</li>
+<li>填好之后保存重启，然后在电脑浏览器中输入 <a href="http://192.168.X.2">http://192.168.X.2</a> (你自己设置的地址)，就可以访问 OpenWRT 的主页了。</li>
+</ul>
+<h3 id="接口配置"><a href="#接口配置" class="headerlink" title="接口配置"></a>接口配置</h3><p>把除了 LAN 之外的接口全部删除，旁路由不需要它们，然后编辑 LAN 接口。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-e44c853c8e188081fe02da693aa4131b_b.jpg" srcset="/img/loading.gif" lazyload><br><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-71b5c56ffd92b8651609c7dc27a141aa_b.jpg" srcset="/img/loading.gif" lazyload><br>常规设置里面我们已经通过命令行设置了，不用再动它。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-9e949cfac52bf886cfb4bc6bed6491c4_b.jpg" srcset="/img/loading.gif" lazyload><br>高级设置里面添加三个 DNS 服务器即可。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-33dc707410e989a786e29f24be50a024_b.jpg" srcset="/img/loading.gif" lazyload><br><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-6e2637288df7de47940eabfce02890b4_b.jpg" srcset="/img/loading.gif" lazyload><br>DHCP 由主路由负责，并禁用所有 ipv6 相关的内容（内网中使用 ipv4 更方便）。</p>
+<h3 id="防火墙设置"><a href="#防火墙设置" class="headerlink" title="防火墙设置"></a>防火墙设置</h3><p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-ed84345e429e7bfbc450e5f4bac8f1e5_b.jpg" srcset="/img/loading.gif" lazyload><br>取消勾选 SYN-flood 防御。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-7612ea0167d04d87c16d7c69071d9206_b.jpg" srcset="/img/loading.gif" lazyload><br>删除所有与 LAN 口无关的规则，主要是 WAN 口和 docker 相关规则。</p>
+<h3 id="联网检测"><a href="#联网检测" class="headerlink" title="联网检测"></a>联网检测</h3><p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-a48938003ed8042b5d16460a053e0100_b.jpg" srcset="/img/loading.gif" lazyload><br>ping 一下能联网就行了。</p>
+<h3 id="设置域名劫持"><a href="#设置域名劫持" class="headerlink" title="设置域名劫持"></a>设置域名劫持</h3><p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-e19d66e8950e05c3429d892042212864_b.jpg" srcset="/img/loading.gif" lazyload><br>注意，<strong>要添加一栏无用的接口</strong>，因为该版本的 OpenWRT 无法存储最后一个劫持数据。</p>
+<h3 id="主路由设置"><a href="#主路由设置" class="headerlink" title="主路由设置"></a>主路由设置</h3><p>以爱快为例，网关和首选 DNS 更改为 OpenWRT 的 IP 地址即可，可能设备需要重连一下路由器，以重新分配网关和 DNS。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-e658059e57553f309b00fdbca1e5682b_b.jpg" srcset="/img/loading.gif" lazyload><br>有些路由器不支持修改网关和 DNS，那么需要在终端设备手动设定，要麻烦一些。</p>
+<p><img src="/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/v2-8b20060d2b0fdbee572dd8cf6f06a57c_b.jpg" srcset="/img/loading.gif" lazyload></p>
+<h2 id="主机设置"><a href="#主机设置" class="headerlink" title="主机设置"></a>主机设置</h2><h3 id="这部分仅供参考，我这里不起作用"><a href="#这部分仅供参考，我这里不起作用" class="headerlink" title="这部分仅供参考，我这里不起作用"></a>这部分仅供参考，我这里不起作用</h3><p>家用的 windows 系统一般是优先 ipv6，如果解析不到 ipv6 再使用 ipv4，这导致我们做的域名劫持使得域名成为了双栈，虽然可以解析到内网的 ipv4 地址，但系统还是会默认使用 ipv6 地址。因此还需要在电脑上更改一下 v4 和 v6 的优先级。</p>
+<p>参考这篇博客的方法：<a target="_blank" rel="noopener" href="https://blog.xiaoz.org/archives/20079">Windows 10&#x2F;11 设置 IPv4 优先访问</a></p>
+<p>以管理员身份运行终端，然后输入下面的命令查看优先级：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">netsh interface ipv6 show prefixpolicies<br></code></pre></td></tr></table></figure>
+
+<p>没有修改系统的输出如下：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">查询活动状态<span class="hljs-string">...</span><br><br>优先顺序    标签   前缀<br><span class="hljs-params">----------</span>  <span class="hljs-params">-----</span>  <span class="hljs-params">--------------------------------</span><br>        50      0  :<span class="hljs-function">:1</span>/128<br>        40      1  ::<span class="hljs-string">/0</span><br>        35      4  :<span class="hljs-function">:ffff</span><span class="hljs-function">:0</span><span class="hljs-function">:0</span>/96<br>        30      2  2002::<span class="hljs-string">/16</span><br>         5      5  2001::<span class="hljs-string">/32</span><br>         3     13  fc00::<span class="hljs-string">/7</span><br>         1     11  fec0::<span class="hljs-string">/10</span><br>         1     12  3ffe::<span class="hljs-string">/16</span><br>         1      3  ::<span class="hljs-string">/96</span><br></code></pre></td></tr></table></figure>
+
+<p>然后修改优先级</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">netsh interface ipv6 <span class="hljs-built_in">set</span> prefixpolicy ::ffff:<span class="hljs-number">0</span>:<span class="hljs-number">0</span>/<span class="hljs-number">96</span> <span class="hljs-number">100</span> <span class="hljs-number">4</span><br></code></pre></td></tr></table></figure>
+
+<p>这样设置后，将优先使用 IPv4 而不是 IPv6 进行访问。</p>
+<p>ping 一下内网域名，可以看到优先返回了 v4 地址：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs routeros">$<span class="hljs-built_in"> ping </span>debian12.example<br><br>正在<span class="hljs-built_in"> Ping </span>debian12.example [192.168.9.99] 具有 32 字节的数据:<br>来自 192.168.9.99 的回复: 字节=32 时间&lt;1ms <span class="hljs-attribute">TTL</span>=64<br>来自 192.168.9.99 的回复: 字节=32 时间=1ms <span class="hljs-attribute">TTL</span>=64<br><br>192.168.9.99 的<span class="hljs-built_in"> Ping </span>统计信息:<br>    数据包: 已发送 = 2，已接收 = 2，丢失 = 0 (0% 丢失)，<br>往返行程的估计时间(以毫秒为单位):<br>    最短 = 0ms，最长 = 1ms，平均 = 0ms<br></code></pre></td></tr></table></figure>
+
+<p>这个方法重启就会失效，不建议使用。实测下来直接使用 ipv6 的速度也不算慢。如果觉得麻烦的话，不做域名劫持也无所谓。</p>
+<p>最近学习了一下 IPv6 的寻址方式，其实 IPv6 的寻址方式和 DNS 递归解析服务器比较像，都是一层层寻找的。因此你在自家路由器这一层就已经完成了寻址，所以用这个公网 IP 的速率与内网并没有什么区别。</p>
+<h2 id="域名劫持的其他作用"><a href="#域名劫持的其他作用" class="headerlink" title="域名劫持的其他作用"></a>域名劫持的其他作用</h2><p>域名劫持可以很方便地管理内网的设备，尤其是主机数量多的时候，例如。</p>
+<ul>
+<li>服务器 192.168.9.99</li>
+<li>openwrt 192.168.9.77</li>
+<li>群晖 192.168.9.106</li>
+<li>ikuai 192.168.9.1</li>
+</ul>
+<p>把这些设备的 ip 都记下来还是很有难度的。通过域名劫持搭建小型家用 DNS 服务器的话，可以很方便管理这些设备。如：</p>
+<ul>
+<li>linux.example -&gt; 192.168.9.99</li>
+<li>openwrt.example -&gt; 192.168.9.77</li>
+<li>nas.example -&gt; 192.168.9.106</li>
+<li>ikuai.example -&gt; 192.168.9.1</li>
+</ul>
+<p>这样的域名看着也比冷冰冰的数字更舒服。</p>
+<h2 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h2><p>假如我在阿里云中将域名 store.domain 解析到了群辉的 ipv6 地址 240e::1，那么当我在外面时，就会通过 ipv6 来访问家中的群辉。而我在家中，与群辉同处于一个内网时，OpenWRT 将我的域名解析请求劫持，并返回 ipv4 地址 192.168.9.100。</p>
+<p>这个功能确实能够实现，但如上篇文章所说，并没有实际效果。</p>
+<h2 id="能不能把域名劫持为-IPv6？从而实现与-v4-类似的功能"><a href="#能不能把域名劫持为-IPv6？从而实现与-v4-类似的功能" class="headerlink" title="能不能把域名劫持为 IPv6？从而实现与 v4 类似的功能"></a>能不能把域名劫持为 IPv6？从而实现与 v4 类似的功能</h2><p>这个思路其实是可以的，但效果并不比直接用公网地址好多少，并且容易出现一些切换错误的问题，所以在带宽不受限的情况下，不推荐用这种方式。</p>
+<p>要使用这种方式，你需要修改路由器的 <code>/etc/hosts</code> 文件，添加以下的内容：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">fe80</span>::<span class="hljs-number">91</span>e3  nas.example.com<br></code></pre></td></tr></table></figure>
+
+<p>将你的内网 v6 (这个地址在 windows 中叫本地链路回环地址，是固定的地址，系统不重装的话一般不会发生变化，可以放心劫持，其他系统在网络设置中找到 fe80 开头的就行) 劫持。</p>
+<h2 id="真正有用的用户"><a href="#真正有用的用户" class="headerlink" title="真正有用的用户"></a>真正有用的用户</h2><p>建议无公网 ip 的 v4 内网穿透用户采用这种方式，实测可以在公网与内网之间无缝切换，顶多就是重启一下 app，Synology Photos, Drive Server 等软件，Jellyfin，navidrome 等服务都可以正常使用。</p>
+<p>例如：我首先把群晖的访问端口改为 52491（v4 用户默认端口必改）穿透为 <code>192.168.9.100:52491 -&gt; frp-example.cc:52491</code>。然后在内网劫持<code>frp-example.cc</code>为<code>192.168.9.100</code>，</p>
+<p>由于 v4 之间不存在优先级关系，劫持了就是劫持了，内网下面只能放问到 <code>192.168.9.100</code>，所以就很完美地实现了内外网无缝衔接。并且由于内网穿透往往上行带宽受限，这样做的效果是十分显著的，可以跑满内网带宽。只要注意群晖访问端口与穿透端口一致即可。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>文章修修改改了很多次，自己也是在摸索中前进，想要把 NAS 做到完美，但后来发现，其实就用公网 v6 是最方便省事的。</p>
+<p>文章被搞的比较杂乱，有空再进行整理。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/NAS/" class="category-chain-item">NAS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF/" class="print-no-link">#技术</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>黑群晖 NAS Two in One 从入坑到入土——激进向教程 (旁路由篇)</div>
+      <div>http://songguokunsgg.github.io/2024/07/12/(20240712)黑群晖_NAS_Two_in_One_从入坑到入土激进向教程旁路由篇_EberyThingSay/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Fansong Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年7月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/15/(20240715)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_%E5%9C%A8OpenWRT%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8IPv6/" title="黑群晖 NAS —— 在 OpenWRT 旁路由中启用 IPv6">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">黑群晖 NAS —— 在 OpenWRT 旁路由中启用 IPv6</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/07/(20240707)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B_EberyThingSay/" title="黑群晖 NAS Two in One 从入坑到入土——激进向教程">
+                        <span class="hidden-mobile">黑群晖 NAS Two in One 从入坑到入土——激进向教程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","appKey":"0RaTUR0yFhlAjxM4uYyXvPSj","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
