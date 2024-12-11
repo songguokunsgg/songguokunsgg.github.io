@@ -1,0 +1,790 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fansong Yan">
+  <meta name="keywords" content="技术、生活、游戏">
+  
+    <meta name="description" content="黑群晖 NAS —— 在 OpenWRT 旁路由中启用 IPv6在之前配置旁路由内网穿透的时候，我们在 openwrt 中禁用了 IPv6，这主要是想在实现功能的同时尽可能简化配置过程。然而，工信部在 2023 年发布了 工业和信息化部等八部门关于推进 IPv6 技术演进和应用创新发展的实施意见。要在 2025 年前实现 IPv6 的全面普及，因此，直接关掉 IPv6 并不是一个好的使用方式。 在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="黑群晖 NAS —— 在 OpenWRT 旁路由中启用 IPv6">
+<meta property="og:url" content="http://songguokunsgg.github.io/2024/07/15/(20240715)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_%E5%9C%A8OpenWRT%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8IPv6/index.html">
+<meta property="og:site_name" content="菘菓菌 sgg">
+<meta property="og:description" content="黑群晖 NAS —— 在 OpenWRT 旁路由中启用 IPv6在之前配置旁路由内网穿透的时候，我们在 openwrt 中禁用了 IPv6，这主要是想在实现功能的同时尽可能简化配置过程。然而，工信部在 2023 年发布了 工业和信息化部等八部门关于推进 IPv6 技术演进和应用创新发展的实施意见。要在 2025 年前实现 IPv6 的全面普及，因此，直接关掉 IPv6 并不是一个好的使用方式。 在">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://songguokunsgg.github.io/.io//ipv6%E6%B5%8B%E8%AF%95.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/.io//%E4%B8%BB%E8%A6%81%E6%93%8D%E4%BD%9C%E7%BD%91%E7%BB%9C%E9%83%A8%E5%88%86.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/.io//ipv4%E6%8E%A5%E5%8F%A3.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/.io//lan%E7%A6%81%E7%94%A8v6-1.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/.io//lan%E7%A6%81%E7%94%A8v6-2.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/.io//lan%E7%A6%81%E7%94%A8v6-3.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/.io//%E6%96%B0%E5%A2%9E%E4%B8%80%E4%B8%AAlan6%E6%8E%A5%E5%8F%A3.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/.io//lan6%E8%AE%BE%E7%BD%AE.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/.io//lan6%E8%AE%BE%E7%BD%AE2.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/.io//lan6%E8%AE%BE%E7%BD%AE3.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/.io//DHCPDNS%E8%BF%87%E6%BB%A4%E8%AE%BE%E7%BD%AE.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/.io//v6%E7%BD%91%E7%BB%9C%E6%B5%8B%E8%AF%95.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/.io//openclashDNS.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/.io//openclashv6%E8%AE%BE%E7%BD%AE.png">
+<meta property="article:published_time" content="2024-07-15T05:49:17.000Z">
+<meta property="article:modified_time" content="2024-12-09T08:34:20.642Z">
+<meta property="article:author" content="Fansong Yan">
+<meta property="article:tag" content="技术">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://songguokunsgg.github.io/.io//ipv6%E6%B5%8B%E8%AF%95.png">
+  
+  
+  
+  <title>黑群晖 NAS —— 在 OpenWRT 旁路由中启用 IPv6 - 菘菓菌 sgg</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"songguokunsgg.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","app_key":"0RaTUR0yFhlAjxM4uYyXvPSj","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>菘菓菌 sgg</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/technology-stack/" target="_self">
+                <i class="iconfont icon-codepen-fill"></i>
+                <span>技术栈</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="黑群晖 NAS —— 在 OpenWRT 旁路由中启用 IPv6"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Fansong Yan
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-15 13:49" pubdate>
+          2024年7月15日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          701 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          6 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">黑群晖 NAS —— 在 OpenWRT 旁路由中启用 IPv6</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="黑群晖-NAS-——-在-OpenWRT-旁路由中启用-IPv6"><a href="#黑群晖-NAS-——-在-OpenWRT-旁路由中启用-IPv6" class="headerlink" title="黑群晖 NAS —— 在 OpenWRT 旁路由中启用 IPv6"></a>黑群晖 NAS —— 在 OpenWRT 旁路由中启用 IPv6</h1><p>在之前配置旁路由内网穿透的时候，我们在 openwrt 中禁用了 IPv6，这主要是想在实现功能的同时尽可能简化配置过程。然而，工信部在 2023 年发布了 <a target="_blank" rel="noopener" href="https://www.gov.cn/zhengce/zhengceku/2023-04/23/content_5752858.htm">工业和信息化部等八部门关于推进 IPv6 技术演进和应用创新发展的实施意见</a>。要在 2025 年前实现 IPv6 的全面普及，因此，直接关掉 IPv6 并不是一个好的使用方式。</p>
+<p>在这里，我将补充讲解如何启用旁路由中的 IPv6。</p>
+<h2 id="不启用-IPv6-会怎么样？"><a href="#不启用-IPv6-会怎么样？" class="headerlink" title="不启用 IPv6 会怎么样？"></a>不启用 IPv6 会怎么样？</h2><p>答案是不会怎么样。目前 IPv4 还是事实标准，并且许多拥有足量 IPv4 的人并不愿意让 IPv6 普及（动了谁的蛋糕？）。因此哪怕不开启 IPv6，对你的上网体验也不会有太大的影响。但是在配置群辉的过程中，我们为了公网访问群辉已经配置好了路由器和主机的 IPv6，如果不把整个家庭的 IPv6 都配置好，那不等于是白折腾了吗？</p>
+<h2 id="路由器中已经启用了-IPv6-呀，为什么还要在旁路由再启用一次？"><a href="#路由器中已经启用了-IPv6-呀，为什么还要在旁路由再启用一次？" class="headerlink" title="路由器中已经启用了 IPv6 呀，为什么还要在旁路由再启用一次？"></a>路由器中已经启用了 IPv6 呀，为什么还要在旁路由再启用一次？</h2><p>原因是所有网关指向旁路由的设备流量都会经过旁路由代理，旁路由不开 ipv6 的话，等于过滤掉所有 IPv6 相关的流量，因此虽然电脑能够获取 IPv6 地址，但只要网关指向旁路由，就等于没有使用 IPv6。</p>
+<p>这时候电脑去<a target="_blank" rel="noopener" href="https://test-ipv6.com/">ipv6 测试网</a>的话，也是无法通过测试的，这是因为实际上测试的是旁路由的网络，而不是电脑的，旁路由不支持 IPv6 的话，就无法通过测试。</p>
+<p>在配置好旁路由之后，就可以通过测试了：</p>
+<p><img src="/.io//ipv6%E6%B5%8B%E8%AF%95.png" srcset="/img/loading.gif" lazyload alt="通过 IPv6 测试"></p>
+<h2 id="旁路由的配置"><a href="#旁路由的配置" class="headerlink" title="旁路由的配置"></a>旁路由的配置</h2><p>首先进入 OpenWRT 的界面，我们主要操作网络部分：</p>
+<p><img src="/.io//%E4%B8%BB%E8%A6%81%E6%93%8D%E4%BD%9C%E7%BD%91%E7%BB%9C%E9%83%A8%E5%88%86.png" srcset="/img/loading.gif" lazyload></p>
+<p>看到这个 LAN 接口，我们需要在这个 LAN 接口中彻底禁用 IPv6。</p>
+<p><img src="/.io//ipv4%E6%8E%A5%E5%8F%A3.png" srcset="/img/loading.gif" lazyload></p>
+<p>在下图的设置中禁用 IPv6：</p>
+<p><img src="/.io//lan%E7%A6%81%E7%94%A8v6-1.png" srcset="/img/loading.gif" lazyload><br><img src="/.io//lan%E7%A6%81%E7%94%A8v6-2.png" srcset="/img/loading.gif" lazyload><br><img src="/.io//lan%E7%A6%81%E7%94%A8v6-3.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后新增一个用于 IPv6 的接口：</p>
+<p><img src="/.io//%E6%96%B0%E5%A2%9E%E4%B8%80%E4%B8%AAlan6%E6%8E%A5%E5%8F%A3.png" srcset="/img/loading.gif" lazyload></p>
+<p>并按照下图设置：</p>
+<p><img src="/.io//lan6%E8%AE%BE%E7%BD%AE.png" srcset="/img/loading.gif" lazyload><br><img src="/.io//lan6%E8%AE%BE%E7%BD%AE2.png" srcset="/img/loading.gif" lazyload><br><img src="/.io//lan6%E8%AE%BE%E7%BD%AE3.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后到 DHCP&#x2F;DNS 页面，选择过滤器设置，确保下图两个选项没有勾选。</p>
+<p><img src="/.io//DHCPDNS%E8%BF%87%E6%BB%A4%E8%AE%BE%E7%BD%AE.png" srcset="/img/loading.gif" lazyload></p>
+<p>记得保存所有的设置，最好重启一下旁路由。</p>
+<h2 id="测试网络"><a href="#测试网络" class="headerlink" title="测试网络"></a>测试网络</h2><p>在网络诊断中使用 IPv6 ping 测试网络连通性。</p>
+<p><img src="/.io//v6%E7%BD%91%E7%BB%9C%E6%B5%8B%E8%AF%95.png" srcset="/img/loading.gif" lazyload></p>
+<p>如果 ping 正常的话就可以了，把主机的网络重新连接一下，进入 <a target="_blank" rel="noopener" href="https://test-ipv6.com/">ipv6 测试网</a> 进行测试，能通过就说明 IPv6 已经开启了。</p>
+<h2 id="openclash-配置"><a href="#openclash-配置" class="headerlink" title="openclash 配置"></a>openclash 配置</h2><p>现在的科学软件大多都支持了 IPv6，只通过简单的设置就可以完成。</p>
+<p><img src="/.io//openclashDNS.png" srcset="/img/loading.gif" lazyload><br><img src="/.io//openclashv6%E8%AE%BE%E7%BD%AE.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="功能测试"><a href="#功能测试" class="headerlink" title="功能测试"></a>功能测试</h2><p>进行 IPv6 等功能测试，如果有其他的问题，需要再进行排查。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/linux/" class="category-chain-item">linux</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF/" class="print-no-link">#技术</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>黑群晖 NAS —— 在 OpenWRT 旁路由中启用 IPv6</div>
+      <div>http://songguokunsgg.github.io/2024/07/15/(20240715)黑群晖_NAS_在OpenWRT旁路由中启用IPv6/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Fansong Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年7月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/08/25/(20240825)%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3Jellyfin%E5%BC%82%E5%B8%B8%E7%9A%84CPU%E5%8D%A0%E7%94%A8/" title="如何解决群晖 NAS 中异常的 Jellygin CPU 占用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">如何解决群晖 NAS 中异常的 Jellygin CPU 占用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/12/(20240712)%E9%BB%91%E7%BE%A4%E6%99%96_NAS_Two_in_One_%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87_EberyThingSay/" title="黑群晖 NAS Two in One 从入坑到入土——激进向教程 (旁路由篇)">
+                        <span class="hidden-mobile">黑群晖 NAS Two in One 从入坑到入土——激进向教程 (旁路由篇)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","appKey":"0RaTUR0yFhlAjxM4uYyXvPSj","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
