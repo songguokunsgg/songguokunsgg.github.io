@@ -26,15 +26,15 @@
 <meta property="og:site_name" content="菘菓菌 sgg">
 <meta property="og:description" content="使用 nix-darwin 为 sonoma 配置一个简洁高效的 zsh更新原因：用了很久的 homebrew，感觉不是很完美，就尝试切换到了 nix，挺香的。 不过本文仅适合入门，nix 也仅配置了 flake 和 configuration，不包括 home-manager（macos 上问题太多）。  游戏本 xxxx macbook ++++ 自己拿一台游戏本，整天折腾 linux，消磨了">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://songguokunsgg.github.io/.io//v2-84f7a6bbb8a6e11575afa1e8731a7d12_b.jpg">
-<meta property="og:image" content="http://songguokunsgg.github.io/.io//v2-f6eca7374890887d630bff2c420a11a5_b.jpg">
-<meta property="og:image" content="http://songguokunsgg.github.io/.io//v2-3995831831ab86eb202942a276d94213_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/04/29/(20240429)%E4%BD%BF%E7%94%A8_nix-darwin_%E4%B8%BA_sonoma_%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84_zsh_EberyThingSay/v2-84f7a6bbb8a6e11575afa1e8731a7d12_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/04/29/(20240429)%E4%BD%BF%E7%94%A8_nix-darwin_%E4%B8%BA_sonoma_%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84_zsh_EberyThingSay/v2-f6eca7374890887d630bff2c420a11a5_b.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/04/29/(20240429)%E4%BD%BF%E7%94%A8_nix-darwin_%E4%B8%BA_sonoma_%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84_zsh_EberyThingSay/v2-3995831831ab86eb202942a276d94213_b.jpg">
 <meta property="article:published_time" content="2024-04-29T13:02:04.000Z">
 <meta property="article:modified_time" content="2024-12-09T08:34:20.599Z">
 <meta property="article:author" content="Fansong Yan">
 <meta property="article:tag" content="技术">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://songguokunsgg.github.io/.io//v2-84f7a6bbb8a6e11575afa1e8731a7d12_b.jpg">
+<meta name="twitter:image" content="http://songguokunsgg.github.io/2024/04/29/(20240429)%E4%BD%BF%E7%94%A8_nix-darwin_%E4%B8%BA_sonoma_%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84_zsh_EberyThingSay/v2-84f7a6bbb8a6e11575afa1e8731a7d12_b.jpg">
   
   
   
@@ -356,7 +356,7 @@
 <h3 id="拉取功能插件"><a href="#拉取功能插件" class="headerlink" title="拉取功能插件"></a>拉取功能插件</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-comment"># 自动补全</span><br>git clone --depth=<span class="hljs-number">1</span> https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/zsh-users/</span>zsh-autosuggestions ~<span class="hljs-regexp">/.zsh/</span>plugins/zsh-autosuggestions<br><br><span class="hljs-comment"># 语法高亮</span><br>git clone --depth=<span class="hljs-number">1</span> https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/zsh-users/</span>zsh-syntax-highlighting ~<span class="hljs-regexp">/.zsh/</span>plugins/zsh-syntax-highlighting<br><br><span class="hljs-comment"># 这个插件我也没弄明白是干嘛的，可选。。。。</span><br>git clone --depth=<span class="hljs-number">1</span> https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/zsh-users/</span>zsh-completions ~<span class="hljs-regexp">/.zsh/</span>plugins/zsh-completions<br><br><span class="hljs-comment"># p10k 主题</span><br>git clone --depth=<span class="hljs-number">1</span> https:<span class="hljs-regexp">//gi</span>thub.com<span class="hljs-regexp">/romkatv/</span>powerlevel10k.git ~<span class="hljs-regexp">/.zsh/</span>plugins/powerlevel10k<br></code></pre></td></tr></table></figure>
 <p>将 zsh 的插件统一放置在 ~&#x2F;.zsh&#x2F;plugins&#x2F; 下</p>
 <h3 id="安装字体"><a href="#安装字体" class="headerlink" title="安装字体"></a>安装字体</h3><p>推荐使用 nerd-fonts-hack 字体作为终端字体</p>
-<p><img src="/.io//v2-84f7a6bbb8a6e11575afa1e8731a7d12_b.jpg" srcset="/img/loading.gif" lazyload>  </p>
+<p><img src="/2024/04/29/(20240429)%E4%BD%BF%E7%94%A8_nix-darwin_%E4%B8%BA_sonoma_%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84_zsh_EberyThingSay/v2-84f7a6bbb8a6e11575afa1e8731a7d12_b.jpg" srcset="/img/loading.gif" lazyload>  </p>
 <h3 id="编写-zsh-配置文件"><a href="#编写-zsh-配置文件" class="headerlink" title="编写 zsh 配置文件"></a>编写 zsh 配置文件</h3><p>环境变量存放位置为 ～&#x2F;.zprofile，配置文件在 ~&#x2F;.zshrc，主要编写 ～&#x2F;. zshrc 文件</p>
 <p>将以下代码加入 .zshrc 以使用插件</p>
 <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs gradle"><span class="hljs-keyword">source</span> ~<span class="hljs-regexp">/.zsh/</span>plugins<span class="hljs-regexp">/zsh-syntax-highlighting/</span>zsh-syntax-highlighting.zsh<br><span class="hljs-keyword">source</span> ~<span class="hljs-regexp">/.zsh/</span>plugins<span class="hljs-regexp">/zsh-autosuggestions/</span>zsh-autosuggestions.zsh<br><span class="hljs-keyword">source</span> ~<span class="hljs-regexp">/.zsh/</span>plugins<span class="hljs-regexp">/zsh-completions/</span>zsh-completions.plugin.zsh<br><span class="hljs-keyword">source</span> ~<span class="hljs-regexp">/.zsh/</span>plugins<span class="hljs-regexp">/powerlevel10k/</span>powerlevel10k.zsh-theme<br></code></pre></td></tr></table></figure>
@@ -367,8 +367,8 @@
 <p>以及</p>
 <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs lua"># To customize prompt, run `p10k configure` <span class="hljs-keyword">or</span> edit ~/.p10k.zsh.<br><span class="hljs-string">[[ ! -f ~/.p10k.zsh ]]</span> || source ~/.p10k.zsh<br></code></pre></td></tr></table></figure>
 <p>需要把上面三句代码移动到 4 个 source 的后面，否则每次启动终端都会报错</p>
-<p><img src="/.io//v2-f6eca7374890887d630bff2c420a11a5_b.jpg" srcset="/img/loading.gif" lazyload>  </p>
-<h3 id="搞定收工"><a href="#搞定收工" class="headerlink" title="搞定收工"></a>搞定收工</h3><p><img src="/.io//v2-3995831831ab86eb202942a276d94213_b.jpg" srcset="/img/loading.gif" lazyload>  </p>
+<p><img src="/2024/04/29/(20240429)%E4%BD%BF%E7%94%A8_nix-darwin_%E4%B8%BA_sonoma_%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84_zsh_EberyThingSay/v2-f6eca7374890887d630bff2c420a11a5_b.jpg" srcset="/img/loading.gif" lazyload>  </p>
+<h3 id="搞定收工"><a href="#搞定收工" class="headerlink" title="搞定收工"></a>搞定收工</h3><p><img src="/2024/04/29/(20240429)%E4%BD%BF%E7%94%A8_nix-darwin_%E4%B8%BA_sonoma_%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84_zsh_EberyThingSay/v2-3995831831ab86eb202942a276d94213_b.jpg" srcset="/img/loading.gif" lazyload>  </p>
 
                 
               </div>
