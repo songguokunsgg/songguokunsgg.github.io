@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>常用的 Windows 配置脚本</title>
+    <link href="/2025/01/10/(20250110)%E5%B8%B8%E7%94%A8%E7%9A%84%20Windows%20%E9%85%8D%E7%BD%AE%E8%84%9A%E6%9C%AC/"/>
+    <url>/2025/01/10/(20250110)%E5%B8%B8%E7%94%A8%E7%9A%84%20Windows%20%E9%85%8D%E7%BD%AE%E8%84%9A%E6%9C%AC/</url>
+    
+    <content type="html"><![CDATA[<h1 id="常用的-Windows-配置脚本"><a href="#常用的-Windows-配置脚本" class="headerlink" title="常用的 Windows 配置脚本"></a>常用的 Windows 配置脚本</h1><ol><li>输入法添加小鹤双拼</li></ol><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">reg add HKCU\Software\Microsoft\InputMethod\Settings\CHS /v UserDefinedDoublePinyinScheme0 /t REG_SZ /d <span class="hljs-string">&quot;小鹤双拼*2*^*iuvdjhcwfg^xmlnpbksqszxkrltvyovt&quot;</span> /f<br></code></pre></td></tr></table></figure><ol start="2"><li>右键菜单改为 win10 样式</li></ol><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell">reg add <span class="hljs-string">&quot;HKCU\Software\Classes\CLSID\&#123;86ca1aa0-34aa-4e8b-a509-50c905bae2a2&#125;\InprocServer32&quot;</span> /f<br>taskkill /F /IM explorer.exe<br>explorer.exe<br></code></pre></td></tr></table></figure><p>未完待续……</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Windows</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>技术</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>OpenWRT 主路由简易完全指南</title>
     <link href="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/"/>
     <url>/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/</url>
