@@ -1,0 +1,985 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fansong Yan">
+  <meta name="keywords" content="技术、生活、游戏">
+  
+    <meta name="description" content="系统安装学习一个操作系统，必然要先学会系统安装。在学习初期，因为误操作、错误操作导致系统崩溃的情况常有发生，相对而言，Windows 比 Linux 具有更好的兼容性。即便是发生了误操作，一般不会导致进不去系统（Linux 误操作极容易导致整个系统崩坏）。可能你会觉得，想安装 Windows 这么简单的操作，有什么好学的？的确，安装 Windows 系统很简单，但其中也存在一些可以了解的门道和快捷">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows 11 高阶应用指南——系统安装">
+<meta property="og:url" content="http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:site_name" content="菘菓菌 sgg">
+<meta property="og:description" content="系统安装学习一个操作系统，必然要先学会系统安装。在学习初期，因为误操作、错误操作导致系统崩溃的情况常有发生，相对而言，Windows 比 Linux 具有更好的兼容性。即便是发生了误操作，一般不会导致进不去系统（Linux 误操作极容易导致整个系统崩坏）。可能你会觉得，想安装 Windows 这么简单的操作，有什么好学的？的确，安装 Windows 系统很简单，但其中也存在一些可以了解的门道和快捷">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/%E6%9C%AA%E5%88%9D%E5%A7%8B%E5%8C%96%E7%A1%AC%E7%9B%98.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/%E8%BD%AC%E6%8D%A2%E4%B8%BAGPT.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E5%AE%89%E8%A3%85%E5%99%A8.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E5%BB%BA%E7%AB%8BEFI%E5%88%86%E5%8C%BA.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E5%B7%B2%E5%88%86%E5%A5%BD%E5%8C%BA%E7%9A%84%E7%A3%81%E7%9B%98.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E5%B7%B2%E5%88%86%E5%A5%BD%E5%8C%BA%E7%9A%84%E7%A3%81%E7%9B%98.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E5%AE%89%E8%A3%85%E5%99%A8%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E5%AE%89%E8%A3%85%E5%99%A8%E4%BC%98%E5%8C%96%E8%B0%83%E6%95%B4.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%A3%81%E7%9B%98.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%A3%81%E7%9B%982.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5CBOOTICE1.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/Win11%E9%85%8D%E7%BD%AE%E6%A3%80%E6%B5%8B%E4%B8%8D%E8%BF%87.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E6%96%B0%E5%BB%BA%E9%A1%B9.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E6%96%B0%E5%BB%BA%E9%A1%B92.png">
+<meta property="article:published_time" content="2025-01-15T12:20:33.000Z">
+<meta property="article:modified_time" content="2025-01-20T09:01:48.717Z">
+<meta property="article:author" content="Fansong Yan">
+<meta property="article:tag" content="技术">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/%E6%9C%AA%E5%88%9D%E5%A7%8B%E5%8C%96%E7%A1%AC%E7%9B%98.png">
+  
+  
+  
+  <title>Windows 11 高阶应用指南——系统安装 - 菘菓菌 sgg</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"songguokunsgg.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","app_key":"0RaTUR0yFhlAjxM4uYyXvPSj","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>菘菓菌 sgg</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/technology-stack/" target="_self">
+                <i class="iconfont icon-codepen-fill"></i>
+                <span>技术栈</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/windows-tec/" target="_self">
+                <i class="iconfont icon-codepen-fill"></i>
+                <span>Windows 高阶指南</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Windows 11 高阶应用指南——系统安装"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Fansong Yan
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-01-15 20:20" pubdate>
+          2025年1月15日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Windows 11 高阶应用指南——系统安装</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="系统安装"><a href="#系统安装" class="headerlink" title="系统安装"></a>系统安装</h1><p>学习一个操作系统，必然要先学会系统安装。在学习初期，因为误操作、错误操作导致系统崩溃的情况常有发生，相对而言，Windows 比 Linux 具有更好的兼容性。即便是发生了误操作，一般不会导致进不去系统（Linux 误操作极容易导致整个系统崩坏）。可能你会觉得，想安装 Windows 这么简单的操作，有什么好学的？的确，安装 Windows 系统很简单，但其中也存在一些可以了解的门道和快捷方式，学会他们，能让你的学习之路更加畅通便捷。</p>
+<p>在这一章中，我会讲解 Windows 系统的几种安装和启动方式，并解决一些常见的问题。</p>
+<h2 id="BIOS-启动与-UEFI-启动"><a href="#BIOS-启动与-UEFI-启动" class="headerlink" title="BIOS 启动与 UEFI 启动"></a>BIOS 启动与 UEFI 启动</h2><p>（Basic Input&#x2F;Output System，基本输入输出系统）启动和 UEFI（Unified Extensible Firmware Interface，统一可扩展固件接口）启动是计算机启动过程中两种不同的引导模式，它们在启动方式、兼容性、性能和安全性等方面存在显著差异。BIOS 是一种古老的启动技术，用于初始化硬件并引导操作系统。它最早出现在 20 世纪 80 年代，是计算机启动的默认模式，直到 UEFI 技术的出现。</p>
+<p>开机时，当引导加载程序完成后，BIOS 会查找启动设备（如硬盘、U 盘或光驱）。它会在启动设备的<strong>第一个扇区</strong>（通常是第 0 扇区）查找引导记录（MBR，Master Boot Record，主引导记录）。MBR 的大小为 512 字节，包含分区表和引导代码。随后，BIOS 将 MBR 中的引导代码加载到内存中执行，引导代码会进一步加载操作系统的引导程序（如 Windows 的 bootmgr），最终启动操作系统。UEFI（Unified Extensible Firmware Interface，统一可扩展固件接口）是一种较新的启动技术，旨在替代传统的 BIOS。它由 UEFI 论坛开发，首次出现在 2005 年左右，并逐渐被现代计算机采用。UEFI 在开机时也会对硬件进行初始化和检测。但 UEFI 不依赖传统的 MBR，而是使用 GPT（GUID Partition Table，全局唯一标识分区表）分区格式。GPT 支持更大的硬盘容量，并且可以支持超过 4 个主分区。UEFI 会加载启动设备中的 EFI 引导程序（如 Windows 的 bootmgfw.efi），并通过 EFI <strong>系统分区</strong>（ESP）启动操作系统。</p>
+<p>可见，BIOS 的启动是从第一个扇区开始，而 UEFI 则使用了一个单独的 EFI 分区（通常为 FAT&#x2F;FAT32 格式）来进行系统引导，这使得 UEFI 对于系统的启动规划更加容易。</p>
+<p>从 2024 年开始，Windows 10&#x2F;11 的普及率已经非常高，一般用户已经不会再使用 Windows 10 以下的系统，因此，在磁盘初始化方面，你应该直接选择 GPT+UEFI 启动，MBR+BIOS 启动方式已经过时。接下来，我们在 Disk Genius 中查看一块未初始化的硬盘：</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/%E6%9C%AA%E5%88%9D%E5%A7%8B%E5%8C%96%E7%A1%AC%E7%9B%98.png" srcset="/img/loading.gif" lazyload alt="未初始化硬盘"></p>
+<p>可以看到，我们的硬盘默认采用 MBR 分区表，接下来，将它转换为 GPT 分区表。</p>
+<p><img src="/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/%E8%BD%AC%E6%8D%A2%E4%B8%BAGPT.png" srcset="/img/loading.gif" lazyload alt="转换为GPT分区表"></p>
+<!-- autocorrect: true -->
+
+<p>点击保存更改，可见硬盘已经被转换为了 GPT 分区表。使用类似的方式也可以把分区表格式从 GPT 转换为 MBR。但要注意，分区表转换可能会损坏数据，在做转换之前一定要备份好数据。</p>
+<p>接下来，我们就可以在这块硬盘上安装 Windows 11 系统。目前常用的安装方法有两种，分别是使用微软官方的 ISO 镜像安装，另一种是通过 Windows 安装器进行安装。一般来说，如果你没有对系统的定制化需求，直接使用 ISO 文件安装即可。如果你希望进行一些自定义行为，比如自定义 EFI 分区大小，精简应用程序、批量安装系统等等，那么 windows 安装器更适合。</p>
+<p>在接下来的示例中，我使用的是 Windows 11 LTSC 2024 的系统镜像，下载地址：</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs avrasm">电驴：<br><span class="hljs-symbol">ed2k:</span> //|file|<span class="hljs-built_in">zh</span>-cn_windows_11_enterprise_ltsc_2024_x64_dvd_cff9cd2d.iso|<span class="hljs-number">5287520256</span>|D6E4FE0BA5FD8A2F22FC9C0326481791|/<br>磁力<br><span class="hljs-symbol">magnet:</span>?xt=urn:btih:b84e74c1dbcc88a02c5b24a6f84383f353a2e1dd&amp;dn=<span class="hljs-built_in">zh</span>-cn_windows_11_enterprise_ltsc_2024_x64_dvd_cff9cd2d.iso&amp;<span class="hljs-built_in">xl</span>=<span class="hljs-number">5287520256</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="从-iso-文件安装系统"><a href="#从-iso-文件安装系统" class="headerlink" title="从 .iso 文件安装系统"></a>从 .iso 文件安装系统</h2><h2 id="从-Windows-安装器安装系统"><a href="#从-Windows-安装器安装系统" class="headerlink" title="从 Windows 安装器安装系统"></a>从 Windows 安装器安装系统</h2><p>首先进入 PE 系统，找到</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E5%AE%89%E8%A3%85%E5%99%A8.png" srcset="/img/loading.gif" lazyload alt="Windows 安装器"></p>
+<!-- autocorrect: true -->
+
+<p>可以看到，安装器顶部划分了 Windows 2000&#x2F;XP&#x2F;2003和Windows Vista&#x2F;7&#x2F;8&#x2F;10&#x2F;2008&#x2F;20XX 两个模块。左侧代表了 BIOS 启动方法，而右侧则是 UEFI 启动方式。虽然标签没有写明 Windows 11，但 11 的安装方式与 Windows 10 相同。</p>
+<p>安装器并不会为我们创建 EFI 分区，因此，我们需要提前在 Disk Genius 中创建 EFI 分区。</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E5%BB%BA%E7%AB%8BEFI%E5%88%86%E5%8C%BA.png" srcset="/img/loading.gif" lazyload alt="Windows 安装器"></p>
+<p>点击确定。</p>
+<p><img src="/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E5%B7%B2%E5%88%86%E5%A5%BD%E5%8C%BA%E7%9A%84%E7%A3%81%E7%9B%98.png" srcset="/img/loading.gif" lazyload alt="已分好区的磁盘"></p>
+<!-- autocorrect: true -->
+
+<p>在两种安装方式中，我们都没有选择对磁盘进行分区，这是由以下原因决定的：</p>
+<ol>
+<li>固态硬盘的普及：SATA 和 NVME 固态硬盘的读写速度都远高于传统的机械硬盘，并且已用磁盘空间对磁盘读写速度影响很小，这使得我们不必像过去的机械硬盘一样通过分区的方式提升磁盘读写能力。</li>
+<li>重装系统不需要清除数据：在 Windows 10 以前，重装系统往往需要格式化整个 C 盘，因此用户不得不再重装系统之前备份数据，分盘功能简化了数据备份流程。而现在的 Windows 系统重装已经可以保资料重装，因此分盘功能的作用已经不大。哪怕你的确需要格式化磁盘，固态硬盘的高读取速度也使得备份不再困难。</li>
+<li>分盘的缺点：用户对于磁盘的分配往往没有那么精确，极容易出现一个盘已满而其他盘还空闲的情况，这会导致磁盘的空间利用率降低。</li>
+</ol>
+<p>所以，建议更改掉过去的磁盘分盘习惯，采用“一盘一盘符”的使用习惯。（也可以通过 RAID 将多块磁盘合并为一块使用，后续会提到）</p>
+<p>挂载好安装盘（双击 ISO 文件即可）后，打开 Windows 安装器，选好引导和安装驱动器位置。注意，安装映像的名称是 <code>install.wim</code>，文件大小大概为 5GB，与 ISO 映像大小差不多，不要选错了。</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E5%B7%B2%E5%88%86%E5%A5%BD%E5%8C%BA%E7%9A%84%E7%A3%81%E7%9B%98.png" srcset="/img/loading.gif" lazyload alt="安装系统"></p>
+<!-- autocorrect: true -->
+
+<p>如果没有别的需求，直接点击安装即可。</p>
+<h3 id="定制化需求"><a href="#定制化需求" class="headerlink" title="定制化需求"></a>定制化需求</h3><p>Windows 安装器还有一些其他功能。</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E5%AE%89%E8%A3%85%E5%99%A8%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD.png" srcset="/img/loading.gif" lazyload alt="安装器高级功能"></p>
+<!-- autocorrect: true -->
+
+<p>无人值守安装：在没有用户交互的情况下，自动完成操作系统或软件的安装过程。在 Windows 中，你可以使用 XML 文件来配置无人值守安装。这些 XML 文件通常称为无人值守答案文件（Unattend Answer Files），其中包含了安装过程中所需的各种配置选项。</p>
+<p>添加驱动程序：在安装系统之前，可以先用 Dism 备份驱动程序，然后在 Windows 安装器添加备份的驱动文件夹。但我建议进入系统之后再去设备管理器安装驱动，避免出现一些奇怪的问题。</p>
+<p>挂载驱动器：一般选择 C，如果有双系统需求，可以选择其他的盘符。但需要注意，有的软件将某些路径写死在 C 盘，如果系统盘使用其他盘符，可能会出现兼容性问题。</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E5%AE%89%E8%A3%85%E5%99%A8%E4%BC%98%E5%8C%96%E8%B0%83%E6%95%B4.png" srcset="/img/loading.gif" lazyload alt="安装器优化调整"></p>
+<!-- autocorrect: true -->
+
+<p>这里可以针对系统做一些自定义，例如禁用一些功能、开启文件浏览相关选项、运行一些脚本等。这些选项都可以在进入系统后自行更改。</p>
+<p>VHD 功能：Windows 支持将系统安装在虚拟硬盘中并启动，我们先创建一块虚拟磁盘。</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%A3%81%E7%9B%98.png" srcset="/img/loading.gif" lazyload alt="创建虚拟磁盘"><br><img src="/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%A3%81%E7%9B%982.png" srcset="/img/loading.gif" lazyload alt="创建虚拟磁盘"></p>
+<!-- autocorrect: true -->
+
+<p>安装器会自动帮我们挂载这块虚拟磁盘为 Z 盘。将安装驱动器位置选择为 Z 盘，就可以将系统安装到这块虚拟磁盘上面。</p>
+<p>这种安装方式存在弊端：</p>
+<ol>
+<li>电脑实体机上需要存在一个物理 Windows 系统，通过这个物理系统才能引导加载虚拟磁盘上的系统。</li>
+<li>VHD 格式已经过时，使用 VHDX 虚拟磁盘是更好的选择。</li>
+</ol>
+<p>也就是说，对于裸机而言，安装器的 VHD 功能并没有实质性作用。</p>
+<h2 id="从-vhdx-启动系统"><a href="#从-vhdx-启动系统" class="headerlink" title="从 .vhdx 启动系统"></a>从 .vhdx 启动系统</h2><p>在 Windows 系统中，我们可以很方便地创建和管理 vhdx 虚拟磁盘，此外，你也可以使用 Disk Genius 工具更加专业便捷地管理 vhdx 磁盘。</p>
+<p>这种虚拟磁盘有什么用呢？</p>
+<ol>
+<li>挂载到 Hyper-V 虚拟机中：Hyper-V 虚拟机使用的磁盘格式就是 vhdx。</li>
+<li>挂载为盘符：可以将 vhdx 磁盘挂载为 D 盘等盘符使用。有些应用程序必须要存在 D 盘才能使用，还有一部分程序喜欢在 D 盘中产生一些垃圾文件，增大了磁盘管理难度。将 vhdx 挂载盘符，可以在不分区的情况下正常使用这些软件。当你不需要该盘符之后，可以直接取消挂载这块虚拟磁盘，然后将 vhdx 文件删除即可，不会存在任何的垃圾残留。</li>
+<li>启动双系统：在已存在一个物理 Windows 系统的基础上，可以直接启动 vhdx 上的系统（仅支持 Windows，并且安装要求与电脑本身相同，如果你的电脑仅支持 Windows10&#x2F;11，那么这块虚拟盘也必须安装 Windows10&#x2F;11 才能启动）。这种启动方式相比物理机几乎没有性能损失。</li>
+</ol>
+<p>也就是说，在 Hyper-V 中安装一个 Win 系统，在物理机上可以直接启动这个系统。</p>
+<p>那么如何启动 vhdx 上的系统呢？</p>
+<p>假设你已经在物理机上安装好了 Windows，虚拟磁盘上也已经通过 Windows 安装器进行了初始安装。接下来我们使用 BOOTICE 工具添加虚拟磁盘引导即可。</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5CBOOTICE1.png" srcset="/img/loading.gif" lazyload alt="BOOTICE工具"></p>
+<!-- autocorrect: true -->
+
+<p>首先选择 BCD 编辑中的智能编辑模式。</p>
+<p>点击添加，然后选择启动磁盘、启动分区。设备文件选择不带盘符 vhdx 磁盘路径即可，因为盘符在启动分区处已经选好了。</p>
+<p>设置一个自定义的菜单标题，保存系统设置即可。</p>
+<p>重启系统后，选择你创建的启动项，就可以进入这个系统了，成功引导后的剩余工作与重装系统是一样的。这个系统中，物理机上的磁盘会被映射为其他盘符，例如 D 盘等。</p>
+<p>在强调一下，直接引导 vhdx 系统，与直接安装在物理机是完全一样的，如果你的电脑不支持旧系统，那么在 vhdx 上安装旧系统也是不能成功开机的，因此，不必尝试在现在的电脑上安装 XP、Win7 等系统。如果你有旧系统的需求，必须通过 Hyper-V 虚拟机来实现。</p>
+<h2 id="Windows-11-跳过配置检测"><a href="#Windows-11-跳过配置检测" class="headerlink" title="Windows 11 跳过配置检测"></a>Windows 11 跳过配置检测</h2><p>大多数这两年出厂的电脑都满足 Windows 11 的最低安装要求，但也有一些老电脑有升级需求。其实 10 年前的 i7-4790K 跑 Windows 11 也没啥大问题，但没有 TPM2.0 这点确实成为了很多旧电脑的拦路虎。</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/Win11%E9%85%8D%E7%BD%AE%E6%A3%80%E6%B5%8B%E4%B8%8D%E8%BF%87.png" srcset="/img/loading.gif" lazyload alt="Win11配置检测不过"></p>
+<!-- autocorrect: true -->
+
+<p>这种情况建议直接使用 Windows 安装器进行安装，可以不进行配置检查。如果必须通过 ISO 文件安装的话，可以通过以下方式绕过 Windows 11 的配置检测。</p>
+<p><strong>注意，截至 25 年 1 月，以下修改注册表绕过配置检测的方法已经失效，建议使用 Windows 安装器安装。</strong></p>
+<p>首先，按住键盘上的 shift+ F10，在命令提示中输入：regedit 回车。打开注册表。</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E6%96%B0%E5%BB%BA%E9%A1%B9.png" srcset="/img/loading.gif" lazyload alt="新建项"></p>
+<p>然后在 LabConfig 的目录中，点击右键–新建 - 然后单击“DWORD（32 位）值”。将此 DWORD 命名为“BypassTPMCheck”。接着继续新建一个“DWORD（32 位）值”。将此 DWORD 命名为“BypassSecureBootCheck”。一定要注意大小写，保证大小写和屏幕上的命令是一样的。双击这两个 DWORD，并将其“数值数据”更改为“1”。</p>
+<p><img src="/2025/01/15/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/(20250115)Windows11%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%5C%E6%96%B0%E5%BB%BA%E9%A1%B92.png" srcset="/img/loading.gif" lazyload alt="新建项"></p>
+<!-- autocorrect: true -->
+
+<p>然后关闭注册表和命令提示符。在安装程序中点击左上角的返回，选择版本后，点击下一页。成功跳过了 TPM 和安全启动的验证。</p>
+<h2 id="各个系统版本的区别"><a href="#各个系统版本的区别" class="headerlink" title="各个系统版本的区别"></a>各个系统版本的区别</h2><p>家庭版、专业版、教育版、企业版是最常用的几个 Windows 版本，他们的主要区别如下：</p>
+<table>
+<thead>
+<tr>
+<th>功能&#x2F;版本</th>
+<th>家庭版</th>
+<th>专业版</th>
+<th>教育版</th>
+<th>企业版</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>适用人群</strong></td>
+<td>家庭用户、轻量级办公</td>
+<td>专业人士、小型企业</td>
+<td>教育机构、学生</td>
+<td>大型企业、组织</td>
+</tr>
+<tr>
+<td><strong>价格</strong></td>
+<td>约 1088 元</td>
+<td>约 1500 元</td>
+<td>批量许可</td>
+<td>批量许可</td>
+</tr>
+<tr>
+<td><strong>功能特点</strong></td>
+<td>基础功能，适合日常使用</td>
+<td>高级功能，适合专业需求</td>
+<td>针对教育需求优化</td>
+<td>最全面的功能，适合企业</td>
+</tr>
+<tr>
+<td><strong>远程桌面</strong></td>
+<td>不支持作为主机</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td><strong>Hyper-V 虚拟化</strong></td>
+<td>不支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td><strong>Windows 沙盒</strong></td>
+<td>不支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td><strong>BitLocker 加密</strong></td>
+<td>不支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td><strong>内存支持上限</strong></td>
+<td>128GB</td>
+<td>2TB</td>
+<td>2TB</td>
+<td>6TB</td>
+</tr>
+<tr>
+<td><strong>CPU 支持</strong></td>
+<td>单插槽，最多 64 核心</td>
+<td>双插槽，最多 128 核心</td>
+<td>双插槽</td>
+<td>双插槽</td>
+</tr>
+<tr>
+<td><strong>组策略编辑器</strong></td>
+<td>不支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td><strong>Windows 信息保护 (WIP)</strong></td>
+<td>不支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td><strong>更新策略</strong></td>
+<td>自动更新</td>
+<td>自动更新</td>
+<td>自动更新</td>
+<td>可自定义更新</td>
+</tr>
+</tbody></table>
+<p>那么，对于个人用户，怎么选择系统版本呢？</p>
+<p>家庭版系统一般随品牌机附赠，缺少了远程桌面、Hyper-V、BitLocker、组策略等非常关键的功能，因此在非必要条件下（比如你一定要用正版），我都不建议使用家庭版系统。有些功能在终端中可以调出来，但总归是比较麻烦，不如直接上其他版本系统。</p>
+<p>专业版系统功能完善，价格合适，非常适合用作个人或家庭操作系统。</p>
+<p>教育版是我最喜欢的版本，功能相比专业版非常全面，几乎解锁了所有 Windows 功能（有些功能专业版都是没有的），如果你是学生的话，存在白嫖可能（你的学校购买了教育版系统）。</p>
+<p>企业版支持 6T 内存，并且可以自定义更新策略，对于家庭服务器或者不想频繁更新系统的人来说是个不错的选择。不过我更建议家庭服务器使用 Server 系统。</p>
+<p>Windows 的版本转换很容易，设置中更改密钥即可。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>在本章中，我们学习更加进阶的 Windows 安装方式，包括物理磁盘上的安装、虚拟磁盘上的安装以及安装过程中的常见问题。最后还学习了各版本 Windows 的大致区别。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Windows/" class="category-chain-item">Windows</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF/" class="print-no-link">#技术</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Windows 11 高阶应用指南——系统安装</div>
+      <div>http://songguokunsgg.github.io/2025/01/15/(20250115)Windows11高阶应用指南/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Fansong Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年1月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/01/10/(20250110)%E5%B8%B8%E7%94%A8%E7%9A%84%20Windows%20%E9%85%8D%E7%BD%AE%E8%84%9A%E6%9C%AC/" title="常用的 Windows 配置脚本">
+                        <span class="hidden-mobile">常用的 Windows 配置脚本</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","appKey":"0RaTUR0yFhlAjxM4uYyXvPSj","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
