@@ -1,0 +1,790 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fansong Yan">
+  <meta name="keywords" content="技术、生活、游戏">
+  
+    <meta name="description" content="自行编译定制 immortalWRT使用 podman 搭建 immortalWRT 编译环境使用 dockerfile 构建镜像 1234567891011121314151617181920212223242526272829303132FROM ubuntu: 22.04LABEL maintainer&#x3D;&quot;songguokunsgg&lt;fansong_yan@icloud.co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自行编译定制 immortalWRT">
+<meta property="og:url" content="http://songguokunsgg.github.io/2021/01/26/(20250126)%E8%87%AA%E8%A1%8C%E7%BC%96%E8%AF%91%E5%AE%9A%E5%88%B6immortalWRT/index.html">
+<meta property="og:site_name" content="菘菓菌 sgg">
+<meta property="og:description" content="自行编译定制 immortalWRT使用 podman 搭建 immortalWRT 编译环境使用 dockerfile 构建镜像 1234567891011121314151617181920212223242526272829303132FROM ubuntu: 22.04LABEL maintainer&#x3D;&quot;songguokunsgg&lt;fansong_yan@icloud.co">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://songguokunsgg.github.io/2021/01/26/(20250126)%E8%87%AA%E8%A1%8C%E7%BC%96%E8%AF%91%E5%AE%9A%E5%88%B6immortalWRT/%E9%85%8D%E7%BD%AE%E4%B8%BB%E8%A6%81%E9%A1%B9%E7%9B%AE.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2021/01/26/(20250126)%E8%87%AA%E8%A1%8C%E7%BC%96%E8%AF%91%E5%AE%9A%E5%88%B6immortalWRT/targetimages.png">
+<meta property="article:published_time" content="2021-01-26T10:02:33.000Z">
+<meta property="article:modified_time" content="2025-01-26T15:37:48.228Z">
+<meta property="article:author" content="Fansong Yan">
+<meta property="article:tag" content="技术">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://songguokunsgg.github.io/2021/01/26/(20250126)%E8%87%AA%E8%A1%8C%E7%BC%96%E8%AF%91%E5%AE%9A%E5%88%B6immortalWRT/%E9%85%8D%E7%BD%AE%E4%B8%BB%E8%A6%81%E9%A1%B9%E7%9B%AE.png">
+  
+  
+  
+  <title>自行编译定制 immortalWRT - 菘菓菌 sgg</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"songguokunsgg.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","app_key":"0RaTUR0yFhlAjxM4uYyXvPSj","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>菘菓菌 sgg</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/technology-stack/" target="_self">
+                <i class="iconfont icon-codepen-fill"></i>
+                <span>技术栈</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/windows-tec/" target="_self">
+                <i class="iconfont icon-codepen-fill"></i>
+                <span>Windows 高阶指南</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="自行编译定制 immortalWRT"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Fansong Yan
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-01-26 18:02" pubdate>
+          2021年1月26日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          548 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          5 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">自行编译定制 immortalWRT</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="自行编译定制-immortalWRT"><a href="#自行编译定制-immortalWRT" class="headerlink" title="自行编译定制 immortalWRT"></a>自行编译定制 immortalWRT</h1><h2 id="使用-podman-搭建-immortalWRT-编译环境"><a href="#使用-podman-搭建-immortalWRT-编译环境" class="headerlink" title="使用 podman 搭建 immortalWRT 编译环境"></a>使用 podman 搭建 immortalWRT 编译环境</h2><p>使用 dockerfile 构建镜像</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs dockerfile"><span class="hljs-keyword">FROM</span> ubuntu: <span class="hljs-number">22.04</span><br><span class="hljs-keyword">LABEL</span><span class="language-bash"> maintainer=<span class="hljs-string">&quot;songguokunsgg&lt;fansong_yan@icloud.com&gt;&quot;</span></span><br><br><span class="hljs-keyword">ENV</span> HOME_PATH /root<br><span class="hljs-keyword">WORKDIR</span><span class="language-bash"> <span class="hljs-variable">$HOME_PATH</span></span><br><br><span class="hljs-keyword">ARG</span> DEBIAN_FRONTEND=noninteractive<br><span class="hljs-keyword">ENV</span> TZ=Asia/Shanghai<br><br><span class="hljs-keyword">RUN</span><span class="language-bash"> sed -i <span class="hljs-string">&#x27;s@archive.ubuntu.com@mirrors.tuna.tsinghua.edu.cn@g&#x27;</span> /etc/apt/sources.list &amp;&amp; \</span><br><span class="language-bash">    apt update &amp;&amp; \</span><br><span class="language-bash">    apt upgrade -y &amp;&amp; \</span><br><span class="language-bash">    <span class="hljs-comment"># 部分软件包是编译 immortalwrt 所需的</span></span><br>    apt install -y ack antlr3 asciidoc autoconf automake autopoint binutils bison build-essential \<br>        bzip2 ccache clang cmake cpio curl device-tree-compiler ecj fastjar flex gawk gettext gcc-multilib \<br>        g++-multilib git gnutls-dev gperf haveged help2man intltool lib32gcc-s1 libc6-dev-i386 libelf-dev \<br>        libglib2.<span class="hljs-number">0</span>-dev libgmp3-dev libltdl-dev libmpc-dev libmpfr-dev libncurses-dev libpython3-dev \<br>        libreadline-dev libssl-dev libtool libyaml-dev libz-dev lld llvm lrzsz mkisofs msmtp nano \<br>        ninja-build p7zip p7zip-full patch pkgconf python3 python3-pip python3-ply python3-docutils \<br>        python3-pyelftools python3-setuptools qemu-utils re2c rsync scons squashfs-tools subversion swig texinfo uglifyjs \<br>        upx-ucl unzip vim wget xmlto xxd zlib1g-dev zstd file<br>    git config --global <span class="hljs-keyword">user</span>.name <span class="hljs-string">&quot;songguokunsgg&quot;</span> &amp;&amp; \<br>    git config --global <span class="hljs-keyword">user</span>.email <span class="hljs-string">&quot;fansong_yan@icloud.com&quot;</span> \<br>    <span class="hljs-comment"># 新建一个普通用户，openwrt 不能用 root 用户编译</span><br>    useradd -m -G sudo openwrt -s /bin/bash<br><br><span class="hljs-keyword">CMD</span><span class="language-bash"> <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;==========&quot;</span><span class="hljs-variable">$HOME_PATH</span></span><br><span class="hljs-keyword">CMD</span><span class="language-bash"> <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;podman-compose up -d&quot;</span></span><br><span class="hljs-keyword">CMD</span><span class="language-bash"> <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;To enter the container:&quot;</span></span><br><span class="hljs-keyword">CMD</span><span class="language-bash"> <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;podman exec -it OpenWRT bash&quot;</span></span><br><span class="hljs-keyword">CMD</span><span class="language-bash"> <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;请使用普通用户 openwrt 进行编译&quot;</span></span><br><span class="hljs-keyword">CMD</span><span class="language-bash"> <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;-----end----&quot;</span></span><br></code></pre></td></tr></table></figure>
+
+<p>使用 podman-compose 构建容器</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;3.8&#x27;</span><br><span class="hljs-attr">services:</span> <br>    <span class="hljs-attr">RK3568:</span> <br>        <span class="hljs-attr">image:</span> <span class="hljs-string">openwrt</span><br>        <span class="hljs-attr">container_name:</span> <span class="hljs-string">OpenWRT</span><br>        <span class="hljs-comment"># 请根据需求调整</span><br>        <span class="hljs-comment"># volumes: </span><br>        <span class="hljs-comment">#   - &quot;/user/openwrt:/home/openwrt/openwrt&quot;</span><br>        <span class="hljs-attr">network:</span> <span class="hljs-string">bridge</span><br>        <span class="hljs-attr">command:</span> <span class="hljs-string">bash</span><br>        <span class="hljs-attr">tty:</span> <span class="hljs-literal">true</span><br>        <span class="hljs-attr">stdin_open:</span> <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
+
+<p>进入容器，将用户切换为普通用户 <code>sudo openwrt &amp;&amp; cd /home/openwrt</code></p>
+<h2 id="clone-immortalWRT-仓库"><a href="#clone-immortalWRT-仓库" class="headerlink" title="clone immortalWRT 仓库"></a>clone immortalWRT 仓库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> -b openwrt-24.10 --single-branch --filter=blob:none https://github.com/immortalwrt/immortalwrt<br></code></pre></td></tr></table></figure>
+
+<p>输出如下：</p>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs txt">Cloning into &#x27;immortalwrt&#x27;...<br>fatal: unable to access &#x27;https://github.com/immortalwrt/immortalwrt/&#x27;: GnuTLS recv error (-110): The TLS connection was non-properly terminated.<br>openwrt@fcfcdf766fb1:/home/openwrt$ git clone -b openwrt-24.10 --single-branch --filter=blob:none https://github.com/immortalwrt/immortalwrt <br>Cloning into &#x27;immortalwrt&#x27;...<br>remote: Enumerating objects: 496595, done.<br>remote: Counting objects: 100% (3078/3078), done.<br>remote: Compressing objects: 100% (175/175), done.<br>remote: Total 496595 (delta 2990), reused 2907 (delta 2903), pack-reused 493517 (from 2)<br>Receiving objects: 100% (496595/496595), 63.93 MiB | 6.26 MiB/s, done.<br>Resolving deltas: 100% (301848/301848), done.<br>warning: unable to access &#x27;/root/.config/git/ignore&#x27;: Permission denied<br>remote: Enumerating objects: 9496, done.<br>remote: Counting objects: 100% (5370/5370), done.<br>remote: Compressing objects: 100% (4299/4299), done.<br>remote: Total 9496 (delta 1565), reused 1071 (delta 1071), pack-reused 4126 (from 2)<br>Receiving objects: 100% (9496/9496), 12.91 MiB | 4.40 MiB/s, done.<br>Resolving deltas: 100% (2055/2055), done.<br>warning: unable to access &#x27;/root/.config/git/attributes&#x27;: Permission denied<br>Updating files: 100% (9699/9699), done.<br></code></pre></td></tr></table></figure>
+
+<p>成功 clone，如果出现网络错误请自行解决。</p>
+<p>进入仓库 <code>cd immortalwrt</code>，相比 openwrt，immortalwrt 已经内置了大量软件包，因此不需要添加三方软件源。</p>
+<p>保证网络通常，下载软件包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">./scripts/feeds update -a<br>./scripts/feeds install -a<br></code></pre></td></tr></table></figure>
+
+<h2 id="修改默认网络配置"><a href="#修改默认网络配置" class="headerlink" title="修改默认网络配置"></a>修改默认网络配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vim package/base-files/files/bin/config_generate<br></code></pre></td></tr></table></figure>
+
+<p>搜索 192.168，可以定位到 IP 地址所在的位置，修改为 10.0.0.1 和 10.0.$((addr_offset++)).1</p>
+<h2 id="配置-immortalwrt"><a href="#配置-immortalwrt" class="headerlink" title="配置 immortalwrt"></a>配置 immortalwrt</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">make menuconfig<br></code></pre></td></tr></table></figure>
+
+<p>我的配置：</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2021/01/26/(20250126)%E8%87%AA%E8%A1%8C%E7%BC%96%E8%AF%91%E5%AE%9A%E5%88%B6immortalWRT/%E9%85%8D%E7%BD%AE%E4%B8%BB%E8%A6%81%E9%A1%B9%E7%9B%AE.png" srcset="/img/loading.gif" lazyload alt="(20250126)自行编译定制immortalWRT"></p>
+<p><img src="/2021/01/26/(20250126)%E8%87%AA%E8%A1%8C%E7%BC%96%E8%AF%91%E5%AE%9A%E5%88%B6immortalWRT/targetimages.png" srcset="/img/loading.gif" lazyload alt="alt text"></p>
+<p>Luci -&gt; Thems 和 Apps 根据需求定制即可</p>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">make -j$(<span class="hljs-built_in">nproc</span>)<br></code></pre></td></tr></table></figure>
+
+<p>报错的话使用 <code>make -j1 V=s</code> 排错</p>
+<p>编译结果在 <code>bin/targets/x86/64/</code> 目录下</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BD%91%E7%BB%9C/" class="category-chain-item">网络</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF/" class="print-no-link">#技术</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>自行编译定制 immortalWRT</div>
+      <div>http://songguokunsgg.github.io/2021/01/26/(20250126)自行编译定制immortalWRT/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Fansong Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/02/13/(20220213)java_%E5%B7%A5%E7%A8%8B%E5%B8%88%E9%9D%A2%E8%AF%95%E8%BF%87%E7%A8%8B%E4%B8%AD%E6%AF%94%E8%BE%83%E7%BB%8F%E5%85%B8%E7%9A%84%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9C%89%E5%93%AA%E4%BA%9B_EberyThingSay/" title="java 工程师面试过程中，比较经典的面试题有哪些？">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">java 工程师面试过程中，比较经典的面试题有哪些？</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","appKey":"0RaTUR0yFhlAjxM4uYyXvPSj","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

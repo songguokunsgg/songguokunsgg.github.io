@@ -1,0 +1,924 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Fansong Yan">
+  <meta name="keywords" content="技术、生活、游戏">
+  
+    <meta name="description" content="OpenWRT 主路由简易完全指南由于原先的爱快 Q6000 只能放置在家中比较偏的书房，信号覆盖不全，因此给家里添置了一台新的 J4125 软路由，闲鱼 400 块买的，带一个 16G U 盘，性价比不错，随后把 Q6000 放在了家中间的位置。 一开始的想法是，把这台软路由也刷成 iKuai 系统，然后把 Q6000 拿来做无线设备，这样的话界面比较熟悉，配置比较简单，还能无缝衔接之前 Q60">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenWRT 主路由简易完全指南">
+<meta property="og:url" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:site_name" content="菘菓菌 sgg">
+<meta property="og:description" content="OpenWRT 主路由简易完全指南由于原先的爱快 Q6000 只能放置在家中比较偏的书房，信号覆盖不全，因此给家里添置了一台新的 J4125 软路由，闲鱼 400 块买的，带一个 16G U 盘，性价比不错，随后把 Q6000 放在了家中间的位置。 一开始的想法是，把这台软路由也刷成 iKuai 系统，然后把 Q6000 拿来做无线设备，这样的话界面比较熟悉，配置比较简单，还能无缝衔接之前 Q60">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/ikuai4mac.jpg">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E6%97%A0%E6%B3%95%E5%88%B7mac.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/OpenWRT%E5%8F%AF%E4%BB%A5%E6%94%B9mac.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E5%AE%9A%E5%88%B6%E6%9E%B6%E6%9E%84%E5%92%8C%E8%BD%AF%E4%BB%B6%E5%8C%85.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B31.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B32.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/OpenWRT%E5%AF%BC%E8%88%AA%E6%A0%8F.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E6%94%B9%E7%BD%91%E5%8F%A3MAC.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E6%A3%80%E6%9F%A5%E6%8E%A5%E5%8F%A3IPv6.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/WAN6%E6%8E%A5%E5%8F%A3%E6%94%B9%E5%88%AB%E5%90%8D.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/wan6%E9%AB%98%E7%BA%A7%E8%AE%BE%E7%BD%AE.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/DHCP%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%AB%98%E7%BA%A7%E8%AE%BE%E7%BD%AE.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/IPv6%E8%AE%BE%E7%BD%AE.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/IPv6RA%E8%AE%BE%E7%BD%AE.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/ipv6%E7%A7%9F%E7%BA%A6%E6%97%A0%E8%AE%BE%E5%A4%87.png">
+<meta property="og:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E9%98%B2%E7%81%AB%E5%A2%99%E6%94%BE%E8%A1%8C.png">
+<meta property="article:published_time" content="2024-12-21T15:02:33.000Z">
+<meta property="article:modified_time" content="2025-01-26T15:35:15.105Z">
+<meta property="article:author" content="Fansong Yan">
+<meta property="article:tag" content="技术">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/ikuai4mac.jpg">
+  
+  
+  
+  <title>OpenWRT 主路由简易完全指南 - 菘菓菌 sgg</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"songguokunsgg.github.io","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","app_key":"0RaTUR0yFhlAjxM4uYyXvPSj","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>菘菓菌 sgg</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/technology-stack/" target="_self">
+                <i class="iconfont icon-codepen-fill"></i>
+                <span>技术栈</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/windows-tec/" target="_self">
+                <i class="iconfont icon-codepen-fill"></i>
+                <span>Windows 高阶指南</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="OpenWRT 主路由简易完全指南"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Fansong Yan
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-12-21 23:02" pubdate>
+          2024年12月21日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">OpenWRT 主路由简易完全指南</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="OpenWRT-主路由简易完全指南"><a href="#OpenWRT-主路由简易完全指南" class="headerlink" title="OpenWRT 主路由简易完全指南"></a>OpenWRT 主路由简易完全指南</h1><p>由于原先的爱快 Q6000 只能放置在家中比较偏的书房，信号覆盖不全，因此给家里添置了一台新的 J4125 软路由，闲鱼 400 块买的，带一个 16G U 盘，性价比不错，随后把 Q6000 放在了家中间的位置。</p>
+<p>一开始的想法是，把这台软路由也刷成 iKuai 系统，然后把 Q6000 拿来做无线设备，这样的话界面比较熟悉，配置比较简单，还能无缝衔接之前 Q6000 的配置，但到手之后我傻眼了。</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/ikuai4mac.jpg" srcset="/img/loading.gif" lazyload alt="4个网口MAC地址竟然一样"></p>
+<!-- autocorrect: true-->
+
+<p>也就是说，虽然爱快识别出了这四个网口，但事实上只能当成一个用。</p>
+<p>然后我想到去刷网卡的 MAC，结果一搜索：</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E6%97%A0%E6%B3%95%E5%88%B7mac.png" srcset="/img/loading.gif" lazyload alt="无法刷MAC地址"></p>
+<!-- autocorrect: true-->
+
+<p>然后我想到了，退货，经过一番协商，卖家最终同意了。但在寄快递之前，我抱着死马当活马医的心态，给机器刷了一个 OpenWRT。</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/OpenWRT%E5%8F%AF%E4%BB%A5%E6%94%B9mac.png" srcset="/img/loading.gif" lazyload alt="可以改MAC"></p>
+<!-- autocorrect: true-->
+
+<p>然后我就惊奇地发现，网口 MAC 地址竟然是可以自行更改的。并且哪怕不更改，仍然可以自行分配 LAN、WAN 口。</p>
+<p>我心想，那就不退了吧，毕竟这台机器性价比确实还行。</p>
+<p>结果万万没想到，在折腾 OpenWRT 的路上，真的没有尽头！各种坑等着你……这两天真是挨了家里人不少骂。但在配置好之后，我发现其实配置还是不难的，主要是网上的信息太杂了，并且没有一个统一的配置标准。A 说该这样，B 说该那样，C 说 A 和 B 的方法可以一起用……他们的方法也许确实没错，但对于初学者来说真的很难分辨哪些内容是适合自己的。</p>
+<p>所以我今天就根据自己的需求，来用最简单的方式配置一下 OpenWRT 主路由，以及一些真的很坑的踩坑记录。</p>
+<h2 id="识别自己的需求"><a href="#识别自己的需求" class="headerlink" title="识别自己的需求"></a>识别自己的需求</h2><p>由于自己家有台 NAS，因此对于内网的要求是比较高的，这也是我换软路由的主要原因。但我不建议花太多钱买软路由（对于纯路由器来说，N100、N305 等 CPU 真的有点浪费）。我自己只需要一个 4 网口 2.5G 的 J4125 就行了。</p>
+<p><strong>当然，建议买之前问清楚网口 MAC 地址是否重复</strong>，别买到我这种机器了，否则装不了 iKuai。</p>
+<p>我的主要需求比较简单（主路由也不建议太复杂，复杂功能可以用旁路由实现）：</p>
+<ol>
+<li>IPv4 DHCP 支持，可以固定 IP，自定义 DNS 等，这都是 OpenWRT 的基本功能。</li>
+<li>IPv6 的完整支持，需要通过公网实现 NAS 服务的访问。</li>
+<li>终端功能，方便管理。</li>
+<li>UPnP，这个对我是可选，因为有 IPv6 了。</li>
+</ol>
+<p>从我的经验来看，只有第 2 点比较难配置，其他都是基本功能，因此我主要讲解 IPv6 相关的内容。</p>
+<h2 id="固件定制"><a href="#固件定制" class="headerlink" title="固件定制"></a>固件定制</h2><p><a target="_blank" rel="noopener" href="https://openwrt.ai/">OpenWRT 固件定制网站</a></p>
+<p>这是一个免费的在线 OpenWRT 编译网站，合理利用该工具，可以极大减少后期的配置工作。</p>
+<p>首先定制架构和软件包，按需定制，我只需要终端功能，因此添加 <code>luci-app-ttyd</code> 即可。</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E5%AE%9A%E5%88%B6%E6%9E%B6%E6%9E%84%E5%92%8C%E8%BD%AF%E4%BB%B6%E5%8C%85.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后定制网络相关的内容：</p>
+<p><img src="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B31.png" srcset="/img/loading.gif" lazyload></p>
+<ol>
+<li>防火墙：使用默认的 Firewall4</li>
+<li>互联网：勾选你需要的插件，我这里都不需要</li>
+<li>后台地址，子网掩码：可以看我上一篇文章的相关介绍，看了你就知道怎么填了</li>
+<li>IPv6：我的刚需，勾选</li>
+<li>旁路由模式：不勾选</li>
+</ol>
+<p><img src="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B32.png" srcset="/img/loading.gif" lazyload></p>
+<!-- autocorrect: true -->
+
+<ol>
+<li>拨号账号、密码：须填写</li>
+<li>WIFI 账号密码：软路由一般没有无线功能，不用填写</li>
+<li>暴露至公网：由于 IPv4 不是公网的，因此开了也没用</li>
+<li>EFI 镜像，默认 eth0 为 WAN：勾选</li>
+</ol>
+<p>然后点击构建新固件，等待编译完成。完成后烧录进 U 盘就安装完成了。</p>
+<p>自定义自己固件的好处是，可以在编译阶段就完全绝大多数的网络设置工作。</p>
+<h2 id="OpenWRT-配置"><a href="#OpenWRT-配置" class="headerlink" title="OpenWRT 配置"></a>OpenWRT 配置</h2><p>首先进入 OpenWRT 管理端：</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/OpenWRT%E5%AF%BC%E8%88%AA%E6%A0%8F.png" srcset="/img/loading.gif" lazyload></p>
+<p>我们主要关注网络部分。</p>
+<h3 id="网络接口设备配置"><a href="#网络接口设备配置" class="headerlink" title="网络接口设备配置"></a>网络接口设备配置</h3><p><img src="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E6%94%B9%E7%BD%91%E5%8F%A3MAC.png" srcset="/img/loading.gif" lazyload></p>
+<!-- autocorrect: true -->
+
+<p>在接口中，我们可以看到有四个网口，分别是 eth0、eth1、eth2、eth3。其中 eth0 是 WAN 口，eth1，eth2，eth3 是 LAN 口。我们可以通过修改 MAC 地址来改变这四个网口的 MAC 地址，这样就可以实现多个网口的功能。</p>
+<p>在 OpenWRT 中，不改 MAC 也可以分配 WAN、LAN 接口。但我建议还是修改一下，免得出现莫名其妙的问题。</p>
+<p>在配置页面检查接口的 IPv6 是否开启了</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E6%A3%80%E6%9F%A5%E6%8E%A5%E5%8F%A3IPv6.png" srcset="/img/loading.gif" lazyload></p>
+<!-- autocorrect: true -->
+
+<p><strong>注意：</strong> 这个地方很有可能默认是——**自动 (已禁用)**，非常坑。并且在这种情况下，你的设备依然能够获取到 IPv6 地址，但无法使用，不能通过 IPv6 测试，也无法访问和被访问 IPv6 网站。并且出问题后很难排查到这一点，非常坑。</p>
+<h3 id="接口配置"><a href="#接口配置" class="headerlink" title="接口配置"></a>接口配置</h3><!-- autocorrect: false -->
+
+<p><img src="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/WAN6%E6%8E%A5%E5%8F%A3%E6%94%B9%E5%88%AB%E5%90%8D.png" srcset="/img/loading.gif" lazyload></p>
+<p>如果拨号正确，你应该会在接口页面得到与该图类似的界面，但你需要在<strong>wan6-常规设置</strong>中把<strong>设备</strong>改为 <strong>@wan</strong>，保存并应用。</p>
+<p><img src="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/wan6%E9%AB%98%E7%BA%A7%E8%AE%BE%E7%BD%AE.png" srcset="/img/loading.gif" lazyload></p>
+<!-- autocorrect: true -->
+
+<p>其他设置都是默认即可。</p>
+<h3 id="LAN-口配置，重点"><a href="#LAN-口配置，重点" class="headerlink" title="LAN 口配置，重点"></a>LAN 口配置，重点</h3><p>LAN 接口用于分配下级设备的 IP，DNS 等，非常重要。设置不正确的话，会导致下级设备无法访问互联网。</p>
+<p><strong>常规设置</strong>，<strong>高级设置</strong>不用动，这在我们编译固件的时候就已经配置好了。</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/DHCP%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%AB%98%E7%BA%A7%E8%AE%BE%E7%BD%AE.png" srcset="/img/loading.gif" lazyload></p>
+<!-- autocorrect: true -->
+
+<p>DHCP 服务器的 <strong>常规设置</strong>，<strong>高级设置</strong> 也不用动。</p>
+<p>先介绍一下 IPv6 的地址分配方法：得益于 IPv6 庞大的地址空间，过于 IPv4 常用的分配方法 NAT 已经不再适用。IPv6 分配地址的方式主要有两种，SLAAC 和 DHCPv6。下面引用一下别人的介绍：</p>
+<p>引用：<a target="_blank" rel="noopener" href="https://chenhe.me/post/openwrt-config-ipv6-public-access">OpenWrt 开启 IPv6 公网访问全指南</a></p>
+<p>SLAAC 是无状态地址自动配置协议，顾名思义，它不再需要 DHCP 服务器来维护状态，而是各个客户端自行生成、协商、通告地址。SLAAC 是唯一全平台支持的协议，Android 明确不会支持有状态 DHCPv6，谷歌认为有状态协议对于终端用户没有明显优点，还会造成隐私问题，属于 IPv4 时代的陋习。</p>
+<p>SLAAC 的一个重要数据是路由器定期发送的 RA（路由通告），其包含前缀信息，以及是否应该尝试通告 DHCPv6 请求地址。</p>
+<p>DHCPv6 本身也分为有状态和无状态两种</p>
+<ul>
+<li>有状态：通过 DHCPv6 分配 IP。</li>
+<li>无状态：IP 依然采用 SLAAC 生成（通过 RA），但其他参数，例如 DNS，网关地址等则通过 DHCPv6 获取。</li>
+</ul>
+<p>Android 明确不会支持有状态 DHCPv6：</p>
+<p>跟据一些说法，SLAAC 和 DHCPv6 是可以共存的，但我不太理解共存的意义是什么……因此我选择拥抱新技术，只使用 SLAAC。</p>
+<p>lan 口的设置 - DHCP 服务器 - IPv6 设置：</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/IPv6%E8%AE%BE%E7%BD%AE.png" srcset="/img/loading.gif" lazyload></p>
+<!-- autocorrect: true -->
+
+<ol>
+<li>指定的主接口：不勾选</li>
+<li>RA 服务：服务器模式</li>
+<li>DHCPv6 服务：禁用</li>
+<li>本地 IPV6 DNS 服务器：勾选</li>
+<li>NDP 代理：禁用</li>
+</ol>
+<p>lan 口的设置 - DHCP 服务器 - IPv6 RA 设置：</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/IPv6RA%E8%AE%BE%E7%BD%AE.png" srcset="/img/loading.gif" lazyload></p>
+<!-- autocorrect: true -->
+
+<ol>
+<li>默认路由器：自动</li>
+<li>启用 SLAAC：勾选</li>
+<li>RA 标记：无，因为我们根本没有 DHCPv6 服务器。</li>
+</ol>
+<p>这样设置后，下级设备应该都有公网 IPv6 地址了。可以重启一下路由器，在概览可以看到，没有任何的 DHCPv6 租约。</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/ipv6%E7%A7%9F%E7%BA%A6%E6%97%A0%E8%AE%BE%E5%A4%87.png" srcset="/img/loading.gif" lazyload></p>
+<!-- autocorrect: true -->
+
+<p>可以用其他设备跑跑 IPv6 测试，应该可以跑通，但目前还无法从公网访问内网设备。</p>
+<h3 id="防火墙配置"><a href="#防火墙配置" class="headerlink" title="防火墙配置"></a>防火墙配置</h3><p>网络 - 防火墙 - 通信规则：</p>
+<!-- autocorrect: false -->
+
+<p><img src="/2024/12/21/(20241221)OpenWRT%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E9%98%B2%E7%81%AB%E5%A2%99%E6%94%BE%E8%A1%8C.png" srcset="/img/loading.gif" lazyload></p>
+<!-- autocorrect: true -->
+
+<p>按图上配置即可，还需要在 <strong>高级设置</strong> 中将 <strong>地址族限制</strong> 改为 <strong>仅 IPv6</strong>。</p>
+<p>我这里直接全放了，因为 IPv6 还是比较安全的，你也可以选择需要的端口进行放行。</p>
+<h2 id="一些测试工具"><a href="#一些测试工具" class="headerlink" title="一些测试工具"></a>一些测试工具</h2><p><a target="_blank" rel="noopener" href="https://ipw.cn/ipv6webcheck/?site=ipw.cn">IPv6 网站检测，检测你能否访问 IPv6 网站</a></p>
+<p><a target="_blank" rel="noopener" href="https://ipw.cn/ipv6/">Ipv6 地址查询，查询你当前的 IPv6 地址</a></p>
+<p><a target="_blank" rel="noopener" href="https://ipw.cn/ipv6ping/">IPv6 ping，可以测试内网设备能否 ping 通</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E7%BD%91%E7%BB%9C/" class="category-chain-item">网络</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%80%E6%9C%AF/" class="print-no-link">#技术</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>OpenWRT 主路由简易完全指南</div>
+      <div>http://songguokunsgg.github.io/2024/12/21/(20241221)OpenWRT主路由简易完全指南/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Fansong Yan</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年12月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/01/10/(20250110)%E5%B8%B8%E7%94%A8%E7%9A%84%20Windows%20%E9%85%8D%E7%BD%AE%E8%84%9A%E6%9C%AC/" title="常用的 Windows 配置脚本">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">常用的 Windows 配置脚本</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/12/21/(20241223)%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E4%B8%8D%E5%86%8D%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9F/" title="为什么你不再搭建个人博客？">
+                        <span class="hidden-mobile">为什么你不再搭建个人博客？</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"lvlxAX7h8N0UYVZ8XQr3vW7e-gzGzoHsz","appKey":"0RaTUR0yFhlAjxM4uYyXvPSj","path":"window.location.pathname","placeholder":null,"avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="leancloud-site-pv-container" style="display: none">
+        总访问量 
+        <span id="leancloud-site-pv"></span>
+         次
+      </span>
+    
+    
+      <span id="leancloud-site-uv-container" style="display: none">
+        总访客数 
+        <span id="leancloud-site-uv"></span>
+         人
+      </span>
+    
+    
+
+  
+
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
