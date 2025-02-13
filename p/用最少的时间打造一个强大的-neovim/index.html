@@ -1,0 +1,400 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="用最少的时间打造一个强大的 neovim"><title>用最少的时间打造一个强大的 neovim</title>
+<link rel=canonical href=https://songguokunsgg.github.io/p/%E7%94%A8%E6%9C%80%E5%B0%91%E7%9A%84%E6%97%B6%E9%97%B4%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E5%BC%BA%E5%A4%A7%E7%9A%84-neovim/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="用最少的时间打造一个强大的 neovim"><meta property='og:description' content="用最少的时间打造一个强大的 neovim"><meta property='og:url' content='https://songguokunsgg.github.io/p/%E7%94%A8%E6%9C%80%E5%B0%91%E7%9A%84%E6%97%B6%E9%97%B4%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E5%BC%BA%E5%A4%A7%E7%9A%84-neovim/'><meta property='og:site_name' content='菘菓菌'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='技术'><meta property='article:published_time' content='2024-04-20T11:38:02+00:00'><meta property='article:modified_time' content='2024-04-20T11:38:02+00:00'><meta name=twitter:title content="用最少的时间打造一个强大的 neovim"><meta name=twitter:description content="用最少的时间打造一个强大的 neovim"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_c68a00bbf16dac8.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>菘菓菌</a></h1><h2 class=site-description>热爱技术，热爱生活，梦想是像风般自由</h2></div></header><ol class=menu-social><li><a href=https://github.com/songguokunsgg target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://zhihu.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>主页</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>归档</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>搜索</span></a></li><li><a href=/%E9%93%BE%E6%8E%A5/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>链接</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><ol><li><a href=#为什么不用-lua-写配置>为什么不用 lua 写配置</a></li><li><a href=#适用人群>适用人群</a></li><li><a href=#插件>插件</a></li><li><a href=#后话>后话</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E7%BB%88%E7%AB%AF%E4%B8%8E%E7%BC%96%E8%BE%91%E5%99%A8/>终端与编辑器</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/%E7%94%A8%E6%9C%80%E5%B0%91%E7%9A%84%E6%97%B6%E9%97%B4%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E5%BC%BA%E5%A4%A7%E7%9A%84-neovim/>用最少的时间打造一个强大的 neovim</a></h2><h3 class=article-subtitle>用最少的时间打造一个强大的 neovim</h3></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Apr 20, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 4 分钟</time></div></footer></div></header><section class=article-content><p>vim 的作者去世一段时间了，所以我将这篇文章从新组织了一次。2024 年，vim 还是存在一些小问题，在 windows 和 macos 上的体验不太好，所以我现在换用 neovim 了，这套配置还是依然适用，vim 和 neovim。</p><h3 id=为什么不用-lua-写配置>为什么不用 lua 写配置</h3><p>以前写过一套 lua 的配置，但是，就这点配置，这点插件，性能差距不大，用 vimscript 写的话，适用性更好，用 vim 和 neovim 的人都能用。</p><h3 id=适用人群>适用人群</h3><p>简单的代码或者文本编辑，无需将 neovim 配置成 IDE。</p><h3 id=插件>插件</h3><p>配了几个轻量插件，实用性更强，需要安装<a class=link href=https://github.com/junegunn/vim-plug target=_blank rel=noopener>https://github.com/junegunn/vim-plug</a>，兼顾了外观和功能。</p><p>注意：如果你使用的是 windows 下 git 自带的 vim，则会被认为处在 linux 环境下，安装 vimplug 的目录需要选择 linux 的目录。</p><p>把下面的代码放在 ~/.config/nvim/init.vim 里面</p><p>vim 的话是 ~/.vimrc</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span><span class=lnt>163
+</span><span class=lnt>164
+</span><span class=lnt>165
+</span><span class=lnt>166
+</span><span class=lnt>167
+</span><span class=lnt>168
+</span><span class=lnt>169
+</span><span class=lnt>170
+</span><span class=lnt>171
+</span><span class=lnt>172
+</span><span class=lnt>173
+</span><span class=lnt>174
+</span><span class=lnt>175
+</span><span class=lnt>176
+</span><span class=lnt>177
+</span><span class=lnt>178
+</span><span class=lnt>179
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>iswindows</span> <span class=o>=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl><span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>islinux</span> <span class=o>=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl><span class=k>if</span><span class=p>(</span><span class=n>has</span><span class=p>(</span><span class=s2>&#34;win32&#34;</span><span class=p>)</span> <span class=o>||</span> <span class=n>has</span><span class=p>(</span><span class=s2>&#34;win64&#34;</span><span class=p>)</span> <span class=o>||</span> <span class=n>has</span><span class=p>(</span><span class=s2>&#34;win95&#34;</span><span class=p>)</span> <span class=o>||</span> <span class=n>has</span><span class=p>(</span><span class=s2>&#34;win16&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>        <span class=n>set</span> <span class=n>shell</span><span class=o>=</span><span class=n>powershell</span>
+</span></span><span class=line><span class=cl>        <span class=n>set</span> <span class=n>shellcmdflag</span><span class=o>=-</span><span class=n>command</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34; 设置默认终端，不然会使用cmd</span>
+</span></span><span class=line><span class=cl>        <span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>iswindows</span> <span class=o>=</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl><span class=k>else</span>
+</span></span><span class=line><span class=cl>        <span class=n>set</span> <span class=n>encoding</span><span class=o>=</span><span class=n>utf</span><span class=o>-</span><span class=mi>8</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34; 编码设置</span>
+</span></span><span class=line><span class=cl>        <span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>islinux</span> <span class=o>=</span> <span class=mi>1</span>
+</span></span><span class=line><span class=cl><span class=n>endif</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 首先进行平台判断</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=n>has</span><span class=p>(</span><span class=s2>&#34;gui_running&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>set</span> <span class=n>guifont</span><span class=o>=</span><span class=n>Source</span>\ <span class=n>Code</span>\ <span class=n>Pro</span><span class=p>:</span><span class=n>h16</span>
+</span></span><span class=line><span class=cl><span class=n>endif</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; gui判断</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s2>&#34; Configuration file for vim</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>modelines</span><span class=o>=</span><span class=mi>0</span><span class=s2>&#34; CVE-2007-2438</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s2>&#34; let &amp;t_SI.=&#34;</span>\<span class=n>e</span><span class=p>[</span><span class=mi>5</span> <span class=n>q</span><span class=s2>&#34; &#34;</span><span class=n>SI</span> <span class=o>=</span> <span class=n>INSERT</span> <span class=n>mode</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; let &amp;t_SR.=&#34;</span>\<span class=n>e</span><span class=p>[</span><span class=mi>4</span> <span class=n>q</span><span class=s2>&#34; &#34;</span><span class=n>SR</span> <span class=o>=</span> <span class=n>REPLACE</span> <span class=n>mode</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; let &amp;t_EI.=&#34;</span>\<span class=n>e</span><span class=p>[</span><span class=mi>1</span> <span class=n>q</span><span class=s2>&#34; &#34;</span><span class=n>EI</span> <span class=o>=</span> <span class=n>NORMAL</span> <span class=n>mode</span> <span class=p>(</span><span class=n>ELSE</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 正确设置光标，使用 vim 的话取消注释这三行</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>syntax</span> <span class=n>on</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 语法高亮</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>autocmd</span> <span class=n>InsertLeave</span> <span class=o>*</span> <span class=n>se</span> <span class=n>nocul</span>
+</span></span><span class=line><span class=cl><span class=n>autocmd</span> <span class=n>InsertEnter</span> <span class=o>*</span> <span class=n>se</span> <span class=n>cul</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 用浅色高亮当前行</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>smartindent</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 智能对齐</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>autoindent</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 自动对齐</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>confirm</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 在处理未保存或只读文件的时候，弹出确认</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>tabstop</span><span class=o>=</span><span class=mi>2</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; Tab键的宽度</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>softtabstop</span><span class=o>=</span><span class=mi>4</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>shiftwidth</span><span class=o>=</span><span class=mi>4</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34;  统一缩进为 4</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>noexpandtab</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 不要用空格代替制表符</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>number</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 显示行号</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>history</span><span class=o>=</span><span class=mi>50</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 历史纪录数</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>hlsearch</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>incsearch</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 搜索逐字符高亮</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>gdefault</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 行内替换</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>langmenu</span><span class=o>=</span><span class=n>zn_CN</span><span class=o>.</span><span class=n>UTF</span><span class=o>-</span><span class=mi>8</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>helplang</span><span class=o>=</span><span class=n>cn</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 语言设置</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>cmdheight</span><span class=o>=</span><span class=mi>2</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 命令行（在状态行）的高度，默认为1,这里是2</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>ruler</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 在编辑过程中，在右下角显示光标位置的状态行</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>laststatus</span><span class=o>=</span><span class=mi>2</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 总是显示状态行</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>showcmd</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 在状态行显示目前所执行的命令，未完成的指令片段亦会显示出来</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>scrolloff</span><span class=o>=</span><span class=mi>3</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 光标移动到buffer的顶部和底部时保持3行距离</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>showmatch</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 高亮显示对应的括号</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>matchtime</span><span class=o>=</span><span class=mi>5</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 对应括号高亮的时间（单位是十分之一秒）</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>autowrite</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 在切换buffer时自动保存当前文件</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>wildmenu</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 增强模式中的命令行自动完成操作</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>linespace</span><span class=o>=</span><span class=mi>2</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 字符间插入的像素行数目</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>whichwrap</span><span class=o>=</span><span class=n>b</span><span class=p>,</span><span class=n>s</span><span class=p>,</span><span class=o>&lt;</span><span class=p>,</span><span class=o>&gt;</span><span class=p>,[,]</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 开启Normal或Visual模式下Backspace键，空格键，左方向键，右方向键，Insert或replace模式下左方向键，右方向键跳行的功能。</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>filetype</span> <span class=n>plugin</span> <span class=n>indent</span> <span class=n>on</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 分为三部分命令：file on, file plugin on, file indent on.分别表示自动识别文件类型，用文件类型脚本，使用缩进定义文件。</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=n>executable</span><span class=p>(</span><span class=s1>&#39;clipboard-provider&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>clipboard</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          \ <span class=s1>&#39;name&#39;</span><span class=p>:</span> <span class=s1>&#39;myClipboard&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>          \     <span class=s1>&#39;copy&#39;</span><span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          \         <span class=s1>&#39;+&#39;</span><span class=p>:</span> <span class=s1>&#39;clipboard-provider copy&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>          \         <span class=s1>&#39;*&#39;</span><span class=p>:</span> <span class=s1>&#39;clipboard-provider copy&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>          \     <span class=p>},</span>
+</span></span><span class=line><span class=cl>          \     <span class=s1>&#39;paste&#39;</span><span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>          \         <span class=s1>&#39;+&#39;</span><span class=p>:</span> <span class=s1>&#39;clipboard-provider paste&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>          \         <span class=s1>&#39;*&#39;</span><span class=p>:</span> <span class=s1>&#39;clipboard-provider paste&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>          \     <span class=p>},</span>
+</span></span><span class=line><span class=cl>          \ <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>endif</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 使用系统剪切板 &#34;</span><span class=o>+</span><span class=n>y</span> <span class=s2>&#34;+p</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s2>&#34; vim-plug 安装</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; sh -c &#39;curl -fLo &#34;</span><span class=o>$</span><span class=p>{</span><span class=n>XDG_DATA_HOME</span><span class=p>:</span><span class=o>-$</span><span class=n>HOME</span><span class=o>/.</span><span class=n>local</span><span class=o>/</span><span class=n>share</span><span class=p>}</span><span class=s2>&#34;/nvim/site/autoload/plug.vim --create-dirs </span><span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span><span class=s2>&#34;</span>   <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>raw</span><span class=o>.</span><span class=n>githubusercontent</span><span class=o>.</span><span class=n>com</span><span class=o>/</span><span class=n>junegunn</span><span class=o>/</span><span class=n>vim</span><span class=o>-</span><span class=n>plug</span><span class=o>/</span><span class=n>master</span><span class=o>/</span><span class=n>plug</span><span class=o>.</span><span class=n>vim</span><span class=s1>&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=n>plug</span><span class=c1>#begin(&#39;~/.vim/plugged/&#39;)</span>
+</span></span><span class=line><span class=cl><span class=n>Plug</span> <span class=s1>&#39;skywind3000/vim-auto-popmenu&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>Plug</span> <span class=s1>&#39;skywind3000/vim-dict&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>Plug</span> <span class=s1>&#39;preservim/nerdtree&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>Plug</span> <span class=s1>&#39;jiangmiao/auto-pairs&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>Plug</span> <span class=s1>&#39;vim-airline/vim-airline&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>Plug</span> <span class=s1>&#39;vim-airline/vim-airline-themes&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>Plug</span> <span class=s1>&#39;morhetz/gruvbox&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>Plug</span> <span class=s1>&#39;neoclide/coc.nvim&#39;</span><span class=p>,</span> <span class=p>{</span><span class=s1>&#39;branch&#39;</span><span class=p>:</span> <span class=s1>&#39;release&#39;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>Plug</span> <span class=s1>&#39;skywind3000/asynctasks.vim&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>Plug</span> <span class=s1>&#39;skywind3000/asyncrun.vim&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>call</span> <span class=n>plug</span><span class=c1>#end()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 代码补全配置</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 设定需要生效的文件类型，如果是 &#34;</span><span class=o>*</span><span class=s2>&#34; 的话，代表所有类型</span>
+</span></span><span class=line><span class=cl><span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>apc_enable_ft</span> <span class=o>=</span> <span class=p>{</span><span class=s1>&#39;*&#39;</span><span class=p>:</span><span class=mi>1</span><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 设定从字典文件以及当前打开的文件里收集补全单词，详情看 &#39;:help cpt&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>cpt</span><span class=o>=.</span><span class=p>,</span><span class=n>k</span><span class=p>,</span><span class=n>w</span><span class=p>,</span><span class=n>b</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 不要自动选中第一个选项。</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>completeopt</span><span class=o>=</span><span class=n>menu</span><span class=p>,</span><span class=n>menuone</span><span class=p>,</span><span class=n>noselect</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 禁止在下方显示一些啰嗦的提示</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>shortmess</span><span class=o>+=</span><span class=n>c</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s2>&#34; nerdtree 按F1 打开关闭</span>
+</span></span><span class=line><span class=cl><span class=n>map</span> <span class=o>&lt;</span><span class=n>F1</span><span class=o>&gt;</span> <span class=p>:</span><span class=n>NERDTreeToggle</span><span class=o>&lt;</span><span class=n>CR</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 状态栏设置</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>laststatus</span><span class=o>=</span><span class=mi>2</span>  <span class=s2>&#34;永远显示状态栏</span>
+</span></span><span class=line><span class=cl><span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>airline_powerline_fonts</span> <span class=o>=</span> <span class=mi>1</span>  <span class=s2>&#34; 支持 powerline 字体</span>
+</span></span><span class=line><span class=cl><span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>airline</span><span class=c1>#extensions#tabline#enabled = 1 &#34; 显示窗口tab和buffer</span>
+</span></span><span class=line><span class=cl><span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>airline_theme</span><span class=o>=</span><span class=s1>&#39;molokai&#39;</span>  <span class=s2>&#34; murmur配色不错</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=o>!</span><span class=n>exists</span><span class=p>(</span><span class=s1>&#39;g:airline_symbols&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>airline_symbols</span> <span class=o>=</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl><span class=n>endif</span>
+</span></span><span class=line><span class=cl><span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>airline_left_sep</span> <span class=o>=</span> <span class=s1>&#39;▶&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>airline_left_alt_sep</span> <span class=o>=</span> <span class=s1>&#39;❯&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>airline_right_sep</span> <span class=o>=</span> <span class=s1>&#39;◀&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>airline_right_alt_sep</span> <span class=o>=</span> <span class=s1>&#39;❮&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>airline_symbols</span><span class=o>.</span><span class=n>linenr</span> <span class=o>=</span> <span class=s1>&#39;¶&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>airline_symbols</span><span class=o>.</span><span class=n>branch</span> <span class=o>=</span> <span class=s1>&#39;⎇&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s2>&#34; colorscheme pablo</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; colorscheme torte</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; colorscheme koehler</span>
+</span></span><span class=line><span class=cl><span class=n>colorscheme</span> <span class=n>gruvbox</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=n>background</span><span class=o>=</span><span class=n>dark</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 设置颜色主题</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=s2>&#34; 映射两个代码运行的快捷键</span>
+</span></span><span class=line><span class=cl><span class=n>let</span> <span class=n>g</span><span class=p>:</span><span class=n>asyncrun_open</span> <span class=o>=</span> <span class=mi>10</span>
+</span></span><span class=line><span class=cl><span class=n>noremap</span> <span class=o>&lt;</span><span class=n>silent</span><span class=o>&gt;&lt;</span><span class=n>C</span><span class=o>-</span><span class=n>g</span><span class=o>&gt;</span> <span class=p>:</span><span class=n>AsyncTask</span> <span class=n>file</span><span class=o>-</span><span class=n>run</span><span class=o>&lt;</span><span class=n>cr</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=n>noremap</span> <span class=o>&lt;</span><span class=n>silent</span><span class=o>&gt;&lt;</span><span class=n>C</span><span class=o>-</span><span class=n>b</span><span class=o>&gt;</span> <span class=p>:</span><span class=n>AsyncTask</span> <span class=n>file</span><span class=o>-</span><span class=n>build</span><span class=o>&lt;</span><span class=n>cr</span><span class=o>&gt;</span>
+</span></span></code></pre></td></tr></table></div></div><p>去掉了快捷键基本上使用默认配置，F1 打开 nerdtree，Ctrl+g 运行当前文件，Ctrl+b 构建当前项目（但针对这一点我不做过多讲解，否则偏离了文章的主题）。使用 gruvbox 主题</p><p>更新一版，加入了 gui 和平台特性，因为我要在 win 下用 gvim</p><p>再一键安装 Coc 插件，这是我常用的，你可以装自己需要的插件</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>CocInstall coc-html coc-tsserver coc-sumneko-lua coc-sh coc-pyright coc-json coc-clangd
+</span></span></code></pre></td></tr></table></div></div><p>然后简单的配置一下 asyncrun, vim ~/.vim/tasks.ini，我常用的语言配置如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[file-run]
+</span></span><span class=line><span class=cl>command=&#34;$(VIM_FILEPATH)&#34;
+</span></span><span class=line><span class=cl>command:python=python &#34;$(VIM_FILENAME)&#34;
+</span></span><span class=line><span class=cl>command:javascript=node &#34;$(VIM_FILENAME)&#34;
+</span></span><span class=line><span class=cl>command:sh=bash &#34;$(VIM_FILENAME)&#34;
+</span></span><span class=line><span class=cl>command:lua=lua &#34;$(VIM_FILENAME)&#34;
+</span></span><span class=line><span class=cl>command:rust=rust &#34;$(VIM_FILENAME)&#34;
+</span></span><span class=line><span class=cl>output=terminal
+</span></span><span class=line><span class=cl>cwd=$(VIM_FILEDIR)
+</span></span><span class=line><span class=cl>save=2
+</span></span></code></pre></td></tr></table></div></div><p>这个插件功能十分强大，详情可见<a class=link href=https://github.com/skywind3000/asynctasks.vim target=_blank rel=noopener>https://github.com/skywind3000/asynctasks.vim</a></p><p>这样的话，进行一些简易的代码编写和文本编辑都没问题了</p><h3 id=后话>后话</h3><p>我并不建议将 neovim 作为大型项目的编辑器，因为它在项目管理，构建上的配置难度比单文件高得多，插件装得太多也会影响 neovim 本身的性能，所以还是专注于简单文本编辑比较好。如果需要管理大型工程，使用 vs、xcode 等 IDE 是更为明智的选择。</p></section><footer class=article-footer><section class=article-tags><a href=/tags/%E6%8A%80%E6%9C%AF/>技术</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/%E4%BD%BF%E7%94%A8-nix-darwin-%E4%B8%BA-sonoma-%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84-zsh/><div class=article-details><h2 class=article-title>使用 nix-darwin 为 sonoma 配置一个简洁高效的 zsh</h2></div></a></article><article><a href=/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/><div class=article-details><h2 class=article-title>真香警告，2024 年中的 vscode+latex 写作</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 菘菓菌</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
