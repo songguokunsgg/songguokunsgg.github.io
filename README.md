@@ -1,69 +1,72 @@
 <img align="right" width="150" alt="logo" src="https://user-images.githubusercontent.com/5889006/190859553-5b229b4f-c476-4cbd-928f-890f5265ca4c.png">
 
-# Hugo Theme Stack Starter Template
+# Hugo 主题 Stack 起始模板
 
-This is a quick start template for [Hugo theme Stack](https://github.com/CaiJimmy/hugo-theme-stack). It uses [Hugo modules](https://gohugo.io/hugo-modules/) feature to load the theme.
+这是一个快速开始模板，用于[Hugo 主题 Stack](https://github.com/CaiJimmy/hugo-theme-stack)。它使用[Hugo 模块](https://gohugo.io/hugo-modules/)功能来加载主题。
 
-It comes with a basic theme structure and configuration. GitHub action has been set up to deploy the theme to a public GitHub page automatically. Also, there's a cron job to update the theme automatically everyday.
+它提供了一个基本的主题结构和配置。GitHub 行动已经设置好，可以自动将主题部署到公共 GitHub 页面。此外，还有一个定时任务，每天自动更新主题。
 
-## Get started
+## 开始使用
 
-1. Click *Use this template*, and create your repository as `<username>.github.io` on GitHub.
-![Step 1](https://user-images.githubusercontent.com/5889006/156916624-20b2a784-f3a9-4718-aa5f-ce2a436b241f.png)
+1. 点击 *Use this template*，并在 GitHub 上创建一个名为 `<username>.github.io` 的仓库。
+![步骤 1](https://user-images.githubusercontent.com/5889006/156916624-20b2a784-f3a9-4718-aa5f-ce2a436b241f.png)
 
-2. Once the repository is created, create a GitHub codespace associated with it.
-![Create codespace](https://user-images.githubusercontent.com/5889006/156916672-43b7b6e9-4ffb-4704-b4ba-d5ca40ffcae7.png)
+2. 一旦仓库创建完成，就为其创建一个 GitHub codespaces。
+![创建 codespaces](https://user-images.githubusercontent.com/5889006/156916672-43b7b6e9-4ffb-4704-b4ba-d5ca40ffcae7.png)
 
-3. And voila! You're ready to go. The codespace has been configured with the latest version of Hugo extended, just run `hugo server` in the terminal and see your new site in action.
+3. 完成！您已经准备好了。codespace 已经配置了最新版本的 Hugo extended，只需在终端运行 `hugo server` 即可看到您的新网站。
 
-4. Check `config` folder for the configuration files. You can edit them to suit your needs. Make sure to update the `baseurl` property in `config/_default/config.toml` to your site's URL.
+4. 检查 `config` 文件夹中的配置文件。您可以编辑它们以满足您的需求。确保更新 `config/_default/config.toml` 中的 `baseurl` 属性为您网站的 URL。
 
-5. Open Settings -> Pages. Change the build branch from `master` to `gh-pages`.
-![Build](https://github.com/namanh11611/hugo-theme-stack-starter/assets/16586200/12c763cd-bead-4923-b610-8788f388fcb5)
+5. 打开设置 -> 页面。将构建分支从 `master` 更改为 `gh-pages`。
+![构建](https://github.com/namanh11611/hugo-theme-stack-starter/assets/16586200/12c763cd-bead-4923-b610-8788f388fcb5)
 
-6. Once you're done editing the site, just commit it and push it. GitHub action will deploy the site automatically to GitHub page asociated with the repository.
-![GitHub action](https://user-images.githubusercontent.com/5889006/156916881-90b8bb9b-1925-4e60-9d7a-8026cda729bf.png)
+6. 一旦您完成编辑网站，只需提交并推送。GitHub 行动将自动将网站部署到与仓库关联的 GitHub 页面。
+![GitHub 行动](https://user-images.githubusercontent.com/5889006/156916881-90b8bb9b-1925-4e60-9d7a-8026cda729bf.png)
 
 ---
 
-In case you don't want to use GitHub codespace, you can also run this template in your local machine. **You need to install Git, Go and Hugo extended locally.**
+如果您不想使用 GitHub codespaces，您也可以在本地计算机上运行此模板。**您需要在本地安装 Git、Go 和 Hugo extended。**
 
-## Update theme manually
+## 手动更新主题
 
-Run:
+运行：
 
 ```bash
 hugo mod get -u github.com/CaiJimmy/hugo-theme-stack/v3
 hugo mod tidy
 ```
 
-> This starter template has been configured with `v3` version of theme. Due to the limitation of Go module, once the `v4` or up version of theme is released, you need to update the theme manually. (Modifying `config/module.toml` file)
+> 此起始模板已配置为使用主题的 `v3` 版本。由于 Go 模块的限制，一旦发布了 `v4` 或更高版本的主题，您需要手动更新主题。（修改 `config/module.toml` 文件）
 
-## Deploy to another static page hostings
+## 部署到其他静态页面托管
 
-If you want to build this site using another static page hosting, you need to make sure they have Go installed in the machine. 
+如果您想使用其他静态页面托管来构建此网站，您需要确保它们在机器上安装了 Go。
 
 <details>
   <summary>Vercel</summary>
-  
-You need to overwrite build command to install manually Go:
 
-```
+您需要覆盖构建命令以手动安装 Go：
+
+```bash
 amazon-linux-extras install golang1.11 && hugo --gc --minify
 ```
 
 ![](https://user-images.githubusercontent.com/5889006/156917172-01e4d418-3469-4ffb-97e4-a905d28b8424.png)
 
-If you are using Node.js 20, you need to overwrite the install command to install manually Go:
+如果您使用的是 Node.js 20，您需要覆盖安装命令以手动安装 Go：
 
-```
+```bash
 dnf install -y golang
 ```
 
 ![image](https://github.com/zhi-yi-huang/hugo-theme-stack-starter/assets/83860323/777c1109-dfc8-4893-9db7-1305ec027cf5)
 
+同时确保在环境变量 `HUGO_VERSION` 中指定 Hugo 版本（使用最新版本的 Hugo extended）：
 
-Make sure also to specify Hugo version in the environment variable `HUGO_VERSION` (Use the latest version of Hugo extended):
-
-![Environment variable](https://user-images.githubusercontent.com/5889006/156917212-afb7c70d-ab85-480f-8288-b15781a462c0.png)
+![环境变量](https://user-images.githubusercontent.com/5889006/156917212-afb7c70d-ab85-480f-8288-b15781a462c0.png)
 </details>
+
+---
+
+请注意，Markdown 中的图片链接和代码块需要根据实际情况进行调整，以确保它们在中文环境中能够正确显示。
