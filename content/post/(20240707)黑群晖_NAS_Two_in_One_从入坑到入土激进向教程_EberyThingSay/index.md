@@ -1,6 +1,6 @@
 ---
 title: 黑群晖 NAS Two in One 从入坑到入土——激进向教程
-description: 黑群晖 NAS Two in One 从入坑到入土——激进向教程
+description: 文章详细介绍了如何从零开始搭建和配置黑群晖 NAS 系统，重点在于利用 IPv6 实现公网访问，并通过 DDNS-GO 自动更新 IP 地址。文章涵盖了系统安装、域名解析、SSL 证书配置、UPS 设置、Synology Drive 和 Photos 的使用、Jellyfin 媒体服务器、Navidrome 音乐服务器等功能的实现，以及如何通过 Hyper Backup 备份数据到天翼云盘。最后，文章还探讨了通过路由器 DNS 劫持实现内外网无缝切换的可能性。
 date: 2024-07-07 18:38:07
 tags:
 - 技术

@@ -1,7 +1,7 @@
 ---
-title: 2022 年，用 Wayland 开启 linux
-description: 2022 年，用 Wayland 开启 linux
-date: 2022-10-25 10:22:33
+title      : 2022 年，用 Wayland 开启 linux
+description: 这篇文章讨论了 2022 年使用 Wayland 作为 Linux 显示服务器的体验。作者提到了一些不适合使用 Linux 和 Wayland 的场景，如依赖特定软件的用户。文章还提供了 NVIDIA 显卡的 Wayland 配置指南，讨论了 Wayland 的优缺点，包括动画效果、软件兼容性问题、远程功能差等。作者分享了解决字体大小、输入法和多屏显示问题的方法，并提供了一些特定应用（如 Steam、腾讯会议）在 Wayland 环境下的解决方案。总的来说，文章提供了一个关于在 Linux 上使用 Wayland 的实用指南，包括一些常见问题的解决方法。3
+date: 2022-10-25 16:32:54
 tags:
 - 技术
 categories:

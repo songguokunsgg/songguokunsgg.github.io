@@ -1,6 +1,6 @@
 ---
 title: 同元 syslab 2022b 版本体验
-description: 同元 syslab 2022b 版本体验
+description: 本文是关于同元 syslab 2022b 版本的体验报告。作者对比了新旧版本，提到新版本在安装、启动速度、主题、预加载、自动补全等方面的改进。同时，指出了加载速度慢、重量级、缺乏 Julia 版本升级方式等缺点。作者认为，对于懒人来说，syslab 是目前最好的 Julia IDE，但对于爱折腾或硬盘空间有限的用户，可能不是最佳选择。总体上，syslab 作为 Julia IDE 表现优秀，但替代 MATLAB 的可能性为零。
 date: 2022-09-21 21:00:00
 tags:
 - 杂谈

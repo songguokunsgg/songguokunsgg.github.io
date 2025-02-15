@@ -1,6 +1,6 @@
 ---
 title: 真香警告，2024 年中的 vscode+latex 写作
-description: 真香警告，2024 年中的 vscode+latex 写作
+description: 文章介绍了 2024 年使用 VSCode 和 LaTeX 进行写作的最新配置方法，重点推荐了 latexmk 工具，因其排错功能、增量编译和智能编译链的优势。文章还详细说明了在 Windows、Linux 和 macOS 上安装 TeX Live 和 VSCode 的步骤，并提供了 VSCode 中 LaTeX 插件的配置指南。vscode+latex 写作
 date: 2024-04-22 11:28:33
 tags:
 - 学术

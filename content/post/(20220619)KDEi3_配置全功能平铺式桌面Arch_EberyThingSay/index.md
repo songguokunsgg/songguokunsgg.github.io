@@ -1,6 +1,6 @@
 ---
 title: KDE+i3 配置全功能平铺式桌面（Arch）
-description: KDE+i3 配置全功能平铺式桌面（Arch）
+description: 本文介绍了如何在 Arch Linux 上配置 KDE 与 i3 结合的平铺式桌面环境。文章详细说明了安装 i3 所需的软件、将 KDE 的窗口管理器从 KWin 更换为 i3 的步骤，以及如何配置 i3 的快捷键、外观和壁纸管理。适合喜欢平铺式窗口管理器且对效率要求高的用户。
 date: 2022-06-19 15:38:08
 tags:
 - 技术

@@ -1,6 +1,6 @@
 ---
 title: PVE 内网穿透
-description: PVE 内网穿透
+description: 本文介绍了如何在 PVE（Proxmox Virtual Environment）系统中进行内网穿透的配置。首先，文章详细说明了如何更换软件源以提高下载速度，包括清华源、中科大源等。接着，介绍了如何通过 NATFRP 服务实现内网穿透，包括下载并配置 frpc 客户端，设置自启动服务，并通过 systemctl 管理服务状态。最后，用户可以通过提供的 IP 和端口访问 PVE 系统。穿透
 date: 2024-05-13 13:32:48
 tags:
 - 技术

@@ -1,6 +1,6 @@
 ---
 title: 使用 nix-darwin 为 sonoma 配置一个简洁高效的 zsh
-description: 使用 nix-darwin 为 sonoma 配置一个简洁高效的 zsh
+description: 本文介绍了如何使用 nix-darwin 为 macOS 配置一个高效的 zsh 环境。作者从 homebrew 切换到 nix，并分享了 nix 的基本配置和 zsh 的详细设置。包括安装 Darwin-nix、配置 nix 环境、zsh 插件安装和配置、字体选择以及 zsh 配置文件的编写。最后，还提供了 powerlevel10k 主题的配置方法和一些实用命令别名和功能。
 date: 2024-04-29 21:02:04
 tags:
 - 技术

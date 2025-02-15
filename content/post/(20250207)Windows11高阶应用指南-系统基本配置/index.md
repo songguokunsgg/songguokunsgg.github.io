@@ -1,6 +1,6 @@
 ---
 title: Windows 11 高阶应用指南——系统基本配置
-description: Windows 11 高阶应用指南——系统基本配置
+description: 本文介绍了 Windows 11 的系统基本配置，包括系统激活、桌面图标管理、右键菜单设置、Windows Defender 配置、组策略管理以及开关机模式的区别。通过这些配置，用户可以优化系统性能，提升使用体验，并确保系统安全。南——系统基本配置
 date: 2025-02-07 16:20:33+0000
 categories:
     - Windows 11 高阶应用指南

@@ -1,6 +1,6 @@
 ---
 title: 黑群晖 NAS —— 在 OpenWRT 旁路由中启用 IPv6
-description: 黑群晖 NAS —— 在 OpenWRT 旁路由中启用 IPv6
+description: 本文介绍了如何在 OpenWRT 旁路由中启用 IPv6，以响应工信部推进 IPv6 技术演进和应用创新发展的要求。文章解释了不启用 IPv6 的影响，并详细说明了在旁路由中启用 IPv6 的配置步骤，包括在 LAN 接口中禁用 IPv6、新增用于 IPv6 的接口、设置 DHCP/DNS 过滤器，以及进行网络测试。最后，还提到了 openclash 软件的 IPv6 配置。
 date: 2024-07-15 13:49:17
 tags:
 - 技术

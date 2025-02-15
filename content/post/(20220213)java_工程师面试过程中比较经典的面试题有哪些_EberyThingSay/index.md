@@ -1,6 +1,6 @@
 ---
 title: java 工程师面试过程中，比较经典的面试题有哪些？
-description: java 工程师面试过程中，比较经典的面试题有哪些？
+description: 本文总结了 Java 工程师面试中的经典问题，涵盖了 Java 基础、集合框架、多线程、Spring Boot、Spring Cloud、MySQL 等多个方面。重点介绍了 Java 面向对象的三大特征、数据类型、String 类、集合类的区别与使用场景、HashMap 的底层实现、AOP 和 IOC 的概念、Spring Boot 的核心注解、MySQL 的事务特性及优化策略等。适合准备 Java 面试的开发者参考。
 date: 2022-02-13 15:32:19
 tags:
 - 技术

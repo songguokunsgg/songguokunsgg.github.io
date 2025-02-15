@@ -1,6 +1,6 @@
 ---
 title: 如何解决群晖 NAS 中异常的 Jellygin CPU 占用
-description: 如何解决群晖 NAS 中异常的 Jellygin CPU 占用
+description: 本文介绍了解决群晖 NAS 中 Jellyfin 高 CPU 占用问题的方法。主要原因包括转码和缩略图生成功能资源占用大，以及目录异常导致资源占用。解决方案包括启用硬件加速、使用 tinyMediaManager 代替 Jellyfin 刮削、去除无用的媒体库和定时任务。目的是让 Jellyfin 专注于播放和展示，将刮削功能交给更专业的程序完成。
 date: 2024-08-25 16:38:56
 tags:
 - 技术
