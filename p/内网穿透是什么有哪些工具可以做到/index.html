@@ -1,0 +1,174 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="内本文介绍了如何在 PVE 系统中进行软件源更新、启用内网穿透，并使用 SakuraFRP 工具实现内网穿透。文章详细描述了安装过程、换源步骤、配置 SakuraFRP 客户端以及设置自启动脚本，确保内网穿透服务在系统启动时自动运行。"><title>内网穿透是什么，有哪些工具可以做到？</title>
+<link rel=canonical href=https://songguokunsgg.github.io/p/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E6%98%AF%E4%BB%80%E4%B9%88%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B7%A5%E5%85%B7%E5%8F%AF%E4%BB%A5%E5%81%9A%E5%88%B0/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="内网穿透是什么，有哪些工具可以做到？"><meta property='og:description' content="内本文介绍了如何在 PVE 系统中进行软件源更新、启用内网穿透，并使用 SakuraFRP 工具实现内网穿透。文章详细描述了安装过程、换源步骤、配置 SakuraFRP 客户端以及设置自启动脚本，确保内网穿透服务在系统启动时自动运行。"><meta property='og:url' content='https://songguokunsgg.github.io/p/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E6%98%AF%E4%BB%80%E4%B9%88%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B7%A5%E5%85%B7%E5%8F%AF%E4%BB%A5%E5%81%9A%E5%88%B0/'><meta property='og:site_name' content='菘菓菌'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='技术'><meta property='article:published_time' content='2022-05-11T14:02:02+00:00'><meta property='article:modified_time' content='2022-05-11T14:02:02+00:00'><meta name=twitter:title content="内网穿透是什么，有哪些工具可以做到？"><meta name=twitter:description content="内本文介绍了如何在 PVE 系统中进行软件源更新、启用内网穿透，并使用 SakuraFRP 工具实现内网穿透。文章详细描述了安装过程、换源步骤、配置 SakuraFRP 客户端以及设置自启动脚本，确保内网穿透服务在系统启动时自动运行。"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_598b466302713ded.png width=300 height=325 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>菘菓菌</a></h1><h2 class=site-description>热爱技术，热爱生活，梦想是像风般自由</h2></div></header><ol class=menu-social><li><a href=https://github.com/songguokunsgg target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://zhihu.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>主页</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>归档</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>搜索</span></a></li><li><a href=/%E9%93%BE%E6%8E%A5/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>链接</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#安装过程>安装过程</a></li><li><a href=#换源转载自-tismagicpve81-下软件源更新与其它配置>换源（转载自 Tismagic：PVE8.1 下软件源更新与其它配置）</a></li><li><a href=#启用内网穿透>启用内网穿透</a><ol><li><a href=#pve-系统添加-frpc-自启动>PVE 系统添加 frpc 自启动</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%9D%82%E8%B0%88/>操作系统杂谈</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E6%98%AF%E4%BB%80%E4%B9%88%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B7%A5%E5%85%B7%E5%8F%AF%E4%BB%A5%E5%81%9A%E5%88%B0/>内网穿透是什么，有哪些工具可以做到？</a></h2><h3 class=article-subtitle>内本文介绍了如何在 PVE 系统中进行软件源更新、启用内网穿透，并使用 SakuraFRP 工具实现内网穿透。文章详细描述了安装过程、换源步骤、配置 SakuraFRP 客户端以及设置自启动脚本，确保内网穿透服务在系统启动时自动运行。</h3></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>May 11, 2022</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 2 分钟</time></div></footer></div></header><section class=article-content><h2 id=安装过程>安装过程</h2><p>DNS: 223.5.5.5，需要联网</p><h2 id=换源转载自-tismagicpve81-下软件源更新与其它配置>换源（转载自 Tismagic：PVE8.1 下软件源更新与其它配置）</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=c1># 1. 更新debian 软件源</span>
+</span></span><span class=line><span class=cl><span class=c1>#(任选一个源)</span>
+</span></span><span class=line><span class=cl><span class=c1>#1.1.1 清华源</span>
+</span></span><span class=line><span class=cl><span class=c1># 参考: https://mirrors.tuna.tsinghua.edu.cn/help/debian/</span>
+</span></span><span class=line><span class=cl><span class=n>sed</span> <span class=o>-</span><span class=n>i</span><span class=o>.</span><span class=n>bak</span> <span class=s2>&#34;s#ftp.debian.org/debian#mirrors.tuna.tsinghua.edu.cn/debian#g&#34;</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>sources</span><span class=o>.</span><span class=n>list</span>  
+</span></span><span class=line><span class=cl><span class=n>sed</span> <span class=o>-</span><span class=n>i</span> <span class=s2>&#34;s#security.debian.org#mirrors.tuna.tsinghua.edu.cn/debian-security#g&#34;</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>sources</span><span class=o>.</span><span class=n>list</span>
+</span></span><span class=line><span class=cl><span class=c1>#apt update &amp;&amp; apt-get install -y apt-transport-https ca-certificates  --fix-missing</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#1.1.2 中科大源</span>
+</span></span><span class=line><span class=cl><span class=c1># 参考: https://mirrors.ustc.edu.cn/help/proxmox.html</span>
+</span></span><span class=line><span class=cl><span class=n>sed</span> <span class=o>-</span><span class=n>i</span><span class=o>.</span><span class=n>bak</span> <span class=s1>&#39;s|^deb http://ftp.debian.org|deb https://mirrors.ustc.edu.cn|g&#39;</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>sources</span><span class=o>.</span><span class=n>list</span>
+</span></span><span class=line><span class=cl><span class=n>sed</span> <span class=o>-</span><span class=n>i</span> <span class=s1>&#39;s|^deb http://security.debian.org|deb https://mirrors.ustc.edu.cn/debian-security|g&#39;</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>sources</span><span class=o>.</span><span class=n>list</span>
+</span></span><span class=line><span class=cl><span class=c1>#apt update &amp;&amp; apt-get install -y apt-transport-https ca-certificates  --fix-missing</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#1.1.3 aliyun源</span>
+</span></span><span class=line><span class=cl><span class=n>sed</span> <span class=o>-</span><span class=n>i</span><span class=o>.</span><span class=n>bak</span> <span class=s2>&#34;s#ftp.debian.org/debian#mirrors.aliyun.com/debian#g&#34;</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>sources</span><span class=o>.</span><span class=n>list</span>     <span class=c1>#修改文件的同时, 会创建一个.bak后缀的备份文件</span>
+</span></span><span class=line><span class=cl><span class=n>sed</span> <span class=o>-</span><span class=n>i</span> <span class=s2>&#34;s#security.debian.org#mirrors.aliyun.com/debian-security#g&#34;</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>sources</span><span class=o>.</span><span class=n>list</span>  <span class=c1>#阿里Debian源</span>
+</span></span><span class=line><span class=cl><span class=c1>#apt update &amp;&amp; apt-get install -y apt-transport-https ca-certificates  --fix-missing</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#1.1.4 163源</span>
+</span></span><span class=line><span class=cl><span class=n>sed</span> <span class=o>-</span><span class=n>i</span><span class=o>.</span><span class=n>bak</span> <span class=s2>&#34;s#ftp.debian.org/debian#mirrors.163.com/debian#g&#34;</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>sources</span><span class=o>.</span><span class=n>list</span>     <span class=c1>#163Debian源</span>
+</span></span><span class=line><span class=cl><span class=n>sed</span> <span class=o>-</span><span class=n>i</span> <span class=s2>&#34;s#security.debian.org#mirrors.163.com/debian-security#g&#34;</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>sources</span><span class=o>.</span><span class=n>list</span>     <span class=c1>#163Debian源</span>
+</span></span><span class=line><span class=cl><span class=c1>#apt update &amp;&amp; apt-get install -y apt-transport-https ca-certificates  --fix-missing</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 2. PVE 软件源</span>
+</span></span><span class=line><span class=cl><span class=c1># 删除默认企业源</span>
+</span></span><span class=line><span class=cl><span class=n>rm</span> <span class=o>-</span><span class=n>rf</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>sources</span><span class=o>.</span><span class=n>list</span><span class=o>.</span><span class=n>d</span><span class=o>/</span><span class=n>pve</span><span class=o>-</span><span class=n>enterprise</span><span class=o>.</span><span class=n>list</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#(任选一个源)</span>
+</span></span><span class=line><span class=cl><span class=c1># 2.1.1 清华源</span>
+</span></span><span class=line><span class=cl><span class=n>echo</span> <span class=s2>&#34;deb https://mirrors.tuna.tsinghua.edu.cn/proxmox/debian bookworm pve-no-subscription&#34;</span> <span class=o>&gt;</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>sources</span><span class=o>.</span><span class=n>list</span><span class=o>.</span><span class=n>d</span><span class=o>/</span><span class=n>pve</span><span class=o>-</span><span class=n>no</span><span class=o>-</span><span class=n>subscription</span><span class=o>.</span><span class=n>list</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 2.1.2 中科大源</span>
+</span></span><span class=line><span class=cl><span class=n>echo</span> <span class=s2>&#34;deb https://mirrors.ustc.edu.cn/proxmox/debian/pve bookworm pve-no-subscription&#34;</span> <span class=o>&gt;</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>sources</span><span class=o>.</span><span class=n>list</span><span class=o>.</span><span class=n>d</span><span class=o>/</span><span class=n>pve</span><span class=o>-</span><span class=n>no</span><span class=o>-</span><span class=n>subscription</span><span class=o>.</span><span class=n>list</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#3 CEPH分布式源</span>
+</span></span><span class=line><span class=cl><span class=c1>#3.1.1 中科大源</span>
+</span></span><span class=line><span class=cl><span class=n>echo</span> <span class=s2>&#34;deb https://mirrors.ustc.edu.cn/proxmox/debian/ceph-quincy bookworm no-subscription&#34;</span> <span class=o>&gt;</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>sources</span><span class=o>.</span><span class=n>list</span><span class=o>.</span><span class=n>d</span><span class=o>/</span><span class=n>ceph</span><span class=o>.</span><span class=n>list</span>     <span class=c1>#中科大源</span>
+</span></span><span class=line><span class=cl><span class=n>sed</span> <span class=o>-</span><span class=n>i</span><span class=o>.</span><span class=n>bak</span> <span class=s2>&#34;s#http://download.proxmox.com/debian#https://mirrors.ustc.edu.cn/proxmox/debian#g&#34;</span> <span class=o>/</span><span class=n>usr</span><span class=o>/</span><span class=n>share</span><span class=o>/</span><span class=n>perl5</span><span class=o>/</span><span class=n>PVE</span><span class=o>/</span><span class=n>CLI</span><span class=o>/</span><span class=n>pveceph</span><span class=o>.</span><span class=n>pm</span>     <span class=c1>#中科大源</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># --------------------------------------------------------</span>
+</span></span><span class=line><span class=cl><span class=c1># 更新索引, 升级安装软件包, 重启系统</span>
+</span></span><span class=line><span class=cl><span class=c1># --------------------------------------------------------</span>
+</span></span><span class=line><span class=cl><span class=c1># 如果无法拉取https软件源时安装</span>
+</span></span><span class=line><span class=cl><span class=n>apt</span> <span class=n>update</span> <span class=o>&amp;&amp;</span> <span class=n>apt</span><span class=o>-</span><span class=n>get</span> <span class=n>install</span> <span class=o>-</span><span class=n>y</span> <span class=n>apt</span><span class=o>-</span><span class=n>transport</span><span class=o>-</span><span class=n>https</span> <span class=n>ca</span><span class=o>-</span><span class=n>certificates</span>  <span class=o>--</span><span class=n>fix</span><span class=o>-</span><span class=n>missing</span>
+</span></span><span class=line><span class=cl><span class=n>apt</span> <span class=n>update</span> <span class=o>&amp;&amp;</span> <span class=n>apt</span> <span class=n>dist</span><span class=o>-</span><span class=n>upgrade</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#4.LXC容器仓库源(CT)</span>
+</span></span><span class=line><span class=cl><span class=c1># 4.1.1 中科大源</span>
+</span></span><span class=line><span class=cl><span class=n>sed</span> <span class=o>-</span><span class=n>i</span><span class=o>.</span><span class=n>bak</span> <span class=s2>&#34;s#http://download.proxmox.com/images#https://mirrors.ustc.edu.cn/proxmox/images#g&#34;</span> <span class=o>/</span><span class=n>usr</span><span class=o>/</span><span class=n>share</span><span class=o>/</span><span class=n>perl5</span><span class=o>/</span><span class=n>PVE</span><span class=o>/</span><span class=n>APLInfo</span><span class=o>.</span><span class=n>pm</span>  
+</span></span><span class=line><span class=cl><span class=n>systemctl</span> <span class=n>restart</span> <span class=n>pvedaemon</span>  <span class=c1># 稍等下手动刷新webui 页面</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 删除订阅弹窗</span>
+</span></span><span class=line><span class=cl><span class=n>sed</span> <span class=o>-</span><span class=n>Ezi</span><span class=o>.</span><span class=n>bak</span> <span class=s2>&#34;s/(Ext.Msg.show\(\{\s+title: gettext\(&#39;No valid sub)/void\(\{ \/\/</span><span class=se>\1</span><span class=s2>/g&#34;</span> <span class=o>/</span><span class=n>usr</span><span class=o>/</span><span class=n>share</span><span class=o>/</span><span class=n>javascript</span><span class=o>/</span><span class=n>proxmox</span><span class=o>-</span><span class=n>widget</span><span class=o>-</span><span class=n>toolkit</span><span class=o>/</span><span class=n>proxmoxlib</span><span class=o>.</span><span class=n>js</span> <span class=o>&amp;&amp;</span> <span class=n>systemctl</span> <span class=n>restart</span> <span class=n>pveproxy</span><span class=o>.</span><span class=n>service</span>
+</span></span><span class=line><span class=cl><span class=c1># 执行完成后，需注销PVE登录后, 重新启动浏览器</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=启用内网穿透>启用内网穿透</h2><p><a class=link href=https://www.natfrp.com/tunnel/ target=_blank rel=noopener>https://www.natfrp.com/tunnel/</a> 申请一个免费节点（本地端口为 8006）</p><p><img src=/p/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E6%98%AF%E4%BB%80%E4%B9%88%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B7%A5%E5%85%B7%E5%8F%AF%E4%BB%A5%E5%81%9A%E5%88%B0/sakurafrp.jpg width=720 height=185 srcset="/p/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E6%98%AF%E4%BB%80%E4%B9%88%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B7%A5%E5%85%B7%E5%8F%AF%E4%BB%A5%E5%81%9A%E5%88%B0/sakurafrp_hu_a0802eb3e4b8b408.jpg 480w, /p/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E6%98%AF%E4%BB%80%E4%B9%88%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B7%A5%E5%85%B7%E5%8F%AF%E4%BB%A5%E5%81%9A%E5%88%B0/sakurafrp_hu_4bb1e683bf00161e.jpg 1024w" loading=lazy alt=SakuraFRP class=gallery-image data-flex-grow=389 data-flex-basis=934px></p><p>下载 sakura 的 Frpc 文件</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>wget https://nya.globalslb.net/natfrp/client/launcher-unix/3.1.0/natfrp-service_linux_amd64.tar.zst
+</span></span></code></pre></td></tr></table></div></div><p>假设保存在 <code>/root/Documents/</code> 下面，<code>cd</code> 到该目录，解压缩，给权限</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>cd /root/Documents
+</span></span><span class=line><span class=cl>tar -I zstd xvf natfrp-service_linux_amd64.tar.zst
+</span></span><span class=line><span class=cl>chmod +x ./*
+</span></span></code></pre></td></tr></table></div></div><p>先运行一次 <code>./frpc</code> 生成配置文件，配件文件保存在 <code>./frpc.ini</code> 中</p><h3 id=pve-系统添加-frpc-自启动>PVE 系统添加 frpc 自启动</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>vim /etc/init.d/sakuraFprc
+</span></span></code></pre></td></tr></table></div></div><p>然后编写一个启动脚本，如果你的文件目录跟我放的一样，可以复制粘贴</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/sh
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=c1>### BEGIN INIT INFO</span>
+</span></span><span class=line><span class=cl><span class=c1># Provides: sakuraFrpc</span>
+</span></span><span class=line><span class=cl><span class=c1># Required-Start: $network $remote_fs $local_fs</span>
+</span></span><span class=line><span class=cl><span class=c1># Required-Stop: $network $remote_fs $local_fs</span>
+</span></span><span class=line><span class=cl><span class=c1># Default-Start: 2 3 4 5</span>
+</span></span><span class=line><span class=cl><span class=c1># Default-Stop: 0 1 6</span>
+</span></span><span class=line><span class=cl><span class=c1># Short-Description: A frpc clients</span>
+</span></span><span class=line><span class=cl><span class=c1># Description: A frpc clients</span>
+</span></span><span class=line><span class=cl><span class=c1>### END INIT INFO</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>nohup /root/Documents/frpc -c /root/Documents/frpc.ini &gt;/dev/null 2&gt;<span class=p>&amp;</span><span class=m>1</span> <span class=p>&amp;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>exit</span> <span class=m>0</span>
+</span></span></code></pre></td></tr></table></div></div><p>让 frpc 在系统启动时保持运行</p><p>重启，登陆 root, 查看进程是否存在</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>ps -ef <span class=p>|</span> grep frpc
+</span></span></code></pre></td></tr></table></div></div><p>如果有类似</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>/root/Documents/frpc -c /root/Documents/frpc.ini
+</span></span></code></pre></td></tr></table></div></div><p>这样的输出就可以了，直接通过 sakura 的 [IP]:[Port] 访问即可</p></section><footer class=article-footer><section class=article-tags><a href=/tags/%E6%8A%80%E6%9C%AF/>技术</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/%E8%87%AA%E8%A1%8C%E7%BC%96%E8%AF%91%E5%AE%9A%E5%88%B6-immortalwrt/><div class=article-details><h2 class=article-title>自行编译定制 immortalWRT</h2></div></a></article><article><a href=/p/%E5%B8%B8%E7%94%A8%E7%9A%84-windows-%E9%85%8D%E7%BD%AE%E8%84%9A%E6%9C%AC/><div class=article-details><h2 class=article-title>常用的 Windows 配置脚本</h2></div></a></article><article><a href=/p/pve-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/><div class=article-details><h2 class=article-title>PVE 内网穿透</h2></div></a></article><article><a href=/p/2022-%E5%B9%B4%E7%94%A8-wayland-%E5%BC%80%E5%90%AF-linux/><div class=article-details><h2 class=article-title>2022 年，用 Wayland 开启 linux</h2></div></a></article><article><a href=/p/kde-i3-%E9%85%8D%E7%BD%AE%E5%85%A8%E5%8A%9F%E8%83%BD%E5%B9%B3%E9%93%BA%E5%BC%8F%E6%A1%8C%E9%9D%A2arch/><div class=article-details><h2 class=article-title>KDE+i3 配置全功能平铺式桌面（Arch）</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 菘菓菌</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

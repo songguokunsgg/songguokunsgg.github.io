@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Windows 11 高阶应用指南 on 菘菓菌</title><link>https://songguokunsgg.github.io/categories/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/</link><description>Recent content in Windows 11 高阶应用指南 on 菘菓菌</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 12 Feb 2025 14:20:33 +0000</lastBuildDate><atom:link href="https://songguokunsgg.github.io/categories/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97/index.xml" rel="self" type="application/rss+xml"/><item><title>Windows 11 高阶应用指南——驱动管理</title><link>https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/</link><pubDate>Wed, 12 Feb 2025 14:20:33 +0000</pubDate><guid>https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/</guid><description>&lt;p>本章主要讲解 Windows 系统中的驱动安装、备份以及如何在网络上寻找所需的驱动。在 Windows 系统中，驱动程序是连接硬件与操作系统的重要桥梁，其正常运行直接关系到硬件设备能否稳定、高效地工作。本章将详细介绍 Windows 系统中驱动的安装、备份以及获取驱动的途径，帮助用户更好地管理驱动程序，确保系统的顺畅运行。&lt;/p>
+&lt;h2 id="驱动备份">驱动备份
+&lt;/h2>&lt;p>在互联网上，绝大多数的驱动都可以找到，但有一部分小众的硬件驱动是难以寻觅的，比如说小厂做的电脑的网卡蓝牙驱动、触屏驱动等。买这种类型的电脑，应该养成备份驱动的习惯，否则系统出现问题，重装之后可能会找不到一部分硬件驱动，导致设备管理器中长期出现未知设备，影响电脑使用。&lt;/p>
+&lt;p>Dism++ 是一款功能强大的系统管理工具，可以实现垃圾清理、驱动备份恢复、系统备份恢复等功能。首先，从官方网站下载并安装 Dism++ 工具。&lt;/p>
+&lt;p>&lt;a class="link" href="https://github.com/Chuyu-Team/Dism-Multi-language/releases" target="_blank" rel="noopener"
+>Dism++ Github Release&lt;/a>&lt;/p>
+&lt;p>Dism++ 已经停止更新多年，但目前还没有比它更好用的程序。随着 Windows 的更新，Dism++ 的部分功能出现了小 BUG，但总的来说，对用户的体验影响不大。点击程序目录中的 &lt;code>Dism++x64.exe&lt;/code>，打开软件。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/dism&amp;#43;&amp;#43;%E7%A8%8B%E5%BA%8F%E7%9B%AE%E5%BD%95.png"
+width="1078"
+height="391"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/dism&amp;#43;&amp;#43;%E7%A8%8B%E5%BA%8F%E7%9B%AE%E5%BD%95_hu_b3e60389f995e30d.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/dism&amp;#43;&amp;#43;%E7%A8%8B%E5%BA%8F%E7%9B%AE%E5%BD%95_hu_49fc3854cac11dbc.png 1024w"
+loading="lazy"
+alt="Dism&amp;#43;&amp;#43; 程序目录"
+class="gallery-image"
+data-flex-grow="275"
+data-flex-basis="661px"
+>
+&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/dism&amp;#43;&amp;#43;%E9%A9%B1%E5%8A%A8%E5%A4%87%E4%BB%BD.png"
+width="1482"
+height="1041"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/dism&amp;#43;&amp;#43;%E9%A9%B1%E5%8A%A8%E5%A4%87%E4%BB%BD_hu_eaf012423756f5c4.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/dism&amp;#43;&amp;#43;%E9%A9%B1%E5%8A%A8%E5%A4%87%E4%BB%BD_hu_868d00880e49b308.png 1024w"
+loading="lazy"
+alt="Dism&amp;#43;&amp;#43; 驱动备份"
+class="gallery-image"
+data-flex-grow="142"
+data-flex-basis="341px"
+>&lt;/p>
+&lt;p>然后在左侧的驱动管理中，选择需要的驱动进行备份即可。除了备份驱动之外，Dism++ 也可以很方便的还原驱动。&lt;/p>
+&lt;p>那么，我应该备份那些驱动呢？其实并非所有的硬件驱动都要备份，根据我的使用经验，一般来说显卡驱动驱动是无需备份的，无论是 inter 还是 AMD、Nvidia 的显卡，都能很方便的在官网上找到驱动，有些显卡驱动 Windows 甚至会自动安装，并且显卡驱动往往占用空间较大，备份的话会导致备份时间延长、占用磁盘空间变大等。&lt;/p>
+&lt;p>最省空间的办法：可以先重装一遍微软官方的系统，在系统更新中等待驱动自动安装，然后在设备管理器查看有哪些设备是没有驱动的，仅备份这些硬件的驱动即可。（备份好驱动之前，别把原厂系统给删了）&lt;/p>
+&lt;h2 id="我应该去哪找驱动">我应该去哪找驱动？
+&lt;/h2>&lt;p>许多国人喜欢用驱动精灵、驱动人生、360 驱动等软件安装驱动，但这些软件往往比较毒瘤，不仅限速下载，还可能在系统中添加一些垃圾软件，因此我非常不推荐使用国产驱动软件。&lt;/p>
+&lt;p>&lt;a class="link" href="https://driverpack.io/zh-cn/catalog" target="_blank" rel="noopener"
+>DriverPack&lt;/a> 网站是一个非常可靠的驱动网站。它拥有庞大的驱动程序数据库，涵盖了几乎所有主流硬件设备的驱动程序。用户只需在网站的搜索框中输入&lt;strong>硬件设备的 ID&lt;/strong>，网站就会自动匹配并显示相应的驱动程序下载链接。这些驱动程序都经过了严格的测试和筛选，确保其稳定性和兼容性。此外，DriverPack 网站还提供了驱动程序的版本信息、发布日期等详细资料，方便用户根据自己的需求选择合适的驱动版本进行下载安装。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/driverpack%E4%B8%BB%E9%A1%B5.png"
+width="2559"
+height="1453"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/driverpack%E4%B8%BB%E9%A1%B5_hu_dbfb5d7cb802a6da.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/driverpack%E4%B8%BB%E9%A1%B5_hu_74b66ffb94611c2f.png 1024w"
+loading="lazy"
+alt="DriverPack 主页"
+class="gallery-image"
+data-flex-grow="176"
+data-flex-basis="422px"
+>&lt;/p>
+&lt;p>可以看到，DriverPack 主页非常干净，没有任何广告，只有一个驱动搜索框。搜索到所需驱动后，下载的文件也只是一个 zip 驱动压缩包，不会带任何的第三方程序，非常推荐使用。&lt;/p>
+&lt;h2 id="驱动安装">驱动安装
+&lt;/h2>&lt;h3 id="通过系统更新安装驱动">通过系统更新安装驱动
+&lt;/h3>&lt;p>Windows 系统自带的更新功能为用户提供了便捷的驱动安装方式。用户只需点击“开始”菜单，选择“设置”选项，进入“更新和安全”界面。在该界面中，点击“检查更新”按钮，系统会自动连接到微软的更新服务器，搜索适用于当前系统的最新驱动程序和其他更新内容。如果系统检测到有新的驱动程序可用，会自动下载并安装这些驱动。安装完成后，系统可能会提示用户重启计算机，以使新的驱动程序生效。通过系统更新安装驱动的优势在于，它能够确保用户获取到微软官方认证的、与系统版本完全兼容的驱动程序，大大降低了因驱动不兼容而导致的系统故障风险。&lt;/p>
+&lt;p>但 Windows 系统自带的更新功能可能出现以下问题：&lt;/p>
+&lt;ol>
+&lt;li>驱动装不全：部分硬件设备不在微软的驱动库中，更新完成后，设备管理器仍然显示“未知设备”。&lt;/li>
+&lt;li>瞎装驱动：显卡驱动为重灾区——微软驱动库更新并不及时，这导致 Windows 更新程序误降级你的驱动。例如，你安装了版本号为 15.0.3 的驱动，但微软的库中，这个硬件的驱动版本只有 13.0.0，在这种情况下，Windows 会认为你的驱动不是最新版本，导致驱动被误降级到 13.0.0 旧版。一半的硬件被强制降级并不会影响使用，但显卡驱动这种需要经常更新且十分影响用户体验的硬件，就会导致使用体验下降。&lt;/li>
+&lt;/ol>
+&lt;p>但还好，我们可以禁用驱动更新。&lt;/p>
+&lt;p>使用组合键&lt;code>Win+R&lt;/code>打开运行，输入&lt;code>gpedit.msc&lt;/code>，点击确定打开组策略编辑器。进入&lt;strong>计算机配置 - 管理模板 - 系统 - Internet 通信管理 - Internet 通信设置&lt;/strong>，找到并双击关闭 &lt;strong>Windows 更新设备驱动程序搜索&lt;/strong>，勾选已启用，如下图：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/%E5%85%B3%E9%97%AD%E9%A9%B1%E5%8A%A8%E6%9B%B4%E6%96%B0.png"
+width="2332"
+height="1101"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/%E5%85%B3%E9%97%AD%E9%A9%B1%E5%8A%A8%E6%9B%B4%E6%96%B0_hu_6af562a838fa42c3.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/%E5%85%B3%E9%97%AD%E9%A9%B1%E5%8A%A8%E6%9B%B4%E6%96%B0_hu_284011d71dc9f17c.png 1024w"
+loading="lazy"
+alt="关闭驱动更新"
+class="gallery-image"
+data-flex-grow="211"
+data-flex-basis="508px"
+>&lt;/p>
+&lt;p>推荐使用方案：装好系统后，进行一次完整的系统更新，然后通过策略组关闭驱动更新。此后再安装未知设备驱动、更新显卡驱动。&lt;/p>
+&lt;h3 id="手动安装驱动">手动安装驱动
+&lt;/h3>&lt;p>当系统更新无法提供所需的驱动程序，或者用户需要安装特定版本的驱动时，手动安装驱动就显得尤为重要。&lt;/p>
+&lt;ol>
+&lt;li>从硬件制造商的官方网站下载对应型号的驱动程序安装包。下载完成后，双击安装包文件，启动安装向导。按照安装向导的提示，用户可以选择驱动程序的安装路径、安装组件等选项。&lt;/li>
+&lt;li>从 DriverPack 下载驱动安装。&lt;/li>
+&lt;/ol>
+&lt;p>提供一个 DriverPack 使用示例：&lt;/p>
+&lt;p>首先，打开设备管理器，右键未知设备（我已经装好驱动了所以不演示这一步），在详细信息 - 属性中选择硬件 id，复制第一项。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/%E7%BD%91%E5%8D%A1%E7%A1%AC%E4%BB%B6id.png"
+width="1384"
+height="853"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/%E7%BD%91%E5%8D%A1%E7%A1%AC%E4%BB%B6id_hu_9325951b45896431.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/%E7%BD%91%E5%8D%A1%E7%A1%AC%E4%BB%B6id_hu_c5cb9c305e960796.png 1024w"
+loading="lazy"
+alt="网卡硬件 id"
+class="gallery-image"
+data-flex-grow="162"
+data-flex-basis="389px"
+>&lt;/p>
+&lt;p>在 DriverPack 中搜索这个硬件 id，&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/%E6%90%9C%E7%B4%A2%E7%A1%AC%E4%BB%B6id.png"
+width="2559"
+height="1462"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/%E6%90%9C%E7%B4%A2%E7%A1%AC%E4%BB%B6id_hu_c8d2e404ed0d8c0d.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/%E6%90%9C%E7%B4%A2%E7%A1%AC%E4%BB%B6id_hu_2e831d99f23a6206.png 1024w"
+loading="lazy"
+alt="搜索硬件 id"
+class="gallery-image"
+data-flex-grow="175"
+data-flex-basis="420px"
+>
+&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/%E6%90%9C%E7%B4%A2%E5%88%B0%E7%A1%AC%E4%BB%B6id.png"
+width="1372"
+height="1240"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/%E6%90%9C%E7%B4%A2%E5%88%B0%E7%A1%AC%E4%BB%B6id_hu_e78a0a091e2dbc0f.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/%E6%90%9C%E7%B4%A2%E5%88%B0%E7%A1%AC%E4%BB%B6id_hu_cb6e3af5cb656c25.png 1024w"
+loading="lazy"
+alt="搜索到硬件 id"
+class="gallery-image"
+data-flex-grow="110"
+data-flex-basis="265px"
+>&lt;/p>
+&lt;p>这里需要注意，一定要选择下载 zip 文件，不要选择下载自动安装程序。下载好之后解压，右键设备管理器中的未知设备，选择更新驱动程序。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/%E6%B5%8F%E8%A7%88%E6%9C%AC%E5%9C%B0%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F.png"
+width="1516"
+height="850"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/%E6%B5%8F%E8%A7%88%E6%9C%AC%E5%9C%B0%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F_hu_9e08380a08ff8a3f.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E9%A9%B1%E5%8A%A8%E7%AE%A1%E7%90%86/%E6%B5%8F%E8%A7%88%E6%9C%AC%E5%9C%B0%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F_hu_ee5dbdd508e34ecb.png 1024w"
+loading="lazy"
+alt="浏览本地驱动程序"
+class="gallery-image"
+data-flex-grow="178"
+data-flex-basis="428px"
+>&lt;/p>
+&lt;p>然后选择刚才解压出的文件夹即可。这里选择的文件夹可以是递归的，什么意思呢？我们可以先把所有需要的驱动 zip 包下载好，然后全部解压在下载文件夹中，然后安装每个未知设备驱动时，浏览本地驱动这一步都选择下载文件夹即可，无需精准到每个驱动包。&lt;/p></description></item><item><title>Windows 11 高阶应用指南——系统基本配置</title><link>https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/</link><pubDate>Fri, 07 Feb 2025 16:20:33 +0000</pubDate><guid>https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/</guid><description>&lt;p>在大众的心中，Windows 毫无疑问是非常易用的系统，但易用并不代表开箱即用。在写这篇文章之前，也正值春节期间，我便走访了几位亲戚朋友，发现他们都存在一些共同点，归纳起来就是——我觉得电脑不好用，但能用就行，不知道怎么优化，也懒得去优化。然后，我选择了一个比较熟悉的亲戚，并将我的个人电脑借给她们一家用了，她们对我的电脑系统给出了很高的评价，并惊叹于，明明都是 Windows 系统，为什么我的电脑用起来就是很舒服呢？&lt;/p>
+&lt;p>简单说明一下，我给她们三个人每人设置了一个独立的账户，她们这些天共用我的这台电脑，并且做的都是不同类型的工作（Office，做海报，刷剧）。在此之前，她们并不知道 Windows 还能够添加多个用户。在此之前，她们从不共享彼此的电脑，因为每个人或多或少都会有一些不想让人看见的隐私信息。在我的电脑上，她们每个人的工作内容都被保护得很好，完全不用担心隐私问题。&lt;/p>
+&lt;p>并且在我的电脑上，没有任何的弹窗广告，刷剧的体验感也拉满了。&lt;/p>
+&lt;p>因此，建议大家不要把电脑水平停留在“能用就行”的阶段，而是要好用，并且用好。这是一个漫长的学习过程，但现在出发，总有一天可以成功。&lt;/p>
+&lt;h2 id="系统激活">系统激活
+&lt;/h2>&lt;p>以前上学的时候，遇到过不少朋友，顶着未激活的神舟电脑用了 4 年。其实 Windows 不激活也能用，但部分功能会受到限制（例如个性化功能）。&lt;/p>
+&lt;h3 id="通过密钥激活">通过密钥激活
+&lt;/h3>&lt;p>检查当前 Windows 版本：右键点击“此电脑”——“属性”，查看是“家庭版”、“专业版”还是其他版本。确保密钥与版本兼容，密钥版本与系统版本需要对应，例如，家庭版密钥无法激活专业版系统。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF.png"
+width="1626"
+height="1119"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF_hu_587b7ef912c541b1.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF_hu_62ebd7b46bd63bcc.png 1024w"
+loading="lazy"
+alt="系统信息"
+class="gallery-image"
+data-flex-grow="145"
+data-flex-basis="348px"
+>&lt;/p>
+&lt;p>然后进入“产品密钥和激活”界面，确保设备已联网，点击“更改产品密钥”。在弹出的窗口中输入 25 位密钥（格式如：J8WVF-9X3GM-4WVYC-VDHQG-42CXT&lt;/p>
+&lt;p>7Y64F-88DCY-Y6WTC-H33D2-64QHF，括号中的两个密钥可用于激活或升级专业版，但不代表永久有效）。点击“下一步”，系统会自动联网验证密钥。如果提示“Windows 已成功激活”，就代表激活成功，关闭窗口即可。如果激活失败，就需要根据提示代码排查（如 0xC004C060 可能表示密钥已被使用）。有时可能需要重装对应版本系统，或更换正确密钥。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E8%BE%93%E5%85%A5%E4%BA%A7%E5%93%81%E5%AF%86%E9%92%A5.png"
+width="1611"
+height="1113"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E8%BE%93%E5%85%A5%E4%BA%A7%E5%93%81%E5%AF%86%E9%92%A5_hu_a508215e5399688c.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E8%BE%93%E5%85%A5%E4%BA%A7%E5%93%81%E5%AF%86%E9%92%A5_hu_f3a4aff9902ba361.png 1024w"
+loading="lazy"
+alt="输入产品密钥"
+class="gallery-image"
+data-flex-grow="144"
+data-flex-basis="347px"
+>&lt;/p>
+&lt;p>如果不是全新安装的系统，可能激活不会很顺利，但只要耐心查看报错提示，并借助搜索引擎或 GPT 等工具，可以很快找到对应的解决办法。&lt;/p>
+&lt;h3 id="通过命令行进行-kms-激活">通过命令行进行 KMS 激活
+&lt;/h3>&lt;p>先讲解一下 KMS 激活的原理。KMS（密钥管理服务）激活是一种用于激活软件（如 Windows 系统）的机制。其原理是通过客户端与 KMS 服务器进行通信。客户端将自身硬件信息和密钥请求发送给 KMS 服务器，服务器根据预设的策略验证请求的合法性。如果验证通过，服务器会生成一个激活响应，返回给客户端，客户端据此完成激活。这种方式适用于企业等环境中批量管理软件激活，但需注意，未经授权的 KMS 激活可能涉及侵权或安全风险。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># 将 KMS 服务器设置为地址 kms.03k.org&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">slmgr&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">skms&lt;/span> &lt;span class="n">kms&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">03k&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">org&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">slmgr&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">ato&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>你也可以使用其他的 KMS 服务器地址，将命令中的 kms.03k.org 进行替换即可，激活有效期为 180 天，180 天之后需要重新激活。&lt;/p>
+&lt;p>从 KMS 激活原理可知，使用其他人搭建的 KMS 服务器是有风险的，虽然很低，但总归是有，那么，我们能不能自己搭建一个 KMS 服务器呢？&lt;/p>
+&lt;p>这里用到全球最大同性交友网站 Github 的一个开源项目 vlmcsd（https://github.com/Wind4/vlmcsd），该项目允许你自己搭建私人的 KMS 服务器，但你需要一台拥有 docker 功能的 linux 电脑，真是一个悲伤的故事。但好消息是，Windows 系统原声支持 Hyper-V 虚拟机，并且还有基于 WSL 的容器功能，因此我们只需要在 Windows 上开启 WSL 功能，安装 docker 或者 podman，就可以很方便地搭建自己的 KMS 服务器了。如果你有一台软路由的话，在软路由上通过 docker 搭建 KMS 也很不错。&lt;/p>
+&lt;h3 id="通过第三方程序激活">通过第三方程序激活
+&lt;/h3>&lt;p>第三方程序激活非常方便，几乎是小白式的一键激活，我只推荐一个软件 &lt;a class="link" href="https://github.com/zbezj/HEU_KMS_Activator/releases" target="_blank" rel="noopener"
+>HEU_KMS_Activator&lt;/a>。该软件完全免费，可用于激活 Windows 和 Office 等。但与 KMS 激活类似，风险同样存在。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/HEU%E6%BF%80%E6%B4%BB%E5%B7%A5%E5%85%B7.png"
+width="1035"
+height="697"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/HEU%E6%BF%80%E6%B4%BB%E5%B7%A5%E5%85%B7_hu_f66b9172e783a93d.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/HEU%E6%BF%80%E6%B4%BB%E5%B7%A5%E5%85%B7_hu_4a059df06e8f074.png 1024w"
+loading="lazy"
+alt="HEU 激活工具"
+class="gallery-image"
+data-flex-grow="148"
+data-flex-basis="356px"
+>&lt;/p>
+&lt;p>没有特殊需求的话，直接一键激活即可，如果不想激活 Office，可以把红框中两项 Office 相关选项去掉。&lt;/p>
+&lt;h2 id="桌面图标管理">桌面图标管理
+&lt;/h2>&lt;p>再过去我们使用电脑的过程中，你一定会知道，在安装应用程序之后，往往会在桌面上生成一个图标文件，让我们看看这些图标文件究竟是什么？&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%E5%9B%BE%E6%A0%87.png"
+width="739"
+height="919"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%E5%9B%BE%E6%A0%87_hu_dd7396e389ab8c68.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%E5%9B%BE%E6%A0%87_hu_fb31cdfd5e1c4823.png 1024w"
+loading="lazy"
+alt="百度网盘图标"
+class="gallery-image"
+data-flex-grow="80"
+data-flex-basis="192px"
+>&lt;/p>
+&lt;p>可以看到，这个快捷方式其实是某个文件的指向，例如，百度网盘的快捷方式指向了：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">C: \Users\&amp;lt;username&amp;gt;\AppData\Roaming\baidu\BaiduNetdisk\BaiduNetdisk.exe
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>双击这个快捷方式，我们就可以运行该路径下的程序，打开百度网盘。&lt;/p>
+&lt;p>可是，快捷方式本身不也是一个文件吗？那么这个快捷方式又是存在哪里的呢？打开资源管理器，选择左侧的桌面，可以看到，百度网盘的图标正处在这个文件夹下。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%94%A8%E6%88%B7%E6%A1%8C%E9%9D%A2.png"
+width="1690"
+height="952"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%94%A8%E6%88%B7%E6%A1%8C%E9%9D%A2_hu_dae3d24b75f3cdd8.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%94%A8%E6%88%B7%E6%A1%8C%E9%9D%A2_hu_7daa80d91edd6344.png 1024w"
+loading="lazy"
+alt="用户桌面"
+class="gallery-image"
+data-flex-grow="177"
+data-flex-basis="426px"
+>&lt;/p>
+&lt;p>但新的问题又出现了，明明我桌面上存在那么多的应用程序图标，为什么这个“桌面”文件夹下只有两个图标呢？&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%94%A8%E6%88%B7%E6%A1%8C%E9%9D%A2%E5%9B%BE%E6%A0%87%E4%B8%8D%E5%85%A8.png"
+width="1237"
+height="729"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%94%A8%E6%88%B7%E6%A1%8C%E9%9D%A2%E5%9B%BE%E6%A0%87%E4%B8%8D%E5%85%A8_hu_aaec2ce8a62e3475.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%94%A8%E6%88%B7%E6%A1%8C%E9%9D%A2%E5%9B%BE%E6%A0%87%E4%B8%8D%E5%85%A8_hu_f240167999750a22.png 1024w"
+loading="lazy"
+alt="用户桌面图标不全"
+class="gallery-image"
+data-flex-grow="169"
+data-flex-basis="407px"
+>&lt;/p>
+&lt;p>在资源管理器中的导航栏输入：&lt;code>C:\Users\Public\Desktop&lt;/code>，可以发现，一些桌面上存在但“桌面”文件夹不存在的图标在这里找到了。&lt;/p>
+&lt;h3 id="普通用户与公共用户">普通用户与公共用户
+&lt;/h3>&lt;p>在 Windows 中， &lt;code>C:\Users(用户)&lt;/code> 文件夹下一定存在一个“公用”用户，以及你自己的用户文件夹，假如用户名为 username，我们使用 username 用户登录 Windows 系统后，实际上桌面会同时显示来自当前用户（也就是 username 用户）和公用用户桌面上的文件。&lt;/p>
+&lt;p>而这个公共用户文件夹，是所有登录这台电脑的用户都可以读取的，“公共”就是意味着“公用”。&lt;/p>
+&lt;p>在安装程序的过程中，程序一般会安装在 &lt;code>C:\Program Files&lt;/code> 或者 &lt;code>C:\Program Files (x86)&lt;/code> 两个文件夹下。这两个文件夹是微软定义的程序公共安装目录，也就是说，每位用户都可以使用安装在它们下的程序。为了方便使用呢，可以手动将安装在这两个目录下的快捷方式移动到公共用户桌面 &lt;code>C:\Users\Public\Desktop&lt;/code>，这样的话，每位用户都可以方便地找到这些应用程序。事实上，大多数默认安装在 Progrma Files 的程序会默认将快捷方式创建在 &lt;code>C:\Users\Public\Desktop&lt;/code>，从而方便用户使用。但仍有一部分程序并不会这样做，需要用户手动进行管理。&lt;/p>
+&lt;p>需要注意的是，应用安装程序需要使用管理员权限才能将软件安装在 Program Files 目录下，因此存在一类特殊的应用程序，它们为了避免安装时使用到管理员权限，会将应用程序以“仅当前用户可用”的方式进行安装，也就是安装在 &lt;code>C: \Users\&amp;lt;username&amp;gt;\AppData\Roaming&lt;/code> 下面的某个子目录中，例如百度网盘和迅雷就是这样的一类应用程序。对于这类应用程序，快捷方式无需手动移动到公共桌面下，因为其他用户并不能访问安装用户的目录和文件，也就无法访问这两个应用程序。&lt;/p>
+&lt;p>因此，给大家提出几点建议：&lt;/p>
+&lt;ol>
+&lt;li>安装应用程序时，要考虑这个程序是只给当前用户使用，还是给所有用户使用。如果只给当前用户使用，就安装到&lt;code>C: \Users\&amp;lt;username&amp;gt;\AppData\Roaming&lt;/code>下，如果给所有用户使用，就安装到 &lt;code>C:\Program Files&lt;/code> 下。&lt;/li>
+&lt;li>确保快捷方式在它应在的位置，并且安装好软件后就应马上确认快捷方式的位置，将有必要移动到公共桌面&lt;code>C:\Users\Public\Desktop&lt;/code>的快捷方式尽快进行移动，以免后续遗忘。&lt;/li>
+&lt;li>偶尔检查一下用户桌面，是否存在管理不当的应用程序。&lt;/li>
+&lt;/ol>
+&lt;h3 id="几个特殊的图标">几个特殊的图标
+&lt;/h3>&lt;p>&lt;username>、此电脑、网络、回收站、控制面板不会出现在任何 desktop 文件夹，需要在设置中调整才能显示。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E8%AE%BE%E7%BD%AE-%E4%B8%AA%E6%80%A7%E5%8C%96-%E4%B8%BB%E9%A2%98.png"
+width="1626"
+height="1119"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E8%AE%BE%E7%BD%AE-%E4%B8%AA%E6%80%A7%E5%8C%96-%E4%B8%BB%E9%A2%98_hu_4aad3288da3f992.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E8%AE%BE%E7%BD%AE-%E4%B8%AA%E6%80%A7%E5%8C%96-%E4%B8%BB%E9%A2%98_hu_5ea45ec96444061c.png 1024w"
+loading="lazy"
+alt="设置 - 个性化 - 主题"
+class="gallery-image"
+data-flex-grow="145"
+data-flex-basis="348px"
+>
+&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E6%A1%8C%E9%9D%A2%E5%9B%BE%E6%A0%87%E8%AE%BE%E7%BD%AE.png"
+width="1626"
+height="1119"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E6%A1%8C%E9%9D%A2%E5%9B%BE%E6%A0%87%E8%AE%BE%E7%BD%AE_hu_65926dab2f0a6b3d.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E6%A1%8C%E9%9D%A2%E5%9B%BE%E6%A0%87%E8%AE%BE%E7%BD%AE_hu_8059fbff0a8ac071.png 1024w"
+loading="lazy"
+alt="桌面图标设置"
+class="gallery-image"
+data-flex-grow="145"
+data-flex-basis="348px"
+>&lt;/p>
+&lt;p>勾选你需要显示的图标即可，每位新建的用户都需要进行这一步骤才能显示这些图标。&lt;/p>
+&lt;h2 id="windows-11-右键菜单">Windows 11 右键菜单
+&lt;/h2>&lt;p>Windows 11 的右键菜单从一级菜单改为了二级，许多用户不习惯，但我们可以将右键菜单修改为 Windows10 的样式，方便使用。&lt;/p>
+&lt;p>在应用程序中打开终端：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">reg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">exe&lt;/span> &lt;span class="n">add&lt;/span> &lt;span class="s2">&amp;#34;HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32&amp;#34;&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">f&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">ve&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>重启资源管理器&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">taskkill&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">F&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">IM&lt;/span> &lt;span class="n">explorer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">exe&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">explorer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">exe&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>就可以修改右键菜单样式为 Windows 10。输入以下命令可以还原为 Windows 11 样式：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="n">reg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">exe&lt;/span> &lt;span class="n">delete&lt;/span> &lt;span class="s2">&amp;#34;HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32&amp;#34;&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">va&lt;/span> &lt;span class="p">/&lt;/span>&lt;span class="n">f&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>重启资源管理器即可。&lt;/p>
+&lt;h2 id="windows-defender-配置">Windows Defender 配置
+&lt;/h2>&lt;p>Windows Defender 是一款优秀的安全应用，但有时候它的存在会有些烦人，因此可以通过一些方法禁用 Defender 或禁用它的某些功能。&lt;/p>
+&lt;p>事先声明，在现在的 Windows 系统中，只有 Windows Server 系列可以彻底关闭 Defender，消费级系统都只能禁用某些功能。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/Defender%E4%B8%BB%E9%A1%B5.png"
+width="1626"
+height="1119"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/Defender%E4%B8%BB%E9%A1%B5_hu_7b1a61cc60da4627.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/Defender%E4%B8%BB%E9%A1%B5_hu_8285b07bf5ca27e7.png 1024w"
+loading="lazy"
+alt="Defender 主页"
+class="gallery-image"
+data-flex-grow="145"
+data-flex-basis="348px"
+>&lt;/p>
+&lt;p>我们只关注红框中的几个功能。&lt;/p>
+&lt;h3 id="病毒和威胁防护">病毒和威胁防护
+&lt;/h3>&lt;p>在 Windows 11 系统中，“病毒和威胁防护”功能提供了多种设置，用于保护设备免受病毒、恶意软件和其他安全威胁的侵害。但你下载的破解程序和激活程序也会受到拦截，一些个人文件也可能被误删除（小概率事件）。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%97%85%E6%AF%92%E5%A8%81%E8%83%81%E9%98%B2%E6%8A%A4.png"
+width="1630"
+height="1390"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%97%85%E6%AF%92%E5%A8%81%E8%83%81%E9%98%B2%E6%8A%A4_hu_4834e9ec3aa2f6b3.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%97%85%E6%AF%92%E5%A8%81%E8%83%81%E9%98%B2%E6%8A%A4_hu_8e652dda500e4057.png 1024w"
+loading="lazy"
+alt="病毒威胁防护"
+class="gallery-image"
+data-flex-grow="117"
+data-flex-basis="281px"
+>&lt;/p>
+&lt;p>在“病毒和威胁防护”设置下面的管理设置中，可以配置保护策略。以下是各项主要设置的含义：&lt;/p>
+&lt;ol>
+&lt;li>实时保护：核心功能之一，能够持续监控设备中的潜在威胁，如病毒、恶意软件和间谍软件。当您访问或执行文件时，实时保护会自动扫描这些文件，检测是否存在可疑活动。如果发现威胁，它会立即发出警报并采取措施阻止威胁。可以通过切换按钮打开或关闭实时保护。但需要注意的是，关闭实时保护会使设备更容易受到威胁，且计划扫描仍会继续运行，此外，在重新启动系统之后，实时保护选项会重新开启，如果需要永久关闭，需要使用&lt;strong>组策略&lt;/strong>功能。如果某些文件或文件夹被误判为威胁，可以通过添加排除项来避免它们被扫描。&lt;/li>
+&lt;li>开发人员驱动器保护：开发人员驱动器保护是 Windows 11 为开发者提供的一个特殊功能，它为开发人员提供了一个安全且隔离的环境，用于存储和开发代码。性能模式：该功能包括一个性能模式，可以异步扫描开发人员驱动器。这意味着安全扫描会在文件操作完成后进行，而不是在文件操作过程中同步进行。这种异步扫描模式可以在保护安全的同时，避免因扫描而引起的性能延迟。&lt;/li>
+&lt;li>云提供的保护：允许 Microsoft Defender 从云端获取最新的安全更新和改进。这有助于更准确地识别、阻止和修复威胁。&lt;/li>
+&lt;li>自动提交样本：如果启用此功能，Microsoft Defender 会自动将可疑文件发送给 Microsoft 进行分析。用户也可以手动提交文件样本，以确保某些文件被检查。&lt;/li>
+&lt;li>篡改防护：可以防止恶意应用程序更改重要的 Microsoft Defender 设置，例如实时保护和云提供的保护。通过确保这些设置保持不变，篡改防护有助于维护设备安全配置的完整性，防止恶意应用程序禁用关键安全功能。&lt;/li>
+&lt;li>受控文件夹访问：可以保护指定文件夹中的文件免受未知或不受信任应用程序的更改。默认情况下，许多常用文件夹已经受到保护，用户也可以添加更多文件夹到受保护列表中。&lt;/li>
+&lt;li>网络保护：可以防止用户访问钓鱼网站、恶意软件网站以及下载潜在恶意文件。它与 Microsoft Defender for Endpoint 和 Microsoft Defender for Cloud Apps 集成，能够阻止恶意 URL 和 IP 地址。&lt;/li>
+&lt;li>勒索软件防护：通过受控文件夹访问来防止未知应用程序更改受保护文件夹中的文件。此外，它还提供了从勒索软件攻击中恢复的选项。&lt;/li>
+&lt;li>排除项：用户可以将特定的文件、文件类型、文件夹或进程添加到排除列表中，避免它们被实时扫描。但需要注意的是，添加排除项可能会使设备和数据面临风险。&lt;/li>
+&lt;/ol>
+&lt;h2 id="组策略管理">组策略管理
+&lt;/h2>&lt;p>Windows 策略组（Group Policy）是微软 Windows 操作系统中的一项功能，它允许管理员对计算机和用户进行集中管理。通过策略组，管理员可以控制用户和计算机的配置、安全设置、软件安装、网络访问等。以下是 Windows 策略组的一些主要功能：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>集中管理&lt;/strong>：策略组允许管理员在单个位置配置和管理多个计算机和用户的设置。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>安全性管理&lt;/strong>：管理员可以设置密码策略、账户锁定策略、安全选项等，以增强系统的安全性。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>软件部署&lt;/strong>：通过策略组，管理员可以控制软件的安装、更新和卸载。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>桌面管理&lt;/strong>：管理员可以配置桌面环境，如开始菜单、任务栏、桌面背景等。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>网络配置&lt;/strong>：策略组可以用来管理网络设置，如 VPN、无线网络、代理服务器等。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>远程安装服务&lt;/strong>：管理员可以使用策略组远程安装操作系统。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>用户配置文件管理&lt;/strong>：策略组可以帮助管理用户配置文件，包括漫游配置文件和强制配置文件。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>脚本执行&lt;/strong>：管理员可以设置启动和关机脚本，以自动化某些任务。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>事件日志管理&lt;/strong>：策略组允许管理员配置事件日志的大小和保留策略。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>远程桌面服务管理&lt;/strong>：管理员可以控制远程桌面服务的设置，如连接权限、会话超时等。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>系统服务管理&lt;/strong>：管理员可以配置系统服务的启动类型和状态。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>软件限制策略&lt;/strong>：管理员可以设置软件限制策略，以控制哪些程序可以运行。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>文件夹重定向&lt;/strong>：管理员可以将用户的文件夹（如文档、桌面）重定向到网络位置，以便于备份和集中管理。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>BitLocker 驱动器加密&lt;/strong>：策略组可以用来管理 BitLocker 加密，保护数据安全。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>应用程序兼容性&lt;/strong>：管理员可以配置应用程序兼容性设置，以解决旧应用程序在新操作系统上运行的问题。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>策略组通过组策略对象（GPO）实现，这些对象可以链接到 Active Directory 中的组织单位（OU）、域或站点。当策略组设置更改时，这些更改会自动应用到链接到 GPO 的计算机和用户。策略组是 Windows 管理中一个强大的工具，它简化了大型企业环境中的 IT 管理任务。&lt;/p>
+&lt;h3 id="使用示例在组策-略中永久关闭实时保护功能">使用示例：在组策 略中永久关闭实时保护功能
+&lt;/h3>&lt;ol>
+&lt;li>使用 &lt;code>win+R&lt;/code> 开启运行菜单，输入 &lt;code>gpedit.msc&lt;/code> 打开组策略。&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E8%BF%90%E8%A1%8C%E7%BB%84%E7%AD%96%E7%95%A5.png"
+width="628"
+height="325"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E8%BF%90%E8%A1%8C%E7%BB%84%E7%AD%96%E7%95%A5_hu_489338a15e1ac8c2.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E8%BF%90%E8%A1%8C%E7%BB%84%E7%AD%96%E7%95%A5_hu_15df62c913afdb8b.png 1024w"
+loading="lazy"
+alt="运行组策略"
+class="gallery-image"
+data-flex-grow="193"
+data-flex-basis="463px"
+>
+&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%BB%84%E7%AD%96%E7%95%A5%E4%B8%BB%E9%A1%B5.png"
+width="1129"
+height="795"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%BB%84%E7%AD%96%E7%95%A5%E4%B8%BB%E9%A1%B5_hu_ffc9a7ba0e25c41d.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E7%BB%84%E7%AD%96%E7%95%A5%E4%B8%BB%E9%A1%B5_hu_658c36c22855f76f.png 1024w"
+loading="lazy"
+alt="组策略主页"
+class="gallery-image"
+data-flex-grow="142"
+data-flex-basis="340px"
+>&lt;/p>
+&lt;p>在路径 &lt;strong>计算机配置 - 管理模板-Microsoft Defender 防病毒&lt;/strong> 下面找到 &lt;strong>实时保护&lt;/strong> 选项&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E6%89%BE%E5%88%B0%E5%AE%9E%E6%97%B6%E4%BF%9D%E6%8A%A4.png"
+width="1129"
+height="795"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E6%89%BE%E5%88%B0%E5%AE%9E%E6%97%B6%E4%BF%9D%E6%8A%A4_hu_6b884011ff3b7238.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E6%89%BE%E5%88%B0%E5%AE%9E%E6%97%B6%E4%BF%9D%E6%8A%A4_hu_8b8ceff21da1e621.png 1024w"
+loading="lazy"
+alt="找到实时保护"
+class="gallery-image"
+data-flex-grow="142"
+data-flex-basis="340px"
+>&lt;/p>
+&lt;p>点击&lt;strong>关闭实时保护&lt;/strong>，启用它（一定注意是启用“关闭实时保护”）&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E4%BD%BF%E7%94%A8%E5%85%B3%E9%97%AD%E5%AE%9E%E6%97%B6%E4%BF%9D%E6%8A%A4.png"
+width="1893"
+height="961"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E4%BD%BF%E7%94%A8%E5%85%B3%E9%97%AD%E5%AE%9E%E6%97%B6%E4%BF%9D%E6%8A%A4_hu_57b7b8b820a1300f.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/%E4%BD%BF%E7%94%A8%E5%85%B3%E9%97%AD%E5%AE%9E%E6%97%B6%E4%BF%9D%E6%8A%A4_hu_b9cec272e74cd921.png 1024w"
+loading="lazy"
+alt="alt text"
+class="gallery-image"
+data-flex-grow="196"
+data-flex-basis="472px"
+>&lt;/p>
+&lt;p>重启电脑或重新登录，实时保护就被彻底关闭了。&lt;/p>
+&lt;p>组策略是一个方便且功能强大的管理工具，但千万不要随便修改里面的配置，一定要充分了解某功能之后再去修改该功能，此外，家庭版系统没有组策略功能。&lt;/p>
+&lt;h2 id="开关机">开关机
+&lt;/h2>&lt;p>开关机也是有学问的，这里主要介绍关机、休眠和睡眠三种模式的区别。它们分别是三种不同的电源管理状态，存在不同的特点和用途：&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>关机（Shutdown）&lt;/strong>：完全关闭计算机，停止所有硬件的运行，包括 CPU、内存、硬盘等。关机后，计算机不会消耗任何电力，所有运行的程序和打开的文档都会关闭，系统状态不会被保存。&lt;/li>
+&lt;li>&lt;strong>休眠（Hibernate）&lt;/strong>：将计算机的当前状态（包括打开的程序和文档）保存到硬盘上的一个文件（hiberfil.sys）中，然后关闭计算机。从休眠状态恢复时，计算机会从硬盘加载之前保存的状态，恢复到休眠前的工作状态。这个过程比从关机状态启动要快，但比睡眠状态恢复要慢。&lt;/li>
+&lt;li>&lt;strong>睡眠（Sleep）&lt;/strong>：将计算机的当前状态保存到内存中，然后关闭大部分硬件，但保持内存供电，以便快速恢复。从睡眠状态恢复时，计算机会从内存中加载之前保存的状态，恢复到睡眠前的工作状态。这个过程非常快，通常只需要几秒钟。&lt;/li>
+&lt;/ol>
+&lt;p>休眠和睡眠的主要区别在于，将计算机状态存储到硬盘（休眠）还是内存（睡眠）。这也导致了一些特性：休眠状态下被断电，运行状态理论上可以恢复，睡眠状态下被断电，由于内存中数据丢失，工作状态将无法恢复。此外还有以下三方面的区别。&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>恢复速度&lt;/strong>：睡眠 &amp;gt; 休眠 &amp;gt; 关机。&lt;/li>
+&lt;li>&lt;strong>功耗&lt;/strong>：关机 &amp;lt; 睡眠 &amp;lt; 休眠。&lt;/li>
+&lt;li>&lt;strong>硬件状态&lt;/strong>：关机状态下，所有硬件都停止工作；休眠状态下，硬盘工作，其他硬件停止；睡眠状态下，只有内存和一些基本硬件（如网络接口）保持工作状态。&lt;/li>
+&lt;/ul>
+&lt;p>了解这些区别后，你可以根据实际需要选择合适的电源管理状态。一般来说，长期不用（数日）就关机，短期不用（数小时）就睡眠即可。&lt;/p></description></item><item><title>Windows 11 高阶应用指南——系统安装</title><link>https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/</link><pubDate>Wed, 15 Jan 2025 20:20:33 +0000</pubDate><guid>https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/</guid><description>&lt;p>学习一个操作系统，必然要先学会系统安装。在学习初期，因为误操作、错误操作导致系统崩溃的情况常有发生，相对而言，Windows 比 Linux 具有更好的兼容性。即便是发生了误操作，一般不会导致进不去系统（Linux 误操作极容易导致整个系统崩坏）。可能你会觉得，想安装 Windows 这么简单的操作，有什么好学的？的确，安装 Windows 系统很简单，但其中也存在一些可以了解的门道和快捷方式，学会他们，能让你的学习之路更加畅通便捷。&lt;/p>
+&lt;p>在这一章中，我会讲解 Windows 系统的几种安装和启动方式，并解决一些常见的问题。&lt;/p>
+&lt;h2 id="bios-启动与-uefi-启动">BIOS 启动与 UEFI 启动
+&lt;/h2>&lt;p>（Basic Input/Output System，基本输入输出系统）启动和 UEFI（Unified Extensible Firmware Interface，统一可扩展固件接口）启动是计算机启动过程中两种不同的引导模式，它们在启动方式、兼容性、性能和安全性等方面存在显著差异。BIOS 是一种古老的启动技术，用于初始化硬件并引导操作系统。它最早出现在 20 世纪 80 年代，是计算机启动的默认模式，直到 UEFI 技术的出现。&lt;/p>
+&lt;p>开机时，当引导加载程序完成后，BIOS 会查找启动设备（如硬盘、U 盘或光驱）。它会在启动设备的&lt;strong>第一个扇区&lt;/strong>（通常是第 0 扇区）查找引导记录（MBR，Master Boot Record，主引导记录）。MBR 的大小为 512 字节，包含分区表和引导代码。随后，BIOS 将 MBR 中的引导代码加载到内存中执行，引导代码会进一步加载操作系统的引导程序（如 Windows 的 bootmgr），最终启动操作系统。UEFI（Unified Extensible Firmware Interface，统一可扩展固件接口）是一种较新的启动技术，旨在替代传统的 BIOS。它由 UEFI 论坛开发，首次出现在 2005 年左右，并逐渐被现代计算机采用。UEFI 在开机时也会对硬件进行初始化和检测。但 UEFI 不依赖传统的 MBR，而是使用 GPT（GUID Partition Table，全局唯一标识分区表）分区格式。GPT 支持更大的硬盘容量，并且可以支持超过 4 个主分区。UEFI 会加载启动设备中的 EFI 引导程序（如 Windows 的 bootmgfw.efi），并通过 EFI &lt;strong>系统分区&lt;/strong>（ESP）启动操作系统。&lt;/p>
+&lt;p>可见，BIOS 的启动是从第一个扇区开始，而 UEFI 则使用了一个单独的 EFI 分区（通常为 FAT/FAT32 格式）来进行系统引导，这使得 UEFI 对于系统的启动规划更加容易。&lt;/p>
+&lt;p>从 2024 年开始，Windows 10/11 的普及率已经非常高，一般用户已经不会再使用 Windows 10 以下的系统，因此，在磁盘初始化方面，你应该直接选择 GPT+UEFI 启动，MBR+BIOS 启动方式已经过时。接下来，我们在 Disk Genius 中查看一块未初始化的硬盘：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E6%9C%AA%E5%88%9D%E5%A7%8B%E5%8C%96%E7%A1%AC%E7%9B%98.png"
+width="1540"
+height="1145"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E6%9C%AA%E5%88%9D%E5%A7%8B%E5%8C%96%E7%A1%AC%E7%9B%98_hu_7986beb4051b6f81.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E6%9C%AA%E5%88%9D%E5%A7%8B%E5%8C%96%E7%A1%AC%E7%9B%98_hu_45f4d7d8729e30cf.png 1024w"
+loading="lazy"
+alt="未初始化硬盘"
+class="gallery-image"
+data-flex-grow="134"
+data-flex-basis="322px"
+>&lt;/p>
+&lt;p>可以看到，我们的硬盘默认采用 MBR 分区表，接下来，将它转换为 GPT 分区表。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E8%BD%AC%E6%8D%A2%E4%B8%BAGPT.png"
+width="1541"
+height="1151"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E8%BD%AC%E6%8D%A2%E4%B8%BAGPT_hu_634fbf16643a230f.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E8%BD%AC%E6%8D%A2%E4%B8%BAGPT_hu_171da73fc2b7e155.png 1024w"
+loading="lazy"
+alt="转换为 GPT 分区表"
+class="gallery-image"
+data-flex-grow="133"
+data-flex-basis="321px"
+>&lt;/p>
+&lt;p>点击保存更改，可见硬盘已经被转换为了 GPT 分区表。使用类似的方式也可以把分区表格式从 GPT 转换为 MBR。但要注意，分区表转换可能会损坏数据，在做转换之前一定要备份好数据。&lt;/p>
+&lt;p>接下来，我们就可以在这块硬盘上安装 Windows 11 系统。目前常用的安装方法有两种，分别是使用微软官方的 ISO 镜像安装，另一种是通过 Windows 安装器进行安装。一般来说，如果你没有对系统的定制化需求，直接使用 ISO 文件安装即可。如果你希望进行一些自定义行为，比如自定义 EFI 分区大小，精简应用程序、批量安装系统等等，那么 windows 安装器更适合。&lt;/p>
+&lt;p>在接下来的示例中，我使用的是 Windows 11 LTSC 2024 的系统镜像，下载地址：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">电驴：
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ed2k: //|file|zh-cn_windows_11_enterprise_ltsc_2024_x64_dvd_cff9cd2d.iso|5287520256|D6E4FE0BA5FD8A2F22FC9C0326481791|/
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">磁力
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">magnet:?xt=urn:btih:b84e74c1dbcc88a02c5b24a6f84383f353a2e1dd&amp;amp;dn=zh-cn_windows_11_enterprise_ltsc_2024_x64_dvd_cff9cd2d.iso&amp;amp;xl=5287520256
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="从-iso-文件安装系统">从 .iso 文件安装系统
+&lt;/h2>&lt;h2 id="从-windows-安装器安装系统">从 Windows 安装器安装系统
+&lt;/h2>&lt;p>首先进入 PE 系统，找到&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%AE%89%E8%A3%85%E5%99%A8.png"
+width="1544"
+height="1147"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%AE%89%E8%A3%85%E5%99%A8_hu_4733fd70099382c2.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%AE%89%E8%A3%85%E5%99%A8_hu_8cf9996d661ca8de.png 1024w"
+loading="lazy"
+alt="Windows 安装器"
+class="gallery-image"
+data-flex-grow="134"
+data-flex-basis="323px"
+>&lt;/p>
+&lt;p>可以看到，安装器顶部划分了 Windows 2000/XP/2003和Windows Vista/7/8/10/2008/20XX 两个模块。左侧代表了 BIOS 启动方法，而右侧则是 UEFI 启动方式。虽然标签没有写明 Windows 11，但 11 的安装方式与 Windows 10 相同。&lt;/p>
+&lt;p>安装器并不会为我们创建 EFI 分区，因此，我们需要提前在 Disk Genius 中创建 EFI 分区。&lt;/p>
+&lt;p>![Windows 安装器](建立 EFI 分区.png)&lt;/p>
+&lt;p>点击确定。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%B7%B2%E5%88%86%E5%A5%BD%E5%8C%BA%E7%9A%84%E7%A3%81%E7%9B%98.png"
+width="1525"
+height="1149"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%B7%B2%E5%88%86%E5%A5%BD%E5%8C%BA%E7%9A%84%E7%A3%81%E7%9B%98_hu_1bbfc10ea512be37.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%B7%B2%E5%88%86%E5%A5%BD%E5%8C%BA%E7%9A%84%E7%A3%81%E7%9B%98_hu_7928e40b44433a85.png 1024w"
+loading="lazy"
+alt="已分好区的磁盘"
+class="gallery-image"
+data-flex-grow="132"
+data-flex-basis="318px"
+>&lt;/p>
+&lt;p>在两种安装方式中，我们都没有选择对磁盘进行分区，这是由以下原因决定的：&lt;/p>
+&lt;ol>
+&lt;li>固态硬盘的普及：SATA 和 NVME 固态硬盘的读写速度都远高于传统的机械硬盘，并且已用磁盘空间对磁盘读写速度影响很小，这使得我们不必像过去的机械硬盘一样通过分区的方式提升磁盘读写能力。&lt;/li>
+&lt;li>重装系统不需要清除数据：在 Windows 10 以前，重装系统往往需要格式化整个 C 盘，因此用户不得不再重装系统之前备份数据，分盘功能简化了数据备份流程。而现在的 Windows 系统重装已经可以保资料重装，因此分盘功能的作用已经不大。哪怕你的确需要格式化磁盘，固态硬盘的高读取速度也使得备份不再困难。&lt;/li>
+&lt;li>分盘的缺点：用户对于磁盘的分配往往没有那么精确，极容易出现一个盘已满而其他盘还空闲的情况，这会导致磁盘的空间利用率降低。&lt;/li>
+&lt;/ol>
+&lt;p>所以，建议更改掉过去的磁盘分盘习惯，采用“一盘一盘符”的使用习惯。（也可以通过 RAID 将多块磁盘合并为一块使用，后续会提到）&lt;/p>
+&lt;p>挂载好安装盘（双击 ISO 文件即可）后，打开 Windows 安装器，选好引导和安装驱动器位置。注意，安装映像的名称是 &lt;code>install.wim&lt;/code>，文件大小大概为 5GB，与 ISO 映像大小差不多，不要选错了。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%B7%B2%E5%88%86%E5%A5%BD%E5%8C%BA%E7%9A%84%E7%A3%81%E7%9B%98.png"
+width="1525"
+height="1149"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%B7%B2%E5%88%86%E5%A5%BD%E5%8C%BA%E7%9A%84%E7%A3%81%E7%9B%98_hu_1bbfc10ea512be37.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%B7%B2%E5%88%86%E5%A5%BD%E5%8C%BA%E7%9A%84%E7%A3%81%E7%9B%98_hu_7928e40b44433a85.png 1024w"
+loading="lazy"
+alt="安装系统"
+class="gallery-image"
+data-flex-grow="132"
+data-flex-basis="318px"
+>&lt;/p>
+&lt;p>如果没有别的需求，直接点击安装即可。&lt;/p>
+&lt;h3 id="定制化需求">定制化需求
+&lt;/h3>&lt;p>Windows 安装器还有一些其他功能。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%AE%89%E8%A3%85%E5%99%A8%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD.png"
+width="981"
+height="799"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%AE%89%E8%A3%85%E5%99%A8%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD_hu_96743f4ca2f62ecf.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%AE%89%E8%A3%85%E5%99%A8%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD_hu_68d1ad6863c66e75.png 1024w"
+loading="lazy"
+alt="安装器高级功能"
+class="gallery-image"
+data-flex-grow="122"
+data-flex-basis="294px"
+>&lt;/p>
+&lt;p>无人值守安装：在没有用户交互的情况下，自动完成操作系统或软件的安装过程。在 Windows 中，你可以使用 XML 文件来配置无人值守安装。这些 XML 文件通常称为无人值守答案文件（Unattend Answer Files），其中包含了安装过程中所需的各种配置选项。&lt;/p>
+&lt;p>添加驱动程序：在安装系统之前，可以先用 Dism 备份驱动程序，然后在 Windows 安装器添加备份的驱动文件夹。但我建议进入系统之后再去设备管理器安装驱动，避免出现一些奇怪的问题。&lt;/p>
+&lt;p>挂载驱动器：一般选择 C，如果有双系统需求，可以选择其他的盘符。但需要注意，有的软件将某些路径写死在 C 盘，如果系统盘使用其他盘符，可能会出现兼容性问题。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%AE%89%E8%A3%85%E5%99%A8%E4%BC%98%E5%8C%96%E8%B0%83%E6%95%B4.png"
+width="1531"
+height="1144"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%AE%89%E8%A3%85%E5%99%A8%E4%BC%98%E5%8C%96%E8%B0%83%E6%95%B4_hu_25058626811cb3a5.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%AE%89%E8%A3%85%E5%99%A8%E4%BC%98%E5%8C%96%E8%B0%83%E6%95%B4_hu_3a2ade7d037d9e73.png 1024w"
+loading="lazy"
+alt="安装器优化调整"
+class="gallery-image"
+data-flex-grow="133"
+data-flex-basis="321px"
+>&lt;/p>
+&lt;p>这里可以针对系统做一些自定义，例如禁用一些功能、开启文件浏览相关选项、运行一些脚本等。这些选项都可以在进入系统后自行更改。&lt;/p>
+&lt;p>VHD 功能：Windows 支持将系统安装在虚拟硬盘中并启动，我们先创建一块虚拟磁盘。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%A3%81%E7%9B%98.png"
+width="973"
+height="799"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%A3%81%E7%9B%98_hu_ed6b52b426fa7ce2.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%A3%81%E7%9B%98_hu_1ca707ceb1c378f6.png 1024w"
+loading="lazy"
+alt="创建虚拟磁盘"
+class="gallery-image"
+data-flex-grow="121"
+data-flex-basis="292px"
+>
+![创建虚拟磁盘](创建虚拟磁盘 2.png)&lt;/p>
+&lt;p>安装器会自动帮我们挂载这块虚拟磁盘为 Z 盘。将安装驱动器位置选择为 Z 盘，就可以将系统安装到这块虚拟磁盘上面。&lt;/p>
+&lt;p>这种安装方式存在弊端：&lt;/p>
+&lt;ol>
+&lt;li>电脑实体机上需要存在一个物理 Windows 系统，通过这个物理系统才能引导加载虚拟磁盘上的系统。&lt;/li>
+&lt;li>VHD 格式已经过时，使用 VHDX 虚拟磁盘是更好的选择。&lt;/li>
+&lt;/ol>
+&lt;p>也就是说，对于裸机而言，安装器的 VHD 功能并没有实质性作用。&lt;/p>
+&lt;h2 id="从-vhdx-启动系统">从 .vhdx 启动系统
+&lt;/h2>&lt;p>在 Windows 系统中，我们可以很方便地创建和管理 vhdx 虚拟磁盘，此外，你也可以使用 Disk Genius 工具更加专业便捷地管理 vhdx 磁盘。&lt;/p>
+&lt;p>这种虚拟磁盘有什么用呢？&lt;/p>
+&lt;ol>
+&lt;li>挂载到 Hyper-V 虚拟机中：Hyper-V 虚拟机使用的磁盘格式就是 vhdx。&lt;/li>
+&lt;li>挂载为盘符：可以将 vhdx 磁盘挂载为 D 盘等盘符使用。有些应用程序必须要存在 D 盘才能使用，还有一部分程序喜欢在 D 盘中产生一些垃圾文件，增大了磁盘管理难度。将 vhdx 挂载盘符，可以在不分区的情况下正常使用这些软件。当你不需要该盘符之后，可以直接取消挂载这块虚拟磁盘，然后将 vhdx 文件删除即可，不会存在任何的垃圾残留。&lt;/li>
+&lt;li>启动双系统：在已存在一个物理 Windows 系统的基础上，可以直接启动 vhdx 上的系统（仅支持 Windows，并且安装要求与电脑本身相同，如果你的电脑仅支持 Windows10/11，那么这块虚拟盘也必须安装 Windows10/11 才能启动）。这种启动方式相比物理机几乎没有性能损失。&lt;/li>
+&lt;/ol>
+&lt;p>也就是说，在 Hyper-V 中安装一个 Win 系统，在物理机上可以直接启动这个系统。&lt;/p>
+&lt;p>那么如何启动 vhdx 上的系统呢？&lt;/p>
+&lt;p>假设你已经在物理机上安装好了 Windows，虚拟磁盘上也已经通过 Windows 安装器进行了初始安装。接下来我们使用 BOOTICE 工具添加虚拟磁盘引导即可。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/BOOTICE1.png"
+width="1534"
+height="763"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/BOOTICE1_hu_90625b5a384541d2.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/BOOTICE1_hu_51c771313500ed7.png 1024w"
+loading="lazy"
+alt="BOOTICE 工具"
+class="gallery-image"
+data-flex-grow="201"
+data-flex-basis="482px"
+>&lt;/p>
+&lt;p>首先选择 BCD 编辑中的智能编辑模式。&lt;/p>
+&lt;p>点击添加，然后选择启动磁盘、启动分区。设备文件选择不带盘符 vhdx 磁盘路径即可，因为盘符在启动分区处已经选好了。&lt;/p>
+&lt;p>设置一个自定义的菜单标题，保存系统设置即可。&lt;/p>
+&lt;p>重启系统后，选择你创建的启动项，就可以进入这个系统了，成功引导后的剩余工作与重装系统是一样的。这个系统中，物理机上的磁盘会被映射为其他盘符，例如 D 盘等。&lt;/p>
+&lt;p>在强调一下，直接引导 vhdx 系统，与直接安装在物理机是完全一样的，如果你的电脑不支持旧系统，那么在 vhdx 上安装旧系统也是不能成功开机的，因此，不必尝试在现在的电脑上安装 XP、Win7 等系统。如果你有旧系统的需求，必须通过 Hyper-V 虚拟机来实现。&lt;/p>
+&lt;h2 id="windows-11-跳过配置检测">Windows 11 跳过配置检测
+&lt;/h2>&lt;p>大多数这两年出厂的电脑都满足 Windows 11 的最低安装要求，但也有一些老电脑有升级需求。其实 10 年前的 i7-4790K 跑 Windows 11 也没啥大问题，但没有 TPM2.0 这点确实成为了很多旧电脑的拦路虎。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/Win11%E9%85%8D%E7%BD%AE%E6%A3%80%E6%B5%8B%E4%B8%8D%E8%BF%87.png"
+width="1534"
+height="1146"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/Win11%E9%85%8D%E7%BD%AE%E6%A3%80%E6%B5%8B%E4%B8%8D%E8%BF%87_hu_c6cc2b6644847990.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/Win11%E9%85%8D%E7%BD%AE%E6%A3%80%E6%B5%8B%E4%B8%8D%E8%BF%87_hu_4acb67033b82c4c2.png 1024w"
+loading="lazy"
+alt="Win11 配置检测不过"
+class="gallery-image"
+data-flex-grow="133"
+data-flex-basis="321px"
+>&lt;/p>
+&lt;p>这种情况建议直接使用 Windows 安装器进行安装，可以不进行配置检查。如果必须通过 ISO 文件安装的话，可以通过以下方式绕过 Windows 11 的配置检测。&lt;/p>
+&lt;p>&lt;strong>注意，截至 25 年 1 月，以下修改注册表绕过配置检测的方法已经失效，建议使用 Windows 安装器安装。&lt;/strong>&lt;/p>
+&lt;p>首先，按住键盘上的 shift+ F10，在命令提示中输入：regedit 回车。打开注册表。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E6%96%B0%E5%BB%BA%E9%A1%B9.png"
+width="1536"
+height="1146"
+srcset="https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E6%96%B0%E5%BB%BA%E9%A1%B9_hu_b23d8ca99c290a14.png 480w, https://songguokunsgg.github.io/p/windows-11-%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8%E6%8C%87%E5%8D%97%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85/%E6%96%B0%E5%BB%BA%E9%A1%B9_hu_f71a3e4e67b6d05a.png 1024w"
+loading="lazy"
+alt="新建项"
+class="gallery-image"
+data-flex-grow="134"
+data-flex-basis="321px"
+>&lt;/p>
+&lt;p>然后在 LabConfig 的目录中，点击右键&amp;ndash;新建 - 然后单击“DWORD（32 位）值”。将此 DWORD 命名为“BypassTPMCheck”。接着继续新建一个“DWORD（32 位）值”。将此 DWORD 命名为“BypassSecureBootCheck”。一定要注意大小写，保证大小写和屏幕上的命令是一样的。双击这两个 DWORD，并将其“数值数据”更改为“1”。&lt;/p>
+&lt;p>![新建项](新建项 2.png)&lt;/p>
+&lt;p>然后关闭注册表和命令提示符。在安装程序中点击左上角的返回，选择版本后，点击下一页。成功跳过了 TPM 和安全启动的验证。&lt;/p>
+&lt;h2 id="各个系统版本的区别">各个系统版本的区别
+&lt;/h2>&lt;p>家庭版、专业版、教育版、企业版是最常用的几个 Windows 版本，他们的主要区别如下：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>功能/版本&lt;/th>
+&lt;th>家庭版&lt;/th>
+&lt;th>专业版&lt;/th>
+&lt;th>教育版&lt;/th>
+&lt;th>企业版&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&lt;strong>适用人群&lt;/strong>&lt;/td>
+&lt;td>家庭用户、轻量级办公&lt;/td>
+&lt;td>专业人士、小型企业&lt;/td>
+&lt;td>教育机构、学生&lt;/td>
+&lt;td>大型企业、组织&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>价格&lt;/strong>&lt;/td>
+&lt;td>约 1088 元&lt;/td>
+&lt;td>约 1500 元&lt;/td>
+&lt;td>批量许可&lt;/td>
+&lt;td>批量许可&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>功能特点&lt;/strong>&lt;/td>
+&lt;td>基础功能，适合日常使用&lt;/td>
+&lt;td>高级功能，适合专业需求&lt;/td>
+&lt;td>针对教育需求优化&lt;/td>
+&lt;td>最全面的功能，适合企业&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>远程桌面&lt;/strong>&lt;/td>
+&lt;td>不支持作为主机&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>Hyper-V 虚拟化&lt;/strong>&lt;/td>
+&lt;td>不支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>Windows 沙盒&lt;/strong>&lt;/td>
+&lt;td>不支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>BitLocker 加密&lt;/strong>&lt;/td>
+&lt;td>不支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>内存支持上限&lt;/strong>&lt;/td>
+&lt;td>128GB&lt;/td>
+&lt;td>2TB&lt;/td>
+&lt;td>2TB&lt;/td>
+&lt;td>6TB&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>CPU 支持&lt;/strong>&lt;/td>
+&lt;td>单插槽，最多 64 核心&lt;/td>
+&lt;td>双插槽，最多 128 核心&lt;/td>
+&lt;td>双插槽&lt;/td>
+&lt;td>双插槽&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>组策略编辑器&lt;/strong>&lt;/td>
+&lt;td>不支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>Windows 信息保护 (WIP)&lt;/strong>&lt;/td>
+&lt;td>不支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;td>支持&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>更新策略&lt;/strong>&lt;/td>
+&lt;td>自动更新&lt;/td>
+&lt;td>自动更新&lt;/td>
+&lt;td>自动更新&lt;/td>
+&lt;td>可自定义更新&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>那么，对于个人用户，怎么选择系统版本呢？&lt;/p>
+&lt;p>家庭版系统一般随品牌机附赠，缺少了远程桌面、Hyper-V、BitLocker、组策略等非常关键的功能，因此在非必要条件下（比如你一定要用正版），我都不建议使用家庭版系统。有些功能在终端中可以调出来，但总归是比较麻烦，不如直接上其他版本系统。&lt;/p>
+&lt;p>专业版系统功能完善，价格合适，非常适合用作个人或家庭操作系统。&lt;/p>
+&lt;p>教育版是我最喜欢的版本，功能相比专业版非常全面，几乎解锁了所有 Windows 功能（有些功能专业版都是没有的），如果你是学生的话，存在白嫖可能（你的学校购买了教育版系统）。&lt;/p>
+&lt;p>企业版支持 6T 内存，并且可以自定义更新策略，对于家庭服务器或者不想频繁更新系统的人来说是个不错的选择。不过我更建议家庭服务器使用 Server 系统。&lt;/p>
+&lt;p>Windows 的版本转换很容易，设置中更改密钥即可。&lt;/p>
+&lt;h2 id="小结">小结
+&lt;/h2>&lt;p>在本章中，我们学习更加进阶的 Windows 安装方式，包括物理磁盘上的安装、虚拟磁盘上的安装以及安装过程中的常见问题。最后还学习了各版本 Windows 的大致区别。&lt;/p></description></item></channel></rss>

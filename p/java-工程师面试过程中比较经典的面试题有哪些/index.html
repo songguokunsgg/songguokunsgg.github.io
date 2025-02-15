@@ -1,0 +1,196 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="本文总结了 Java 工程师面试中的经典问题，涵盖了 Java 基础、集合框架、多线程、Spring Boot、Spring Cloud、MySQL 等多个方面。重点介绍了 Java 面向对象的三大特征、数据类型、String 类、集合类的区别与使用场景、HashMap 的底层实现、AOP 和 IOC 的概念、Spring Boot 的核心注解、MySQL 的事务特性及优化策略等。适合准备 Java 面试的开发者参考。"><title>java 工程师面试过程中，比较经典的面试题有哪些？</title>
+<link rel=canonical href=https://songguokunsgg.github.io/p/java-%E5%B7%A5%E7%A8%8B%E5%B8%88%E9%9D%A2%E8%AF%95%E8%BF%87%E7%A8%8B%E4%B8%AD%E6%AF%94%E8%BE%83%E7%BB%8F%E5%85%B8%E7%9A%84%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9C%89%E5%93%AA%E4%BA%9B/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="java 工程师面试过程中，比较经典的面试题有哪些？"><meta property='og:description' content="本文总结了 Java 工程师面试中的经典问题，涵盖了 Java 基础、集合框架、多线程、Spring Boot、Spring Cloud、MySQL 等多个方面。重点介绍了 Java 面向对象的三大特征、数据类型、String 类、集合类的区别与使用场景、HashMap 的底层实现、AOP 和 IOC 的概念、Spring Boot 的核心注解、MySQL 的事务特性及优化策略等。适合准备 Java 面试的开发者参考。"><meta property='og:url' content='https://songguokunsgg.github.io/p/java-%E5%B7%A5%E7%A8%8B%E5%B8%88%E9%9D%A2%E8%AF%95%E8%BF%87%E7%A8%8B%E4%B8%AD%E6%AF%94%E8%BE%83%E7%BB%8F%E5%85%B8%E7%9A%84%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9C%89%E5%93%AA%E4%BA%9B/'><meta property='og:site_name' content='菘菓菌'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='技术'><meta property='article:published_time' content='2022-02-13T15:32:19+00:00'><meta property='article:modified_time' content='2022-02-13T15:32:19+00:00'><meta name=twitter:title content="java 工程师面试过程中，比较经典的面试题有哪些？"><meta name=twitter:description content="本文总结了 Java 工程师面试中的经典问题，涵盖了 Java 基础、集合框架、多线程、Spring Boot、Spring Cloud、MySQL 等多个方面。重点介绍了 Java 面向对象的三大特征、数据类型、String 类、集合类的区别与使用场景、HashMap 的底层实现、AOP 和 IOC 的概念、Spring Boot 的核心注解、MySQL 的事务特性及优化策略等。适合准备 Java 面试的开发者参考。"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_598b466302713ded.png width=300 height=325 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>菘菓菌</a></h1><h2 class=site-description>热爱技术，热爱生活，梦想是像风般自由</h2></div></header><ol class=menu-social><li><a href=https://github.com/songguokunsgg target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://zhihu.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>主页</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>归档</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>搜索</span></a></li><li><a href=/%E9%93%BE%E6%8E%A5/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>链接</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#说明>说明</a><ol><li><a href=#java-面向对象的三个特征>Java 面向对象的三个特征</a></li><li><a href=#java-中基本的数据类型有哪些-以及他们的占用字节>Java 中基本的数据类型有哪些 以及他们的占用字节</a></li><li><a href=#int-和-integer-的区别>int 和 Integer 的区别</a></li><li><a href=#stringstringbuilderstringbuffer-的区别及使用场景>String、StringBuilder、StringBuffer 的区别及使用场景</a></li><li><a href=#arraylistvector-和-linkedlist-的区别及使用场景>ArrayList、Vector 和 LinkedList 的区别及使用场景</a></li><li><a href=#collection-和-collections-的区别>Collection 和 Collections 的区别</a></li><li><a href=#list-和-map-的区别>List 和 Map 的区别</a></li><li><a href=#hashmap-和-hashtable-的区别>HashMap 和 HashTable 的区别</a></li><li><a href=#hashmap-底层实现原理和扩容机制>HashMap 底层实现原理和扩容机制</a></li><li><a href=#hashmap-什么样的类适合作为键>HashMap 什么样的类适合作为键</a></li><li><a href=#finalfinallyfinalize-的区别>final、finally、finalize 的区别</a></li><li><a href=#sleep-和-wait-的区别>sleep() 和 wait() 的区别</a></li><li><a href=#抽象类和接口的区别以及使用场景>抽象类和接口的区别、以及使用场景</a></li><li><a href=#overload重载和-override重写的区别>Overload（重载）和 Override（重写）的区别</a></li><li><a href=#forward转发和-redirect重定向的区别>forward（转发）和 redirect（重定向）的区别</a></li><li><a href=#连接池的工作机制>连接池的工作机制</a></li><li><a href=#什么是序列化>什么是序列化</a></li><li><a href=#第三方框架部分>第三方框架部分</a></li><li><a href=#什么是-aopspring-aop-的底层原理是什么>什么是 AOP、Spring AOP 的底层原理是什么</a></li><li><a href=#什么是-iocioc-注入方式有哪些>什么是 IOC、IOC 注入方式有哪些</a></li><li><a href=#spring-boot-的核心注解是什么它是由哪几个注解组成的>Spring Boot 的核心注解是什么，它是由哪几个注解组成的</a></li><li><a href=#springboot-怎么读取配置文件>SpringBoot 怎么读取配置文件</a></li><li><a href=#springcloud-和-dubbo-的区别>SpringCloud 和 Dubbo 的区别</a></li><li><a href=#springcloud-的-hystrix-断路器特性>SpringCloud 的 Hystrix 断路器特性</a></li><li><a href=#mysql-数据库部分>MySQL 数据库部分</a></li><li><a href=#事物的四大特性和隔离级别>事物的四大特性和隔离级别</a></li><li><a href=#mysql-优化相关>MySQL 优化相关</a></li><li><a href=#mysql-存储引擎-innodb-和-myisam-的区别>MySQL 存储引擎 InnoDB 和 MyISAM 的区别</a></li><li><a href=#mysql-在哪些情况下不使用索引>MySQL 在哪些情况下不使用索引</a></li><li><a href=#mysql-分库分表策略>MySQL 分库分表策略</a></li><li><a href=#mysql-三个范式>MySQL 三个范式</a></li><li><a href=#mysql-修改表操作>MySQL 修改表操作</a></li><li><a href=#mysql-流程控制>MySQL 流程控制</a></li><li><a href=#if>IF</a></li><li><a href=#case>CASE</a></li><li><a href=#mysql-多表联查>MySQL 多表联查</a></li><li><a href=#内连接>内连接</a></li><li><a href=#外连接>外连接</a></li><li><a href=#mysql-子查询>MySQL 子查询</a></li><li><a href=#mysql-索引>MySQL 索引</a></li><li><a href=#存储过程与函数>存储过程与函数</a></li><li><a href=#存储过程>存储过程</a></li><li><a href=#函数>函数</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%AE%B9%E5%99%A8%E6%8A%80%E6%9C%AF/>编程与容器技术</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/java-%E5%B7%A5%E7%A8%8B%E5%B8%88%E9%9D%A2%E8%AF%95%E8%BF%87%E7%A8%8B%E4%B8%AD%E6%AF%94%E8%BE%83%E7%BB%8F%E5%85%B8%E7%9A%84%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9C%89%E5%93%AA%E4%BA%9B/>java 工程师面试过程中，比较经典的面试题有哪些？</a></h2><h3 class=article-subtitle>本文总结了 Java 工程师面试中的经典问题，涵盖了 Java 基础、集合框架、多线程、Spring Boot、Spring Cloud、MySQL 等多个方面。重点介绍了 Java 面向对象的三大特征、数据类型、String 类、集合类的区别与使用场景、HashMap 的底层实现、AOP 和 IOC 的概念、Spring Boot 的核心注解、MySQL 的事务特性及优化策略等。适合准备 Java 面试的开发者参考。</h3></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Feb 13, 2022</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 4 分钟</time></div></footer></div></header><section class=article-content><h2 id=说明>说明</h2><p>本文的所有的 Springboot、SQL 资料均来源于网络以及 ChatGPT，本人只进行了些许整理。最初是为自己面试准备的，面试结束了分享给大家。如果您觉得没有帮助，请划走，如果您觉得有所帮助，可以帮忙点个关注，谢谢。</p><h3 id=java-面向对象的三个特征>Java 面向对象的三个特征</h3><p>封装：对象只需要选择性的对外公开一些属性和行为。继承：子对象可以继承父对象的属性和行为，并且可以在其之上进行修改以适合更特殊的场景需求。多态：允许不同类的对象对同一消息做出响应。</p><h3 id=java-中基本的数据类型有哪些-以及他们的占用字节>Java 中基本的数据类型有哪些 以及他们的占用字节</h3><p>数据类型占用字节</p><div class=table-wrapper><table><thead><tr><th>数据类型</th><th>占用字节数</th></tr></thead><tbody><tr><td>byte</td><td>1</td></tr><tr><td>short</td><td>2</td></tr><tr><td>int</td><td>4</td></tr><tr><td>long</td><td>8</td></tr><tr><td>float</td><td>4</td></tr><tr><td>double</td><td>8</td></tr><tr><td>char</td><td>2</td></tr><tr><td>boolean</td><td>4</td></tr></tbody></table></div><h3 id=int-和-integer-的区别>int 和 Integer 的区别</h3><p>int 是 Java 中的原始类型，Integer 是 Java 为 int 提供的封装类，他们有不同的特征和用法，包括大小、速度、默认值。</p><h3 id=stringstringbuilderstringbuffer-的区别及使用场景>String、StringBuilder、StringBuffer 的区别及使用场景</h3><p>String 一旦定义就不可改变，可空赋值。操作少量数据时使用。StringBuilder 可改变，线程不安全。操作单线程大量数据时使用。StringBuffer 可改变，线程安全。操作多线程大量数据时使用。</p><h3 id=arraylistvector-和-linkedlist-的区别及使用场景>ArrayList、Vector 和 LinkedList 的区别及使用场景</h3><p>ArrayList 和 Vector 都是使用数组方式存储数据，允许按序号索引元素，但是插入数据会涉及到元素移动等内存操作，所以索引快插入慢。</p><p>ArrayList 懒加载 默认大小### 每次扩容 1.5 倍 线程不安全 性能较高 Vector 实例化时初始化 默认大小### 每次扩容 2 倍 线程安全 性能较低 已弃用</p><p>额外回答加分项：多读少写建议使用 CopyOnWriteArrayList CopyOnWriteArrayList 原理是发生修改的时候复制一份 多写少读或读写比较均匀建议使用 Connections.synchronizedList</p><p>LinkedList 使用双向链表方式存储数据，插入只需要记录本项的前后项，索引需要向前或向后进行遍历，所以插入速度较快，线程不安全，频繁在任意位置插入和删除的情况可以使用，如果需要多线程访问，可以使用 Connections.synchronizedList() 或 ConcurrentLinkedQueue</p><h3 id=collection-和-collections-的区别>Collection 和 Collections 的区别</h3><p>Collection 是集合类上级接口，继承他的主要有 List 和 Set Collections 是集合类的帮助类，提供了对集合的搜索、排序、线程安全化等操作。</p><h3 id=list-和-map-的区别>List 和 Map 的区别</h3><p>List 是存储单列数据的集合，Map 是存储键值对双列数据的集合。List 存储的数据是有顺序且可重复的，Map 存储的数据是无顺序，键不可重复，值可重复的。</p><h3 id=hashmap-和-hashtable-的区别>HashMap 和 HashTable 的区别</h3><p>HashMap 是 Map 接口的实现，非线程安全，允许空键值。HashTable 是 Dictionary 的子类，线程安全，不允许空键值。几乎被淘汰，建议使用 ConcurrentHashMap 来替代它。HashMap 使用的是快速失败迭代器，在迭代器创建后，除非通过迭代器自身的 remove 或者 add 方法，其他任何方式的修改都会抛出异常。</p><h3 id=hashmap-底层实现原理和扩容机制>HashMap 底层实现原理和扩容机制</h3><p>JDK1.8 以前：数组 + 单链表的组合，以键值对的方式存储元素。JDK1.8 及以后：引入红黑树结构，添加元素时，若链表个数大于 8，链表会转换为红黑树，反之小于 6 时会修剪或还原成链表结构。选择 6 和 8 可以有效防止频繁的链表和红黑树转换。扩容条件：</p><p>存放新值的时候当前已有元素个数大于阈值。存放新值的时候当前存放数据发生 hash 碰撞（当前 key 计算的 hash 值换算出来的数组下标位置已经存在值）默认容量是 16，负载因子 0.75，所以扩容阈值是 12。每次扩容的容量是原有的 2 倍。</p><h3 id=hashmap-什么样的类适合作为键>HashMap 什么样的类适合作为键</h3><p>String 最为常见，因为 String 对象不可变，且重写了 equals 和 hashcode 方法。不可变性是必要的，如果 key 的 hashcode 存入和获取是不一致，就无法找到。获取对象时需要用到 equals 和 hashCode 方法，正确的重写这两个方法是非常重要的，因为两个不相等的对象返回不同的 hashCode 的话，碰撞的几率就会小些，就可以提高 HashMap 的性能。</p><h3 id=finalfinallyfinalize-的区别>final、finally、finalize 的区别</h3><p>final 用于修饰属性、方法和类，分别表示属性不可变，方法不可覆盖，类不可继承。finally 是异常处理语句结构的一部分，表示总是执行。finalize 是 Object 类的一个方法，在 GC 执行时会调用被回收对象的此方法。</p><h3 id=sleep-和-wait-的区别>sleep() 和 wait() 的区别</h3><p>sleep() 是 Thread 类的，wait() 是 Object 类的方法 sleep 不会释放锁，wait 会释放锁。sleep 可在任意地方使用，wait notify notifyAll 只能在 synchronized 块。sleep 必须捕获异常，而 wait 不需要。</p><h3 id=抽象类和接口的区别以及使用场景>抽象类和接口的区别、以及使用场景</h3><p>抽象类中可以有构造方法、静态方法、普通方法、普通成员变量。接口中不能有。抽象类中的抽象方法访问类型可以是 public、protected 和默认类型，接口中只能是 public。抽象类中的静态成员变量访问类型可以任意，接口中只能是 public 的。一个类只能继承一个类，但是可以实现多个接口。抽象类和子类为“是不是”的关系。主要用于为一些类提供公共实现代码。接口和实现为“有没有”的关系。主要用于代码的扩展性和可维护性。</p><h3 id=overload重载和-override重写的区别>Overload（重载）和 Override（重写）的区别</h3><p>重载是一个类中多态性的一种表现，在一个类中定义了多个同名的方法，他们有不同的参数列表。重写是父类与子类之间多态的一种表现，子类中定义了与父类有相同名称和参数的方法时，子类对象使用该方法会调用子类中的定义。</p><h3 id=forward转发和-redirect重定向的区别>forward（转发）和 redirect（重定向）的区别</h3><p>forward 是服务器请求资源，服务器访问目标 URL，把响应内容发给用户，用户不知道数据是从哪来的。redirect 是服务器向客户端发送一个状态码，告知重新请求该 URL。</p><h3 id=连接池的工作机制>连接池的工作机制</h3><p>服务器启动时会建立一定数量的池连接，客户端需要连接时，池会返回一个未使用的连接并将其标记为忙，如果没有空闲连接，池会新建一定数量的连接，当连接使用完毕后，池会将其标记为空闲。</p><h3 id=什么是序列化>什么是序列化</h3><p>序列化就是一种用来处理对象流的机制，就是将对象的内容进行流化，可以对流化后的对象进行读写操作，也可以将流化后的对象传输于网络之间。可通过实现 java.io.Serializable 接口来实现序列化。</p><h3 id=第三方框架部分>第三方框架部分</h3><h3 id=什么是-aopspring-aop-的底层原理是什么>什么是 AOP、Spring AOP 的底层原理是什么</h3><p>AOP 是面向切面编程，用于在不改变原有逻辑的基础上增加一些额外的功能，如事务管理、日志、缓存、权限控制等。Spring AOP 是基于代理的。如果目标对象实现了接口，则默认采用 JDK 动态代理。如果目标对象没有实现接口，则采用 CgLib 进行动态代理。如果目标对象实现了接口，且强制 CgLib 代理，则采用 CgLib 动态代理。</p><h3 id=什么是-iocioc-注入方式有哪些>什么是 IOC、IOC 注入方式有哪些</h3><p>IOC 翻译为控制反转，他还有个别名为 DI（依赖注入）。IOC 就是由 IOC 容器来负责对象的生命周期和对象之间的关系。控制反转就是本来应该你做的事情，让系统去做，比如通常获取一个对象需要通过 new，而使用 IOC 则是 IOC 将对象创建后注入到被注入的对象中。注解注入（Spring）、构造器注入、setter 方法注入、接口方式注入（不推荐）</p><h3 id=spring-boot-的核心注解是什么它是由哪几个注解组成的>Spring Boot 的核心注解是什么，它是由哪几个注解组成的</h3><p>核心注解：@SpringBootApplication 包含： @SpringBootConfiguration 实现配置文件功能 @EnableAutoConfiguration 打开自动配置功能 @CompoentScan 组件扫描功能</p><h3 id=springboot-怎么读取配置文件>SpringBoot 怎么读取配置文件</h3><p>属性上使用@Value 注解 类上使用@ConfigurationProperties 注解 读取指定文件注解可在类上使用@PropertySource（不支持 yml 文件读取）注入 Environment 对象获取到。</p><h3 id=springcloud-和-dubbo-的区别>SpringCloud 和 Dubbo 的区别</h3><p>SpringCloud 采用基于 HTTP 的 REST API，Dubbo 采用 RPC 方式。</p><h3 id=springcloud-的-hystrix-断路器特性>SpringCloud 的 Hystrix 断路器特性</h3><p>请求熔断：请求服务失败量超过一定比例（默认 50%）断路器会切换到开路状态，这时所有请求不会发送到后端服务，断路器在保持开路状态一段时间后（默认 5 秒），自动切换到半开路状态。这时如果下一次请求成功，断路器切回闭路状态，否则重新切换到开路状态。服务降级：对于查询操作，可以实现一个 fallback 方法。当请求服务出现异常时，可以使用 fallback 方法返回的值。依赖隔离：通过线程池来实现资源隔离，比如一个服务调用另外两个服务，如果这两个服务在同一线程池，那么如果一个服务卡住，后面的请求又来了，就会导致后面的请求都会卡住等待。请求缓存：缓存上次请求结果，返回给后续请求。请求合并：把多个请求合并成一个请求，提升效率。</p><h3 id=mysql-数据库部分>MySQL 数据库部分</h3><h3 id=事物的四大特性和隔离级别>事物的四大特性和隔离级别</h3><p>原子性：不可分割的操作单元，要么全部成功，要么回滚。一致性：如果执行事物之前数据库是一致的，那么执行后还是一致的。隔离性：事物操作之间彼此独立和透明，互不影响。持久性：事物一旦提交，其结果就是永久的。未提交读：允许脏读，其他事物只要修改了数据，即使未提交，本事物也能看到修改后的数据值。提交读：只能读取到已提交的数据。可重复读（innoDB 默认）：无论其他事物是否修改并提交了数据，这个事物中的数据不受影响。串行读：完全串行化的读，每次读都要获得锁，读写相互都会阻塞。</p><h3 id=mysql-优化相关>MySQL 优化相关</h3><p>使用更小的整数类型、尽可能的定义字段为 not null（否则会导致索引复杂）、只创建需要的索引、分库分表。使用 explain 检查复杂 SQL 语句、LIMIT 语句尽量要跟 order by 或 distinct、插入多条数据时使用单条 INSERT 语句。</p><h3 id=mysql-存储引擎-innodb-和-myisam-的区别>MySQL 存储引擎 InnoDB 和 MyISAM 的区别</h3><p>InnoDB 支持事物，MyISAM 不支持。InnoDB 支持外键，MyISAM 不支持。InnoDB 是聚集索引，MyISAM 是非聚集索引。索引和数据文件是分离的。InnoDB 必须要有主键（没有会自己找或创建），MyISAM 可以没有。InnoDB 不保存表的行数，MyISAM 用了一个变量保存表的行数。InnoDB 支持表、行级锁 默认行级锁，MyISAM 只支持表级锁。</p><h3 id=mysql-在哪些情况下不使用索引>MySQL 在哪些情况下不使用索引</h3><p>like 查询使用%开头不能使用索引，但用%结尾的可以使用索引。where 语句中使用&lt;>或!=。where 语句中使用 or，且没有把 or 中的所有字段加上索引。where 语句中对字段表达式操作。where 语句中使用 NOT IN。使用简单的 IN 会使用索引。</p><h3 id=mysql-分库分表策略>MySQL 分库分表策略</h3><p>垂直切分：某个表字段过多，可以将不常用或字段长度较大的字段拆分出去到扩展表中。水平切分：分为库内分表和分库分表，是根据表内数据的逻辑关系，按照不同的条件分散到多个数据库或表中。</p><h3 id=mysql-三个范式>MySQL 三个范式</h3><ol><li>满足原子性</li><li>满足唯一性</li><li>满足无传递依赖（每个字段依赖且仅依赖于主键</li></ol><p>常用的 SQL 语句</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>CREATE DATABASE &lt;database_name&gt; DEFAULT CHARACTER SET utf8;
+</span></span><span class=line><span class=cl>ALTER DATABASE &lt;database_name&gt;;
+</span></span><span class=line><span class=cl>DROP DATABASE [IF EXISTS] &lt;database_name&gt;;
+</span></span><span class=line><span class=cl>SHOW DATABASES LIKE &lt;module&gt; WHERE &lt;condition&gt;;
+</span></span><span class=line><span class=cl>USE &lt;database_name&gt;;
+</span></span><span class=line><span class=cl>CREATE TABLE &lt;table_name&gt;;
+</span></span><span class=line><span class=cl>DELETE TABLE &lt;table_name&gt;;
+</span></span><span class=line><span class=cl>INSERT INTO &lt;table_name&gt; (column1,column2,...) VALUES (value1,value2,...);
+</span></span><span class=line><span class=cl>UPDATE &lt;table_name&gt; SET column1=1,column2=2 WHERE id=61618;
+</span></span><span class=line><span class=cl>DELETE FROM &lt;table_name&gt; WHERE &lt;condition&gt;;
+</span></span><span class=line><span class=cl>SELECT * FROM &lt;table_name&gt; WHERE &lt;condition&gt;;
+</span></span><span class=line><span class=cl>TRUNCATE TABLE &lt;table_name&gt;
+</span></span><span class=line><span class=cl>MySQL存储引擎
+</span></span><span class=line><span class=cl>SHOW ENGINES;
+</span></span><span class=line><span class=cl>MySQL数据类型
+</span></span></code></pre></td></tr></table></div></div><ol><li>整型：TINYINT, SMALLINT, MEDIUMINT, INT, BIGINT</li><li>浮点型：FLOAT, DOUBLE, DECIMAL(可变)</li><li>字符串：CHAR(8), VARCHAR(255)</li><li>文本：TEXT, BLOB</li><li>时间：DATE, TIME, DATETIME, TIMESTAMP, YEAR</li></ol><h3 id=mysql-修改表操作>MySQL 修改表操作</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ALTER TABLE &lt;table_name&gt; ADD &lt;columnN&gt; VARCHAR(50) NOT NULL;
+</span></span><span class=line><span class=cl>-- 修改字段定义;
+</span></span><span class=line><span class=cl>ALTER TABLE &lt;table_name&gt; MODIFY &lt;columnN&gt; VARCHAR(50);
+</span></span><span class=line><span class=cl>-- 展示数据表;
+</span></span><span class=line><span class=cl>DESC &lt;table_name&gt;;
+</span></span><span class=line><span class=cl>ALTER TABLE &lt;table_name&gt; CHANGE COLUMN &lt;old_column&gt; &lt;new_column&gt;;
+</span></span><span class=line><span class=cl>ALTER TABLE &lt;table_name&gt; DROP &lt;column&gt;;
+</span></span><span class=line><span class=cl>ALTER TABLE &lt;table_name&gt; RENAME AS &lt;new_table_name&gt;;
+</span></span><span class=line><span class=cl>RENAME TABLE &lt;table_name&gt; &lt;new_table_name&gt;;
+</span></span><span class=line><span class=cl>DROP TABLE &lt;table_name&gt;;
+</span></span><span class=line><span class=cl>CREATE TABLE &lt;table_name&gt; LIKE &lt;back_table_name&gt;;
+</span></span><span class=line><span class=cl>MySQL运算符
+</span></span></code></pre></td></tr></table></div></div><ol><li><ul><li><ul><li>* /</li></ul></li></ul></li><li>= &lt; > &lt;= >= !=</li><li>is null, is not null, between and, in , not in, like, not like, regexp</li><li>AND OR XOR NOT</li></ol><h3 id=mysql-流程控制>MySQL 流程控制</h3><h3 id=if>IF</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>IF &lt;condition&gt; THEN
+</span></span><span class=line><span class=cl>...
+</span></span><span class=line><span class=cl>ELSE IF &lt;condition&gt; THEN
+</span></span><span class=line><span class=cl>...
+</span></span><span class=line><span class=cl>ELSE 
+</span></span><span class=line><span class=cl>...
+</span></span><span class=line><span class=cl>END IF
+</span></span></code></pre></td></tr></table></div></div><h3 id=case>CASE</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>CASE</span> <span class=o>&lt;</span><span class=k>var</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=n>WHEN</span> <span class=o>&lt;</span><span class=n>val</span><span class=o>&gt;</span> <span class=n>THEN</span>
+</span></span><span class=line><span class=cl><span class=o>...</span>
+</span></span><span class=line><span class=cl><span class=n>WHEN</span> <span class=o>&lt;</span><span class=n>val</span><span class=o>&gt;</span> <span class=n>THEN</span>
+</span></span><span class=line><span class=cl><span class=o>...</span>
+</span></span><span class=line><span class=cl><span class=n>WHEN</span> <span class=o>&lt;</span><span class=n>val</span><span class=o>&gt;</span> <span class=n>THEN</span>
+</span></span><span class=line><span class=cl><span class=o>...</span>
+</span></span><span class=line><span class=cl><span class=n>END</span> <span class=n>CASE</span>
+</span></span><span class=line><span class=cl><span class=n>WHILE</span>
+</span></span><span class=line><span class=cl><span class=n>WHILE</span> <span class=o>&lt;</span><span class=n>condition</span><span class=o>&gt;</span> <span class=n>THEN</span>
+</span></span><span class=line><span class=cl><span class=o>...</span>
+</span></span><span class=line><span class=cl><span class=n>END</span> <span class=n>WHILE</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=mysql-多表联查>MySQL 多表联查</h3><h3 id=内连接>内连接</h3><p>两个表存在相同的字段</p><h3 id=外连接>外连接</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>LEFT JOIN
+</span></span><span class=line><span class=cl>RIGHT JOIN
+</span></span></code></pre></td></tr></table></div></div><p>这种查询建议选择写一段代码进行，提升可读性。</p><h3 id=mysql-子查询>MySQL 子查询</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>IN, &lt;compare&gt;, EXISTS, ANY(挑一个), ALL(选全部)
+</span></span><span class=line><span class=cl>-- 基本语法, 两个表可以相同也可以不同
+</span></span><span class=line><span class=cl>SELECT &lt;columns&gt; FROM &lt;table1_name&gt; WHERE &lt;key?&gt; &lt;subQuery&gt; ( SELECT &lt;columns&gt; FROM &lt;table2_name&gt;)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>-- 例如
+</span></span><span class=line><span class=cl>SELECT &lt;columns&gt; FROM &lt;table1_name&gt; WHERE id IN( SELECT id FROM &lt;table1_name&gt; WHERE id BETWEEN 7 AND 10)
+</span></span><span class=line><span class=cl>SELECT &lt;columns&gt; FROM &lt;table1_name&gt; WHERE id &gt; ANY( SELECT id FROM &lt;table1_name&gt; WHERE id BETWEEN 7 AND 10)
+</span></span></code></pre></td></tr></table></div></div><h3 id=mysql-索引>MySQL 索引</h3><p>主键是一种特殊的索引</p><h3 id=存储过程与函数>存储过程与函数</h3><p>主要区别在于，存储过程一般用于增删改，而函数一般用于计算结果，不改动数据库本身。</p><h3 id=存储过程>存储过程</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>CREATE</span> <span class=n>PROCEDURE</span> <span class=n>procedure_name</span> <span class=p>(</span><span class=n>IN</span> <span class=n>parameter</span> <span class=n>INTEGER</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>BEGIN</span>
+</span></span><span class=line><span class=cl><span class=n>IF</span> <span class=o>&lt;</span><span class=n>condition</span><span class=o>&gt;</span> <span class=n>THEN</span>
+</span></span><span class=line><span class=cl><span class=o>...</span>
+</span></span><span class=line><span class=cl><span class=n>END</span> <span class=n>IF</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>WHILE</span> <span class=o>&lt;</span><span class=n>condition</span><span class=o>&gt;</span> <span class=n>THEN</span>
+</span></span><span class=line><span class=cl><span class=o>...</span>
+</span></span><span class=line><span class=cl><span class=n>END</span> <span class=n>WHILE</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>CASE</span> <span class=o>&lt;</span><span class=k>var</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=n>WHEN</span> <span class=mi>1</span> <span class=n>THEN</span>
+</span></span><span class=line><span class=cl><span class=o>...</span>
+</span></span><span class=line><span class=cl><span class=n>WHEN</span> <span class=mi>2</span> <span class=n>THEN</span>
+</span></span><span class=line><span class=cl><span class=o>...</span>
+</span></span><span class=line><span class=cl><span class=n>END</span> <span class=n>CASE</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>END</span>
+</span></span><span class=line><span class=cl><span class=o>--</span> <span class=err>调用</span>
+</span></span><span class=line><span class=cl><span class=err>@</span><span class=n>parameter</span><span class=o>=</span><span class=mi>7</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>CALL</span> <span class=n>procedure_name</span><span class=p>(</span><span class=err>@</span><span class=n>parameter</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=o>--</span> <span class=err>删除</span>
+</span></span><span class=line><span class=cl><span class=n>DROP</span> <span class=n>PROCEDURE</span> <span class=n>procedure_name</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=函数>函数</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>CREATE FUNCTION func_name (parameter INTEGER)
+</span></span><span class=line><span class=cl>RETURNS VARCHAR(255)
+</span></span><span class=line><span class=cl>BEGIN
+</span></span><span class=line><span class=cl>RETURN (SELECT &lt;column&gt; FROM &lt;table_name&gt; WHERE id = parameter)
+</span></span><span class=line><span class=cl>END
+</span></span><span class=line><span class=cl>-- 调用
+</span></span><span class=line><span class=cl>@parameter=5;
+</span></span><span class=line><span class=cl>func_name(@parameter);
+</span></span><span class=line><span class=cl>-- 删除
+</span></span><span class=line><span class=cl>DROP FUNCTION func_name
+</span></span></code></pre></td></tr></table></div></div></section><footer class=article-footer><section class=article-tags><a href=/tags/%E6%8A%80%E6%9C%AF/>技术</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85-docker-%E9%95%9C%E5%83%8F%E5%87%8F%E5%B0%91%E9%95%9C%E5%83%8F%E4%BD%93%E7%A7%AF/><div class=article-details><h2 class=article-title>重新打包 docker 镜像，减少镜像体积</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 菘菓菌</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
