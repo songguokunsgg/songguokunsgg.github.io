@@ -1,7 +1,7 @@
 ---
 title: Windows 11 高阶应用指南——导言
 description: 
-date: 2025-0107 11:23:38+0000
+date: 2025-01-07 11:23:38+0000
 categories:
     - Windows 11 高阶应用指南
 tags:
@@ -37,7 +37,8 @@ tags:
         4. RAID-5 卷
     4. C 盘目录结构
     5. BitLocker
-- 文件权限
+- 文件管理
+    1. 
 - 网络管理
     1. 计算机们连接的桥梁——网络
     2. IPv4 与 IPv6
@@ -59,19 +60,19 @@ tags:
     1. 系统属性
     2. 组策略
     3. 本地安全策略
+    4. 注册表
 - Hyper-V、WSL 和 容器
     1. I 型和 II 型虚拟机
     2. Hyper-V 与 Hyper-V 网络
     3. Windows Subsystem for Linux
     4. Docker 与 podman
-    5. 沙盒
-- 任务计划程序
+    5. Windows 沙盒
+- 任务计划程序与 Windows 备份
     1. 开启自动化之旅
     2. 任务计划程序详解
-- Windows 备份
-    1. 机器有价数据无价
-    2. RAID 与备份的区别
-    3. 如何正确备份？
+    3. 机器有价数据无价
+    4. RAID 与备份的区别
+    5. 如何正确备份？
         1. 普通数据：异盘双备份
         2. 重要数据：异地三备份
 - 示例 1：使用 Windows 系统做 NAS 服务器
