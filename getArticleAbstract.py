@@ -10,7 +10,7 @@ from openai import OpenAI
 import os, time
 
 client = OpenAI(
-    api_key="<key>",  # 在这里将 MOONSHOT_API_KEY 替换为你从 Kimi 开放平台申请的 API Key
+    api_key="sk-kGqFhf86lWHjbpSZcdmeZfsc8hGei70oLCX9io7c44kAKR64",  # 在这里将 MOONSHOT_API_KEY 替换为你从 Kimi 开放平台申请的 API Key
     base_url="https://api.siliconflow.cn/v1", 
 )
 
