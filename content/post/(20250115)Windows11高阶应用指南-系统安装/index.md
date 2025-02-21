@@ -1,7 +1,7 @@
 ---
 title: Windows 11 高阶应用指南——系统安装
 description: 本文是《Windows 11 高阶应用指南》中的系统安装章节，介绍了 Windows 系统的安装和启动方式，包括 BIOS 和 UEFI 启动的区别、磁盘初始化选择 GPT+UEFI、MBR+BIOS 的过时性。详细讲解了从 ISO 文件和 Windows 安装器安装系统的方法，包括创建 EFI 分区、选择安装映像、无人值守安装等高级功能。还探讨了虚拟硬盘 vhdx 的使用，以及如何从 vhdx 启动系统。最后，讨论了 Windows 11 的配置检测跳过方法和不同系统版本的区别，为个人用户选择合适版本提供指导。
-date: 2025-01-15 20:20:33+0000
+date: 2025-01-15 20:20:33
 categories:
     - Windows 11 高阶应用指南
 tags:

@@ -1,7 +1,7 @@
 ---
 title: 自行编译定制 immortalWRT
 description: 本文介绍了如何使用 podman 搭建 immortalWRT 编译环境，包括构建镜像、构建容器、克隆 immortalWRT 仓库、修改网络配置、配置 immortalwrt 以及下载与编译的步骤。文章提供了详细的命令和配置选项，适合需要自行编译定制 immortalWRT 的用户参考。
-date: 2025-01-26 18:02:33+0000
+date: 2025-01-26 18:02:33
 categories:
     - 操作系统杂谈
 tags:

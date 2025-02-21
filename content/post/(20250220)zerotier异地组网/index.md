@@ -1,7 +1,7 @@
 ---
 title: Windows + OpenWRT 异地 Zerotier 组网
 description: 本文介绍了 ZeroTier 异地组网的原理和配置方法。ZeroTier 通过中央服务器管理身份验证和授权，创建虚拟网卡，使设备形成虚拟局域网，实现相互访问。文章详细讲解了在 Windows 和 OpenWRT 系统上安装和配置 ZeroTier 的步骤，包括加入网络、配置防火墙和接口等。通过 ZeroTier，即使在 IPv6 环境下，也能实现稳定的远程访问和设备互联。
-date: 2025-02-20 16:15:15+0000
+date: 2025-02-20 16:15:15
 categories: 
     - 操作系统杂谈
 tags:
