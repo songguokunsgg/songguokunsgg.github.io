@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>编程与容器技术 on 菘菓菌</title><link>https://songguokunsgg.github.io/categories/%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%AE%B9%E5%99%A8%E6%8A%80%E6%9C%AF/</link><description>Recent content in 编程与容器技术 on 菘菓菌</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 04 Jun 2022 12:31:22 +0000</lastBuildDate><atom:link href="https://songguokunsgg.github.io/categories/%E7%BC%96%E7%A8%8B%E4%B8%8E%E5%AE%B9%E5%99%A8%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml"/><item><title>重新打包 docker 镜像，减少镜像体积</title><link>https://songguokunsgg.github.io/p/%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85-docker-%E9%95%9C%E5%83%8F%E5%87%8F%E5%B0%91%E9%95%9C%E5%83%8F%E4%BD%93%E7%A7%AF/</link><pubDate>Sat, 04 Jun 2022 12:31:22 +0000</pubDate><guid>https://songguokunsgg.github.io/p/%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85-docker-%E9%95%9C%E5%83%8F%E5%87%8F%E5%B0%91%E9%95%9C%E5%83%8F%E4%BD%93%E7%A7%AF/</guid><description>&lt;p>docker 最常用的打包命令是 commit，但是这样的打包方式是增量式的（类似 git），也就是说，这个镜像只会越来越大，不会减小，打包次数多了之后，镜像会变得非常大，所以我们可以采用 tar 命令打包基础镜像的方式进行解决。&lt;/p>
+&lt;p>这样打包后的镜像会将文字编码更改为 POSIX，导致中文无法显示，因此需要将编码更改为 en_US.utf8，因此需要在容器中提前进行如下两步（archlinux 为例）。&lt;/p>
+&lt;ol>
+&lt;li>在/etc/profile 中加入以下语句&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="k">export&lt;/span> &lt;span class="n">LANG&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">en_US&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">utf8&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>在 ~/.zshrc 中加入&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">source /etc/profile
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>就可以永久解决该问题&lt;/p>
+&lt;ol>
+&lt;li>进行清理（根据实际情况）&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">clean
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>进入根目录（&amp;ldquo;cd /&amp;quot;）打包&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">tar --exclude=./proc --exclude=./sys --exclude=./home/jupyter-file -cvf /home/jupyter-file/base_img.tar .
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&amp;ndash;exclude 为排除某个目录&lt;/p>
+&lt;p>意思是将除了/proc /sys /home 之外的目录打包为 base_img.tar，放置在某个目录下 5. 导入包&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">cat base_img.tar | docker import - imagename:latest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>tar 的大小就是镜像的大小，注意里面的排除目录和镜像存放目录的合理选择。&lt;/p></description></item><item><title>java 工程师面试过程中，比较经典的面试题有哪些？</title><link>https://songguokunsgg.github.io/p/java-%E5%B7%A5%E7%A8%8B%E5%B8%88%E9%9D%A2%E8%AF%95%E8%BF%87%E7%A8%8B%E4%B8%AD%E6%AF%94%E8%BE%83%E7%BB%8F%E5%85%B8%E7%9A%84%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9C%89%E5%93%AA%E4%BA%9B/</link><pubDate>Sun, 13 Feb 2022 15:32:19 +0000</pubDate><guid>https://songguokunsgg.github.io/p/java-%E5%B7%A5%E7%A8%8B%E5%B8%88%E9%9D%A2%E8%AF%95%E8%BF%87%E7%A8%8B%E4%B8%AD%E6%AF%94%E8%BE%83%E7%BB%8F%E5%85%B8%E7%9A%84%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9C%89%E5%93%AA%E4%BA%9B/</guid><description>&lt;h2 id="说明">说明
+&lt;/h2>&lt;p>本文的所有的 Springboot、SQL 资料均来源于网络以及 ChatGPT，本人只进行了些许整理。最初是为自己面试准备的，面试结束了分享给大家。如果您觉得没有帮助，请划走，如果您觉得有所帮助，可以帮忙点个关注，谢谢。&lt;/p>
+&lt;h3 id="java-面向对象的三个特征">Java 面向对象的三个特征
+&lt;/h3>&lt;p>封装：对象只需要选择性的对外公开一些属性和行为。继承：子对象可以继承父对象的属性和行为，并且可以在其之上进行修改以适合更特殊的场景需求。多态：允许不同类的对象对同一消息做出响应。&lt;/p>
+&lt;h3 id="java-中基本的数据类型有哪些-以及他们的占用字节">Java 中基本的数据类型有哪些 以及他们的占用字节
+&lt;/h3>&lt;p>数据类型占用字节&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>数据类型&lt;/th>
+&lt;th>占用字节数&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>byte&lt;/td>
+&lt;td>1&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>short&lt;/td>
+&lt;td>2&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>int&lt;/td>
+&lt;td>4&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>long&lt;/td>
+&lt;td>8&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>float&lt;/td>
+&lt;td>4&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>double&lt;/td>
+&lt;td>8&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>char&lt;/td>
+&lt;td>2&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>boolean&lt;/td>
+&lt;td>4&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="int-和-integer-的区别">int 和 Integer 的区别
+&lt;/h3>&lt;p>int 是 Java 中的原始类型，Integer 是 Java 为 int 提供的封装类，他们有不同的特征和用法，包括大小、速度、默认值。&lt;/p>
+&lt;h3 id="stringstringbuilderstringbuffer-的区别及使用场景">String、StringBuilder、StringBuffer 的区别及使用场景
+&lt;/h3>&lt;p>String 一旦定义就不可改变，可空赋值。操作少量数据时使用。StringBuilder 可改变，线程不安全。操作单线程大量数据时使用。StringBuffer 可改变，线程安全。操作多线程大量数据时使用。&lt;/p>
+&lt;h3 id="arraylistvector-和-linkedlist-的区别及使用场景">ArrayList、Vector 和 LinkedList 的区别及使用场景
+&lt;/h3>&lt;p>ArrayList 和 Vector 都是使用数组方式存储数据，允许按序号索引元素，但是插入数据会涉及到元素移动等内存操作，所以索引快插入慢。&lt;/p>
+&lt;p>ArrayList 懒加载 默认大小### 每次扩容 1.5 倍 线程不安全 性能较高 Vector 实例化时初始化 默认大小### 每次扩容 2 倍 线程安全 性能较低 已弃用&lt;/p>
+&lt;p>额外回答加分项：多读少写建议使用 CopyOnWriteArrayList CopyOnWriteArrayList 原理是发生修改的时候复制一份 多写少读或读写比较均匀建议使用 Connections.synchronizedList&lt;/p>
+&lt;p>LinkedList 使用双向链表方式存储数据，插入只需要记录本项的前后项，索引需要向前或向后进行遍历，所以插入速度较快，线程不安全，频繁在任意位置插入和删除的情况可以使用，如果需要多线程访问，可以使用 Connections.synchronizedList() 或 ConcurrentLinkedQueue&lt;/p>
+&lt;h3 id="collection-和-collections-的区别">Collection 和 Collections 的区别
+&lt;/h3>&lt;p>Collection 是集合类上级接口，继承他的主要有 List 和 Set Collections 是集合类的帮助类，提供了对集合的搜索、排序、线程安全化等操作。&lt;/p>
+&lt;h3 id="list-和-map-的区别">List 和 Map 的区别
+&lt;/h3>&lt;p>List 是存储单列数据的集合，Map 是存储键值对双列数据的集合。List 存储的数据是有顺序且可重复的，Map 存储的数据是无顺序，键不可重复，值可重复的。&lt;/p>
+&lt;h3 id="hashmap-和-hashtable-的区别">HashMap 和 HashTable 的区别
+&lt;/h3>&lt;p>HashMap 是 Map 接口的实现，非线程安全，允许空键值。HashTable 是 Dictionary 的子类，线程安全，不允许空键值。几乎被淘汰，建议使用 ConcurrentHashMap 来替代它。HashMap 使用的是快速失败迭代器，在迭代器创建后，除非通过迭代器自身的 remove 或者 add 方法，其他任何方式的修改都会抛出异常。&lt;/p>
+&lt;h3 id="hashmap-底层实现原理和扩容机制">HashMap 底层实现原理和扩容机制
+&lt;/h3>&lt;p>JDK1.8 以前：数组 + 单链表的组合，以键值对的方式存储元素。JDK1.8 及以后：引入红黑树结构，添加元素时，若链表个数大于 8，链表会转换为红黑树，反之小于 6 时会修剪或还原成链表结构。选择 6 和 8 可以有效防止频繁的链表和红黑树转换。扩容条件：&lt;/p>
+&lt;p>存放新值的时候当前已有元素个数大于阈值。存放新值的时候当前存放数据发生 hash 碰撞（当前 key 计算的 hash 值换算出来的数组下标位置已经存在值）默认容量是 16，负载因子 0.75，所以扩容阈值是 12。每次扩容的容量是原有的 2 倍。&lt;/p>
+&lt;h3 id="hashmap-什么样的类适合作为键">HashMap 什么样的类适合作为键
+&lt;/h3>&lt;p>String 最为常见，因为 String 对象不可变，且重写了 equals 和 hashcode 方法。不可变性是必要的，如果 key 的 hashcode 存入和获取是不一致，就无法找到。获取对象时需要用到 equals 和 hashCode 方法，正确的重写这两个方法是非常重要的，因为两个不相等的对象返回不同的 hashCode 的话，碰撞的几率就会小些，就可以提高 HashMap 的性能。&lt;/p>
+&lt;h3 id="finalfinallyfinalize-的区别">final、finally、finalize 的区别
+&lt;/h3>&lt;p>final 用于修饰属性、方法和类，分别表示属性不可变，方法不可覆盖，类不可继承。finally 是异常处理语句结构的一部分，表示总是执行。finalize 是 Object 类的一个方法，在 GC 执行时会调用被回收对象的此方法。&lt;/p>
+&lt;h3 id="sleep-和-wait-的区别">sleep() 和 wait() 的区别
+&lt;/h3>&lt;p>sleep() 是 Thread 类的，wait() 是 Object 类的方法 sleep 不会释放锁，wait 会释放锁。sleep 可在任意地方使用，wait notify notifyAll 只能在 synchronized 块。sleep 必须捕获异常，而 wait 不需要。&lt;/p>
+&lt;h3 id="抽象类和接口的区别以及使用场景">抽象类和接口的区别、以及使用场景
+&lt;/h3>&lt;p>抽象类中可以有构造方法、静态方法、普通方法、普通成员变量。接口中不能有。抽象类中的抽象方法访问类型可以是 public、protected 和默认类型，接口中只能是 public。抽象类中的静态成员变量访问类型可以任意，接口中只能是 public 的。一个类只能继承一个类，但是可以实现多个接口。抽象类和子类为“是不是”的关系。主要用于为一些类提供公共实现代码。接口和实现为“有没有”的关系。主要用于代码的扩展性和可维护性。&lt;/p>
+&lt;h3 id="overload重载和-override重写的区别">Overload（重载）和 Override（重写）的区别
+&lt;/h3>&lt;p>重载是一个类中多态性的一种表现，在一个类中定义了多个同名的方法，他们有不同的参数列表。重写是父类与子类之间多态的一种表现，子类中定义了与父类有相同名称和参数的方法时，子类对象使用该方法会调用子类中的定义。&lt;/p>
+&lt;h3 id="forward转发和-redirect重定向的区别">forward（转发）和 redirect（重定向）的区别
+&lt;/h3>&lt;p>forward 是服务器请求资源，服务器访问目标 URL，把响应内容发给用户，用户不知道数据是从哪来的。redirect 是服务器向客户端发送一个状态码，告知重新请求该 URL。&lt;/p>
+&lt;h3 id="连接池的工作机制">连接池的工作机制
+&lt;/h3>&lt;p>服务器启动时会建立一定数量的池连接，客户端需要连接时，池会返回一个未使用的连接并将其标记为忙，如果没有空闲连接，池会新建一定数量的连接，当连接使用完毕后，池会将其标记为空闲。&lt;/p>
+&lt;h3 id="什么是序列化">什么是序列化
+&lt;/h3>&lt;p>序列化就是一种用来处理对象流的机制，就是将对象的内容进行流化，可以对流化后的对象进行读写操作，也可以将流化后的对象传输于网络之间。可通过实现 java.io.Serializable 接口来实现序列化。&lt;/p>
+&lt;h3 id="第三方框架部分">第三方框架部分
+&lt;/h3>&lt;h3 id="什么是-aopspring-aop-的底层原理是什么">什么是 AOP、Spring AOP 的底层原理是什么
+&lt;/h3>&lt;p>AOP 是面向切面编程，用于在不改变原有逻辑的基础上增加一些额外的功能，如事务管理、日志、缓存、权限控制等。Spring AOP 是基于代理的。如果目标对象实现了接口，则默认采用 JDK 动态代理。如果目标对象没有实现接口，则采用 CgLib 进行动态代理。如果目标对象实现了接口，且强制 CgLib 代理，则采用 CgLib 动态代理。&lt;/p>
+&lt;h3 id="什么是-iocioc-注入方式有哪些">什么是 IOC、IOC 注入方式有哪些
+&lt;/h3>&lt;p>IOC 翻译为控制反转，他还有个别名为 DI（依赖注入）。IOC 就是由 IOC 容器来负责对象的生命周期和对象之间的关系。控制反转就是本来应该你做的事情，让系统去做，比如通常获取一个对象需要通过 new，而使用 IOC 则是 IOC 将对象创建后注入到被注入的对象中。注解注入（Spring）、构造器注入、setter 方法注入、接口方式注入（不推荐）&lt;/p>
+&lt;h3 id="spring-boot-的核心注解是什么它是由哪几个注解组成的">Spring Boot 的核心注解是什么，它是由哪几个注解组成的
+&lt;/h3>&lt;p>核心注解：@SpringBootApplication 包含： @SpringBootConfiguration 实现配置文件功能 @EnableAutoConfiguration 打开自动配置功能 @CompoentScan 组件扫描功能&lt;/p>
+&lt;h3 id="springboot-怎么读取配置文件">SpringBoot 怎么读取配置文件
+&lt;/h3>&lt;p>属性上使用@Value 注解 类上使用@ConfigurationProperties 注解 读取指定文件注解可在类上使用@PropertySource（不支持 yml 文件读取）注入 Environment 对象获取到。&lt;/p>
+&lt;h3 id="springcloud-和-dubbo-的区别">SpringCloud 和 Dubbo 的区别
+&lt;/h3>&lt;p>SpringCloud 采用基于 HTTP 的 REST API，Dubbo 采用 RPC 方式。&lt;/p>
+&lt;h3 id="springcloud-的-hystrix-断路器特性">SpringCloud 的 Hystrix 断路器特性
+&lt;/h3>&lt;p>请求熔断：请求服务失败量超过一定比例（默认 50%）断路器会切换到开路状态，这时所有请求不会发送到后端服务，断路器在保持开路状态一段时间后（默认 5 秒），自动切换到半开路状态。这时如果下一次请求成功，断路器切回闭路状态，否则重新切换到开路状态。服务降级：对于查询操作，可以实现一个 fallback 方法。当请求服务出现异常时，可以使用 fallback 方法返回的值。依赖隔离：通过线程池来实现资源隔离，比如一个服务调用另外两个服务，如果这两个服务在同一线程池，那么如果一个服务卡住，后面的请求又来了，就会导致后面的请求都会卡住等待。请求缓存：缓存上次请求结果，返回给后续请求。请求合并：把多个请求合并成一个请求，提升效率。&lt;/p>
+&lt;h3 id="mysql-数据库部分">MySQL 数据库部分
+&lt;/h3>&lt;h3 id="事物的四大特性和隔离级别">事物的四大特性和隔离级别
+&lt;/h3>&lt;p>原子性：不可分割的操作单元，要么全部成功，要么回滚。一致性：如果执行事物之前数据库是一致的，那么执行后还是一致的。隔离性：事物操作之间彼此独立和透明，互不影响。持久性：事物一旦提交，其结果就是永久的。未提交读：允许脏读，其他事物只要修改了数据，即使未提交，本事物也能看到修改后的数据值。提交读：只能读取到已提交的数据。可重复读（innoDB 默认）：无论其他事物是否修改并提交了数据，这个事物中的数据不受影响。串行读：完全串行化的读，每次读都要获得锁，读写相互都会阻塞。&lt;/p>
+&lt;h3 id="mysql-优化相关">MySQL 优化相关
+&lt;/h3>&lt;p>使用更小的整数类型、尽可能的定义字段为 not null（否则会导致索引复杂）、只创建需要的索引、分库分表。使用 explain 检查复杂 SQL 语句、LIMIT 语句尽量要跟 order by 或 distinct、插入多条数据时使用单条 INSERT 语句。&lt;/p>
+&lt;h3 id="mysql-存储引擎-innodb-和-myisam-的区别">MySQL 存储引擎 InnoDB 和 MyISAM 的区别
+&lt;/h3>&lt;p>InnoDB 支持事物，MyISAM 不支持。InnoDB 支持外键，MyISAM 不支持。InnoDB 是聚集索引，MyISAM 是非聚集索引。索引和数据文件是分离的。InnoDB 必须要有主键（没有会自己找或创建），MyISAM 可以没有。InnoDB 不保存表的行数，MyISAM 用了一个变量保存表的行数。InnoDB 支持表、行级锁 默认行级锁，MyISAM 只支持表级锁。&lt;/p>
+&lt;h3 id="mysql-在哪些情况下不使用索引">MySQL 在哪些情况下不使用索引
+&lt;/h3>&lt;p>like 查询使用%开头不能使用索引，但用%结尾的可以使用索引。where 语句中使用&amp;lt;&amp;gt;或!=。where 语句中使用 or，且没有把 or 中的所有字段加上索引。where 语句中对字段表达式操作。where 语句中使用 NOT IN。使用简单的 IN 会使用索引。&lt;/p>
+&lt;h3 id="mysql-分库分表策略">MySQL 分库分表策略
+&lt;/h3>&lt;p>垂直切分：某个表字段过多，可以将不常用或字段长度较大的字段拆分出去到扩展表中。水平切分：分为库内分表和分库分表，是根据表内数据的逻辑关系，按照不同的条件分散到多个数据库或表中。&lt;/p>
+&lt;h3 id="mysql-三个范式">MySQL 三个范式
+&lt;/h3>&lt;ol>
+&lt;li>满足原子性&lt;/li>
+&lt;li>满足唯一性&lt;/li>
+&lt;li>满足无传递依赖（每个字段依赖且仅依赖于主键&lt;/li>
+&lt;/ol>
+&lt;p>常用的 SQL 语句&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">CREATE DATABASE &amp;lt;database_name&amp;gt; DEFAULT CHARACTER SET utf8;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ALTER DATABASE &amp;lt;database_name&amp;gt;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DROP DATABASE [IF EXISTS] &amp;lt;database_name&amp;gt;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">SHOW DATABASES LIKE &amp;lt;module&amp;gt; WHERE &amp;lt;condition&amp;gt;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">USE &amp;lt;database_name&amp;gt;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">CREATE TABLE &amp;lt;table_name&amp;gt;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DELETE TABLE &amp;lt;table_name&amp;gt;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">INSERT INTO &amp;lt;table_name&amp;gt; (column1,column2,...) VALUES (value1,value2,...);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">UPDATE &amp;lt;table_name&amp;gt; SET column1=1,column2=2 WHERE id=61618;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DELETE FROM &amp;lt;table_name&amp;gt; WHERE &amp;lt;condition&amp;gt;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">SELECT * FROM &amp;lt;table_name&amp;gt; WHERE &amp;lt;condition&amp;gt;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">TRUNCATE TABLE &amp;lt;table_name&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">MySQL存储引擎
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">SHOW ENGINES;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">MySQL数据类型
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>整型：TINYINT, SMALLINT, MEDIUMINT, INT, BIGINT&lt;/li>
+&lt;li>浮点型：FLOAT, DOUBLE, DECIMAL(可变)&lt;/li>
+&lt;li>字符串：CHAR(8), VARCHAR(255)&lt;/li>
+&lt;li>文本：TEXT, BLOB&lt;/li>
+&lt;li>时间：DATE, TIME, DATETIME, TIMESTAMP, YEAR&lt;/li>
+&lt;/ol>
+&lt;h3 id="mysql-修改表操作">MySQL 修改表操作
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">ALTER TABLE &amp;lt;table_name&amp;gt; ADD &amp;lt;columnN&amp;gt; VARCHAR(50) NOT NULL;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-- 修改字段定义;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ALTER TABLE &amp;lt;table_name&amp;gt; MODIFY &amp;lt;columnN&amp;gt; VARCHAR(50);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-- 展示数据表;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DESC &amp;lt;table_name&amp;gt;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ALTER TABLE &amp;lt;table_name&amp;gt; CHANGE COLUMN &amp;lt;old_column&amp;gt; &amp;lt;new_column&amp;gt;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ALTER TABLE &amp;lt;table_name&amp;gt; DROP &amp;lt;column&amp;gt;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ALTER TABLE &amp;lt;table_name&amp;gt; RENAME AS &amp;lt;new_table_name&amp;gt;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">RENAME TABLE &amp;lt;table_name&amp;gt; &amp;lt;new_table_name&amp;gt;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DROP TABLE &amp;lt;table_name&amp;gt;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">CREATE TABLE &amp;lt;table_name&amp;gt; LIKE &amp;lt;back_table_name&amp;gt;;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">MySQL运算符
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ol>
+&lt;li>
+&lt;ul>
+&lt;li>
+&lt;ul>
+&lt;li>* /&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>= &amp;lt; &amp;gt; &amp;lt;= &amp;gt;= !=&lt;/li>
+&lt;li>is null, is not null, between and, in , not in, like, not like, regexp&lt;/li>
+&lt;li>AND OR XOR NOT&lt;/li>
+&lt;/ol>
+&lt;h3 id="mysql-流程控制">MySQL 流程控制
+&lt;/h3>&lt;h3 id="if">IF
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">IF &amp;lt;condition&amp;gt; THEN
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ELSE IF &amp;lt;condition&amp;gt; THEN
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">ELSE
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">END IF
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="case">CASE
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="n">CASE&lt;/span> &lt;span class="o">&amp;lt;&lt;/span>&lt;span class="k">var&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">WHEN&lt;/span> &lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">val&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">THEN&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">WHEN&lt;/span> &lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">val&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">THEN&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">WHEN&lt;/span> &lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">val&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">THEN&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">END&lt;/span> &lt;span class="n">CASE&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">WHILE&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">WHILE&lt;/span> &lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">condition&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">THEN&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">END&lt;/span> &lt;span class="n">WHILE&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="mysql-多表联查">MySQL 多表联查
+&lt;/h3>&lt;h3 id="内连接">内连接
+&lt;/h3>&lt;p>两个表存在相同的字段&lt;/p>
+&lt;h3 id="外连接">外连接
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">LEFT JOIN
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">RIGHT JOIN
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这种查询建议选择写一段代码进行，提升可读性。&lt;/p>
+&lt;h3 id="mysql-子查询">MySQL 子查询
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">IN, &amp;lt;compare&amp;gt;, EXISTS, ANY(挑一个), ALL(选全部)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-- 基本语法, 两个表可以相同也可以不同
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">SELECT &amp;lt;columns&amp;gt; FROM &amp;lt;table1_name&amp;gt; WHERE &amp;lt;key?&amp;gt; &amp;lt;subQuery&amp;gt; ( SELECT &amp;lt;columns&amp;gt; FROM &amp;lt;table2_name&amp;gt;)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-- 例如
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">SELECT &amp;lt;columns&amp;gt; FROM &amp;lt;table1_name&amp;gt; WHERE id IN( SELECT id FROM &amp;lt;table1_name&amp;gt; WHERE id BETWEEN 7 AND 10)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">SELECT &amp;lt;columns&amp;gt; FROM &amp;lt;table1_name&amp;gt; WHERE id &amp;gt; ANY( SELECT id FROM &amp;lt;table1_name&amp;gt; WHERE id BETWEEN 7 AND 10)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="mysql-索引">MySQL 索引
+&lt;/h3>&lt;p>主键是一种特殊的索引&lt;/p>
+&lt;h3 id="存储过程与函数">存储过程与函数
+&lt;/h3>&lt;p>主要区别在于，存储过程一般用于增删改，而函数一般用于计算结果，不改动数据库本身。&lt;/p>
+&lt;h3 id="存储过程">存储过程
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="n">CREATE&lt;/span> &lt;span class="n">PROCEDURE&lt;/span> &lt;span class="n">procedure_name&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">IN&lt;/span> &lt;span class="n">parameter&lt;/span> &lt;span class="n">INTEGER&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">BEGIN&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">IF&lt;/span> &lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">condition&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">THEN&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">END&lt;/span> &lt;span class="n">IF&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">WHILE&lt;/span> &lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">condition&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">THEN&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">END&lt;/span> &lt;span class="n">WHILE&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">CASE&lt;/span> &lt;span class="o">&amp;lt;&lt;/span>&lt;span class="k">var&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">WHEN&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="n">THEN&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">WHEN&lt;/span> &lt;span class="mi">2&lt;/span> &lt;span class="n">THEN&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">END&lt;/span> &lt;span class="n">CASE&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">END&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">--&lt;/span> &lt;span class="err">调用&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="err">@&lt;/span>&lt;span class="n">parameter&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">7&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">CALL&lt;/span> &lt;span class="n">procedure_name&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="err">@&lt;/span>&lt;span class="n">parameter&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">--&lt;/span> &lt;span class="err">删除&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">DROP&lt;/span> &lt;span class="n">PROCEDURE&lt;/span> &lt;span class="n">procedure_name&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="函数">函数
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">CREATE FUNCTION func_name (parameter INTEGER)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">RETURNS VARCHAR(255)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">BEGIN
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">RETURN (SELECT &amp;lt;column&amp;gt; FROM &amp;lt;table_name&amp;gt; WHERE id = parameter)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">END
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-- 调用
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">@parameter=5;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">func_name(@parameter);
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">-- 删除
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">DROP FUNCTION func_name
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item></channel></rss>
