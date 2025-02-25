@@ -117,3 +117,49 @@ immortalwrt 对 WAN/WAN6 的默认配置是 DHCP/DHCPv6，适用于光猫拨号�
 ## 系统洁癖？折腾党？固件定制党？
 
 这一部分讲解如何自己编译 ImmortalWRT 固件，但这里太小了写不下，等有时间了我再来。
+
+有时间了，写一下。
+
+首先打开网址：[](https://github.com/hanwckf/immortalwrt-mt798x)，这是 hanwckf 发布的适用于 798x 芯片硬件的源代码。
+
+还有一个比较新的版本，不过我没试过：[](https://github.com/NekokeCore/immortalwrt-mt798x-24.10)。
+
+![创建一个 codespace](图片.png)
+
+我已经创建了一个，所以你的界面可能与我有所不同。
+
+codespace 里面会包含一套完整的开发环境，整体编译步骤可以看我以前文章，搜索 immortalwrt 即可。
+
+主要区别在两点，一是选择配置，二是选择机型：
+
+以下引用 README.md
+
+### Quickstart
+
+  1. Run `git clone --depth=1 https://github.com/hanwckf/immortalwrt-mt798x.git` to clone the source code.
+  2. Run `cd immortalwrt-mt798x` to enter source directory.
+  3. Run `./scripts/feeds update -a` to obtain all the latest package definitions defined in feeds.conf / feeds.conf.default
+  4. Run `./scripts/feeds install -a` to install symlinks for all obtained packages into package/feeds/
+  5. Copy the configuration file for your device from the `defconfig` directory to the project root directory and rename it `.config`
+     
+     ```
+     # MT7981
+     cp -f defconfig/mt7981-ax3000.config .config
+
+     # MT7986
+     cp -f defconfig/mt7986-ax6000.config .config
+     
+     # MT7986 256M Low Memory
+     cp -f defconfig/mt7986-ax6000-256m.config .config
+     ```
+     
+  7. Run `make menuconfig` to select your preferred configuration for the toolchain, target system & firmware packages.
+  8. Run `make -j$(nproc)` to build your firmware. This will download all sources, build the cross-compile toolchain and then cross-compile the GNU/Linux kernel & all chosen applications for your target system.
+
+第 5 步，针对 AX3000Tv2，使用 `cp -f defconfig/mt7981-ax3000.config .config`，第 7 步，将除 AX3000Tv2 以外的机型全部去掉。
+
+![](<图片 copy.png>)
+
+然后定制 luci 软件包，编译即可，codespace 不存在网络问题，应该可以一次成功。
+
+也可以本地搭建编译环境，需要使用 ubuntu20.04 系统
