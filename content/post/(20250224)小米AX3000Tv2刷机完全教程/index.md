@@ -118,6 +118,26 @@ immortalwrt 对 WAN/WAN6 的默认配置是 DHCP/DHCPv6，适用于光猫拨号�
 
 这一部分讲解如何自己编译 ImmortalWRT 固件，但这里太小了写不下，等有时间了我再来。
 
+这里提供一份我自己编译的固件，带了以下功能：
+
+1. Argon 主题设置
+2. ttyd 终端
+3. Open 克拉什
+4. 网络唤醒
+5. Alist
+6. ddns-go
+7. uHTTPd 管理
+8. UPnP
+9. Zerotier
+10. Docker
+
+默认网关地址：10.0.0.1
+
+通过网盘分享的文件：AX3000Tv2-ImmortalWRT
+链接：https://pan.baidu.com/s/1Nto99D_bNqHjhZhozEVP1Q?pwd=7tu8 提取码：7tu8 
+
+——————————————————————————
+
 有时间了，写一下。
 
 首先打开网址：[](https://github.com/hanwckf/immortalwrt-mt798x)，这是 hanwckf 发布的适用于 798x 芯片硬件的源代码。
@@ -162,4 +182,4 @@ codespace 里面会包含一套完整的开发环境，整体编译步骤可以�
 
 然后定制 luci 软件包，编译即可，codespace 不存在网络问题，应该可以一次成功。
 
-也可以本地搭建编译环境，需要使用 ubuntu20.04 系统
+但 codespace 的环境配置不高，编译时间比较长，还是更推荐本地搭建编译环境，需要使用 ubuntu20.04 系统，
