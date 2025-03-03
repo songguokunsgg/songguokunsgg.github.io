@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux on 菘菓菌</title><link>https://songguokunsgg.github.io/categories/linux/</link><description>Recent content in Linux on 菘菓菌</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 24 Feb 2025 23:40:04 +0000</lastBuildDate><atom:link href="https://songguokunsgg.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>小米 AX3000Tv2 刷机完全教程</title><link>https://songguokunsgg.github.io/p/%E5%B0%8F%E7%B1%B3-ax3000tv2-%E5%88%B7%E6%9C%BA%E5%AE%8C%E5%85%A8%E6%95%99%E7%A8%8B/</link><pubDate>Mon, 24 Feb 2025 23:40:04 +0000</pubDate><guid>https://songguokunsgg.github.io/p/%E5%B0%8F%E7%B1%B3-ax3000tv2-%E5%88%B7%E6%9C%BA%E5%AE%8C%E5%85%A8%E6%95%99%E7%A8%8B/</guid><description>&lt;p>恩山上面已经有较多的刷机教程，但始终没有一个相对完整的系统性教学，往往在过程中会漏掉那么几个步骤，让我也吃了不少苦头。今天一狠心把路由器也刷成 ImmortalWRT 了，并在这里记录一下详细的刷机过程。当然，这篇文章更像是一个系统性的整理，并非小白教学，必然是给懂一些网络的人看的，所以不会有过多配图。&lt;/p>
+&lt;h2 id="参考">参考
+&lt;/h2>&lt;ol>
+&lt;li>恩山文章&lt;/li>
+&lt;/ol>
+&lt;p>&lt;a class="link" href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;amp;tid=8416935&amp;amp;highlight=ax3000t" target="_blank" rel="noopener"
+>&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;amp;tid=8395187&amp;amp;highlight=ax3000t" target="_blank" rel="noopener"
+>&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;amp;tid=8405671&amp;amp;highlight=ax3000t" target="_blank" rel="noopener"
+>&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;amp;tid=8404780&amp;amp;highlight=ax3000t" target="_blank" rel="noopener"
+>&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;amp;tid=8409864&amp;amp;highlight=ax3000t" target="_blank" rel="noopener"
+>&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;amp;tid=8404955&amp;amp;highlight=ax3000t" target="_blank" rel="noopener"
+>&lt;/a>&lt;/p>
+&lt;ol start="2">
+&lt;li>Github 798x 相关项目&lt;/li>
+&lt;/ol>
+&lt;p>&lt;a class="link" href="https://github.com/hanwckf/immortalwrt-mt798x" target="_blank" rel="noopener"
+>&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://github.com/hanwckf/bl-mt798x" target="_blank" rel="noopener"
+>&lt;/a>&lt;/p>
+&lt;h2 id="确保系统版本为-1084">确保系统版本为 1.0.84
+&lt;/h2>&lt;p>小米近期推送了 1.0.90 的系统更新，如果你不幸进行了升级，那么可以洗洗睡了。&lt;/p>
+&lt;p>幸运的是，根据网友测试，1.0.90 刷机方法和 1.0.84 一样，但还是建议先降级到 1.0.84 再操作。&lt;/p>
+&lt;p>首先，下载小米的救砖工具和系统包，包含以下两个文件：&lt;/p>
+&lt;ol>
+&lt;li>固件：miwifi_rd03_firmware_f85f9_1.0.84.bin&lt;/li>
+&lt;li>刷机工具：MIWIFIRepairTool.x86.zip&lt;/li>
+&lt;/ol>
+&lt;p>将路由器从光猫上拔下，路由器 LAN 口与电脑网口对插，并将路由器和电脑设置为同一网段，小米默认为 192.168.31.0/24 网段。&lt;/p>
+&lt;p>解压刷机工具 MIWIFIRepairTool.x86.zip，运行刷机工具，根据提示操作即可。只有一个地方需要注意，最后一个步骤需要按住 reset 按钮重启，重启时 LED 灯会变黄，变黄后过几秒松掉 reset 键，黄灯闪烁，同时电脑屏幕会显示出刷机进度条。如果电脑没有任何弹窗出来，则路由器为正常开机，需要重新尝试操作。&lt;/p>
+&lt;p>刷机之后需要手动把网段设置为 192.168.31.0/24，访问192.168.31.1，进行初始化设置。这里的设置不需要连上外网，只要把 webui 的密码设好就行了。&lt;/p>
+&lt;h2 id="解锁临时-ssh">解锁临时 SSH
+&lt;/h2>&lt;p>来源：&lt;a class="link" href="https://www.right.com.cn/forum/forum.php?mod=viewthread&amp;amp;tid=8417892&amp;amp;highlight=ax3000t%2B1.0.90" target="_blank" rel="noopener"
+>&lt;/a>&lt;/p>
+&lt;ol>
+&lt;li>有线连接路由器后，打开 192.168.31.1 检查路由器可以正常访问并进行初始化设定&lt;/li>
+&lt;li>打开 xmir-patcher-main 目录中的 run.bat，选择【2】Connect to device，输入刚才初始化路由器时写的登陆密码
+&lt;img src="https://songguokunsgg.github.io/p/%E5%B0%8F%E7%B1%B3-ax3000tv2-%E5%88%B7%E6%9C%BA%E5%AE%8C%E5%85%A8%E6%95%99%E7%A8%8B/mirpatcher1.png"
+width="988"
+height="946"
+srcset="https://songguokunsgg.github.io/p/%E5%B0%8F%E7%B1%B3-ax3000tv2-%E5%88%B7%E6%9C%BA%E5%AE%8C%E5%85%A8%E6%95%99%E7%A8%8B/mirpatcher1_hu_386e97ad67f2cfd7.png 480w, https://songguokunsgg.github.io/p/%E5%B0%8F%E7%B1%B3-ax3000tv2-%E5%88%B7%E6%9C%BA%E5%AE%8C%E5%85%A8%E6%95%99%E7%A8%8B/mirpatcher1_hu_f382eace55331dd5.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="104"
+data-flex-basis="250px"
+>&lt;/li>
+&lt;li>选择【4】Create full backup，备份并下载分区
+注意：我进行到这一步时并不能备份原厂分区，由于我并不会刷回官方系统，就懒得操作这一步了。&lt;/li>
+&lt;li>最后再选择【8 - {{{ Other functions }}}】，再选择【2】修改 root 密码，并且固化 SSH，选择【7 - Install permanent SSH】
+注意：这一步也是可选，刷完 OpenWRT 之后，系统都变了，这时候固化 SSH 有什么用呢？&lt;/li>
+&lt;/ol>
+&lt;h2 id="将-uboot-上传到路由器并刷入">将 uboot 上传到路由器并刷入
+&lt;/h2>&lt;p>这里可以选择用图形 SSH 工具 mobaxterm 进行，也可以直接使用系统 ssh 和 scp 命令进行，由于上传的文件就一个，所以就不演示 mobaxterm 了，道理都是相通的。&lt;/p>
+&lt;p>起一个终端，拷贝 uboot 文件到&lt;code>/tmp/&lt;/code>目录下&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">scp mt7981_ax3000t_an8855-fip-fixed-parts-multi-layout.bin root@192.168.31.1:/tmp/
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># passwd: root&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>另起一个终端，ssh 到路由器上&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">ssh root@192.168.31.1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># passwd: root&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>刷入 uboot：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">mtd write /tmp/mt7981_ax3000t_an8855-fip-fixed-parts-multi-layout.bin FIP
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="进入-uboot-并刷机">进入 uboot 并刷机
+&lt;/h2>&lt;ol>
+&lt;li>进入 UBOOT：拔掉电源，卡针顶入 reset 孔并保持，连接电源，保持 reset 键 5 秒，路由器显示灯亮白色。&lt;/li>
+&lt;li>手动将电脑网段调整到 192.168.1.0/24，访问 192.168.1.1，进入 UBOOT 界面&lt;/li>
+&lt;li>因为我们要刷入的是 immortalwrt，所以选择 mtd layout 为 immortalwrt-112m&lt;/li>
+&lt;/ol>
+&lt;p>这里注意，在网上，你有可能下载到 4 种类型的固件：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E5%B0%8F%E7%B1%B3-ax3000tv2-%E5%88%B7%E6%9C%BA%E5%AE%8C%E5%85%A8%E6%95%99%E7%A8%8B/%E4%BA%94%E7%A7%8D%E5%9B%BA%E4%BB%B6.png"
+width="1386"
+height="252"
+srcset="https://songguokunsgg.github.io/p/%E5%B0%8F%E7%B1%B3-ax3000tv2-%E5%88%B7%E6%9C%BA%E5%AE%8C%E5%85%A8%E6%95%99%E7%A8%8B/%E4%BA%94%E7%A7%8D%E5%9B%BA%E4%BB%B6_hu_97be9bb9b327b2e1.png 480w, https://songguokunsgg.github.io/p/%E5%B0%8F%E7%B1%B3-ax3000tv2-%E5%88%B7%E6%9C%BA%E5%AE%8C%E5%85%A8%E6%95%99%E7%A8%8B/%E4%BA%94%E7%A7%8D%E5%9B%BA%E4%BB%B6_hu_4bea49c9911005da.png 1024w"
+loading="lazy"
+alt="五种类型的固件"
+class="gallery-image"
+data-flex-grow="550"
+data-flex-basis="1320px"
+>&lt;/p>
+&lt;p>factory 的固件表示固件通过 uboot 进行刷入。
+sysupgrade 的固件表示，在 immortalwrt 安装完成之后，在系统内进行 OTA 升级所用的固件。
+stoke 固件表示适用于官方分区布局。
+带 initramfs 的固件一般用不上，这种固件貌似用于特殊用途，在这种固件中进行的配置更改并不会保存（ramfs 特点），应该仅用作调试，这一块我也不是很了解，当我没说。
+推荐在 uboot 中刷入不带 stoke 的 factory 固件，当然，后续的系统 OTA 升级也必须使用不带 stoke 的固件，也就是看好这俩：&lt;/p>
+&lt;ol>
+&lt;li>immortalwrt-mediatek-mt7981-xiaomi_mi-router-ax3000t-an8855-squashfs-factory.bin&lt;/li>
+&lt;li>immortalwrt-mediatek-mt7981-xiaomi_mi-router-ax3000t-an8855-squashfs-sysupgrade.bin&lt;/li>
+&lt;/ol>
+&lt;p>uboot 刷机用 1.，后续系统升级用 2.。&lt;/p>
+&lt;h2 id="刷完后的配置">刷完后的配置
+&lt;/h2>&lt;p>一定要看固件发布者定下的默认网关地址，如果发布者没有说到，那么就把 IP 地址设置为自动，这些固件应该默认有启用 DHCP，会自动分发一个 IP 地址下来。在网页浏览器输入网关地址进行配置。&lt;/p>
+&lt;p>immortalwrt 对 WAN/WAN6 的默认配置是 DHCP/DHCPv6，适用于光猫拨号，如果你是路由器拨号，就把 WAN 改成 PPPoE 即可。&lt;/p>
+&lt;p>后续的配置就跟 OpenWRT 一样了，不再赘述。&lt;/p>
+&lt;h2 id="系统洁癖折腾党固件定制党">系统洁癖？折腾党？固件定制党？
+&lt;/h2>&lt;p>这一部分讲解如何自己编译 ImmortalWRT 固件，但这里太小了写不下，等有时间了我再来。&lt;/p>
+&lt;p>这里提供一份我自己编译的固件，带了以下功能：&lt;/p>
+&lt;ol>
+&lt;li>Argon 主题设置&lt;/li>
+&lt;li>ttyd 终端&lt;/li>
+&lt;li>Open 克拉什&lt;/li>
+&lt;li>网络唤醒&lt;/li>
+&lt;li>Alist&lt;/li>
+&lt;li>ddns-go&lt;/li>
+&lt;li>uHTTPd 管理&lt;/li>
+&lt;li>UPnP&lt;/li>
+&lt;li>Zerotier&lt;/li>
+&lt;li>Docker&lt;/li>
+&lt;/ol>
+&lt;p>默认网关地址：10.0.0.1&lt;/p>
+&lt;p>通过网盘分享的文件：AX3000Tv2-ImmortalWRT
+链接：https://pan.baidu.com/s/1Nto99D_bNqHjhZhozEVP1Q?pwd=7tu8 提取码：7tu8&lt;/p>
+&lt;p>——————————————————————————&lt;/p>
+&lt;p>有时间了，写一下。&lt;/p>
+&lt;p>首先打开网址：&lt;a class="link" href="https://github.com/hanwckf/immortalwrt-mt798x" target="_blank" rel="noopener"
+>&lt;/a>，这是 hanwckf 发布的适用于 798x 芯片硬件的源代码。&lt;/p>
+&lt;p>还有一个比较新的版本，不过我没试过：&lt;a class="link" href="https://github.com/NekokeCore/immortalwrt-mt798x-24.10" target="_blank" rel="noopener"
+>&lt;/a>。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E5%B0%8F%E7%B1%B3-ax3000tv2-%E5%88%B7%E6%9C%BA%E5%AE%8C%E5%85%A8%E6%95%99%E7%A8%8B/%E5%9B%BE%E7%89%87.png"
+width="1669"
+height="742"
+srcset="https://songguokunsgg.github.io/p/%E5%B0%8F%E7%B1%B3-ax3000tv2-%E5%88%B7%E6%9C%BA%E5%AE%8C%E5%85%A8%E6%95%99%E7%A8%8B/%E5%9B%BE%E7%89%87_hu_1f8056d72d7b22a9.png 480w, https://songguokunsgg.github.io/p/%E5%B0%8F%E7%B1%B3-ax3000tv2-%E5%88%B7%E6%9C%BA%E5%AE%8C%E5%85%A8%E6%95%99%E7%A8%8B/%E5%9B%BE%E7%89%87_hu_710f2b194936202a.png 1024w"
+loading="lazy"
+alt="创建一个 codespace"
+class="gallery-image"
+data-flex-grow="224"
+data-flex-basis="539px"
+>&lt;/p>
+&lt;p>我已经创建了一个，所以你的界面可能与我有所不同。&lt;/p>
+&lt;p>codespace 里面会包含一套完整的开发环境，整体编译步骤可以看我以前文章，搜索 immortalwrt 即可。&lt;/p>
+&lt;p>主要区别在两点，一是选择配置，二是选择机型：&lt;/p>
+&lt;p>以下引用 README.md&lt;/p>
+&lt;h3 id="quickstart">Quickstart
+&lt;/h3>&lt;ol>
+&lt;li>
+&lt;p>Run &lt;code>git clone --depth=1 https://github.com/hanwckf/immortalwrt-mt798x.git&lt;/code> to clone the source code.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Run &lt;code>cd immortalwrt-mt798x&lt;/code> to enter source directory.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Run &lt;code>./scripts/feeds update -a&lt;/code> to obtain all the latest package definitions defined in feeds.conf / feeds.conf.default&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Run &lt;code>./scripts/feeds install -a&lt;/code> to install symlinks for all obtained packages into package/feeds/&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Copy the configuration file for your device from the &lt;code>defconfig&lt;/code> directory to the project root directory and rename it &lt;code>.config&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl"># MT7981
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">cp -f defconfig/mt7981-ax3000.config .config
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># MT7986
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">cp -f defconfig/mt7986-ax6000.config .config
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># MT7986 256M Low Memory
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">cp -f defconfig/mt7986-ax6000-256m.config .config
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>Run &lt;code>make menuconfig&lt;/code> to select your preferred configuration for the toolchain, target system &amp;amp; firmware packages.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Run &lt;code>make -j$(nproc)&lt;/code> to build your firmware. This will download all sources, build the cross-compile toolchain and then cross-compile the GNU/Linux kernel &amp;amp; all chosen applications for your target system.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>第 5 步，针对 AX3000Tv2，使用 &lt;code>cp -f defconfig/mt7981-ax3000.config .config&lt;/code>，第 7 步，将除 AX3000Tv2 以外的机型全部去掉。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E5%B0%8F%E7%B1%B3-ax3000tv2-%E5%88%B7%E6%9C%BA%E5%AE%8C%E5%85%A8%E6%95%99%E7%A8%8B/%E5%9B%BE%E7%89%87%20copy.png"
+width="839"
+height="597"
+srcset="https://songguokunsgg.github.io/p/%E5%B0%8F%E7%B1%B3-ax3000tv2-%E5%88%B7%E6%9C%BA%E5%AE%8C%E5%85%A8%E6%95%99%E7%A8%8B/%E5%9B%BE%E7%89%87%20copy_hu_9adb48fc2e8ec3b7.png 480w, https://songguokunsgg.github.io/p/%E5%B0%8F%E7%B1%B3-ax3000tv2-%E5%88%B7%E6%9C%BA%E5%AE%8C%E5%85%A8%E6%95%99%E7%A8%8B/%E5%9B%BE%E7%89%87%20copy_hu_f6b9f2fbff0bf318.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="140"
+data-flex-basis="337px"
+>&lt;/p>
+&lt;p>然后定制 luci 软件包，编译即可，codespace 不存在网络问题，应该可以一次成功。&lt;/p>
+&lt;p>但 codespace 的环境配置不高，编译时间比较长，还是更推荐本地搭建编译环境，需要使用 ubuntu20.04 系统，&lt;/p></description></item><item><title>OpenWRT 主路由简易完全指南</title><link>https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/</link><pubDate>Sat, 21 Dec 2024 11:20:38 +0000</pubDate><guid>https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/</guid><description>&lt;p>由于原先的爱快 Q6000 只能放置在家中比较偏的书房，信号覆盖不全，因此给家里添置了一台新的 J4125 软路由，闲鱼 400 块买的，带一个 16G U 盘，性价比不错，随后把 Q6000 放在了家中间的位置。&lt;/p>
+&lt;p>一开始的想法是，把这台软路由也刷成 iKuai 系统，然后把 Q6000 拿来做无线设备，这样的话界面比较熟悉，配置比较简单，还能无缝衔接之前 Q6000 的配置，但到手之后我傻眼了。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/ikuai4mac.jpg"
+width="1706"
+height="1279"
+srcset="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/ikuai4mac_hu_7d56c3ea49479678.jpg 480w, https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/ikuai4mac_hu_6ce180c5a629f961.jpg 1024w"
+loading="lazy"
+alt="4 个网口 MAC 地址竟然一样"
+class="gallery-image"
+data-flex-grow="133"
+data-flex-basis="320px"
+>&lt;/p>
+&lt;p>也就是说，虽然爱快识别出了这四个网口，但事实上只能当成一个用。&lt;/p>
+&lt;p>然后我想到去刷网卡的 MAC，结果一搜索：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E6%97%A0%E6%B3%95%E5%88%B7mac.png"
+width="1712"
+height="490"
+srcset="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E6%97%A0%E6%B3%95%E5%88%B7mac_hu_a37abe0e48b7107e.png 480w, https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E6%97%A0%E6%B3%95%E5%88%B7mac_hu_b1d8f67a43d46900.png 1024w"
+loading="lazy"
+alt="无法刷 MAC 地址"
+class="gallery-image"
+data-flex-grow="349"
+data-flex-basis="838px"
+>&lt;/p>
+&lt;p>然后我想到了，退货，经过一番协商，卖家最终同意了。但在寄快递之前，我抱着死马当活马医的心态，给机器刷了一个 OpenWRT。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/OpenWRT%E5%8F%AF%E4%BB%A5%E6%94%B9mac.png"
+width="3034"
+height="1182"
+srcset="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/OpenWRT%E5%8F%AF%E4%BB%A5%E6%94%B9mac_hu_a0131b64d0204ce6.png 480w, https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/OpenWRT%E5%8F%AF%E4%BB%A5%E6%94%B9mac_hu_aafaa41830821596.png 1024w"
+loading="lazy"
+alt="可以改 MAC"
+class="gallery-image"
+data-flex-grow="256"
+data-flex-basis="616px"
+>&lt;/p>
+&lt;p>然后我就惊奇地发现，网口 MAC 地址竟然是可以自行更改的。并且哪怕不更改，仍然可以自行分配 LAN、WAN 口。&lt;/p>
+&lt;p>我心想，那就不退了吧，毕竟这台机器性价比确实还行。&lt;/p>
+&lt;p>结果万万没想到，在折腾 OpenWRT 的路上，真的没有尽头！各种坑等着你……这两天真是挨了家里人不少骂。但在配置好之后，我发现其实配置还是不难的，主要是网上的信息太杂了，并且没有一个统一的配置标准。A 说该这样，B 说该那样，C 说 A 和 B 的方法可以一起用……他们的方法也许确实没错，但对于初学者来说真的很难分辨哪些内容是适合自己的。&lt;/p>
+&lt;p>所以我今天就根据自己的需求，来用最简单的方式配置一下 OpenWRT 主路由，以及一些真的很坑的踩坑记录。&lt;/p>
+&lt;h2 id="识别自己的需求">识别自己的需求
+&lt;/h2>&lt;p>由于自己家有台 NAS，因此对于内网的要求是比较高的，这也是我换软路由的主要原因。但我不建议花太多钱买软路由（对于纯路由器来说，N100、N305 等 CPU 真的有点浪费）。我自己只需要一个 4 网口 2.5G 的 J4125 就行了。&lt;/p>
+&lt;p>&lt;strong>当然，建议买之前问清楚网口 MAC 地址是否重复&lt;/strong>，别买到我这种机器了，否则装不了 iKuai。&lt;/p>
+&lt;p>我的主要需求比较简单（主路由也不建议太复杂，复杂功能可以用旁路由实现）：&lt;/p>
+&lt;ol>
+&lt;li>IPv4 DHCP 支持，可以固定 IP，自定义 DNS 等，这都是 OpenWRT 的基本功能。&lt;/li>
+&lt;li>IPv6 的完整支持，需要通过公网实现 NAS 服务的访问。&lt;/li>
+&lt;li>终端功能，方便管理。&lt;/li>
+&lt;li>UPnP，这个对我是可选，因为有 IPv6 了。&lt;/li>
+&lt;/ol>
+&lt;p>从我的经验来看，只有第 2 点比较难配置，其他都是基本功能，因此我主要讲解 IPv6 相关的内容。&lt;/p>
+&lt;h2 id="固件定制">固件定制
+&lt;/h2>&lt;p>&lt;a class="link" href="https://openwrt.ai" target="_blank" rel="noopener"
+>OpenWRT 固件定制网站&lt;/a>&lt;/p>
+&lt;p>这是一个免费的在线 OpenWRT 编译网站，合理利用该工具，可以极大减少后期的配置工作。&lt;/p>
+&lt;p>首先定制架构和软件包，按需定制，我只需要终端功能，因此添加 &lt;code>luci-app-ttyd&lt;/code> 即可。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E5%AE%9A%E5%88%B6%E6%9E%B6%E6%9E%84%E5%92%8C%E8%BD%AF%E4%BB%B6%E5%8C%85.png"
+width="2989"
+height="1250"
+srcset="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E5%AE%9A%E5%88%B6%E6%9E%B6%E6%9E%84%E5%92%8C%E8%BD%AF%E4%BB%B6%E5%8C%85_hu_a57f49a9229a2411.png 480w, https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E5%AE%9A%E5%88%B6%E6%9E%B6%E6%9E%84%E5%92%8C%E8%BD%AF%E4%BB%B6%E5%8C%85_hu_1eb8a66cc4a69c.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="239"
+data-flex-basis="573px"
+>&lt;/p>
+&lt;p>然后定制网络相关的内容：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B31.png"
+width="2822"
+height="2034"
+srcset="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B31_hu_9023b62db3183df1.png 480w, https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B31_hu_c2b326de71c77822.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="138"
+data-flex-basis="332px"
+>&lt;/p>
+&lt;ol>
+&lt;li>防火墙：使用默认的 Firewall4&lt;/li>
+&lt;li>互联网：勾选你需要的插件，我这里都不需要&lt;/li>
+&lt;li>后台地址，子网掩码：可以看我上一篇文章的相关介绍，看了你就知道怎么填了&lt;/li>
+&lt;li>IPv6：我的刚需，勾选&lt;/li>
+&lt;li>旁路由模式：不勾选&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B32.png"
+width="868"
+height="1208"
+srcset="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B32_hu_af74578279dfbda3.png 480w, https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B32_hu_21401efb5a2e25af.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="71"
+data-flex-basis="172px"
+>&lt;/p>
+&lt;ol>
+&lt;li>拨号账号、密码：须填写&lt;/li>
+&lt;li>WIFI 账号密码：软路由一般没有无线功能，不用填写&lt;/li>
+&lt;li>暴露至公网：由于 IPv4 不是公网的，因此开了也没用&lt;/li>
+&lt;li>EFI 镜像，默认 eth0 为 WAN：勾选&lt;/li>
+&lt;/ol>
+&lt;p>然后点击构建新固件，等待编译完成。完成后烧录进 U 盘就安装完成了。&lt;/p>
+&lt;p>自定义自己固件的好处是，可以在编译阶段就完全绝大多数的网络设置工作。&lt;/p>
+&lt;h2 id="openwrt-配置">OpenWRT 配置
+&lt;/h2>&lt;p>首先进入 OpenWRT 管理端：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/OpenWRT%E5%AF%BC%E8%88%AA%E6%A0%8F.png"
+width="676"
+height="1418"
+srcset="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/OpenWRT%E5%AF%BC%E8%88%AA%E6%A0%8F_hu_f13036e8ca000f9e.png 480w, https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/OpenWRT%E5%AF%BC%E8%88%AA%E6%A0%8F_hu_3cea3415b0daf574.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="47"
+data-flex-basis="114px"
+>&lt;/p>
+&lt;p>我们主要关注网络部分。&lt;/p>
+&lt;h3 id="网络接口设备配置">网络接口设备配置
+&lt;/h3>&lt;p>&lt;img src="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E6%94%B9%E7%BD%91%E5%8F%A3MAC.png"
+width="3824"
+height="1678"
+srcset="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E6%94%B9%E7%BD%91%E5%8F%A3MAC_hu_5b5442aa32d9419d.png 480w, https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E6%94%B9%E7%BD%91%E5%8F%A3MAC_hu_d7108275c3bc205d.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="227"
+data-flex-basis="546px"
+>&lt;/p>
+&lt;p>在接口中，我们可以看到有四个网口，分别是 eth0、eth1、eth2、eth3。其中 eth0 是 WAN 口，eth1，eth2，eth3 是 LAN 口。我们可以通过修改 MAC 地址来改变这四个网口的 MAC 地址，这样就可以实现多个网口的功能。&lt;/p>
+&lt;p>在 OpenWRT 中，不改 MAC 也可以分配 WAN、LAN 接口。但我建议还是修改一下，免得出现莫名其妙的问题。&lt;/p>
+&lt;p>在配置页面检查接口的 IPv6 是否开启了&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E6%A3%80%E6%9F%A5%E6%8E%A5%E5%8F%A3IPv6.png"
+width="2588"
+height="1788"
+srcset="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E6%A3%80%E6%9F%A5%E6%8E%A5%E5%8F%A3IPv6_hu_eb5ef423fe37b7cd.png 480w, https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E6%A3%80%E6%9F%A5%E6%8E%A5%E5%8F%A3IPv6_hu_eb2f3d2c46c35c38.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="144"
+data-flex-basis="347px"
+>&lt;/p>
+&lt;p>&lt;strong>注意：&lt;/strong> 这个地方很有可能默认是——&lt;strong>自动 (已禁用)&lt;/strong>，非常坑。并且在这种情况下，你的设备依然能够获取到 IPv6 地址，但无法使用，不能通过 IPv6 测试，也无法访问和被访问 IPv6 网站。并且出问题后很难排查到这一点，非常坑。&lt;/p>
+&lt;h3 id="接口配置">接口配置
+&lt;/h3>&lt;p>&lt;img src="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/WAN6%E6%8E%A5%E5%8F%A3%E6%94%B9%E5%88%AB%E5%90%8D.png"
+width="3056"
+height="1742"
+srcset="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/WAN6%E6%8E%A5%E5%8F%A3%E6%94%B9%E5%88%AB%E5%90%8D_hu_eb1f53bf64e0bd15.png 480w, https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/WAN6%E6%8E%A5%E5%8F%A3%E6%94%B9%E5%88%AB%E5%90%8D_hu_99888e2313d2d54e.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="175"
+data-flex-basis="421px"
+>&lt;/p>
+&lt;p>如果拨号正确，你应该会在接口页面得到与该图类似的界面。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/wan6%E9%AB%98%E7%BA%A7%E8%AE%BE%E7%BD%AE.png"
+width="2156"
+height="1978"
+srcset="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/wan6%E9%AB%98%E7%BA%A7%E8%AE%BE%E7%BD%AE_hu_ac2ae23869846f1a.png 480w, https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/wan6%E9%AB%98%E7%BA%A7%E8%AE%BE%E7%BD%AE_hu_941e93c5bc1294f.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="108"
+data-flex-basis="261px"
+>&lt;/p>
+&lt;p>其他设置都是默认即可。&lt;/p>
+&lt;h3 id="lan-口配置重点">LAN 口配置，重点
+&lt;/h3>&lt;p>LAN 接口用于分配下级设备的 IP，DNS 等，非常重要。设置不正确的话，会导致下级设备无法访问互联网。&lt;/p>
+&lt;p>&lt;strong>常规设置&lt;/strong>，&lt;strong>高级设置&lt;/strong>不用动，这在我们编译固件的时候就已经配置好了。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/DHCP%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%AB%98%E7%BA%A7%E8%AE%BE%E7%BD%AE.png"
+width="1572"
+height="1520"
+srcset="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/DHCP%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%AB%98%E7%BA%A7%E8%AE%BE%E7%BD%AE_hu_8c0e15d2b137ea7f.png 480w, https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/DHCP%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%AB%98%E7%BA%A7%E8%AE%BE%E7%BD%AE_hu_5e6ace36f089922b.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="103"
+data-flex-basis="248px"
+>&lt;/p>
+&lt;p>DHCP 服务器的 &lt;strong>常规设置&lt;/strong>，&lt;strong>高级设置&lt;/strong> 也不用动。&lt;/p>
+&lt;p>先介绍一下 IPv6 的地址分配方法：得益于 IPv6 庞大的地址空间，过于 IPv4 常用的分配方法 NAT 已经不再适用。IPv6 分配地址的方式主要有两种，SLAAC 和 DHCPv6。下面引用一下别人的介绍：&lt;/p>
+&lt;p>引用：&lt;a class="link" href="https://chenhe.me/post/openwrt-config-ipv6-public-access" target="_blank" rel="noopener"
+>OpenWrt 开启 IPv6 公网访问全指南&lt;/a>&lt;/p>
+&lt;p>SLAAC 是无状态地址自动配置协议，顾名思义，它不再需要 DHCP 服务器来维护状态，而是各个客户端自行生成、协商、通告地址。SLAAC 是唯一全平台支持的协议，Android 明确不会支持有状态 DHCPv6，谷歌认为有状态协议对于终端用户没有明显优点，还会造成隐私问题，属于 IPv4 时代的陋习。&lt;/p>
+&lt;p>SLAAC 的一个重要数据是路由器定期发送的 RA（路由通告），其包含前缀信息，以及是否应该尝试通告 DHCPv6 请求地址。&lt;/p>
+&lt;p>DHCPv6 本身也分为有状态和无状态两种&lt;/p>
+&lt;ul>
+&lt;li>有状态：通过 DHCPv6 分配 IP。&lt;/li>
+&lt;li>无状态：IP 依然采用 SLAAC 生成（通过 RA），但其他参数，例如 DNS，网关地址等则通过 DHCPv6 获取。&lt;/li>
+&lt;/ul>
+&lt;p>Android 明确不会支持有状态 DHCPv6：&lt;/p>
+&lt;p>跟据一些说法，SLAAC 和 DHCPv6 是可以共存的，但我不太理解共存的意义是什么……因此我选择拥抱新技术，只使用 SLAAC。&lt;/p>
+&lt;p>lan 口的设置 - DHCP 服务器 - IPv6 设置：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/IPv6%E8%AE%BE%E7%BD%AE.png"
+width="1562"
+height="1742"
+srcset="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/IPv6%E8%AE%BE%E7%BD%AE_hu_b70c3dcb60137412.png 480w, https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/IPv6%E8%AE%BE%E7%BD%AE_hu_ec3f77fe042133a2.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="89"
+data-flex-basis="215px"
+>&lt;/p>
+&lt;ol>
+&lt;li>指定的主接口：不勾选&lt;/li>
+&lt;li>RA 服务：服务器模式&lt;/li>
+&lt;li>DHCPv6 服务：禁用&lt;/li>
+&lt;li>本地 IPV6 DNS 服务器：勾选&lt;/li>
+&lt;li>NDP 代理：禁用&lt;/li>
+&lt;/ol>
+&lt;p>lan 口的设置 - DHCP 服务器 - IPv6 RA 设置：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/IPv6RA%E8%AE%BE%E7%BD%AE.png"
+width="1984"
+height="1712"
+srcset="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/IPv6RA%E8%AE%BE%E7%BD%AE_hu_b473a4a63f75d628.png 480w, https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/IPv6RA%E8%AE%BE%E7%BD%AE_hu_5cb4e77dd4ab3276.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="115"
+data-flex-basis="278px"
+>&lt;/p>
+&lt;ol>
+&lt;li>默认路由器：自动&lt;/li>
+&lt;li>启用 SLAAC：勾选&lt;/li>
+&lt;li>RA 标记：无，因为我们根本没有 DHCPv6 服务器。&lt;/li>
+&lt;/ol>
+&lt;p>这样设置后，下级设备应该都有公网 IPv6 地址了。可以重启一下路由器，在概览可以看到，没有任何的 DHCPv6 租约。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/ipv6%E7%A7%9F%E7%BA%A6%E6%97%A0%E8%AE%BE%E5%A4%87.png"
+width="3184"
+height="302"
+srcset="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/ipv6%E7%A7%9F%E7%BA%A6%E6%97%A0%E8%AE%BE%E5%A4%87_hu_8653e4054bb78012.png 480w, https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/ipv6%E7%A7%9F%E7%BA%A6%E6%97%A0%E8%AE%BE%E5%A4%87_hu_2b8517637b35a9cf.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="1054"
+data-flex-basis="2530px"
+>&lt;/p>
+&lt;p>可以用其他设备跑跑 IPv6 测试，应该可以跑通，但目前还无法从公网访问内网设备。&lt;/p>
+&lt;h3 id="防火墙配置">防火墙配置
+&lt;/h3>&lt;p>网络 - 防火墙 - 通信规则：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E9%98%B2%E7%81%AB%E5%A2%99%E6%94%BE%E8%A1%8C.png"
+width="3398"
+height="1474"
+srcset="https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E9%98%B2%E7%81%AB%E5%A2%99%E6%94%BE%E8%A1%8C_hu_a075e408c16353f6.png 480w, https://songguokunsgg.github.io/p/openwrt-%E4%B8%BB%E8%B7%AF%E7%94%B1%E7%AE%80%E6%98%93%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97/%E9%98%B2%E7%81%AB%E5%A2%99%E6%94%BE%E8%A1%8C_hu_df8d83cd219984e8.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="230"
+data-flex-basis="553px"
+>&lt;/p>
+&lt;p>按图上配置即可，还需要在 &lt;strong>高级设置&lt;/strong> 中将 &lt;strong>地址族限制&lt;/strong> 改为 &lt;strong>仅 IPv6&lt;/strong>。&lt;/p>
+&lt;p>我这里直接全放了，因为 IPv6 还是比较安全的，你也可以选择需要的端口进行放行。&lt;/p>
+&lt;h2 id="一些测试工具">一些测试工具
+&lt;/h2>&lt;p>&lt;a class="link" href="https://ipw.cn/ipv6webcheck/?site=ipw.cn" target="_blank" rel="noopener"
+>IPv6 网站检测，检测你能否访问 IPv6 网站&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://ipw.cn/ipv6/" target="_blank" rel="noopener"
+>Ipv6 地址查询，查询你当前的 IPv6 地址&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://ipw.cn/ipv6ping/" target="_blank" rel="noopener"
+>IPv6 ping，可以测试内网设备能否 ping 通&lt;/a>&lt;/p></description></item></channel></rss>

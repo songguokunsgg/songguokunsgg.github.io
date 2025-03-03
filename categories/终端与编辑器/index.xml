@@ -1,0 +1,1791 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>终端与编辑器 on 菘菓菌</title><link>https://songguokunsgg.github.io/categories/%E7%BB%88%E7%AB%AF%E4%B8%8E%E7%BC%96%E8%BE%91%E5%99%A8/</link><description>Recent content in 终端与编辑器 on 菘菓菌</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 29 Apr 2024 21:02:04 +0000</lastBuildDate><atom:link href="https://songguokunsgg.github.io/categories/%E7%BB%88%E7%AB%AF%E4%B8%8E%E7%BC%96%E8%BE%91%E5%99%A8/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 nix-darwin 为 sonoma 配置一个简洁高效的 zsh</title><link>https://songguokunsgg.github.io/p/%E4%BD%BF%E7%94%A8-nix-darwin-%E4%B8%BA-sonoma-%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84-zsh/</link><pubDate>Mon, 29 Apr 2024 21:02:04 +0000</pubDate><guid>https://songguokunsgg.github.io/p/%E4%BD%BF%E7%94%A8-nix-darwin-%E4%B8%BA-sonoma-%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84-zsh/</guid><description>&lt;p>更新原因：用了很久的 homebrew，感觉不是很完美，就尝试切换到了 nix，挺香的。&lt;/p>
+&lt;p>不过本文仅适合入门，nix 也仅配置了 flake 和 configuration，不包括 home-manager（macos 上问题太多）。&lt;/p>
+&lt;hr>
+&lt;p>游戏本 xxxx&lt;/p>
+&lt;p>macbook ++++&lt;/p>
+&lt;p>自己拿一台游戏本，整天折腾 linux，消磨了我很多时光。遂重新审视自己的需求，发现其实游戏玩的不多，故卖之，换 macbook。&lt;/p>
+&lt;p>但是终端不像 Arch 那么好配置了，所以还是记录一下吧。&lt;/p>
+&lt;h2 id="安装-darwin-nix">安装 Darwin-nix
+&lt;/h2>&lt;p>一行代码解决&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sh &amp;lt;&lt;span class="o">(&lt;/span>curl -L https://nixos.org/nix/install&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>终端输入 nix，有输出则说明成功，使用 nix 必须使用科学上网工具，如果没有请滑走。&lt;/p>
+&lt;h2 id="nix-基本方案说明">nix 基本方案说明
+&lt;/h2>&lt;p>本人仅使用 nix 配置终端工具，且不包括 python（我使用自带 python+pdm，更方便，nix 先天不善于处理 python）&lt;/p>
+&lt;h2 id="nix-简单配置">nix 简单配置
+&lt;/h2>&lt;p>在 ~/.zprofile 中添加&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="k">export&lt;/span> &lt;span class="n">NIX_PATH&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">darwin&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">config&lt;/span>&lt;span class="o">=$&lt;/span>&lt;span class="n">HOME&lt;/span>&lt;span class="o">/.&lt;/span>&lt;span class="n">nixpkgs&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">darwin&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">configuration&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">nix&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">nix&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="k">var&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">nix&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">profiles&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">per&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">user&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">root&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">channels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">HOME&lt;/span>&lt;span class="o">/.&lt;/span>&lt;span class="n">nix&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">defexpr&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">channels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">nixpkgs&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">overlays&lt;/span>&lt;span class="o">=$&lt;/span>&lt;span class="n">HOME&lt;/span>&lt;span class="o">/.&lt;/span>&lt;span class="n">nixpkgs&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">overlays&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">nixpkgs&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">overlays&lt;/span>&lt;span class="o">=$&lt;/span>&lt;span class="n">HOME&lt;/span>&lt;span class="o">/.&lt;/span>&lt;span class="n">nixpkgs&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">overlays&lt;/span>&lt;span class="o">/&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后 clone 我的模板仓库&lt;a class="link" href="https://github.com/songguokunsgg/nixos-darwin-config" target="_blank" rel="noopener"
+>https://github.com/songguokunsgg/nixos-darwin-config&lt;/a>&lt;/p>
+&lt;p>将 clone 下来的文件夹移动为 &lt;code>~/.nixpkgs&lt;/code>&lt;/p>
+&lt;p>将 flake.nix 中的主机名修改为你自己的主机名&lt;/p>
+&lt;p>然后 cd 到~/.nixpkgs, 使用以下命令进行第一次安装&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">nix run nix-darwin --extra-experimental-features nix-command --extra-experimental-features flakes -- switch --flake .
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>后续使用这两行命令进行升级&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">nix flake update ~/.nixpkgs
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">darwin-rebuild switch --flake ~/.nixpkgs
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如果没有找到 darwin-rebuild，检查环境变量。&lt;/p>
+&lt;p>仓库的 README 有一些其他说明，可酌情查看。&lt;/p>
+&lt;h2 id="zsh-配置">zsh 配置
+&lt;/h2>&lt;h3 id="配置思路">配置思路
+&lt;/h3>&lt;p>主要用到 4 个插件：&lt;/p>
+&lt;ul>
+&lt;li>zsh-autosuggestions&lt;/li>
+&lt;li>zsh-syntax-highlighting&lt;/li>
+&lt;li>zsh-completions（可选）&lt;/li>
+&lt;li>zsh-theme-powerlevel10k（可选）&lt;/li>
+&lt;/ul>
+&lt;p>前三个是功能性插件，最后一个是主题插件，如果对美观要求不高的话，可以不装最后一个&lt;/p>
+&lt;h3 id="拉取功能插件">拉取功能插件
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 自动补全&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git clone --depth&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/plugins/zsh-autosuggestions
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 语法高亮&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git clone --depth&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/plugins/zsh-syntax-highlighting
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 这个插件我也没弄明白是干嘛的，可选。。。。&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git clone --depth&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> https://github.com/zsh-users/zsh-completions ~/.zsh/plugins/zsh-completions
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># p10k 主题&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git clone --depth&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> https://github.com/romkatv/powerlevel10k.git ~/.zsh/plugins/powerlevel10k
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>将 zsh 的插件统一放置在 ~/.zsh/plugins/ 下&lt;/p>
+&lt;h3 id="安装字体">安装字体
+&lt;/h3>&lt;p>推荐使用 nerd-fonts-hack 字体作为终端字体&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E4%BD%BF%E7%94%A8-nix-darwin-%E4%B8%BA-sonoma-%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84-zsh/v2-84f7a6bbb8a6e11575afa1e8731a7d12_b.jpg"
+width="600"
+height="465"
+srcset="https://songguokunsgg.github.io/p/%E4%BD%BF%E7%94%A8-nix-darwin-%E4%B8%BA-sonoma-%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84-zsh/v2-84f7a6bbb8a6e11575afa1e8731a7d12_b_hu_4180f105b9500937.jpg 480w, https://songguokunsgg.github.io/p/%E4%BD%BF%E7%94%A8-nix-darwin-%E4%B8%BA-sonoma-%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84-zsh/v2-84f7a6bbb8a6e11575afa1e8731a7d12_b_hu_f289ad72d35db28f.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="129"
+data-flex-basis="309px"
+>&lt;/p>
+&lt;h3 id="编写-zsh-配置文件">编写 zsh 配置文件
+&lt;/h3>&lt;p>环境变量存放位置为 ～/.zprofile，配置文件在 ~/.zshrc，主要编写 ～/. zshrc 文件&lt;/p>
+&lt;p>将以下代码加入 .zshrc 以使用插件&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">source&lt;/span> ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">source&lt;/span> ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">source&lt;/span> ~/.zsh/plugins/zsh-completions/zsh-completions.plugin.zsh
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">source&lt;/span> ~/.zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后进行功能配置，直接复制粘贴下面代码即可&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt"> 10
+&lt;/span>&lt;span class="lnt"> 11
+&lt;/span>&lt;span class="lnt"> 12
+&lt;/span>&lt;span class="lnt"> 13
+&lt;/span>&lt;span class="lnt"> 14
+&lt;/span>&lt;span class="lnt"> 15
+&lt;/span>&lt;span class="lnt"> 16
+&lt;/span>&lt;span class="lnt"> 17
+&lt;/span>&lt;span class="lnt"> 18
+&lt;/span>&lt;span class="lnt"> 19
+&lt;/span>&lt;span class="lnt"> 20
+&lt;/span>&lt;span class="lnt"> 21
+&lt;/span>&lt;span class="lnt"> 22
+&lt;/span>&lt;span class="lnt"> 23
+&lt;/span>&lt;span class="lnt"> 24
+&lt;/span>&lt;span class="lnt"> 25
+&lt;/span>&lt;span class="lnt"> 26
+&lt;/span>&lt;span class="lnt"> 27
+&lt;/span>&lt;span class="lnt"> 28
+&lt;/span>&lt;span class="lnt"> 29
+&lt;/span>&lt;span class="lnt"> 30
+&lt;/span>&lt;span class="lnt"> 31
+&lt;/span>&lt;span class="lnt"> 32
+&lt;/span>&lt;span class="lnt"> 33
+&lt;/span>&lt;span class="lnt"> 34
+&lt;/span>&lt;span class="lnt"> 35
+&lt;/span>&lt;span class="lnt"> 36
+&lt;/span>&lt;span class="lnt"> 37
+&lt;/span>&lt;span class="lnt"> 38
+&lt;/span>&lt;span class="lnt"> 39
+&lt;/span>&lt;span class="lnt"> 40
+&lt;/span>&lt;span class="lnt"> 41
+&lt;/span>&lt;span class="lnt"> 42
+&lt;/span>&lt;span class="lnt"> 43
+&lt;/span>&lt;span class="lnt"> 44
+&lt;/span>&lt;span class="lnt"> 45
+&lt;/span>&lt;span class="lnt"> 46
+&lt;/span>&lt;span class="lnt"> 47
+&lt;/span>&lt;span class="lnt"> 48
+&lt;/span>&lt;span class="lnt"> 49
+&lt;/span>&lt;span class="lnt"> 50
+&lt;/span>&lt;span class="lnt"> 51
+&lt;/span>&lt;span class="lnt"> 52
+&lt;/span>&lt;span class="lnt"> 53
+&lt;/span>&lt;span class="lnt"> 54
+&lt;/span>&lt;span class="lnt"> 55
+&lt;/span>&lt;span class="lnt"> 56
+&lt;/span>&lt;span class="lnt"> 57
+&lt;/span>&lt;span class="lnt"> 58
+&lt;/span>&lt;span class="lnt"> 59
+&lt;/span>&lt;span class="lnt"> 60
+&lt;/span>&lt;span class="lnt"> 61
+&lt;/span>&lt;span class="lnt"> 62
+&lt;/span>&lt;span class="lnt"> 63
+&lt;/span>&lt;span class="lnt"> 64
+&lt;/span>&lt;span class="lnt"> 65
+&lt;/span>&lt;span class="lnt"> 66
+&lt;/span>&lt;span class="lnt"> 67
+&lt;/span>&lt;span class="lnt"> 68
+&lt;/span>&lt;span class="lnt"> 69
+&lt;/span>&lt;span class="lnt"> 70
+&lt;/span>&lt;span class="lnt"> 71
+&lt;/span>&lt;span class="lnt"> 72
+&lt;/span>&lt;span class="lnt"> 73
+&lt;/span>&lt;span class="lnt"> 74
+&lt;/span>&lt;span class="lnt"> 75
+&lt;/span>&lt;span class="lnt"> 76
+&lt;/span>&lt;span class="lnt"> 77
+&lt;/span>&lt;span class="lnt"> 78
+&lt;/span>&lt;span class="lnt"> 79
+&lt;/span>&lt;span class="lnt"> 80
+&lt;/span>&lt;span class="lnt"> 81
+&lt;/span>&lt;span class="lnt"> 82
+&lt;/span>&lt;span class="lnt"> 83
+&lt;/span>&lt;span class="lnt"> 84
+&lt;/span>&lt;span class="lnt"> 85
+&lt;/span>&lt;span class="lnt"> 86
+&lt;/span>&lt;span class="lnt"> 87
+&lt;/span>&lt;span class="lnt"> 88
+&lt;/span>&lt;span class="lnt"> 89
+&lt;/span>&lt;span class="lnt"> 90
+&lt;/span>&lt;span class="lnt"> 91
+&lt;/span>&lt;span class="lnt"> 92
+&lt;/span>&lt;span class="lnt"> 93
+&lt;/span>&lt;span class="lnt"> 94
+&lt;/span>&lt;span class="lnt"> 95
+&lt;/span>&lt;span class="lnt"> 96
+&lt;/span>&lt;span class="lnt"> 97
+&lt;/span>&lt;span class="lnt"> 98
+&lt;/span>&lt;span class="lnt"> 99
+&lt;/span>&lt;span class="lnt">100
+&lt;/span>&lt;span class="lnt">101
+&lt;/span>&lt;span class="lnt">102
+&lt;/span>&lt;span class="lnt">103
+&lt;/span>&lt;span class="lnt">104
+&lt;/span>&lt;span class="lnt">105
+&lt;/span>&lt;span class="lnt">106
+&lt;/span>&lt;span class="lnt">107
+&lt;/span>&lt;span class="lnt">108
+&lt;/span>&lt;span class="lnt">109
+&lt;/span>&lt;span class="lnt">110
+&lt;/span>&lt;span class="lnt">111
+&lt;/span>&lt;span class="lnt">112
+&lt;/span>&lt;span class="lnt">113
+&lt;/span>&lt;span class="lnt">114
+&lt;/span>&lt;span class="lnt">115
+&lt;/span>&lt;span class="lnt">116
+&lt;/span>&lt;span class="lnt">117
+&lt;/span>&lt;span class="lnt">118
+&lt;/span>&lt;span class="lnt">119
+&lt;/span>&lt;span class="lnt">120
+&lt;/span>&lt;span class="lnt">121
+&lt;/span>&lt;span class="lnt">122
+&lt;/span>&lt;span class="lnt">123
+&lt;/span>&lt;span class="lnt">124
+&lt;/span>&lt;span class="lnt">125
+&lt;/span>&lt;span class="lnt">126
+&lt;/span>&lt;span class="lnt">127
+&lt;/span>&lt;span class="lnt">128
+&lt;/span>&lt;span class="lnt">129
+&lt;/span>&lt;span class="lnt">130
+&lt;/span>&lt;span class="lnt">131
+&lt;/span>&lt;span class="lnt">132
+&lt;/span>&lt;span class="lnt">133
+&lt;/span>&lt;span class="lnt">134
+&lt;/span>&lt;span class="lnt">135
+&lt;/span>&lt;span class="lnt">136
+&lt;/span>&lt;span class="lnt">137
+&lt;/span>&lt;span class="lnt">138
+&lt;/span>&lt;span class="lnt">139
+&lt;/span>&lt;span class="lnt">140
+&lt;/span>&lt;span class="lnt">141
+&lt;/span>&lt;span class="lnt">142
+&lt;/span>&lt;span class="lnt">143
+&lt;/span>&lt;span class="lnt">144
+&lt;/span>&lt;span class="lnt">145
+&lt;/span>&lt;span class="lnt">146
+&lt;/span>&lt;span class="lnt">147
+&lt;/span>&lt;span class="lnt">148
+&lt;/span>&lt;span class="lnt">149
+&lt;/span>&lt;span class="lnt">150
+&lt;/span>&lt;span class="lnt">151
+&lt;/span>&lt;span class="lnt">152
+&lt;/span>&lt;span class="lnt">153
+&lt;/span>&lt;span class="lnt">154
+&lt;/span>&lt;span class="lnt">155
+&lt;/span>&lt;span class="lnt">156
+&lt;/span>&lt;span class="lnt">157
+&lt;/span>&lt;span class="lnt">158
+&lt;/span>&lt;span class="lnt">159
+&lt;/span>&lt;span class="lnt">160
+&lt;/span>&lt;span class="lnt">161
+&lt;/span>&lt;span class="lnt">162
+&lt;/span>&lt;span class="lnt">163
+&lt;/span>&lt;span class="lnt">164
+&lt;/span>&lt;span class="lnt">165
+&lt;/span>&lt;span class="lnt">166
+&lt;/span>&lt;span class="lnt">167
+&lt;/span>&lt;span class="lnt">168
+&lt;/span>&lt;span class="lnt">169
+&lt;/span>&lt;span class="lnt">170
+&lt;/span>&lt;span class="lnt">171
+&lt;/span>&lt;span class="lnt">172
+&lt;/span>&lt;span class="lnt">173
+&lt;/span>&lt;span class="lnt">174
+&lt;/span>&lt;span class="lnt">175
+&lt;/span>&lt;span class="lnt">176
+&lt;/span>&lt;span class="lnt">177
+&lt;/span>&lt;span class="lnt">178
+&lt;/span>&lt;span class="lnt">179
+&lt;/span>&lt;span class="lnt">180
+&lt;/span>&lt;span class="lnt">181
+&lt;/span>&lt;span class="lnt">182
+&lt;/span>&lt;span class="lnt">183
+&lt;/span>&lt;span class="lnt">184
+&lt;/span>&lt;span class="lnt">185
+&lt;/span>&lt;span class="lnt">186
+&lt;/span>&lt;span class="lnt">187
+&lt;/span>&lt;span class="lnt">188
+&lt;/span>&lt;span class="lnt">189
+&lt;/span>&lt;span class="lnt">190
+&lt;/span>&lt;span class="lnt">191
+&lt;/span>&lt;span class="lnt">192
+&lt;/span>&lt;span class="lnt">193
+&lt;/span>&lt;span class="lnt">194
+&lt;/span>&lt;span class="lnt">195
+&lt;/span>&lt;span class="lnt">196
+&lt;/span>&lt;span class="lnt">197
+&lt;/span>&lt;span class="lnt">198
+&lt;/span>&lt;span class="lnt">199
+&lt;/span>&lt;span class="lnt">200
+&lt;/span>&lt;span class="lnt">201
+&lt;/span>&lt;span class="lnt">202
+&lt;/span>&lt;span class="lnt">203
+&lt;/span>&lt;span class="lnt">204
+&lt;/span>&lt;span class="lnt">205
+&lt;/span>&lt;span class="lnt">206
+&lt;/span>&lt;span class="lnt">207
+&lt;/span>&lt;span class="lnt">208
+&lt;/span>&lt;span class="lnt">209
+&lt;/span>&lt;span class="lnt">210
+&lt;/span>&lt;span class="lnt">211
+&lt;/span>&lt;span class="lnt">212
+&lt;/span>&lt;span class="lnt">213
+&lt;/span>&lt;span class="lnt">214
+&lt;/span>&lt;span class="lnt">215
+&lt;/span>&lt;span class="lnt">216
+&lt;/span>&lt;span class="lnt">217
+&lt;/span>&lt;span class="lnt">218
+&lt;/span>&lt;span class="lnt">219
+&lt;/span>&lt;span class="lnt">220
+&lt;/span>&lt;span class="lnt">221
+&lt;/span>&lt;span class="lnt">222
+&lt;/span>&lt;span class="lnt">223
+&lt;/span>&lt;span class="lnt">224
+&lt;/span>&lt;span class="lnt">225
+&lt;/span>&lt;span class="lnt">226
+&lt;/span>&lt;span class="lnt">227
+&lt;/span>&lt;span class="lnt">228
+&lt;/span>&lt;span class="lnt">229
+&lt;/span>&lt;span class="lnt">230
+&lt;/span>&lt;span class="lnt">231
+&lt;/span>&lt;span class="lnt">232
+&lt;/span>&lt;span class="lnt">233
+&lt;/span>&lt;span class="lnt">234
+&lt;/span>&lt;span class="lnt">235
+&lt;/span>&lt;span class="lnt">236
+&lt;/span>&lt;span class="lnt">237
+&lt;/span>&lt;span class="lnt">238
+&lt;/span>&lt;span class="lnt">239
+&lt;/span>&lt;span class="lnt">240
+&lt;/span>&lt;span class="lnt">241
+&lt;/span>&lt;span class="lnt">242
+&lt;/span>&lt;span class="lnt">243
+&lt;/span>&lt;span class="lnt">244
+&lt;/span>&lt;span class="lnt">245
+&lt;/span>&lt;span class="lnt">246
+&lt;/span>&lt;span class="lnt">247
+&lt;/span>&lt;span class="lnt">248
+&lt;/span>&lt;span class="lnt">249
+&lt;/span>&lt;span class="lnt">250
+&lt;/span>&lt;span class="lnt">251
+&lt;/span>&lt;span class="lnt">252
+&lt;/span>&lt;span class="lnt">253
+&lt;/span>&lt;span class="lnt">254
+&lt;/span>&lt;span class="lnt">255
+&lt;/span>&lt;span class="lnt">256
+&lt;/span>&lt;span class="lnt">257
+&lt;/span>&lt;span class="lnt">258
+&lt;/span>&lt;span class="lnt">259
+&lt;/span>&lt;span class="lnt">260
+&lt;/span>&lt;span class="lnt">261
+&lt;/span>&lt;span class="lnt">262
+&lt;/span>&lt;span class="lnt">263
+&lt;/span>&lt;span class="lnt">264
+&lt;/span>&lt;span class="lnt">265
+&lt;/span>&lt;span class="lnt">266
+&lt;/span>&lt;span class="lnt">267
+&lt;/span>&lt;span class="lnt">268
+&lt;/span>&lt;span class="lnt">269
+&lt;/span>&lt;span class="lnt">270
+&lt;/span>&lt;span class="lnt">271
+&lt;/span>&lt;span class="lnt">272
+&lt;/span>&lt;span class="lnt">273
+&lt;/span>&lt;span class="lnt">274
+&lt;/span>&lt;span class="lnt">275
+&lt;/span>&lt;span class="lnt">276
+&lt;/span>&lt;span class="lnt">277
+&lt;/span>&lt;span class="lnt">278
+&lt;/span>&lt;span class="lnt">279
+&lt;/span>&lt;span class="lnt">280
+&lt;/span>&lt;span class="lnt">281
+&lt;/span>&lt;span class="lnt">282
+&lt;/span>&lt;span class="lnt">283
+&lt;/span>&lt;span class="lnt">284
+&lt;/span>&lt;span class="lnt">285
+&lt;/span>&lt;span class="lnt">286
+&lt;/span>&lt;span class="lnt">287
+&lt;/span>&lt;span class="lnt">288
+&lt;/span>&lt;span class="lnt">289
+&lt;/span>&lt;span class="lnt">290
+&lt;/span>&lt;span class="lnt">291
+&lt;/span>&lt;span class="lnt">292
+&lt;/span>&lt;span class="lnt">293
+&lt;/span>&lt;span class="lnt">294
+&lt;/span>&lt;span class="lnt">295
+&lt;/span>&lt;span class="lnt">296
+&lt;/span>&lt;span class="lnt">297
+&lt;/span>&lt;span class="lnt">298
+&lt;/span>&lt;span class="lnt">299
+&lt;/span>&lt;span class="lnt">300
+&lt;/span>&lt;span class="lnt">301
+&lt;/span>&lt;span class="lnt">302
+&lt;/span>&lt;span class="lnt">303
+&lt;/span>&lt;span class="lnt">304
+&lt;/span>&lt;span class="lnt">305
+&lt;/span>&lt;span class="lnt">306
+&lt;/span>&lt;span class="lnt">307
+&lt;/span>&lt;span class="lnt">308
+&lt;/span>&lt;span class="lnt">309
+&lt;/span>&lt;span class="lnt">310
+&lt;/span>&lt;span class="lnt">311
+&lt;/span>&lt;span class="lnt">312
+&lt;/span>&lt;span class="lnt">313
+&lt;/span>&lt;span class="lnt">314
+&lt;/span>&lt;span class="lnt">315
+&lt;/span>&lt;span class="lnt">316
+&lt;/span>&lt;span class="lnt">317
+&lt;/span>&lt;span class="lnt">318
+&lt;/span>&lt;span class="lnt">319
+&lt;/span>&lt;span class="lnt">320
+&lt;/span>&lt;span class="lnt">321
+&lt;/span>&lt;span class="lnt">322
+&lt;/span>&lt;span class="lnt">323
+&lt;/span>&lt;span class="lnt">324
+&lt;/span>&lt;span class="lnt">325
+&lt;/span>&lt;span class="lnt">326
+&lt;/span>&lt;span class="lnt">327
+&lt;/span>&lt;span class="lnt">328
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-zsh" data-lang="zsh">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#color{{{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">autoload -U colors &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> colors
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#命令别名 {{{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">alias&lt;/span> &lt;span class="nv">cp&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;cp -i&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">alias&lt;/span> &lt;span class="nv">mv&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;mv -i&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">alias&lt;/span> &lt;span class="nv">rm&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;rm -i&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">alias&lt;/span> &lt;span class="nv">ls&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;ls -a --color=auto&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">alias&lt;/span> &lt;span class="nv">grep&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;grep --color=auto&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">alias&lt;/span> &lt;span class="nv">vim&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;nvim&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">alias&lt;/span> &lt;span class="nv">vi&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;nvim&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 更新软件&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> update&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> nix flake update ~/.nixpkgs
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> darwin-rebuild switch --flake ~/.nixpkgs
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 清理垃圾&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> clean&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> nix-collect-garbage -d
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#终端代理&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">hostip&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;127.0.0.1&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># hostip=$(cat /etc/resolv.conf |grep -oP &amp;#39;(?&amp;lt;=nameserver\ ).*&amp;#39;)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> proxy_on&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">proxy_statu&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;on&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">export&lt;/span> &lt;span class="nv">https_proxy&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;http://&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">hostip&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">:7890&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">export&lt;/span> &lt;span class="nv">http_proxy&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;http://&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">hostip&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">:7890&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">export&lt;/span> &lt;span class="nv">all_proxy&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;socks5://&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">hostip&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">:7890&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">echo&lt;/span> -e &lt;span class="s2">&amp;#34;终端代理已开启。&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> proxy_off&lt;span class="o">(){&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">unset&lt;/span> http_proxy https_proxy all_proxy
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">echo&lt;/span> -e &lt;span class="s2">&amp;#34;终端代理已关闭。&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">proxy_statu&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;off&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> color in RED GREEN YELLOW BLUE MAGENTA CYAN WHITE&lt;span class="p">;&lt;/span> &lt;span class="k">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">eval&lt;/span> _&lt;span class="nv">$color&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;%{$terminfo[bold]$fg[${(L)color}]%}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">eval&lt;/span> &lt;span class="nv">$color&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;%{$fg[${(L)color}]%}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">((&lt;/span> &lt;span class="nv">count&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nv">$count&lt;/span> + &lt;span class="m">1&lt;/span> &lt;span class="o">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">done&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">FINISH&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;%{&lt;/span>&lt;span class="nv">$terminfo&lt;/span>&lt;span class="s2">[sgr0]%}&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#}}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#命令提示符&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">RPROMPT&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$RED&lt;/span>&lt;span class="s2">%D %T&lt;/span>&lt;span class="nv">$FINISH&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="k">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">PROMPT&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$CYAN&lt;/span>&lt;span class="s2">%n@&lt;/span>&lt;span class="nv">$YELLOW&lt;/span>&lt;span class="s2">%M:&lt;/span>&lt;span class="nv">$GREEN&lt;/span>&lt;span class="s2">%/&lt;/span>&lt;span class="nv">$_YELLOW&lt;/span>&lt;span class="s2">&amp;gt;&lt;/span>&lt;span class="nv">$FINISH&lt;/span>&lt;span class="s2"> &amp;#34;&lt;/span>&lt;span class="k">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#PROMPT=$(echo &amp;#34;$BLUE%M$GREEN%/&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#$CYAN%n@$BLUE%M:$GREEN%/$_YELLOW&amp;gt;&amp;gt;&amp;gt;$FINISH &amp;#34;)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#标题栏、任务栏样式{{{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">case&lt;/span> &lt;span class="nv">$TERM&lt;/span> in &lt;span class="o">(&lt;/span>*xterm*&lt;span class="p">|&lt;/span>*rxvt*&lt;span class="p">|&lt;/span>&lt;span class="o">(&lt;/span>dt&lt;span class="p">|&lt;/span>k&lt;span class="p">|&lt;/span>E&lt;span class="o">)&lt;/span>term&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> precmd &lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span> print -Pn &lt;span class="s2">&amp;#34;\e]0;%n@%M//%/\a&amp;#34;&lt;/span> &lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> preexec &lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span> print -Pn &lt;span class="s2">&amp;#34;\e]0;%n@%M//%/\ &lt;/span>&lt;span class="nv">$1&lt;/span>&lt;span class="s2">\a&amp;#34;&lt;/span> &lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">esac&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#}}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#编辑器&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">EDITOR&lt;/span>&lt;span class="o">=&lt;/span>vim
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#关于历史纪录的配置 {{{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#历史纪录条目数量&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">HISTSIZE&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">10000&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#注销后保存的历史纪录条目数量&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">SAVEHIST&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">10000&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#历史纪录文件&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">HISTFILE&lt;/span>&lt;span class="o">=&lt;/span>~/.zhistory
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#以附加的方式写入历史纪录&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">setopt INC_APPEND_HISTORY
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#如果连续输入的命令相同，历史纪录中只保留一个&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">setopt HIST_IGNORE_DUPS
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#为历史纪录中的命令添加时间戳&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">setopt EXTENDED_HISTORY
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#启用 cd 命令的历史纪录，cd -[TAB]进入历史路径&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">setopt AUTO_PUSHD
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#相同的历史路径只保留一个&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">setopt PUSHD_IGNORE_DUPS
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#每个目录使用独立的历史纪录{{{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">cd&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">builtin&lt;/span> &lt;span class="nb">cd&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$@&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="c1"># do actual cd&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">fc&lt;/span> -W &lt;span class="c1"># write current history file&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">local&lt;/span> &lt;span class="nv">HISTDIR&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$HOME&lt;/span>&lt;span class="s2">/.zsh_history&lt;/span>&lt;span class="nv">$PWD&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="c1"># use nested folders for history&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="o">[&lt;/span> ! -d &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$HISTDIR&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="o">]&lt;/span> &lt;span class="p">;&lt;/span> &lt;span class="k">then&lt;/span> &lt;span class="c1"># create folder if needed&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> mkdir -p &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$HISTDIR&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">export&lt;/span> &lt;span class="nv">HISTFILE&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$HISTDIR&lt;/span>&lt;span class="s2">/zhistory&amp;#34;&lt;/span> &lt;span class="c1"># set new history file&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> touch &lt;span class="nv">$HISTFILE&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">local&lt;/span> &lt;span class="nv">ohistsize&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nv">$HISTSIZE&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">HISTSIZE&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span> &lt;span class="c1"># Discard previous dir&amp;#39;s history&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">HISTSIZE&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nv">$ohistsize&lt;/span> &lt;span class="c1"># Prepare for new dir&amp;#39;s history&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">fc&lt;/span> -R &lt;span class="c1">#read from current histfile&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">mkdir -p &lt;span class="nv">$HOME&lt;/span>/.zsh_history&lt;span class="nv">$PWD&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">HISTFILE&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$HOME&lt;/span>&lt;span class="s2">/.zsh_history&lt;/span>&lt;span class="nv">$PWD&lt;/span>&lt;span class="s2">/zhistory&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> allhistory &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> cat &lt;span class="k">$(&lt;/span>find &lt;span class="nv">$HOME&lt;/span>/.zsh_history -name zhistory&lt;span class="k">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> convhistory &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> sort &lt;span class="nv">$1&lt;/span> &lt;span class="p">|&lt;/span> uniq &lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> sed &lt;span class="s1">&amp;#39;s/^:[0−9]∗:[0-9]*;.∗/\1::::::\2/&amp;#39;&lt;/span> &lt;span class="p">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> awk -F&lt;span class="s2">&amp;#34;::::::&amp;#34;&lt;/span> &lt;span class="s1">&amp;#39;{ $1=strftime(&amp;#34;%Y-%m-%d %T&amp;#34;,$1) &amp;#34;|&amp;#34;; print }&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#使用 histall 命令查看全部历史纪录&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> histall &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">convhistory&lt;/span> &lt;span class="o">=(&lt;/span>allhistory&lt;span class="o">)&lt;/span> &lt;span class="p">|&lt;/span> sed &lt;span class="s1">&amp;#39;/^.\{20\} *cd/i\\&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#使用 hist 查看当前目录历史纪录&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> hist &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> convhistory &lt;span class="nv">$HISTFILE&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#全部历史纪录 top50&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> top50 &lt;span class="o">{&lt;/span> allhistory &lt;span class="p">|&lt;/span> awk -F&lt;span class="s1">&amp;#39;:[ 0-9]*:[0-9]*;&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;{ $1=&amp;#34;&amp;#34; ; print }&amp;#39;&lt;/span> &lt;span class="p">|&lt;/span> sed &lt;span class="s1">&amp;#39;s/ /\n/g&amp;#39;&lt;/span> &lt;span class="p">|&lt;/span> sed &lt;span class="s1">&amp;#39;/^$/d&amp;#39;&lt;/span> &lt;span class="p">|&lt;/span> sort &lt;span class="p">|&lt;/span> uniq -c &lt;span class="p">|&lt;/span> sort -nr &lt;span class="p">|&lt;/span> head -n &lt;span class="m">50&lt;/span> &lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#允许在交互模式中使用注释 例如：&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">setopt INTERACTIVE_COMMENTS
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#启用自动 cd，输入目录名回车进入目录&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">setopt AUTO_CD
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#扩展路径&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">setopt complete_in_word
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#禁用 core dumps&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">limit coredumpsize &lt;span class="m">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#Emacs风格 键绑定&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">bindkey -e
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#以下字符视为单词的一部分&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">WORDCHARS&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;*?_-[]~=&amp;amp;;!#$%^(){}&amp;lt;&amp;gt;&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#}}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#自动补全功能 {{{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">setopt AUTO_LIST
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">setopt AUTO_MENU
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#开启此选项，补全时会直接选中菜单项&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">setopt MENU_COMPLETE
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">autoload -U compinit
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">compinit
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#自动补全缓存&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion::complete:*&amp;#39;&lt;/span> use-cache on
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion::complete:*&amp;#39;&lt;/span> cache-path .zcache
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:cd:*&amp;#39;&lt;/span> ignore-parents parent &lt;span class="nb">pwd&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#自动补全选项&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*&amp;#39;&lt;/span> verbose yes
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*&amp;#39;&lt;/span> menu &lt;span class="k">select&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:*:default&amp;#39;&lt;/span> force-list always
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*&amp;#39;&lt;/span> &lt;span class="k">select&lt;/span>-prompt &lt;span class="s1">&amp;#39;%SSelect: lines: %L matches: %M [%p]&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:match:*&amp;#39;&lt;/span> original only
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion::prefix-1:*&amp;#39;&lt;/span> completer _complete
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:predict:*&amp;#39;&lt;/span> completer _complete
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:incremental:*&amp;#39;&lt;/span> completer _complete _correct
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*&amp;#39;&lt;/span> completer _complete _prefix _correct _prefix _match _approximate
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#路径补全&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*&amp;#39;&lt;/span> expand &lt;span class="s1">&amp;#39;yes&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*&amp;#39;&lt;/span> squeeze-shlashes &lt;span class="s1">&amp;#39;yes&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion::complete:*&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;\\&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#彩色补全菜单&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">CLICOLOR&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">LSCOLORS&lt;/span>&lt;span class="o">=&lt;/span>ExGxFxdaCxDaDahbadeche
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zmodload zsh/complist
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*&amp;#39;&lt;/span> list-colors &lt;span class="si">${&lt;/span>&lt;span class="p">(s.:.)LS_COLORS&lt;/span>&lt;span class="si">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:*:kill:*:processes&amp;#39;&lt;/span> list-colors &lt;span class="s1">&amp;#39;=(#b) #([0-9]#)*=0=01;31&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#修正大小写&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*&amp;#39;&lt;/span> matcher-list &lt;span class="s1">&amp;#39;&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;m:{a-zA-Z}={A-Za-z}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#错误校正&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*&amp;#39;&lt;/span> completer _complete _match _approximate
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:match:*&amp;#39;&lt;/span> original only
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:approximate:*&amp;#39;&lt;/span> max-errors &lt;span class="m">1&lt;/span> numeric
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#kill 命令补全&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">compdef &lt;span class="nv">pkill&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nb">kill&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">compdef &lt;span class="nv">pkill&lt;/span>&lt;span class="o">=&lt;/span>killall
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:*:kill:*&amp;#39;&lt;/span> menu yes &lt;span class="k">select&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:*:*:*:processes&amp;#39;&lt;/span> force-list always
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:processes&amp;#39;&lt;/span> &lt;span class="nb">command&lt;/span> &lt;span class="s1">&amp;#39;ps -au$USER&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#补全类型提示分组&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:matches&amp;#39;&lt;/span> group &lt;span class="s1">&amp;#39;yes&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*&amp;#39;&lt;/span> group-name &lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:options&amp;#39;&lt;/span> description &lt;span class="s1">&amp;#39;yes&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:options&amp;#39;&lt;/span> auto-description &lt;span class="s1">&amp;#39;%d&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:descriptions&amp;#39;&lt;/span> format &lt;span class="s1">$&amp;#39;\e[01;33m -- %d --\e[0m&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:messages&amp;#39;&lt;/span> format &lt;span class="s1">$&amp;#39;\e[01;35m -- %d --\e[0m&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:warnings&amp;#39;&lt;/span> format &lt;span class="s1">$&amp;#39;\e[01;31m -- No Matches Found --\e[0m&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:corrections&amp;#39;&lt;/span> format &lt;span class="s1">$&amp;#39;\e[01;32m -- %d (errors: %e) --\e[0m&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># cd ~ 补全顺序&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:-tilde-:*&amp;#39;&lt;/span> group-order &lt;span class="s1">&amp;#39;named-directories&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;path-directories&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;users&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;expand&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#}}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">##行编辑高亮模式&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Ctrl+@ 设置标记，标记和光标点之间为 region&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">zle_highlight&lt;/span>&lt;span class="o">=(&lt;/span>region:bg&lt;span class="o">=&lt;/span>magenta &lt;span class="c1">#选中区域&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> special:bold &lt;span class="c1">#特殊字符&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> isearch:underline&lt;span class="o">)&lt;/span>&lt;span class="c1">#搜索时使用的关键字&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">##空行(光标在行首)补全 &amp;#34;cd &amp;#34; {{{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">user-complete&lt;span class="o">(){&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">case&lt;/span> &lt;span class="nv">$BUFFER&lt;/span> in
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span> &lt;span class="o">)&lt;/span> &lt;span class="c1"># 空行填入 &amp;#34;cd &amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">BUFFER&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;cd &amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> zle end-of-line
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> zle expand-or-complete
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;cd --&amp;#34;&lt;/span> &lt;span class="o">)&lt;/span> &lt;span class="c1"># &amp;#34;cd --&amp;#34; 替换为 &amp;#34;cd +&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">BUFFER&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;cd +&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> zle end-of-line
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> zle expand-or-complete
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;cd +-&amp;#34;&lt;/span> &lt;span class="o">)&lt;/span> &lt;span class="c1"># &amp;#34;cd +-&amp;#34; 替换为 &amp;#34;cd -&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">BUFFER&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;cd -&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> zle end-of-line
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> zle expand-or-complete
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> * &lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> zle expand-or-complete
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">esac&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zle -N user-complete
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">bindkey &lt;span class="s2">&amp;#34;\t&amp;#34;&lt;/span> user-complete
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#}}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">##在命令前插入 sudo {{{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#定义功能&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo-command-line&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">[[&lt;/span> -z &lt;span class="nv">$BUFFER&lt;/span> &lt;span class="o">]]&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> zle up-history
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">[[&lt;/span> &lt;span class="nv">$BUFFER&lt;/span> !&lt;span class="o">=&lt;/span> sudo&lt;span class="se">\ &lt;/span>* &lt;span class="o">]]&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="nv">BUFFER&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;sudo &lt;/span>&lt;span class="nv">$BUFFER&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zle end-of-line &lt;span class="c1">#光标移动到行末&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zle -N sudo-command-line
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#定义快捷键为： [Esc] [Esc]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">bindkey &lt;span class="s2">&amp;#34;\e\e&amp;#34;&lt;/span> sudo-command-line
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#}}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#[Esc][h] man 当前命令时，显示简短说明&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">alias&lt;/span> run-help &amp;gt;&lt;span class="p">&amp;amp;&lt;/span>/dev/null &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="nb">unalias&lt;/span> run-help
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">autoload run-help
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#历史命令 top10&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">alias&lt;/span> &lt;span class="nv">top10&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;print -l ${(o)history%% *} | uniq -c | sort -nr | head -n 10&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#}}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#路径别名 {{{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#进入相应的路径时只要 cd ~xxx&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">hash&lt;/span> -d &lt;span class="nv">A&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;/media/ayu/dearest&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">hash&lt;/span> -d &lt;span class="nv">H&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;/media/data/backup/ayu&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">hash&lt;/span> -d &lt;span class="nv">E&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;/etc/&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">hash&lt;/span> -d &lt;span class="nv">D&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;/home/ayumi/Documents&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#}}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#补全 ping&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle &lt;span class="s1">&amp;#39;:completion:*:ping:*&amp;#39;&lt;/span> hosts 192.168.1.&lt;span class="o">{&lt;/span>1,50,51,100,101&lt;span class="o">}&lt;/span> www.google.com
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#补全 ssh scp sftp 等&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zstyle -e &lt;span class="s1">&amp;#39;:completion::*:*:*:hosts&amp;#39;&lt;/span> hosts &lt;span class="s1">&amp;#39;reply=(${=${${(f)&amp;#34;$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)&amp;#34;}%%[# ]*}//,/ })&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#F1 计算器&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">arith-eval-echo&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">LBUFFER&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">LBUFFER&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">echo \$(( &amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">RBUFFER&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34; ))&lt;/span>&lt;span class="nv">$RBUFFER&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zle -N arith-eval-echo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">bindkey &lt;span class="s2">&amp;#34;^[[11~&amp;#34;&lt;/span> arith-eval-echo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">function&lt;/span> timeconv &lt;span class="o">{&lt;/span> date -d @&lt;span class="nv">$1&lt;/span> +&lt;span class="s2">&amp;#34;%Y-%m-%d %T&amp;#34;&lt;/span> &lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zmodload zsh/mathfunc
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">autoload -U zsh-mime-setup
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zsh-mime-setup
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">setopt EXTENDED_GLOB
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">setopt correctall
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">autoload compinstall
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">#漂亮又实用的命令高亮界面&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">setopt extended_glob
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">TOKENS_FOLLOWED_BY_COMMANDS&lt;/span>&lt;span class="o">=(&lt;/span>&lt;span class="s1">&amp;#39;|&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;||&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;;&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;&amp;amp;&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;&amp;amp;&amp;amp;&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;sudo&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;do&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;time&amp;#39;&lt;/span> &lt;span class="s1">&amp;#39;strace&amp;#39;&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">recolor-cmd&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">region_highlight&lt;/span>&lt;span class="o">=()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">colorize&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nb">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">start_pos&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> arg in &lt;span class="si">${&lt;/span>&lt;span class="p">(z)BUFFER&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">((&lt;/span>&lt;span class="nv">start_pos&lt;/span>&lt;span class="o">+=&lt;/span>&lt;span class="si">${#&lt;/span>&lt;span class="nv">BUFFER&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="nv">$start_pos&lt;/span>&lt;span class="p">+1,-1]&lt;/span>&lt;span class="si">}&lt;/span>-&lt;span class="si">${#${&lt;/span>&lt;span class="nv">BUFFER&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="nv">$start_pos&lt;/span>&lt;span class="p">+1,-1]## #&lt;/span>&lt;span class="si">}}&lt;/span>&lt;span class="o">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">((&lt;/span>&lt;span class="nv">end_pos&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nv">$start_pos&lt;/span>+&lt;span class="si">${#&lt;/span>&lt;span class="nv">arg&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="o">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="nv">$colorize&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">colorize&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nb">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">res&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>&lt;span class="nv">LC_ALL&lt;/span>&lt;span class="o">=&lt;/span>C &lt;span class="nb">builtin&lt;/span> &lt;span class="nb">type&lt;/span> &lt;span class="nv">$arg&lt;/span> 2&amp;gt;/dev/null&lt;span class="k">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">case&lt;/span> &lt;span class="nv">$res&lt;/span> in
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> *&lt;span class="s1">&amp;#39;reserved word&amp;#39;&lt;/span>*&lt;span class="o">)&lt;/span> &lt;span class="nv">style&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;fg=magenta,bold&amp;#34;&lt;/span>&lt;span class="p">;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> *&lt;span class="s1">&amp;#39;alias for&amp;#39;&lt;/span>*&lt;span class="o">)&lt;/span> &lt;span class="nv">style&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;fg=cyan,bold&amp;#34;&lt;/span>&lt;span class="p">;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> *&lt;span class="s1">&amp;#39;shell builtin&amp;#39;&lt;/span>*&lt;span class="o">)&lt;/span> &lt;span class="nv">style&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;fg=yellow,bold&amp;#34;&lt;/span>&lt;span class="p">;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> *&lt;span class="s1">&amp;#39;shell function&amp;#39;&lt;/span>*&lt;span class="o">)&lt;/span> &lt;span class="nv">style&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;fg=green,bold&amp;#39;&lt;/span>&lt;span class="p">;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> *&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$arg&lt;/span>&lt;span class="s2"> is&amp;#34;&lt;/span>*&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">[[&lt;/span> &lt;span class="nv">$arg&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;sudo&amp;#39;&lt;/span> &lt;span class="o">]]&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="nv">style&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;fg=red,bold&amp;#34;&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="nv">style&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;fg=blue,bold&amp;#34;&lt;/span>&lt;span class="p">;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> *&lt;span class="o">)&lt;/span> &lt;span class="nv">style&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;none,bold&amp;#39;&lt;/span>&lt;span class="p">;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">esac&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">region_highlight&lt;/span>&lt;span class="o">+=(&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$start_pos&lt;/span>&lt;span class="s2"> &lt;/span>&lt;span class="nv">$end_pos&lt;/span>&lt;span class="s2"> &lt;/span>&lt;span class="nv">$style&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="o">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">[[&lt;/span> &lt;span class="si">${${&lt;/span>&lt;span class="nv">TOKENS_FOLLOWED_BY_COMMANDS&lt;/span>&lt;span class="p">[(r)&lt;/span>&lt;span class="si">${&lt;/span>&lt;span class="nv">arg&lt;/span>&lt;span class="p">//|/&lt;/span>&lt;span class="se">\|&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="p">:+yes&lt;/span>&lt;span class="si">}&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;yes&amp;#39;&lt;/span> &lt;span class="o">]]&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="nv">colorize&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nb">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">start_pos&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nv">$end_pos&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">done&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">check-cmd-self-insert&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span> zle .self-insert &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> recolor-cmd &lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">check-cmd-backward-delete-char&lt;span class="o">()&lt;/span> &lt;span class="o">{&lt;/span> zle .backward-delete-char &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> recolor-cmd &lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zle -N self-insert check-cmd-self-insert
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">zle -N backward-delete-char check-cmd-backward-delete-char
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="主题配置">主题配置
+&lt;/h3>&lt;p>p10k 在首次进入时需要进行配置，按照提示进行即可，配置之后，会在 zshrc 行首和行尾分别添加&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">if [[ -r &amp;#34;${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh&amp;#34; ]]; then
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> source &amp;#34;${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">fi
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>以及&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl"># To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>需要把上面三句代码移动到 4 个 source 的后面，否则每次启动终端都会报错&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E4%BD%BF%E7%94%A8-nix-darwin-%E4%B8%BA-sonoma-%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84-zsh/v2-f6eca7374890887d630bff2c420a11a5_b.jpg"
+width="720"
+height="343"
+srcset="https://songguokunsgg.github.io/p/%E4%BD%BF%E7%94%A8-nix-darwin-%E4%B8%BA-sonoma-%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84-zsh/v2-f6eca7374890887d630bff2c420a11a5_b_hu_9de9ed02426e3d28.jpg 480w, https://songguokunsgg.github.io/p/%E4%BD%BF%E7%94%A8-nix-darwin-%E4%B8%BA-sonoma-%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84-zsh/v2-f6eca7374890887d630bff2c420a11a5_b_hu_d1f6364103fed724.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="209"
+data-flex-basis="503px"
+>&lt;/p>
+&lt;h3 id="搞定收工">搞定收工
+&lt;/h3>&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E4%BD%BF%E7%94%A8-nix-darwin-%E4%B8%BA-sonoma-%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84-zsh/v2-3995831831ab86eb202942a276d94213_b.jpg"
+width="720"
+height="475"
+srcset="https://songguokunsgg.github.io/p/%E4%BD%BF%E7%94%A8-nix-darwin-%E4%B8%BA-sonoma-%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84-zsh/v2-3995831831ab86eb202942a276d94213_b_hu_cbfcc6e37b105198.jpg 480w, https://songguokunsgg.github.io/p/%E4%BD%BF%E7%94%A8-nix-darwin-%E4%B8%BA-sonoma-%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84-zsh/v2-3995831831ab86eb202942a276d94213_b_hu_9e0cb22a2fb2ff37.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="151"
+data-flex-basis="363px"
+>&lt;/p></description></item><item><title>真香警告，2024 年中的 vscode+latex 写作</title><link>https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/</link><pubDate>Mon, 22 Apr 2024 11:28:33 +0000</pubDate><guid>https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/</guid><description>&lt;p>2024 年 4 月 20 日诈尸更新，内容如下：&lt;/p>
+&lt;ul>
+&lt;li>去掉了使用第三方 PDF 阅读器的方法，因为浏览器已经足够好用，且跨平台性能强。&lt;/li>
+&lt;li>修改了配置文件，去除传统的 xe-&amp;gt;bib-&amp;gt;xe*2 类型的编译链，转为全部使用性能更好，使用更加简单的 latexmk。&lt;/li>
+&lt;li>去掉了可能有坑的配置项，尽量减少对插件默认配置的修改，代码量大幅缩水。&lt;/li>
+&lt;/ul>
+&lt;p>我只说三点理由，劝你使用 latexmk 取代传统方法：&lt;/p>
+&lt;ol>
+&lt;li>排错功能。latexmk 对于错误容忍度低，一点小错都不会放过，可以对你起监督作用，避免写出屎山还不自知。&lt;/li>
+&lt;li>增量编译。xe 和 pdf 都是全量编译的，十分之慢，latexmk 只会编译你改动的部分，大大减少编译时间，不会出现你明明什么都没改，不小心点到编译还是会进行全量编译的情况（笔记本电池说谢谢你）。&lt;/li>
+&lt;li>智能编译链。从此再也不用管什么先 xe 后 bib 了，latexmk 直接一键搞定。&lt;/li>
+&lt;/ol>
+&lt;hr>
+&lt;p>2023 年 6 月 8 日更新，内容如下：&lt;/p>
+&lt;ul>
+&lt;li>修改了增加了使用浏览器进行外部查看的方式&lt;/li>
+&lt;li>添加了自定义编译脚本的相关说明，并附有一个通用编译模板&lt;/li>
+&lt;li>增加了 macOS 的安装说明&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;p>2023 年 1 月 22 日大年初一更新一次，更新内容如下：&lt;/p>
+&lt;ul>
+&lt;li>修改了文章标题。。。与时俱进&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;p>2022 年 12 月 19 日更新一次，增加了用 winget 安装 okular 的配置方法&lt;/p>
+&lt;hr>
+&lt;p>2022 年 11 月 20 日更新一次，优化了 okular 路径的填写方法&lt;/p>
+&lt;p>git bash 可以找到 okular 程序路径，直接定位到路径即可，并不需要定位到图标&lt;/p>
+&lt;hr>
+&lt;p>2022 年 11 月 13 日更新一次，增加了一些 linux 端 (Archlinux 为例) 配置的说明&lt;/p>
+&lt;hr>
+&lt;p>为什么我不用 texwork 或者 texstudio？因为 vscode 太香了，不多 bb&lt;/p>
+&lt;h2 id="安装-texlive">安装 texlive
+&lt;/h2>&lt;h3 id="windows-端的安装">windows 端的安装
+&lt;/h3>&lt;p>&lt;a class="link" href="https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/" target="_blank" rel="noopener"
+>https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/&lt;/a>&lt;/p>
+&lt;p>直接下载 texlive.iso，运行里面的 install-tl-windows.bat&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-db20e80c4405dfb8254efa4ce3255211_b.jpg"
+width="666"
+height="541"
+srcset="https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-db20e80c4405dfb8254efa4ce3255211_b_hu_b08edbf6fba52aec.jpg 480w, https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-db20e80c4405dfb8254efa4ce3255211_b_hu_b992399f21f3e06a.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="123"
+data-flex-basis="295px"
+>&lt;br>
+取消勾选这个没用的 texwork（如果你觉得好用，请别打我）&lt;/p>
+&lt;p>等待一阵漫长的安装（什么时候才能用包管理器一键安装啊……）&lt;/p>
+&lt;h3 id="linux-端的安装windows-用户跳过">linux 端的安装（windows 用户跳过）
+&lt;/h3>&lt;p>linux 端 通过命令或者文件管理器挂载文件&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo mount -o loop texlive.iso /mnt
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如果需要使用图形界面安装的话，需要安装下面两个软件包&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo pacman -S perl perl-tk
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>perl 一般发行版都自带了，perl-tk 可能需要自行安装，然后使用命令&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo ./install -gui
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>就会打开与 windows 相同的图形安装界面，直接点安装即可，也可以自行更改安装路径（建议 /usr/local 或者 /opt/）&lt;/p>
+&lt;p>有些发行版可以通过包管理器一键安装，不过需要网络，以 Archlinux 为例：&lt;/p>
+&lt;p>添加竹林源&lt;/p>
+&lt;p>&lt;a class="link" href="https://pacman.ltd/" target="_blank" rel="noopener"
+>https://pacman.ltd/&lt;/a>&lt;/p>
+&lt;p>然后&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo pacman -S texlive-full
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>最近这个源好像出了一些问题，有些包没有了，如果无法下载可以本地安装。&lt;/p>
+&lt;p>最后需要添加 windows 字体，不然 tex 编译的字体可能不正确，也很简单，直接找一台 windows 电脑，把 C:/windows/fonts 复制到 /usr/share/fonts/ 下面，然后&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo fc-cache -fsv
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>就可以了，解决字体办法有很多，我认为这是最简单的一种了，双系统用户 0 难度。&lt;/p>
+&lt;p>这里默认 linux 用户都是懂电脑的，所以就不配图了。&lt;/p>
+&lt;h3 id="验证安装">验证安装
+&lt;/h3>&lt;p>打开终端，输入 xelatex，如果有以下输出，说明安装成功：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-3e64b8f65ec9b0316b54087da991999d_b.jpg"
+width="1462"
+height="164"
+srcset="https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-3e64b8f65ec9b0316b54087da991999d_b_hu_c0732475874e37c0.jpg 480w, https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-3e64b8f65ec9b0316b54087da991999d_b_hu_3653f1f6af8afc63.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="891"
+data-flex-basis="2139px"
+>&lt;/p>
+&lt;h3 id="macos-端的安装">macOS 端的安装
+&lt;/h3>&lt;p>最简单无脑的就是 macOS，安装包与前面 Linux 和 Windows 用的不同，下载地址：&lt;/p>
+&lt;p>&lt;a class="link" href="https://tug.org/mactex/mactex-download.html" target="_blank" rel="noopener"
+>https://tug.org/mactex/mactex-download.html&lt;/a>&lt;/p>
+&lt;p>这个包是 universe 的，inter 和 m 芯片的都可以用。直接像装普通软件一样安装即可，安装后会多出几个这玩意&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-813c1aeb4ec28d69a4f80f19e664c347_b.jpg"
+width="720"
+height="203"
+srcset="https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-813c1aeb4ec28d69a4f80f19e664c347_b_hu_8a9c1b4a2045bce7.jpg 480w, https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-813c1aeb4ec28d69a4f80f19e664c347_b_hu_6376577d9a3267a9.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="354"
+data-flex-basis="851px"
+>&lt;br>
+除了 BibDesk 之外，用得都不多，BibDesk 也可以用别的文献管理软件替代。&lt;/p>
+&lt;p>进一步验证安装，在终端输入：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">latex -v
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>有形如下图的输出即可&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-txt" data-lang="txt">&lt;span class="line">&lt;span class="cl">pdfTeX 3.141592653-2.6-1.40.25 (TeX Live 2023)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kpathsea version 6.3.5
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Copyright 2023 Han The Thanh (pdfTeX) et al.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">There is NO warranty. Redistribution of this software is
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">covered by the terms of both the pdfTeX copyright and
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">the Lesser GNU General Public License.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">For more information about these matters, see the file
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">named COPYING and the pdfTeX source.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Primary author of pdfTeX: Han The Thanh (pdfTeX) et al.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Compiled with libpng 1.6.39; using libpng 1.6.39
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Compiled with zlib 1.2.13; using zlib 1.2.13
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Compiled with xpdf version 4.04
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="安装-visual-studio-codewindows">安装 visual studio code（windows）
+&lt;/h2>&lt;p>这个不用说了，应用商店一键安装，也可以下载安装包安装&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-5ba0b29fb14d860b57ccdd940b973aff_b.jpg"
+width="720"
+height="625"
+srcset="https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-5ba0b29fb14d860b57ccdd940b973aff_b_hu_172ddcfc7a129386.jpg 480w, https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-5ba0b29fb14d860b57ccdd940b973aff_b_hu_c3bc1a69b0b00915.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="115"
+data-flex-basis="276px"
+>&lt;br>
+设置中文之类的就不说了（我的 vscode 用作代码编辑，insider 版本当文档编辑，配置都是一样的）&lt;/p>
+&lt;h2 id="安装-visual-studio-codelinux">安装 visual studio code（linux）
+&lt;/h2>&lt;p>下载 deb 安装，通过包管理器安装都可以，ubuntu 用 ppa，arch 用 yay，略过。&lt;/p>
+&lt;p>我现在切换到了 NixOS，就顺便提一句，只能使用 vscode-fhs 才行（懂得都懂我在说什么，不懂的你也没必要懂）。&lt;/p>
+&lt;h3 id="安装-visual-studio-codemacos">安装 visual studio code（macOS）
+&lt;/h3>&lt;p>下载 universe 的版本安装即可，略过。&lt;/p>
+&lt;h2 id="配置-latex">配置 latex
+&lt;/h2>&lt;h3 id="安装插件">安装插件
+&lt;/h3>&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-063179a134c4be3b49dbc69f1e6aa27d_b.jpg"
+width="433"
+height="133"
+srcset="https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-063179a134c4be3b49dbc69f1e6aa27d_b_hu_78fdca92a343166b.jpg 480w, https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-063179a134c4be3b49dbc69f1e6aa27d_b_hu_1a19dab668dd414f.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="325"
+data-flex-basis="781px"
+>&lt;br>
+就这一个玩意就可以满足基本需求&lt;/p>
+&lt;h3 id="使用浏览器作为-pdf-阅读器">使用浏览器作为 PDF 阅读器
+&lt;/h3>&lt;p>这种方式可以很便携的实现反向定位和自动刷新。以下几种浏览器我都测过可以完美实现：&lt;/p>
+&lt;ul>
+&lt;li>Chrome，Edge，Arc&lt;/li>
+&lt;li>Firefox&lt;/li>
+&lt;li>Safari&lt;/li>
+&lt;/ul>
+&lt;h3 id="配置-latex-workshop1">配置 latex-workshop[1]
+&lt;/h3>&lt;p>直接复制粘贴即可，&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt"> 10
+&lt;/span>&lt;span class="lnt"> 11
+&lt;/span>&lt;span class="lnt"> 12
+&lt;/span>&lt;span class="lnt"> 13
+&lt;/span>&lt;span class="lnt"> 14
+&lt;/span>&lt;span class="lnt"> 15
+&lt;/span>&lt;span class="lnt"> 16
+&lt;/span>&lt;span class="lnt"> 17
+&lt;/span>&lt;span class="lnt"> 18
+&lt;/span>&lt;span class="lnt"> 19
+&lt;/span>&lt;span class="lnt"> 20
+&lt;/span>&lt;span class="lnt"> 21
+&lt;/span>&lt;span class="lnt"> 22
+&lt;/span>&lt;span class="lnt"> 23
+&lt;/span>&lt;span class="lnt"> 24
+&lt;/span>&lt;span class="lnt"> 25
+&lt;/span>&lt;span class="lnt"> 26
+&lt;/span>&lt;span class="lnt"> 27
+&lt;/span>&lt;span class="lnt"> 28
+&lt;/span>&lt;span class="lnt"> 29
+&lt;/span>&lt;span class="lnt"> 30
+&lt;/span>&lt;span class="lnt"> 31
+&lt;/span>&lt;span class="lnt"> 32
+&lt;/span>&lt;span class="lnt"> 33
+&lt;/span>&lt;span class="lnt"> 34
+&lt;/span>&lt;span class="lnt"> 35
+&lt;/span>&lt;span class="lnt"> 36
+&lt;/span>&lt;span class="lnt"> 37
+&lt;/span>&lt;span class="lnt"> 38
+&lt;/span>&lt;span class="lnt"> 39
+&lt;/span>&lt;span class="lnt"> 40
+&lt;/span>&lt;span class="lnt"> 41
+&lt;/span>&lt;span class="lnt"> 42
+&lt;/span>&lt;span class="lnt"> 43
+&lt;/span>&lt;span class="lnt"> 44
+&lt;/span>&lt;span class="lnt"> 45
+&lt;/span>&lt;span class="lnt"> 46
+&lt;/span>&lt;span class="lnt"> 47
+&lt;/span>&lt;span class="lnt"> 48
+&lt;/span>&lt;span class="lnt"> 49
+&lt;/span>&lt;span class="lnt"> 50
+&lt;/span>&lt;span class="lnt"> 51
+&lt;/span>&lt;span class="lnt"> 52
+&lt;/span>&lt;span class="lnt"> 53
+&lt;/span>&lt;span class="lnt"> 54
+&lt;/span>&lt;span class="lnt"> 55
+&lt;/span>&lt;span class="lnt"> 56
+&lt;/span>&lt;span class="lnt"> 57
+&lt;/span>&lt;span class="lnt"> 58
+&lt;/span>&lt;span class="lnt"> 59
+&lt;/span>&lt;span class="lnt"> 60
+&lt;/span>&lt;span class="lnt"> 61
+&lt;/span>&lt;span class="lnt"> 62
+&lt;/span>&lt;span class="lnt"> 63
+&lt;/span>&lt;span class="lnt"> 64
+&lt;/span>&lt;span class="lnt"> 65
+&lt;/span>&lt;span class="lnt"> 66
+&lt;/span>&lt;span class="lnt"> 67
+&lt;/span>&lt;span class="lnt"> 68
+&lt;/span>&lt;span class="lnt"> 69
+&lt;/span>&lt;span class="lnt"> 70
+&lt;/span>&lt;span class="lnt"> 71
+&lt;/span>&lt;span class="lnt"> 72
+&lt;/span>&lt;span class="lnt"> 73
+&lt;/span>&lt;span class="lnt"> 74
+&lt;/span>&lt;span class="lnt"> 75
+&lt;/span>&lt;span class="lnt"> 76
+&lt;/span>&lt;span class="lnt"> 77
+&lt;/span>&lt;span class="lnt"> 78
+&lt;/span>&lt;span class="lnt"> 79
+&lt;/span>&lt;span class="lnt"> 80
+&lt;/span>&lt;span class="lnt"> 81
+&lt;/span>&lt;span class="lnt"> 82
+&lt;/span>&lt;span class="lnt"> 83
+&lt;/span>&lt;span class="lnt"> 84
+&lt;/span>&lt;span class="lnt"> 85
+&lt;/span>&lt;span class="lnt"> 86
+&lt;/span>&lt;span class="lnt"> 87
+&lt;/span>&lt;span class="lnt"> 88
+&lt;/span>&lt;span class="lnt"> 89
+&lt;/span>&lt;span class="lnt"> 90
+&lt;/span>&lt;span class="lnt"> 91
+&lt;/span>&lt;span class="lnt"> 92
+&lt;/span>&lt;span class="lnt"> 93
+&lt;/span>&lt;span class="lnt"> 94
+&lt;/span>&lt;span class="lnt"> 95
+&lt;/span>&lt;span class="lnt"> 96
+&lt;/span>&lt;span class="lnt"> 97
+&lt;/span>&lt;span class="lnt"> 98
+&lt;/span>&lt;span class="lnt"> 99
+&lt;/span>&lt;span class="lnt">100
+&lt;/span>&lt;span class="lnt">101
+&lt;/span>&lt;span class="lnt">102
+&lt;/span>&lt;span class="lnt">103
+&lt;/span>&lt;span class="lnt">104
+&lt;/span>&lt;span class="lnt">105
+&lt;/span>&lt;span class="lnt">106
+&lt;/span>&lt;span class="lnt">107
+&lt;/span>&lt;span class="lnt">108
+&lt;/span>&lt;span class="lnt">109
+&lt;/span>&lt;span class="lnt">110
+&lt;/span>&lt;span class="lnt">111
+&lt;/span>&lt;span class="lnt">112
+&lt;/span>&lt;span class="lnt">113
+&lt;/span>&lt;span class="lnt">114
+&lt;/span>&lt;span class="lnt">115
+&lt;/span>&lt;span class="lnt">116
+&lt;/span>&lt;span class="lnt">117
+&lt;/span>&lt;span class="lnt">118
+&lt;/span>&lt;span class="lnt">119
+&lt;/span>&lt;span class="lnt">120
+&lt;/span>&lt;span class="lnt">121
+&lt;/span>&lt;span class="lnt">122
+&lt;/span>&lt;span class="lnt">123
+&lt;/span>&lt;span class="lnt">124
+&lt;/span>&lt;span class="lnt">125
+&lt;/span>&lt;span class="lnt">126
+&lt;/span>&lt;span class="lnt">127
+&lt;/span>&lt;span class="lnt">128
+&lt;/span>&lt;span class="lnt">129
+&lt;/span>&lt;span class="lnt">130
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;latex-workshop.intellisense.package.enabled&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;latex-workshop.latex.autoBuild.run&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;onSave&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 文件清理
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nt">&amp;#34;latex-workshop.latex.clean.fileTypes&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;*.log&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;latex-workshop.latex.recipe.default&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;lastUsed&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 用于配置编译链
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="nt">&amp;#34;latex-workshop.latex.recipes&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;latexmk&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;tools&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;latexmk&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;xelatex-latexmk&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;tools&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;xelatex-latexmk&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;pdflatex-latexmk&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;tools&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;pdflatex-latexmk&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;xelatex-latexmk-with-shell-escape&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;tools&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;xelatex-latexmk-with-shell-escape&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;pdflatex-latexmk-with-shell-escape&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;tools&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;pdflatex-latexmk-with-shell-escape&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;BibTeX&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;tools&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;bibtex&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;latex-workshop.latex.tools&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;args&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-f&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-synctex=1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-interaction=nonstopmode&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-file-line-error&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-xelatex&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-outdir=%OUTDIR%&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;%DOC%&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;command&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;latexmk&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;xelatex-latexmk&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;args&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-f&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-synctex=1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-interaction=nonstopmode&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-file-line-error&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-pdf&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-outdir=%OUTDIR%&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;%DOC%&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;command&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;latexmk&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;pdflatex-latexmk&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;args&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-f&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;--shell-escape&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-synctex=1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-interaction=nonstopmode&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-file-line-error&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-xelatex&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-outdir=%OUTDIR%&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;%DOC%&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;command&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;latexmk&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;xelatex-latexmk-with-shell-escape&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;args&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-f&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;--shell-escape&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-synctex=1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-interaction=nonstopmode&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-file-line-error&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-pdf&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-outdir=%OUTDIR%&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;%DOC%&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;command&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;latexmk&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;pdflatex-latexmk-with-shell-escape&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;args&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-f&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-synctex=1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-interaction=nonstopmode&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-file-line-error&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;-pdf&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;%DOC%&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;command&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;latexmk&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;latexmk&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;args&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;%DOCFILE%&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;command&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;bibtex&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;bibtex&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;latex-workshop.showContextMenu&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;latex-workshop.view.pdf.external.viewer.args&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;%PDF%&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;latex-workshop.view.pdf.internal.synctex.keybinding&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;double-click&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;latex-workshop.view.pdf.ref.viewer&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;auto&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;latex-workshop.view.pdf.viewer&amp;#34;&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;browser&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>之前在每一个配置项上都写了注释，这里全部删了，因为但你把他们粘贴到 vscode 配置文件中时，鼠标移动到对应选项上都会出现相关说明，没有必要长篇大论。&lt;/p>
+&lt;h3 id="自编译脚本可选">自编译脚本（可选）
+&lt;/h3>&lt;p>针对一些比较特殊的需求，可增加一个自定义编译脚本选项。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">&amp;#34;latex-workshop.latex.external.build.command&amp;#34;: &amp;#34;./compile.sh&amp;#34;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>意思是，但你编译（无论自动还是手动）时，不使用 latexshop 的编译链，而是执行 compile.sh 脚本，这种方式能够控制得更加底层，我提供一个模板 &lt;a class="link" href="http://compile.sh/" target="_blank" rel="noopener"
+>http://compile.sh/&lt;/a>，编译链为&lt;em>tex -&amp;gt; bibtex -&amp;gt; tex^2&lt;/em>，可按需修改：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#!/bin/bash
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>&lt;span class="c1"># 脚本用于编译latex&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 主文件名&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">filename&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&amp;lt;NAME&amp;gt;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 编译器&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># command=&amp;#34;pdflatex&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">command&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;xelatex&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 编译参数&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">args&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;-synctex=1 -interaction=nonstopmode -file-line-error -pdf&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 编译链&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># xetex -&amp;gt; bibtex -&amp;gt; xetex^2&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> i in &lt;span class="o">{&lt;/span>&lt;span class="m">1&lt;/span> .. 3&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">$command&lt;/span> &lt;span class="nv">$args&lt;/span> &lt;span class="nv">$filename&lt;/span>.tex
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="o">[&lt;/span> &lt;span class="nv">$i&lt;/span> -eq &lt;span class="m">1&lt;/span> &lt;span class="o">]&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="k">then&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> bibtex &lt;span class="nv">$filename&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">fi&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">done&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>该脚本可以完成大多数论文的编译工作。&lt;/p>
+&lt;h3 id="注意事项">注意事项
+&lt;/h3>&lt;p>latexmk 对于错误容忍度比较低，连 bib 不正确都会显示为编译失败（但是文档可以正确输出），这可以在一定程度上帮助你排错，但是如果你错误太多可能会比较烦，这时候可以考虑用自编译脚本。&lt;/p>
+&lt;h2 id="参考">参考
+&lt;/h2>&lt;ol>
+&lt;li>相比之前的版本有所改动&lt;/li>
+&lt;/ol></description></item><item><title>用最少的时间打造一个强大的 neovim</title><link>https://songguokunsgg.github.io/p/%E7%94%A8%E6%9C%80%E5%B0%91%E7%9A%84%E6%97%B6%E9%97%B4%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E5%BC%BA%E5%A4%A7%E7%9A%84-neovim/</link><pubDate>Sat, 20 Apr 2024 11:38:02 +0000</pubDate><guid>https://songguokunsgg.github.io/p/%E7%94%A8%E6%9C%80%E5%B0%91%E7%9A%84%E6%97%B6%E9%97%B4%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E5%BC%BA%E5%A4%A7%E7%9A%84-neovim/</guid><description>&lt;p>vim 的作者去世一段时间了，所以我将这篇文章从新组织了一次。2024 年，vim 还是存在一些小问题，在 windows 和 macos 上的体验不太好，所以我现在换用 neovim 了，这套配置还是依然适用，vim 和 neovim。&lt;/p>
+&lt;h3 id="为什么不用-lua-写配置">为什么不用 lua 写配置
+&lt;/h3>&lt;p>以前写过一套 lua 的配置，但是，就这点配置，这点插件，性能差距不大，用 vimscript 写的话，适用性更好，用 vim 和 neovim 的人都能用。&lt;/p>
+&lt;h3 id="适用人群">适用人群
+&lt;/h3>&lt;p>简单的代码或者文本编辑，无需将 neovim 配置成 IDE。&lt;/p>
+&lt;h3 id="插件">插件
+&lt;/h3>&lt;p>配了几个轻量插件，实用性更强，需要安装&lt;a class="link" href="https://github.com/junegunn/vim-plug" target="_blank" rel="noopener"
+>https://github.com/junegunn/vim-plug&lt;/a>，兼顾了外观和功能。&lt;/p>
+&lt;p>注意：如果你使用的是 windows 下 git 自带的 vim，则会被认为处在 linux 环境下，安装 vimplug 的目录需要选择 linux 的目录。&lt;/p>
+&lt;p>把下面的代码放在 ~/.config/nvim/init.vim 里面&lt;/p>
+&lt;p>vim 的话是 ~/.vimrc&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt"> 10
+&lt;/span>&lt;span class="lnt"> 11
+&lt;/span>&lt;span class="lnt"> 12
+&lt;/span>&lt;span class="lnt"> 13
+&lt;/span>&lt;span class="lnt"> 14
+&lt;/span>&lt;span class="lnt"> 15
+&lt;/span>&lt;span class="lnt"> 16
+&lt;/span>&lt;span class="lnt"> 17
+&lt;/span>&lt;span class="lnt"> 18
+&lt;/span>&lt;span class="lnt"> 19
+&lt;/span>&lt;span class="lnt"> 20
+&lt;/span>&lt;span class="lnt"> 21
+&lt;/span>&lt;span class="lnt"> 22
+&lt;/span>&lt;span class="lnt"> 23
+&lt;/span>&lt;span class="lnt"> 24
+&lt;/span>&lt;span class="lnt"> 25
+&lt;/span>&lt;span class="lnt"> 26
+&lt;/span>&lt;span class="lnt"> 27
+&lt;/span>&lt;span class="lnt"> 28
+&lt;/span>&lt;span class="lnt"> 29
+&lt;/span>&lt;span class="lnt"> 30
+&lt;/span>&lt;span class="lnt"> 31
+&lt;/span>&lt;span class="lnt"> 32
+&lt;/span>&lt;span class="lnt"> 33
+&lt;/span>&lt;span class="lnt"> 34
+&lt;/span>&lt;span class="lnt"> 35
+&lt;/span>&lt;span class="lnt"> 36
+&lt;/span>&lt;span class="lnt"> 37
+&lt;/span>&lt;span class="lnt"> 38
+&lt;/span>&lt;span class="lnt"> 39
+&lt;/span>&lt;span class="lnt"> 40
+&lt;/span>&lt;span class="lnt"> 41
+&lt;/span>&lt;span class="lnt"> 42
+&lt;/span>&lt;span class="lnt"> 43
+&lt;/span>&lt;span class="lnt"> 44
+&lt;/span>&lt;span class="lnt"> 45
+&lt;/span>&lt;span class="lnt"> 46
+&lt;/span>&lt;span class="lnt"> 47
+&lt;/span>&lt;span class="lnt"> 48
+&lt;/span>&lt;span class="lnt"> 49
+&lt;/span>&lt;span class="lnt"> 50
+&lt;/span>&lt;span class="lnt"> 51
+&lt;/span>&lt;span class="lnt"> 52
+&lt;/span>&lt;span class="lnt"> 53
+&lt;/span>&lt;span class="lnt"> 54
+&lt;/span>&lt;span class="lnt"> 55
+&lt;/span>&lt;span class="lnt"> 56
+&lt;/span>&lt;span class="lnt"> 57
+&lt;/span>&lt;span class="lnt"> 58
+&lt;/span>&lt;span class="lnt"> 59
+&lt;/span>&lt;span class="lnt"> 60
+&lt;/span>&lt;span class="lnt"> 61
+&lt;/span>&lt;span class="lnt"> 62
+&lt;/span>&lt;span class="lnt"> 63
+&lt;/span>&lt;span class="lnt"> 64
+&lt;/span>&lt;span class="lnt"> 65
+&lt;/span>&lt;span class="lnt"> 66
+&lt;/span>&lt;span class="lnt"> 67
+&lt;/span>&lt;span class="lnt"> 68
+&lt;/span>&lt;span class="lnt"> 69
+&lt;/span>&lt;span class="lnt"> 70
+&lt;/span>&lt;span class="lnt"> 71
+&lt;/span>&lt;span class="lnt"> 72
+&lt;/span>&lt;span class="lnt"> 73
+&lt;/span>&lt;span class="lnt"> 74
+&lt;/span>&lt;span class="lnt"> 75
+&lt;/span>&lt;span class="lnt"> 76
+&lt;/span>&lt;span class="lnt"> 77
+&lt;/span>&lt;span class="lnt"> 78
+&lt;/span>&lt;span class="lnt"> 79
+&lt;/span>&lt;span class="lnt"> 80
+&lt;/span>&lt;span class="lnt"> 81
+&lt;/span>&lt;span class="lnt"> 82
+&lt;/span>&lt;span class="lnt"> 83
+&lt;/span>&lt;span class="lnt"> 84
+&lt;/span>&lt;span class="lnt"> 85
+&lt;/span>&lt;span class="lnt"> 86
+&lt;/span>&lt;span class="lnt"> 87
+&lt;/span>&lt;span class="lnt"> 88
+&lt;/span>&lt;span class="lnt"> 89
+&lt;/span>&lt;span class="lnt"> 90
+&lt;/span>&lt;span class="lnt"> 91
+&lt;/span>&lt;span class="lnt"> 92
+&lt;/span>&lt;span class="lnt"> 93
+&lt;/span>&lt;span class="lnt"> 94
+&lt;/span>&lt;span class="lnt"> 95
+&lt;/span>&lt;span class="lnt"> 96
+&lt;/span>&lt;span class="lnt"> 97
+&lt;/span>&lt;span class="lnt"> 98
+&lt;/span>&lt;span class="lnt"> 99
+&lt;/span>&lt;span class="lnt">100
+&lt;/span>&lt;span class="lnt">101
+&lt;/span>&lt;span class="lnt">102
+&lt;/span>&lt;span class="lnt">103
+&lt;/span>&lt;span class="lnt">104
+&lt;/span>&lt;span class="lnt">105
+&lt;/span>&lt;span class="lnt">106
+&lt;/span>&lt;span class="lnt">107
+&lt;/span>&lt;span class="lnt">108
+&lt;/span>&lt;span class="lnt">109
+&lt;/span>&lt;span class="lnt">110
+&lt;/span>&lt;span class="lnt">111
+&lt;/span>&lt;span class="lnt">112
+&lt;/span>&lt;span class="lnt">113
+&lt;/span>&lt;span class="lnt">114
+&lt;/span>&lt;span class="lnt">115
+&lt;/span>&lt;span class="lnt">116
+&lt;/span>&lt;span class="lnt">117
+&lt;/span>&lt;span class="lnt">118
+&lt;/span>&lt;span class="lnt">119
+&lt;/span>&lt;span class="lnt">120
+&lt;/span>&lt;span class="lnt">121
+&lt;/span>&lt;span class="lnt">122
+&lt;/span>&lt;span class="lnt">123
+&lt;/span>&lt;span class="lnt">124
+&lt;/span>&lt;span class="lnt">125
+&lt;/span>&lt;span class="lnt">126
+&lt;/span>&lt;span class="lnt">127
+&lt;/span>&lt;span class="lnt">128
+&lt;/span>&lt;span class="lnt">129
+&lt;/span>&lt;span class="lnt">130
+&lt;/span>&lt;span class="lnt">131
+&lt;/span>&lt;span class="lnt">132
+&lt;/span>&lt;span class="lnt">133
+&lt;/span>&lt;span class="lnt">134
+&lt;/span>&lt;span class="lnt">135
+&lt;/span>&lt;span class="lnt">136
+&lt;/span>&lt;span class="lnt">137
+&lt;/span>&lt;span class="lnt">138
+&lt;/span>&lt;span class="lnt">139
+&lt;/span>&lt;span class="lnt">140
+&lt;/span>&lt;span class="lnt">141
+&lt;/span>&lt;span class="lnt">142
+&lt;/span>&lt;span class="lnt">143
+&lt;/span>&lt;span class="lnt">144
+&lt;/span>&lt;span class="lnt">145
+&lt;/span>&lt;span class="lnt">146
+&lt;/span>&lt;span class="lnt">147
+&lt;/span>&lt;span class="lnt">148
+&lt;/span>&lt;span class="lnt">149
+&lt;/span>&lt;span class="lnt">150
+&lt;/span>&lt;span class="lnt">151
+&lt;/span>&lt;span class="lnt">152
+&lt;/span>&lt;span class="lnt">153
+&lt;/span>&lt;span class="lnt">154
+&lt;/span>&lt;span class="lnt">155
+&lt;/span>&lt;span class="lnt">156
+&lt;/span>&lt;span class="lnt">157
+&lt;/span>&lt;span class="lnt">158
+&lt;/span>&lt;span class="lnt">159
+&lt;/span>&lt;span class="lnt">160
+&lt;/span>&lt;span class="lnt">161
+&lt;/span>&lt;span class="lnt">162
+&lt;/span>&lt;span class="lnt">163
+&lt;/span>&lt;span class="lnt">164
+&lt;/span>&lt;span class="lnt">165
+&lt;/span>&lt;span class="lnt">166
+&lt;/span>&lt;span class="lnt">167
+&lt;/span>&lt;span class="lnt">168
+&lt;/span>&lt;span class="lnt">169
+&lt;/span>&lt;span class="lnt">170
+&lt;/span>&lt;span class="lnt">171
+&lt;/span>&lt;span class="lnt">172
+&lt;/span>&lt;span class="lnt">173
+&lt;/span>&lt;span class="lnt">174
+&lt;/span>&lt;span class="lnt">175
+&lt;/span>&lt;span class="lnt">176
+&lt;/span>&lt;span class="lnt">177
+&lt;/span>&lt;span class="lnt">178
+&lt;/span>&lt;span class="lnt">179
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">iswindows&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">islinux&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">has&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;win32&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="n">has&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;win64&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="n">has&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;win95&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="n">has&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;win16&amp;#34;&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">set&lt;/span> &lt;span class="n">shell&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">powershell&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">set&lt;/span> &lt;span class="n">shellcmdflag&lt;/span>&lt;span class="o">=-&lt;/span>&lt;span class="n">command&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34; 设置默认终端，不然会使用cmd&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">iswindows&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">set&lt;/span> &lt;span class="n">encoding&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">utf&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">8&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34; 编码设置&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">islinux&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">endif&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 首先进行平台判断&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="n">has&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;gui_running&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">set&lt;/span> &lt;span class="n">guifont&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">Source&lt;/span>\ &lt;span class="n">Code&lt;/span>\ &lt;span class="n">Pro&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">h16&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">endif&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; gui判断&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; Configuration file for vim&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">modelines&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="s2">&amp;#34; CVE-2007-2438&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; let &amp;amp;t_SI.=&amp;#34;&lt;/span>\&lt;span class="n">e&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">5&lt;/span> &lt;span class="n">q&lt;/span>&lt;span class="s2">&amp;#34; &amp;#34;&lt;/span>&lt;span class="n">SI&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">INSERT&lt;/span> &lt;span class="n">mode&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; let &amp;amp;t_SR.=&amp;#34;&lt;/span>\&lt;span class="n">e&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">4&lt;/span> &lt;span class="n">q&lt;/span>&lt;span class="s2">&amp;#34; &amp;#34;&lt;/span>&lt;span class="n">SR&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">REPLACE&lt;/span> &lt;span class="n">mode&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; let &amp;amp;t_EI.=&amp;#34;&lt;/span>\&lt;span class="n">e&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span> &lt;span class="n">q&lt;/span>&lt;span class="s2">&amp;#34; &amp;#34;&lt;/span>&lt;span class="n">EI&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">NORMAL&lt;/span> &lt;span class="n">mode&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">ELSE&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 正确设置光标，使用 vim 的话取消注释这三行&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">syntax&lt;/span> &lt;span class="n">on&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 语法高亮&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">autocmd&lt;/span> &lt;span class="n">InsertLeave&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">se&lt;/span> &lt;span class="n">nocul&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">autocmd&lt;/span> &lt;span class="n">InsertEnter&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">se&lt;/span> &lt;span class="n">cul&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 用浅色高亮当前行&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">smartindent&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 智能对齐&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">autoindent&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 自动对齐&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">confirm&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 在处理未保存或只读文件的时候，弹出确认&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">tabstop&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">2&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; Tab键的宽度&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">softtabstop&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">4&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">shiftwidth&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">4&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 统一缩进为 4&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">noexpandtab&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 不要用空格代替制表符&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">number&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 显示行号&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">history&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">50&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 历史纪录数&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">hlsearch&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">incsearch&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 搜索逐字符高亮&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">gdefault&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 行内替换&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">langmenu&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">zn_CN&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">UTF&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">8&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">helplang&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">cn&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 语言设置&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">cmdheight&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">2&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 命令行（在状态行）的高度，默认为1,这里是2&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">ruler&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 在编辑过程中，在右下角显示光标位置的状态行&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">laststatus&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">2&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 总是显示状态行&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">showcmd&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 在状态行显示目前所执行的命令，未完成的指令片段亦会显示出来&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">scrolloff&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">3&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 光标移动到buffer的顶部和底部时保持3行距离&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">showmatch&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 高亮显示对应的括号&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">matchtime&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">5&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 对应括号高亮的时间（单位是十分之一秒）&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">autowrite&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 在切换buffer时自动保存当前文件&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">wildmenu&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 增强模式中的命令行自动完成操作&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">linespace&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">2&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 字符间插入的像素行数目&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">whichwrap&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">b&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">s&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">,[,]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 开启Normal或Visual模式下Backspace键，空格键，左方向键，右方向键，Insert或replace模式下左方向键，右方向键跳行的功能。&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">filetype&lt;/span> &lt;span class="n">plugin&lt;/span> &lt;span class="n">indent&lt;/span> &lt;span class="n">on&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 分为三部分命令：file on, file plugin on, file indent on.分别表示自动识别文件类型，用文件类型脚本，使用缩进定义文件。&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="n">executable&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;clipboard-provider&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">clipboard&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> \ &lt;span class="s1">&amp;#39;name&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s1">&amp;#39;myClipboard&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> \ &lt;span class="s1">&amp;#39;copy&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> \ &lt;span class="s1">&amp;#39;+&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s1">&amp;#39;clipboard-provider copy&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> \ &lt;span class="s1">&amp;#39;*&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s1">&amp;#39;clipboard-provider copy&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> \ &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> \ &lt;span class="s1">&amp;#39;paste&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> \ &lt;span class="s1">&amp;#39;+&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s1">&amp;#39;clipboard-provider paste&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> \ &lt;span class="s1">&amp;#39;*&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s1">&amp;#39;clipboard-provider paste&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> \ &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> \ &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">endif&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 使用系统剪切板 &amp;#34;&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="n">y&lt;/span> &lt;span class="s2">&amp;#34;+p&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; vim-plug 安装&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; sh -c &amp;#39;curl -fLo &amp;#34;&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="n">XDG_DATA_HOME&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="o">-$&lt;/span>&lt;span class="n">HOME&lt;/span>&lt;span class="o">/.&lt;/span>&lt;span class="n">local&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">share&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="s2">&amp;#34;/nvim/site/autoload/plug.vim --create-dirs &lt;/span>&lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="n">https&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="o">//&lt;/span>&lt;span class="n">raw&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">githubusercontent&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">com&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">junegunn&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">vim&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">plug&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">master&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">plug&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">vim&lt;/span>&lt;span class="s1">&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">call&lt;/span> &lt;span class="n">plug&lt;/span>&lt;span class="c1">#begin(&amp;#39;~/.vim/plugged/&amp;#39;)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Plug&lt;/span> &lt;span class="s1">&amp;#39;skywind3000/vim-auto-popmenu&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Plug&lt;/span> &lt;span class="s1">&amp;#39;skywind3000/vim-dict&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Plug&lt;/span> &lt;span class="s1">&amp;#39;preservim/nerdtree&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Plug&lt;/span> &lt;span class="s1">&amp;#39;jiangmiao/auto-pairs&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Plug&lt;/span> &lt;span class="s1">&amp;#39;vim-airline/vim-airline&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Plug&lt;/span> &lt;span class="s1">&amp;#39;vim-airline/vim-airline-themes&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Plug&lt;/span> &lt;span class="s1">&amp;#39;morhetz/gruvbox&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Plug&lt;/span> &lt;span class="s1">&amp;#39;neoclide/coc.nvim&amp;#39;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="s1">&amp;#39;branch&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s1">&amp;#39;release&amp;#39;&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Plug&lt;/span> &lt;span class="s1">&amp;#39;skywind3000/asynctasks.vim&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Plug&lt;/span> &lt;span class="s1">&amp;#39;skywind3000/asyncrun.vim&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">call&lt;/span> &lt;span class="n">plug&lt;/span>&lt;span class="c1">#end()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 代码补全配置&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 设定需要生效的文件类型，如果是 &amp;#34;&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="s2">&amp;#34; 的话，代表所有类型&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">apc_enable_ft&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="s1">&amp;#39;*&amp;#39;&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 设定从字典文件以及当前打开的文件里收集补全单词，详情看 &amp;#39;:help cpt&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">cpt&lt;/span>&lt;span class="o">=.&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">k&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">w&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">b&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 不要自动选中第一个选项。&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">completeopt&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">menu&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">menuone&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">noselect&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 禁止在下方显示一些啰嗦的提示&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">shortmess&lt;/span>&lt;span class="o">+=&lt;/span>&lt;span class="n">c&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; nerdtree 按F1 打开关闭&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">map&lt;/span> &lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">F1&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="p">:&lt;/span>&lt;span class="n">NERDTreeToggle&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">CR&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 状态栏设置&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">laststatus&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">2&lt;/span> &lt;span class="s2">&amp;#34;永远显示状态栏&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">airline_powerline_fonts&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="s2">&amp;#34; 支持 powerline 字体&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">airline&lt;/span>&lt;span class="c1">#extensions#tabline#enabled = 1 &amp;#34; 显示窗口tab和buffer&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">airline_theme&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;molokai&amp;#39;&lt;/span> &lt;span class="s2">&amp;#34; murmur配色不错&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="o">!&lt;/span>&lt;span class="n">exists&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;g:airline_symbols&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">airline_symbols&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">endif&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">airline_left_sep&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;▶&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">airline_left_alt_sep&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;❯&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">airline_right_sep&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;◀&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">airline_right_alt_sep&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;❮&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">airline_symbols&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">linenr&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;¶&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">airline_symbols&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">branch&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;⎇&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; colorscheme pablo&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; colorscheme torte&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; colorscheme koehler&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">colorscheme&lt;/span> &lt;span class="n">gruvbox&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set&lt;/span> &lt;span class="n">background&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">dark&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 设置颜色主题&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34; 映射两个代码运行的快捷键&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">let&lt;/span> &lt;span class="n">g&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">asyncrun_open&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">10&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">noremap&lt;/span> &lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">silent&lt;/span>&lt;span class="o">&amp;gt;&amp;lt;&lt;/span>&lt;span class="n">C&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">g&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="p">:&lt;/span>&lt;span class="n">AsyncTask&lt;/span> &lt;span class="n">file&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">run&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">cr&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">noremap&lt;/span> &lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">silent&lt;/span>&lt;span class="o">&amp;gt;&amp;lt;&lt;/span>&lt;span class="n">C&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">b&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="p">:&lt;/span>&lt;span class="n">AsyncTask&lt;/span> &lt;span class="n">file&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">build&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">cr&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>去掉了快捷键基本上使用默认配置，F1 打开 nerdtree，Ctrl+g 运行当前文件，Ctrl+b 构建当前项目（但针对这一点我不做过多讲解，否则偏离了文章的主题）。使用 gruvbox 主题&lt;/p>
+&lt;p>更新一版，加入了 gui 和平台特性，因为我要在 win 下用 gvim&lt;/p>
+&lt;p>再一键安装 Coc 插件，这是我常用的，你可以装自己需要的插件&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">CocInstall coc-html coc-tsserver coc-sumneko-lua coc-sh coc-pyright coc-json coc-clangd
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后简单的配置一下 asyncrun, vim ~/.vim/tasks.ini，我常用的语言配置如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">[file-run]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">command=&amp;#34;$(VIM_FILEPATH)&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">command:python=python &amp;#34;$(VIM_FILENAME)&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">command:javascript=node &amp;#34;$(VIM_FILENAME)&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">command:sh=bash &amp;#34;$(VIM_FILENAME)&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">command:lua=lua &amp;#34;$(VIM_FILENAME)&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">command:rust=rust &amp;#34;$(VIM_FILENAME)&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">output=terminal
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">cwd=$(VIM_FILEDIR)
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">save=2
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这个插件功能十分强大，详情可见&lt;a class="link" href="https://github.com/skywind3000/asynctasks.vim" target="_blank" rel="noopener"
+>https://github.com/skywind3000/asynctasks.vim&lt;/a>&lt;/p>
+&lt;p>这样的话，进行一些简易的代码编写和文本编辑都没问题了&lt;/p>
+&lt;h3 id="后话">后话
+&lt;/h3>&lt;p>我并不建议将 neovim 作为大型项目的编辑器，因为它在项目管理，构建上的配置难度比单文件高得多，插件装得太多也会影响 neovim 本身的性能，所以还是专注于简单文本编辑比较好。如果需要管理大型工程，使用 vs、xcode 等 IDE 是更为明智的选择。&lt;/p></description></item></channel></rss>
