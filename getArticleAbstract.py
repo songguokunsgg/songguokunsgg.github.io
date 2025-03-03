@@ -18,7 +18,9 @@ client = OpenAI(
 if os.path.exists("Abstract.txt"):
     os.remove("Abstract.txt")
 
-article_set = os.listdir("content/post")[11:]
+# article_set = os.listdir("content/post")[11:]
+# 需要生成的文章放在这
+article_set = ["", ""]
 
 for article in article_set:
 
