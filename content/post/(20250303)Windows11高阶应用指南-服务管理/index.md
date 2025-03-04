@@ -110,8 +110,105 @@ Windows 操作系统中有许多不同的 Windows 服务，每个服务都具有
 
 也可以手动启动或重新启动某项服务，右键单击要启动的服务 – 然后选择`启动`或`重新启动`。
 
-但这时候你会发现，服务管理器只能管理已有的服务，无法新增或者删除某项服务，那么如何实现这个需求呢？
+但这时候你会发现，服务管理器
+
+只能管理已有的服务，无法新增或者删除某项服务，那么如何实现这个需求呢？
 
 ## 使用 `sc` 管理服务
 
+sc 是 Windows 自带的服务管理工具，可以完成一些 GUI 界面没有提供的操作。
+
+但这个工具我用得很少，不熟悉，暂时还是不讲这个了，以免误导大家。
+
 ## 使用 `nssm` 管理服务
+
+nssm 也是一项用于 Windows 的服务管理器，但遗憾的是，该软件已经停止更新多年，最终版本停留在了 2017 的预发布版本。不过，该软件已经足够稳定好用，功能也基本完善，操作方便简单，现在仍然可以正常使用。
+
+[nssm 官方下载地址](https://nssm.cc/download)
+
+![nssm 官网下载地址](nssm官网下载.png)
+
+将解压后的文件夹放置在 `C:\Program Files\` 目录下面，然后将 win64 目录添加到环境变量。
+
+![添加 nssm 环境变量](nssm添加环境变量.png)
+
+随后你就可以在终端中使用该工具了。
+
+```txt
+PS C:\Users\<username>\ nssm.exe
+   NSSM: The non-sucking service manager
+Version 2.24-101-g897c7ad 64-bit, 2017-04-26
+Usage: nssm <option> [<args> ...]
+
+To show service installation GUI:
+
+        nssm install [<servicename>]
+
+To install a service without confirmation:
+
+        nssm install <servicename> <app> [<args> ...]
+
+To show service editing GUI:
+
+        nssm edit <servicename>
+
+To retrieve or edit service parameters directly:
+
+        nssm dump <servicename>
+
+        nssm get <servicename> <parameter> [<subparameter>]
+
+        nssm set <servicename> <parameter> [<subparameter>] <value>
+
+        nssm reset <servicename> <parameter> [<subparameter>]
+
+To show service removal GUI:
+
+        nssm remove [<servicename>]
+
+To remove a service without confirmation:
+
+        nssm remove <servicename> confirm
+
+To manage a service:
+
+        nssm start <servicename>
+
+        nssm stop <servicename>
+
+        nssm restart <servicename>
+
+        nssm status <servicename>
+
+        nssm statuscode <servicename>
+
+        nssm rotate <servicename>
+
+        nssm processes <servicename>
+```
+
+在这里我们主要学习三个命令：install、remove、list。
+
+1. install 命令
+
+用于安装某个服务，例如安装音乐服务 Navidrome，就可以直接
+
+`nssm install Navidrome`
+
+![添加 Navidrome 服务](添加Navidrome服务.png)
+
+选择 Navidrome 程序的路径，添加好必要的参数就可以了，此外，还可以修改服务的启动方式。
+
+![修改 Navidrome 服务启动方式](Navidrome服务启动方式.png)
+
+2. remove 命令
+
+用于删除某个服务：
+
+`nssm remove Navidrome`
+
+3. list 命令
+
+这个命令是 2017 年的最后一个预发布版本才有的功能，list 命令并没有在 help 页面中出现，但确实是可用的， `nssm list`可以列出当前计算机上所有**通过 nssm 创建的服务**。
+
+相比 sc 工具，nssm 只能管理和配置 nssm 自身创建的服务项，他并没有权力改动系统本身的服务，相对来说更加安全。
