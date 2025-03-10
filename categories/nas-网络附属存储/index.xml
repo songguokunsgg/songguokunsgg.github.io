@@ -1,0 +1,1491 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NAS 网络附属存储 on 菘菓菌</title><link>https://songguokunsgg.github.io/categories/nas-%E7%BD%91%E7%BB%9C%E9%99%84%E5%B1%9E%E5%AD%98%E5%82%A8/</link><description>Recent content in NAS 网络附属存储 on 菘菓菌</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 20 Dec 2024 22:15:57 +0000</lastBuildDate><atom:link href="https://songguokunsgg.github.io/categories/nas-%E7%BD%91%E7%BB%9C%E9%99%84%E5%B1%9E%E5%AD%98%E5%82%A8/index.xml" rel="self" type="application/rss+xml"/><item><title>用快乐的方法搞定子网掩码和 IPv6 前缀</title><link>https://songguokunsgg.github.io/p/%E7%94%A8%E5%BF%AB%E4%B9%90%E7%9A%84%E6%96%B9%E6%B3%95%E6%90%9E%E5%AE%9A%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E5%92%8C-ipv6-%E5%89%8D%E7%BC%80/</link><pubDate>Fri, 20 Dec 2024 22:15:57 +0000</pubDate><guid>https://songguokunsgg.github.io/p/%E7%94%A8%E5%BF%AB%E4%B9%90%E7%9A%84%E6%96%B9%E6%B3%95%E6%90%9E%E5%AE%9A%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E5%92%8C-ipv6-%E5%89%8D%E7%BC%80/</guid><description>&lt;p>其实在很久以前就有接触过子网掩码，但一直不太理解它具体的使用场景。这段时间闲鱼了一台 j4125 的四口软路由，花了两天时间折腾后，竟然意外地理解了子网掩码和 IPv6 前缀……&lt;/p>
+&lt;p>其实他们的概念并不算难，但网上的介绍文章大多都是繁杂的概念和计算，让人捉摸不透。在这片文章中，我将用最清晰易懂的语言和示例，带你理解子网掩码和 IPv6 前缀。&lt;/p>
+&lt;h2 id="ipv4-和-ipv6-的区别">IPv4 和 IPv6 的区别
+&lt;/h2>&lt;p>IPv4 地址通常表示为 4 个 8 位 2 进制数，也就是 4x8=32 位，比如 192.168.1.1，每个数字范围是 0 到 255(分别对应 00000000 和 11111111)。IPv6 地址更长，通常表示为 8 组 16 位 2 进制数（或 8 组 4 位 16 进制数，一回事），比如 2001:0db8:85a3:0000:0000:8a2e:0370:7334，看起来更复杂。&lt;/p>
+&lt;p>有些初学者难以理解为什么 IPv6 是 128 位的，他们会疑惑，每一位有 16 种状态，那么总共的位数不是 16 * 32= 512 位吗？&lt;/p>
+&lt;p>高手先不要笑话，真的有不少初学者有这样的疑惑。事实上应该把每个：之间的数字拆出来看，例如，4 位 16 进制数 2001。我们将其转换为 2 进制数，也就是 0010 0000 0000 0001，一共是 16 位，这样的 4 位 16 进制数一共有 8 组，因此一共是 16 * 8 = 128 位。&lt;/p>
+&lt;p>IPv4 和 IPv6 最大的区别就是地址空间不同，IPv4 一共只有 4 亿个，而 IPv6 是用之不竭的（理论上能用完，但实际很难，后面会再提到相关内容）。&lt;/p>
+&lt;h2 id="从给孩子起名字说起">从给孩子起名字说起
+&lt;/h2>&lt;p>IP 地址是网络上设备的一个寻址符，因此，我们先讲公网 IP 可以看成是你在身份证上的名字，私网 IP 则是家里面爸妈叫你的小名。&lt;/p>
+&lt;p>假设你的爸爸叫&lt;strong>毛利小五郎&lt;/strong>，让我们带入他。&lt;/p>
+&lt;p>在社会上（假设这个社会上每个人姓名不同，且都为 5 字名字），别人叫毛利小五郎，你都会答应，但有一天，你发现，有好几个人一起应答了这个名字。你们几个人都愣住了。&lt;/p>
+&lt;p>不是说好的不能重名吗？政府怎么登记的？你们去质问有关部门人员，但工作人员很委屈，他说，你们名字确实不一样啊。&lt;/p>
+&lt;p>你开始了自我介绍：我姓毛利，名叫小五郎&lt;/p>
+&lt;p>毛利小五郎 B：我姓毛，名叫利小五郎&lt;/p>
+&lt;p>毛利小五郎 C：我姓毛利小，名叫五郎&lt;/p>
+&lt;p>毛利小五郎 D：我姓毛利小五，名叫郎&lt;/p>
+&lt;p>毛利小五郎 E：我就叫毛利小五郎，没有名&lt;/p>
+&lt;p>原来是这样，难怪大家叫一样的名字。你们一合计，那我们就在名字后面加一个标识符，把姓的字数标记一下，这样的话，即使重名，大家也可以分出来了。政府一听，好主意，当即就给你们改了身份证。于是你们几个的名字变成了：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>原先名字&lt;/th>
+&lt;th>现在名字&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>毛利小五郎 (A)&lt;/td>
+&lt;td>毛利小五郎/2&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>毛利小五郎 (B)&lt;/td>
+&lt;td>毛利小五郎/1&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>毛利小五郎 (C)&lt;/td>
+&lt;td>毛利小五郎/3&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>毛利小五郎 (D)&lt;/td>
+&lt;td>毛利小五郎/4&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>毛利小五郎 (E)&lt;/td>
+&lt;td>毛利小五郎/5&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>现在你们都清楚自己姓甚名谁了，以后大家都能分清了。、&lt;/p>
+&lt;p>这时，你们用奇怪的眼光看着 毛利小五郎/5，问到：“兄弟，你没有名，那你儿子不是起不了名字吗？毕竟这个世界不允许重复姓名。”&lt;/p>
+&lt;p>毛利小五郎/5 说：“我是女人，孩子不和我姓”。&lt;/p>
+&lt;h2 id="ipv4-地址生娃">IPv4 地址生娃
+&lt;/h2>&lt;p>上面这个故事引出了今天的主题之一，子网掩码。&lt;/p>
+&lt;p>不过在 IPv4 世界里，每个单位的名字有 32 位，且每一位只能是 0 和 1。&lt;/p>
+&lt;p>子网掩码就标识出了这个 IP 地址中，哪一段是爸爸，哪一段是儿子。&lt;/p>
+&lt;p>回到刚刚的故事，毛利小五郎/2 想要给生一个孩子，在当前社会规则要求下，你最多能生几个呢？&lt;/p>
+&lt;p>首先，孩子也得姓毛利，这是不变的，所以儿子的名字只能在后面三个字里面选，常用的汉字有 6000 个，因此你最多生下 6000^3 个孩子。再多生的话，政府就没办法帮你上户口了，你只能另想办法（也就是 NAT）。&lt;/p>
+&lt;p>而毛利小五郎/1 就爽了，他能比你多生 6000 倍的孩子，可以生 6000 ^ 4 个，最惨的是毛利小五郎/5，他已经失去了生孩子的权利。&lt;/p>
+&lt;p>类比到 IPv4 地址，假设子网掩码为 x，那这个地址的姓就是 x 位，他最多能有 2^(32-x) 个儿子，也就是名称&amp;quot;子网&amp;quot;的来历。&lt;/p>
+&lt;p>举个例子，对于 IPv4 地址：10.0.0.9/8，则开头的 10.是爸爸，后面的 24 位都是儿子的名字空间，也就是说他可以生 2^24 个儿子，也就是地址 10.0.0.0~10.255.255.255。&lt;/p>
+&lt;p>由于点分十进制的特殊性，8、16、24、32 是比较重要的子网掩码，因为他们刚好分隔开了每个点号。。利用这一特性，我们可以快速计算子网。记住以下两个特性：&lt;/p>
+&lt;ul>
+&lt;li>子网掩码加 1，儿子减半&lt;/li>
+&lt;li>子网掩码 -1，儿子加倍&lt;/li>
+&lt;/ul>
+&lt;p>例子：给定 IP 地址 10.67.55.134/10，计算其所属网段。&lt;/p>
+&lt;p>首先找到 8,16,24,32 中最接近 22 的数，显然是 8。先找到 10.0.0.x/8 的网段，为 10.0.0.0~10.255.255.255，将子网掩码 +1，10.0.0.x/9 可以划分为 2 组：&lt;/p>
+&lt;ul>
+&lt;li>10.0.0.0~10.127.255.255&lt;/li>
+&lt;li>10.128.0.0~10.255.255.255&lt;/li>
+&lt;/ul>
+&lt;p>再 +1，10.0.0.x/10 可以划分为 4 组&lt;/p>
+&lt;ul>
+&lt;li>10.0.0.0~10.63.255.255&lt;/li>
+&lt;li>10.64.0.0~10.127.255.255&lt;/li>
+&lt;li>10.128.0.0~10.191.255.255&lt;/li>
+&lt;li>10.192.0.0~10.255.255.255&lt;/li>
+&lt;/ul>
+&lt;p>此时可以发现，10.67.55.134/10 属于第二个网段。&lt;/p>
+&lt;p>用计算器验算以下，正确，计算器去除了网络地址和广播地址：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E7%94%A8%E5%BF%AB%E4%B9%90%E7%9A%84%E6%96%B9%E6%B3%95%E6%90%9E%E5%AE%9A%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E5%92%8C-ipv6-%E5%89%8D%E7%BC%80/v2-ac76e5ae7b4cd9022a03f655b6af7636_1440w.jpg"
+width="1058"
+height="840"
+srcset="https://songguokunsgg.github.io/p/%E7%94%A8%E5%BF%AB%E4%B9%90%E7%9A%84%E6%96%B9%E6%B3%95%E6%90%9E%E5%AE%9A%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E5%92%8C-ipv6-%E5%89%8D%E7%BC%80/v2-ac76e5ae7b4cd9022a03f655b6af7636_1440w_hu_e090c086e965972f.jpg 480w, https://songguokunsgg.github.io/p/%E7%94%A8%E5%BF%AB%E4%B9%90%E7%9A%84%E6%96%B9%E6%B3%95%E6%90%9E%E5%AE%9A%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E5%92%8C-ipv6-%E5%89%8D%E7%BC%80/v2-ac76e5ae7b4cd9022a03f655b6af7636_1440w_hu_611e579355ca7e3f.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="125"
+data-flex-basis="302px"
+>&lt;/p>
+&lt;p>例 2：给定 IP 地址 10.67.55.134/22，计算其所属网段。&lt;/p>
+&lt;p>首先找到 8,16,24,32 中最接近 22 的数，显然是 24。因此，首先计算 10.67.55.x/24 的网段&lt;/p>
+&lt;ul>
+&lt;li>10.67.55.0~10.67.55.255&lt;/li>
+&lt;/ul>
+&lt;p>然后，将子网掩码 -1，计算 10.67.55.x/23 的网段，由前文可知“子网掩码 -1，儿子加倍”，但这里的儿子显然不够用，因此需要向前一位去借，得到一个网段：&lt;/p>
+&lt;ul>
+&lt;li>10.67.54.0~10.67.55.255&lt;/li>
+&lt;/ul>
+&lt;p>这里需要注意，掩码 -1，是在扩容儿子的容量，网段的数量是不变的。那么问题来了，我怎么知道是向 54 借还是 56 借呢？&lt;/p>
+&lt;p>这里我们要理解，子网范围的分组，都是等分进行的，因此，在 0-255 的范围内，分一次（掩码 +1）必然是 0-127，,18-255，分 2 次（掩码 +2）必然是 0-63, 64-127, 128-191, 192-255，……，分 7 次（掩码 +7），也就是 0-1,2-3,4-5……,254-255，最多分八次（掩码加 8），也就是每个数单独为一组（这时候就要考虑到后面的范围了）。&lt;/p>
+&lt;p>所以，向前借还是向后借，只要对号入座就可以了。示例中对应的是分 7 次的情况，该条件下，0,2,4……，通项为&lt;/p>
+&lt;p>$a(n)=2n$&lt;/p>
+&lt;p>因此显然是 54-55。&lt;/p>
+&lt;p>这一块可能比较难理解，但学会之后计算很快，不用再去搞位运算了。&lt;/p>
+&lt;p>然后，我们再减少一次掩码，计算 10.67.55.x/23 的网段，这时对应的是分 6 次的情况，也就是 0-3, 4-7, 8-11，……，252-255。&lt;/p>
+&lt;p>显然 0，4，8 的通项为&lt;/p>
+&lt;p>$a(n)=4n$&lt;/p>
+&lt;p>最接近的是 4*13=52，因此 10.67.55.x/23 的网段为&lt;/p>
+&lt;ul>
+&lt;li>10.67.52.0~10.67.55.255&lt;/li>
+&lt;/ul>
+&lt;p>这也就是题目中 10.67.55.134/22 所属的网段，因为掩码 -1 属于扩充，因此扩充出的网段内一定是包含原 IP 的。就不用像 +1 那样子去匹配网段了。从示例也可以看出，扩充算法相比分组要难一些，但原理是一样的。&lt;/p>
+&lt;p>用计算器验算一下：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E7%94%A8%E5%BF%AB%E4%B9%90%E7%9A%84%E6%96%B9%E6%B3%95%E6%90%9E%E5%AE%9A%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E5%92%8C-ipv6-%E5%89%8D%E7%BC%80/v2-dd0807aaffa5d565b17f903319b22e1f_1440w.jpg"
+width="1048"
+height="822"
+srcset="https://songguokunsgg.github.io/p/%E7%94%A8%E5%BF%AB%E4%B9%90%E7%9A%84%E6%96%B9%E6%B3%95%E6%90%9E%E5%AE%9A%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E5%92%8C-ipv6-%E5%89%8D%E7%BC%80/v2-dd0807aaffa5d565b17f903319b22e1f_1440w_hu_c2d6af039c94303c.jpg 480w, https://songguokunsgg.github.io/p/%E7%94%A8%E5%BF%AB%E4%B9%90%E7%9A%84%E6%96%B9%E6%B3%95%E6%90%9E%E5%AE%9A%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E5%92%8C-ipv6-%E5%89%8D%E7%BC%80/v2-dd0807aaffa5d565b17f903319b22e1f_1440w_hu_d2df2f643ef09923.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="127"
+data-flex-basis="305px"
+>&lt;/p>
+&lt;p>用这样的计算方法，我们完全规避了位运算，而是用简单的基本运算来实现计算，勤加练习的话，很快就可以掌握。&lt;/p>
+&lt;p>例 3：苹果手机热点默认分配的子网掩码为 255.255.255.240，问最多可以有多少个设备可以连接该手机？&lt;/p>
+&lt;p>这里涉及到了子网掩码的点分十进制表示，直接转换为 11111111.11111111.11111111.11110000，数 1 就行了，这里有 28 个，因此子网掩码十进制表示为 28。&lt;/p>
+&lt;p>也可以用数学公式计算&lt;/p>
+&lt;p>$N_0=32-(log_2(256-Z_1)+log_2(256-Z_2)+log_2(256-Z_3)+log_2(256-Z_4))$&lt;/p>
+&lt;p>例中，&lt;/p>
+&lt;p>$N_0=32-(log_2(256-255)+log_2(256-255)+log_2(256-255)+log_2(256-240)) =32-0-0-0-4 =28 $&lt;/p>
+&lt;p>可用设备为 $2^4-2=14$ 个，可见苹果真的抠搜。&lt;/p>
+&lt;h2 id="ipv6-前缀简介">IPv6 前缀简介
+&lt;/h2>&lt;p>IPv6 前缀相比子网掩码就简单多了，首先理解 IPv6 的构成。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E7%94%A8%E5%BF%AB%E4%B9%90%E7%9A%84%E6%96%B9%E6%B3%95%E6%90%9E%E5%AE%9A%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E5%92%8C-ipv6-%E5%89%8D%E7%BC%80/v2-0cee1d1d0684b1d3aa236d18a78eac16_1440w.jpg"
+width="324"
+height="191"
+srcset="https://songguokunsgg.github.io/p/%E7%94%A8%E5%BF%AB%E4%B9%90%E7%9A%84%E6%96%B9%E6%B3%95%E6%90%9E%E5%AE%9A%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E5%92%8C-ipv6-%E5%89%8D%E7%BC%80/v2-0cee1d1d0684b1d3aa236d18a78eac16_1440w_hu_76cb19401748e571.jpg 480w, https://songguokunsgg.github.io/p/%E7%94%A8%E5%BF%AB%E4%B9%90%E7%9A%84%E6%96%B9%E6%B3%95%E6%90%9E%E5%AE%9A%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E5%92%8C-ipv6-%E5%89%8D%E7%BC%80/v2-0cee1d1d0684b1d3aa236d18a78eac16_1440w_hu_4fc77ad8ba4eda4b.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="169"
+data-flex-basis="407px"
+>&lt;/p>
+&lt;p>128 位的地址被分为了三个部分，站点前缀、子网 ID、接口。其中，站点前缀和子网 ID 加起来是 64 位。而接口则是用来标识设备的。&lt;/p>
+&lt;p>也就是说，在一个子网中，可以接入 2^64 个设备，已经远远超过了 IPv4 的总和（白花花的 IP 地址给穷人）。&lt;/p>
+&lt;p>并且子网 ID 不是必须的，事实上，在家用宽带中，往往给的前缀都是 64 位的，直接让你划不了子网（不过我家给的 56 位前缀，真神了）。&lt;/p>
+&lt;p>IPv6 前缀的灵活性非常高，对于两个相同的 IPv6 地址，前缀不同的话，他们寻址到的设备是不一样的。&lt;/p>
+&lt;p>例子：2001:0db8:85a3:0000:0000:8a2e:0370:7334/64 和 2001:0db8:85a3:0000:0000:8a2e:0370:7334/56 代表的设备是同一个吗？&lt;/p>
+&lt;p>在 IPv6 中，前缀后面的数字表示网络部分的位数。不同的前缀长度意味着不同的网络范围和不同的地址分配。&lt;/p>
+&lt;p>&lt;strong>2001:0db8:85a3:0000&lt;/strong>:0000:8a2e:0370:7334/64 这个地址的前 64 位是网络部分，剩下的 64 位是主机部分。这意味着这个地址属于一个/64 的子网，这个子网内可以有 2^64 个可能的地址。&lt;/p>
+&lt;p>&lt;strong>2001:0db8:85a3:00&lt;/strong>00:0000:8a2e:0370:7334/56 这个地址的前 56 位是网络部分，剩下的 72 位是主机部分。这意味着这个地址属于一个/56 的子网，这个子网内可以有 2^72 个可能的地址。&lt;/p>
+&lt;p>标黑的部分就是两个地址各自的前缀。&lt;/p>
+&lt;p>由于两个地址的网络部分不同（一个是前 64 位，另一个是前 56 位），它们属于不同的网络。即使具体的地址（接口标识符）相同，它们也被视为属于不同的网络，因此代表不同的设备或接口。&lt;/p>
+&lt;p>通俗来讲，他们虽然名字一样，但他们的爸爸是不一样的，也就类似于毛利小五郎/2，毛利小五郎/4 不是同一个人一样。&lt;/p>
+&lt;p>基于 IPv6 这一特性，实现去 NAT 化是完全可以的，并且对子网和网络地址的计算量也会远小于 IPv4，因此，早日拥抱 IPv6 吧。&lt;/p></description></item><item><title>如何解决群晖 NAS 中异常的 Jellygin CPU 占用</title><link>https://songguokunsgg.github.io/p/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E7%BE%A4%E6%99%96-nas-%E4%B8%AD%E5%BC%82%E5%B8%B8%E7%9A%84-jellygin-cpu-%E5%8D%A0%E7%94%A8/</link><pubDate>Sun, 25 Aug 2024 16:38:56 +0000</pubDate><guid>https://songguokunsgg.github.io/p/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E7%BE%A4%E6%99%96-nas-%E4%B8%AD%E5%BC%82%E5%B8%B8%E7%9A%84-jellygin-cpu-%E5%8D%A0%E7%94%A8/</guid><description>&lt;h2 id="占用原因">占用原因
+&lt;/h2>&lt;p>主要有两点原因：&lt;/p>
+&lt;ol>
+&lt;li>Jellyfin 的转码、缩略图生成等功能需要占用大量的资源，而且这种资源占用是实时的，任何时候都可能进行，表现为 Jellyfin 一直有大量的 CPU 占用和磁盘读取。&lt;/li>
+&lt;li>目录异常。例如，错误地将监控视频目录添加到了 Jellyfin 的媒体库中，这类视频数量大，体积小，而 Jellyfin 会处理每个视频，导致异常的资源占用。&lt;/li>
+&lt;/ol>
+&lt;p>下面尝试解决这几个问题。&lt;/p>
+&lt;h2 id="启用硬件加速n100-为例">启用硬件加速（N100 为例）
+&lt;/h2>&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E7%BE%A4%E6%99%96-nas-%E4%B8%AD%E5%BC%82%E5%B8%B8%E7%9A%84-jellygin-cpu-%E5%8D%A0%E7%94%A8/%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F.png"
+width="1446"
+height="2154"
+srcset="https://songguokunsgg.github.io/p/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E7%BE%A4%E6%99%96-nas-%E4%B8%AD%E5%BC%82%E5%B8%B8%E7%9A%84-jellygin-cpu-%E5%8D%A0%E7%94%A8/%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F_hu_4c0a38ec7de2f3e9.png 480w, https://songguokunsgg.github.io/p/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E7%BE%A4%E6%99%96-nas-%E4%B8%AD%E5%BC%82%E5%B8%B8%E7%9A%84-jellygin-cpu-%E5%8D%A0%E7%94%A8/%E7%A1%AC%E4%BB%B6%E5%8A%A0%E9%80%9F_hu_66a67048c3a7ec92.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="67"
+data-flex-basis="161px"
+>&lt;/p>
+&lt;h2 id="使用-tinymediamanager-代替-jellyfin-的刮削">使用 tinyMediaManager 代替 jellyfin 的刮削
+&lt;/h2>&lt;p>![](去除 jellyfin 刮削功能.png)&lt;/p>
+&lt;p>在 tMM 中把刮削格式设置为 jellyfin，第一次打开软件的时候有提示。&lt;/p>
+&lt;p>tMM 的使用就不在这里讲了，功能比 Jellyfin 自带的强大太多。&lt;/p>
+&lt;h2 id="去除无用的媒体库">去除无用的媒体库
+&lt;/h2>&lt;p>我只保留了电影和电视剧两个文件夹。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E7%BE%A4%E6%99%96-nas-%E4%B8%AD%E5%BC%82%E5%B8%B8%E7%9A%84-jellygin-cpu-%E5%8D%A0%E7%94%A8/%E4%BF%9D%E7%95%99%E7%9A%84%E5%AA%92%E4%BD%93%E5%BA%93.png"
+width="2402"
+height="834"
+srcset="https://songguokunsgg.github.io/p/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E7%BE%A4%E6%99%96-nas-%E4%B8%AD%E5%BC%82%E5%B8%B8%E7%9A%84-jellygin-cpu-%E5%8D%A0%E7%94%A8/%E4%BF%9D%E7%95%99%E7%9A%84%E5%AA%92%E4%BD%93%E5%BA%93_hu_9ef00e8317e225fb.png 480w, https://songguokunsgg.github.io/p/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E7%BE%A4%E6%99%96-nas-%E4%B8%AD%E5%BC%82%E5%B8%B8%E7%9A%84-jellygin-cpu-%E5%8D%A0%E7%94%A8/%E4%BF%9D%E7%95%99%E7%9A%84%E5%AA%92%E4%BD%93%E5%BA%93_hu_47509d95988b0080.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="288"
+data-flex-basis="691px"
+>&lt;/p>
+&lt;h2 id="去除无用的定时任务">去除无用的定时任务
+&lt;/h2>&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E7%BE%A4%E6%99%96-nas-%E4%B8%AD%E5%BC%82%E5%B8%B8%E7%9A%84-jellygin-cpu-%E5%8D%A0%E7%94%A8/%E5%85%B3%E9%97%AD%E4%B8%80%E4%BA%9B%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1.png"
+width="1788"
+height="1922"
+srcset="https://songguokunsgg.github.io/p/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E7%BE%A4%E6%99%96-nas-%E4%B8%AD%E5%BC%82%E5%B8%B8%E7%9A%84-jellygin-cpu-%E5%8D%A0%E7%94%A8/%E5%85%B3%E9%97%AD%E4%B8%80%E4%BA%9B%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1_hu_500f3bc03c3b6b28.png 480w, https://songguokunsgg.github.io/p/%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E7%BE%A4%E6%99%96-nas-%E4%B8%AD%E5%BC%82%E5%B8%B8%E7%9A%84-jellygin-cpu-%E5%8D%A0%E7%94%A8/%E5%85%B3%E9%97%AD%E4%B8%80%E4%BA%9B%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1_hu_d325555ef90ff591.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="93"
+data-flex-basis="223px"
+>&lt;/p>
+&lt;p>像提取章节库、时间轴缩略图这些功能可有可无，而且很占资源，建议关闭。&lt;/p>
+&lt;h2 id="总结">总结
+&lt;/h2>&lt;p>说白了，就是让 Jellyfin 做一个媒体服务器该做的事，负责播放和展示就行了。刮削之类的功能应该交给更专业的程序完成。&lt;/p></description></item><item><title>黑群晖 NAS —— 在 OpenWRT 旁路由中启用 IPv6</title><link>https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/</link><pubDate>Mon, 15 Jul 2024 13:49:17 +0000</pubDate><guid>https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/</guid><description>&lt;p>在之前配置旁路由内网穿透的时候，我们在 openwrt 中禁用了 IPv6，这主要是想在实现功能的同时尽可能简化配置过程。然而，工信部在 2023 年发布了 &lt;a class="link" href="https://www.gov.cn/zhengce/zhengceku/2023-04/23/content_5752858.htm" target="_blank" rel="noopener"
+>工业和信息化部等八部门关于推进 IPv6 技术演进和应用创新发展的实施意见&lt;/a>。要在 2025 年前实现 IPv6 的全面普及，因此，直接关掉 IPv6 并不是一个好的使用方式。&lt;/p>
+&lt;p>在这里，我将补充讲解如何启用旁路由中的 IPv6。&lt;/p>
+&lt;h2 id="不启用-ipv6-会怎么样">不启用 IPv6 会怎么样？
+&lt;/h2>&lt;p>答案是不会怎么样。目前 IPv4 还是事实标准，并且许多拥有足量 IPv4 的人并不愿意让 IPv6 普及（动了谁的蛋糕？）。因此哪怕不开启 IPv6，对你的上网体验也不会有太大的影响。但是在配置群辉的过程中，我们为了公网访问群辉已经配置好了路由器和主机的 IPv6，如果不把整个家庭的 IPv6 都配置好，那不等于是白折腾了吗？&lt;/p>
+&lt;h2 id="路由器中已经启用了-ipv6-呀为什么还要在旁路由再启用一次">路由器中已经启用了 IPv6 呀，为什么还要在旁路由再启用一次？
+&lt;/h2>&lt;p>原因是所有网关指向旁路由的设备流量都会经过旁路由代理，旁路由不开 ipv6 的话，等于过滤掉所有 IPv6 相关的流量，因此虽然电脑能够获取 IPv6 地址，但只要网关指向旁路由，就等于没有使用 IPv6。&lt;/p>
+&lt;p>这时候电脑去&lt;a class="link" href="https://test-ipv6.com/" target="_blank" rel="noopener"
+>ipv6 测试网&lt;/a>的话，也是无法通过测试的，这是因为实际上测试的是旁路由的网络，而不是电脑的，旁路由不支持 IPv6 的话，就无法通过测试。&lt;/p>
+&lt;p>在配置好旁路由之后，就可以通过测试了：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/ipv6%E6%B5%8B%E8%AF%95.png"
+width="2250"
+height="1136"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/ipv6%E6%B5%8B%E8%AF%95_hu_776d9c72ddb44af.png 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/ipv6%E6%B5%8B%E8%AF%95_hu_1782e3be3d0d005c.png 1024w"
+loading="lazy"
+alt="通过 IPv6 测试"
+class="gallery-image"
+data-flex-grow="198"
+data-flex-basis="475px"
+>&lt;/p>
+&lt;h2 id="旁路由的配置">旁路由的配置
+&lt;/h2>&lt;p>首先进入 OpenWRT 的界面，我们主要操作网络部分：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/%E4%B8%BB%E8%A6%81%E6%93%8D%E4%BD%9C%E7%BD%91%E7%BB%9C%E9%83%A8%E5%88%86.png"
+width="640"
+height="1780"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/%E4%B8%BB%E8%A6%81%E6%93%8D%E4%BD%9C%E7%BD%91%E7%BB%9C%E9%83%A8%E5%88%86_hu_a0f58df45d2b1c0c.png 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/%E4%B8%BB%E8%A6%81%E6%93%8D%E4%BD%9C%E7%BD%91%E7%BB%9C%E9%83%A8%E5%88%86_hu_cdd22f0462eed260.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="35"
+data-flex-basis="86px"
+>&lt;/p>
+&lt;p>看到这个 LAN 接口，我们需要在这个 LAN 接口中彻底禁用 IPv6。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/ipv4%E6%8E%A5%E5%8F%A3.png"
+width="3244"
+height="412"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/ipv4%E6%8E%A5%E5%8F%A3_hu_87d731eb58934f19.png 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/ipv4%E6%8E%A5%E5%8F%A3_hu_d00f053304a047c3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="787"
+data-flex-basis="1889px"
+>&lt;/p>
+&lt;p>在下图的设置中禁用 IPv6：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan%E7%A6%81%E7%94%A8v6-1.png"
+width="1572"
+height="1090"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan%E7%A6%81%E7%94%A8v6-1_hu_dfb62b22ac3973a0.png 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan%E7%A6%81%E7%94%A8v6-1_hu_1c6590a90926d8e4.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="144"
+data-flex-basis="346px"
+>
+&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan%E7%A6%81%E7%94%A8v6-2.png"
+width="1404"
+height="982"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan%E7%A6%81%E7%94%A8v6-2_hu_b19b59bfe56d053a.png 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan%E7%A6%81%E7%94%A8v6-2_hu_b5ed531a505b242c.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="142"
+data-flex-basis="343px"
+>
+&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan%E7%A6%81%E7%94%A8v6-3.png"
+width="1558"
+height="1398"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan%E7%A6%81%E7%94%A8v6-3_hu_98c5ba7eda506dc9.png 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan%E7%A6%81%E7%94%A8v6-3_hu_463719cb80c133ec.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="111"
+data-flex-basis="267px"
+>&lt;/p>
+&lt;p>然后新增一个用于 IPv6 的接口：&lt;/p>
+&lt;p>![](新增一个 lan6 接口.png)&lt;/p>
+&lt;p>并按照下图设置：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan6%E8%AE%BE%E7%BD%AE.png"
+width="1580"
+height="1860"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan6%E8%AE%BE%E7%BD%AE_hu_14e6b5deda9233a9.png 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan6%E8%AE%BE%E7%BD%AE_hu_bcda95b9bdcb2241.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="84"
+data-flex-basis="203px"
+>
+&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan6%E8%AE%BE%E7%BD%AE2.png"
+width="1264"
+height="2170"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan6%E8%AE%BE%E7%BD%AE2_hu_11f97284cc0169e8.png 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan6%E8%AE%BE%E7%BD%AE2_hu_c48374adf3f29ee9.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="58"
+data-flex-basis="139px"
+>
+&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan6%E8%AE%BE%E7%BD%AE3.png"
+width="984"
+height="282"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan6%E8%AE%BE%E7%BD%AE3_hu_7fceaae8e63f5f16.png 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/lan6%E8%AE%BE%E7%BD%AE3_hu_778bc9daf7247b58.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="348"
+data-flex-basis="837px"
+>&lt;/p>
+&lt;p>然后到 DHCP/DNS 页面，选择过滤器设置，确保下图两个选项没有勾选。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/DHCPDNS%E8%BF%87%E6%BB%A4%E8%AE%BE%E7%BD%AE.png"
+width="2324"
+height="1094"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/DHCPDNS%E8%BF%87%E6%BB%A4%E8%AE%BE%E7%BD%AE_hu_7cefb0b8c88055a5.png 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/DHCPDNS%E8%BF%87%E6%BB%A4%E8%AE%BE%E7%BD%AE_hu_68be0d38d94133e9.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="212"
+data-flex-basis="509px"
+>&lt;/p>
+&lt;p>记得保存所有的设置，最好重启一下旁路由。&lt;/p>
+&lt;h2 id="测试网络">测试网络
+&lt;/h2>&lt;p>在网络诊断中使用 IPv6 ping 测试网络连通性。&lt;/p>
+&lt;p>![](v6 网络测试.png)&lt;/p>
+&lt;p>如果 ping 正常的话就可以了，把主机的网络重新连接一下，进入 &lt;a class="link" href="https://test-ipv6.com/" target="_blank" rel="noopener"
+>ipv6 测试网&lt;/a> 进行测试，能通过就说明 IPv6 已经开启了。&lt;/p>
+&lt;h2 id="openclash-配置">openclash 配置
+&lt;/h2>&lt;p>现在的科学软件大多都支持了 IPv6，只通过简单的设置就可以完成。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/openclashDNS.png"
+width="2148"
+height="998"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/openclashDNS_hu_dbb7416863c105c1.png 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-%E5%9C%A8-openwrt-%E6%97%81%E8%B7%AF%E7%94%B1%E4%B8%AD%E5%90%AF%E7%94%A8-ipv6/openclashDNS_hu_3cc488167f5e1317.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="215"
+data-flex-basis="516px"
+>
+![](openclashv6 设置.png)&lt;/p>
+&lt;h2 id="功能测试">功能测试
+&lt;/h2>&lt;p>进行 IPv6 等功能测试，如果有其他的问题，需要再进行排查。&lt;/p></description></item><item><title>黑群晖 NAS Two in One 从入坑到入土——激进向教程 (旁路由篇)</title><link>https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/</link><pubDate>Fri, 12 Jul 2024 12:39:07 +0000</pubDate><guid>https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/</guid><description>&lt;h2 id="说明">说明
+&lt;/h2>&lt;p>前面挖了一个坑，利用旁路由域名劫持实现内外网无缝访问 NAS。在浏览下面的内容之前，请确保你现在的路由器本身没有域名劫持（挟持）功能。就是下图这个：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-9fc4599a00e90b31866a2dfb25f98c42_b.jpg"
+width="600"
+height="285"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-9fc4599a00e90b31866a2dfb25f98c42_b_hu_7f66c633fdee4012.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-9fc4599a00e90b31866a2dfb25f98c42_b_hu_edc3c18f6530324b.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="210"
+data-flex-basis="505px"
+>&lt;/p>
+&lt;p>openwrt 的域名劫持功能&lt;/p>
+&lt;p>如果你的路由器已经支持这个功能，那么只需要添加几个劫持域名即可，不需要配置旁路由。&lt;/p>
+&lt;h2 id="虚拟-openwrt">虚拟 OpenWRT
+&lt;/h2>&lt;p>可以通过虚拟机或者 docker 虚拟，我没有试过 docker 的方式，理论可行，但我能预想到会有很多坑，比如桥接网络等，为了省事就用虚拟机就好。如果你有单独的旁路由硬件，可以使用 PVE 来虚拟，或者直装虚拟机；如果没有多余的设备，那就用群辉的虚拟机套件就好了。&lt;/p>
+&lt;p>多说一句，如果仅仅是为了域名劫持功能就搞一个单独的硬件，我认为有些过头了，毕竟功耗再低的主机也有个 10W 吧，天天开着也是一笔不小的费用。&lt;/p>
+&lt;h3 id="下载-openwrt-系统包">下载 OpenWRT 系统包
+&lt;/h3>&lt;p>方式有很多，给大家推荐 &lt;a class="link" href="https://openwrt.ai/?target=x86/64&amp;amp;id=generic" target="_blank" rel="noopener"
+>https://openwrt.ai/?target=x86/64&amp;amp;id=generic&lt;/a> 这个网站，可以免费定制，也可以免费下载作者编译好的，我们直接下载编译好的版本即可。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-a9e829bec31a501d4271b4ddd61d796a_b.jpg"
+width="600"
+height="282"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-a9e829bec31a501d4271b4ddd61d796a_b_hu_b84ad67fcb407c03.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-a9e829bec31a501d4271b4ddd61d796a_b_hu_55523004da8e0000.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="212"
+data-flex-basis="510px"
+>&lt;br>
+下载带 EFI 的版本即可，这个版本在虚拟机中不使用 UEFI 也可以启动。当然，你要下第一个也可以，应该没啥影响。&lt;/p>
+&lt;h3 id="安装群辉虚拟机套件或-pve">安装群辉虚拟机套件或 PVE
+&lt;/h3>&lt;p>PVE 的安装就不详细说了，网上随便就能搜到。&lt;/p>
+&lt;h3 id="群辉创建-openwrt-虚拟机">群辉创建 OpenWRT 虚拟机
+&lt;/h3>&lt;p>群辉套件安装虚拟机，这里借用一下 &lt;a class="link" href="https://blog.yanghong.dev/synology-nas-openwrt/" target="_blank" rel="noopener"
+>https://blog.yanghong.dev/synology-nas-openwrt/&lt;/a> 的文章，写得很详细。&lt;/p>
+&lt;p>在选择硬件配置那一步，我们刚开始不需要很高的配置，可以选择单核 512M 内存，如果后续有去广告等需求，再提高配置。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-ecfef6b362e35e77bbc5b7565e71466a_b.jpg"
+width="600"
+height="329"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-ecfef6b362e35e77bbc5b7565e71466a_b_hu_5e65d2400ce26c6b.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-ecfef6b362e35e77bbc5b7565e71466a_b_hu_19772ce1c4c967d5.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="182"
+data-flex-basis="437px"
+>&lt;/p>
+&lt;p>OpenWRT 配置选择&lt;/p>
+&lt;p>PVE 安装 OpenWRT 虚拟机&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-6d0d32451a34116e1b8381112049d3b6_b.jpg"
+width="600"
+height="523"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-6d0d32451a34116e1b8381112049d3b6_b_hu_89a77eb1b4ee7aec.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-6d0d32451a34116e1b8381112049d3b6_b_hu_2cebafb5f67d8729.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="114"
+data-flex-basis="275px"
+>&lt;br>
+右键 pve 节点创建虚拟机。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-f7a5759cd1a073a6c7fd7306d60fb4db_b.jpg"
+width="600"
+height="426"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-f7a5759cd1a073a6c7fd7306d60fb4db_b_hu_4ee843bc785e5c2c.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-f7a5759cd1a073a6c7fd7306d60fb4db_b_hu_2e6fbf7b17e55af6.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="140"
+data-flex-basis="338px"
+>&lt;br>
+ID 用默认的即可，一般为 99+N，N 为你创建的虚拟机数量，这里假设为 100。名称随便写。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-149468a45ee559b151977c04ce3ef1e3_b.jpg"
+width="600"
+height="418"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-149468a45ee559b151977c04ce3ef1e3_b_hu_5612f15e2e4c39ee.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-149468a45ee559b151977c04ce3ef1e3_b_hu_a44d90d900a7de6b.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="143"
+data-flex-basis="344px"
+>&lt;br>
+选择不使用任何介质。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-723dc80d4b9f7e6d86d137f9b609ac90_b.jpg"
+width="600"
+height="423"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-723dc80d4b9f7e6d86d137f9b609ac90_b_hu_95054143973c6afd.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-723dc80d4b9f7e6d86d137f9b609ac90_b_hu_f2e4336b0d50b24a.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="141"
+data-flex-basis="340px"
+>&lt;br>
+系统这一栏全部默认。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-b83747c41a905f02df298ce0e4e09606_b.jpg"
+width="600"
+height="423"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-b83747c41a905f02df298ce0e4e09606_b_hu_4fe32a848f476e5e.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-b83747c41a905f02df298ce0e4e09606_b_hu_b4237f0160818511.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="141"
+data-flex-basis="340px"
+>&lt;br>
+删除这个磁盘，后面几个标签页就改改 CPU 核心数和内存即可，其他全部默认。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-d0fd23e9598193a426dbe6b41bcb9028_b.jpg"
+width="600"
+height="187"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-d0fd23e9598193a426dbe6b41bcb9028_b_hu_13291d5d3c35bcfb.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-d0fd23e9598193a426dbe6b41bcb9028_b_hu_4c9379ae13af7ccb.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="320"
+data-flex-basis="770px"
+>&lt;br>
+创建好的虚拟机应该类似这样，然后需要为他添加一块磁盘，也就是我打码的地方。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-25c1ae328d84d551a09be4cf6efd01ae_b.jpg"
+width="600"
+height="129"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-25c1ae328d84d551a09be4cf6efd01ae_b_hu_15f3cc316284d551.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-25c1ae328d84d551a09be4cf6efd01ae_b_hu_64aa631cd5e51e63.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="465"
+data-flex-basis="1116px"
+>&lt;br>
+上传系统文件，然后进入终端。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-8b9b65d37949846ced76e65cb5755eae_b.jpg"
+width="600"
+height="123"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-8b9b65d37949846ced76e65cb5755eae_b_hu_24d98a2437857988.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-8b9b65d37949846ced76e65cb5755eae_b_hu_b58b435fb4d96d12.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="487"
+data-flex-basis="1170px"
+>&lt;br>
+cd 到 /var/lib/vz/template/iso 中，这个目录存放了你上传的系统镜像&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl">&lt;span class="n">root&lt;/span>&lt;span class="err">@&lt;/span>&lt;span class="n">pve&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="o">~&lt;/span>&lt;span class="c1"># cd /var/lib/vz/template/iso&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">root&lt;/span>&lt;span class="err">@&lt;/span>&lt;span class="n">pve&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="k">var&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">lib&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">vz&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">template&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">iso&lt;/span>&lt;span class="c1"># ls&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">openwrt&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mf">07.06&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="mi">2024&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">x86&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">64&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">generic&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">squashfs&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">combined&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="n">efi&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">img&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后把系统镜像转换为磁盘镜像。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">qm importdisk 100 openwrt-07.06.2024-x86-64-generic-squashfs-combined-efi.img local-lvm
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>里面的 100 为虚拟机编号，openwrt-07.06.2024-x86-64-generic-squashfs-combined-efi.img 为系统镜像名称。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-d7261efd16393b5b51e70165fcc98954_b.jpg"
+width="482"
+height="174"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-d7261efd16393b5b51e70165fcc98954_b_hu_13b5f5ea3a8195a8.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-d7261efd16393b5b51e70165fcc98954_b_hu_26ca2868b6980597.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="277"
+data-flex-basis="664px"
+>&lt;br>
+出现类似的输出代表导入完成，然后虚拟机 100 中会多一个未使用的磁盘，编辑它。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-66f7b5e61e7a512dfc5c90a5b83f68a5_b.jpg"
+width="600"
+height="255"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-66f7b5e61e7a512dfc5c90a5b83f68a5_b_hu_d172ac0e2283bc99.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-66f7b5e61e7a512dfc5c90a5b83f68a5_b_hu_2159023b348e8eed.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="235"
+data-flex-basis="564px"
+>&lt;br>
+总线/设备那里选择 SCSI0，添加即可。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-969746c8c49ac74f66aaa10d052ee531_b.jpg"
+width="720"
+height="248"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-969746c8c49ac74f66aaa10d052ee531_b_hu_8807143fdb3bbbfd.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-969746c8c49ac74f66aaa10d052ee531_b_hu_dd739402041e7d2.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="290"
+data-flex-basis="696px"
+>&lt;br>
+&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-c62728b0151db65bfd0a7359d98064af_b.jpg"
+width="600"
+height="185"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-c62728b0151db65bfd0a7359d98064af_b_hu_e1e4a3bc007aa65.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-c62728b0151db65bfd0a7359d98064af_b_hu_30e38613604ad9b4.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="324"
+data-flex-basis="778px"
+>&lt;br>
+这样的话虚拟机硬件就配置完成了，最后在在启动顺序把 scsi 硬盘调整到第一项，打开开机自启动即可。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-4bb2705e71c35ac4ff9e20d58ca21095_b.jpg"
+width="600"
+height="133"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-4bb2705e71c35ac4ff9e20d58ca21095_b_hu_aafaafd539a52c14.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-4bb2705e71c35ac4ff9e20d58ca21095_b_hu_ea2e9f501466c8fd.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="451"
+data-flex-basis="1082px"
+>&lt;br>
+然后开机测试，如果开不了机的话检查一下 BIOS 是不是选成 EFI 启动了。&lt;/p>
+&lt;h2 id="配置-openwrt-实现域名劫持">配置 OpenWRT 实现域名劫持
+&lt;/h2>&lt;p>开机进入控制台，先用 passwd 命令改密码。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-19f959d35e0a38fd129f8daac962b49d_b.jpg"
+width="600"
+height="429"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-19f959d35e0a38fd129f8daac962b49d_b_hu_e9008c3428b648db.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-19f959d35e0a38fd129f8daac962b49d_b_hu_98c8c95168f71bd3.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="139"
+data-flex-basis="335px"
+>&lt;/p>
+&lt;h3 id="修改-openwrt-的-ipdns网关">修改 OpenWRT 的 ip、dns、网关
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">vim /etc/config/network
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>vim 操作请自学。先添加或修改这些内容：&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-4fb513b158f63e0495ab367efb8ecae7_b.jpg"
+width="600"
+height="690"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-4fb513b158f63e0495ab367efb8ecae7_b_hu_5735aea38d5f6cd0.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-4fb513b158f63e0495ab367efb8ecae7_b_hu_342e84265e3bc4ec.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="86"
+data-flex-basis="208px"
+>&lt;/p>
+&lt;ul>
+&lt;li>ipaddr 的地址确保和你的路由器在同一网段，如果用户没有特别修改的话路由器地址一般为 192.168.X.1，那么 ip 填 192.168.X.{2,3,4,5 等等} 都可以。比如小米为 192.168.31.1，爱快是 192.168.9.1。netmask 是子网掩码，跟我一样就行。gateway 是网关，甜 192.168.X.1。&lt;/li>
+&lt;li>填好之后保存重启，然后在电脑浏览器中输入 &lt;a class="link" href="http://192.168.X.2" target="_blank" rel="noopener"
+>http://192.168.X.2&lt;/a> (你自己设置的地址)，就可以访问 OpenWRT 的主页了。&lt;/li>
+&lt;/ul>
+&lt;h3 id="接口配置">接口配置
+&lt;/h3>&lt;p>把除了 LAN 之外的接口全部删除，旁路由不需要它们，然后编辑 LAN 接口。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-e44c853c8e188081fe02da693aa4131b_b.jpg"
+width="600"
+height="198"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-e44c853c8e188081fe02da693aa4131b_b_hu_5c3e6547aab138dd.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-e44c853c8e188081fe02da693aa4131b_b_hu_e8bb3c0a240f4740.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="303"
+data-flex-basis="727px"
+>&lt;br>
+&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-71b5c56ffd92b8651609c7dc27a141aa_b.jpg"
+width="600"
+height="816"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-71b5c56ffd92b8651609c7dc27a141aa_b_hu_2c224ca4915eab22.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-71b5c56ffd92b8651609c7dc27a141aa_b_hu_ae1834530c4e6e67.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="73"
+data-flex-basis="176px"
+>&lt;br>
+常规设置里面我们已经通过命令行设置了，不用再动它。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-9e949cfac52bf886cfb4bc6bed6491c4_b.jpg"
+width="600"
+height="474"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-9e949cfac52bf886cfb4bc6bed6491c4_b_hu_9d5ef8fdab3d1b1.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-9e949cfac52bf886cfb4bc6bed6491c4_b_hu_bd532e05ed199fa9.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="126"
+data-flex-basis="303px"
+>&lt;br>
+高级设置里面，将 DNS 服务器地址填写为主路由（图片错误）,192.168.9.1。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-33dc707410e989a786e29f24be50a024_b.jpg"
+width="600"
+height="531"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-33dc707410e989a786e29f24be50a024_b_hu_68fd2683980386e8.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-33dc707410e989a786e29f24be50a024_b_hu_6573b92be49034e.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="112"
+data-flex-basis="271px"
+>&lt;br>
+&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-6e2637288df7de47940eabfce02890b4_b.jpg"
+width="600"
+height="614"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-6e2637288df7de47940eabfce02890b4_b_hu_1edbd61d8422340.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-6e2637288df7de47940eabfce02890b4_b_hu_f54cb4b70f162a24.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="97"
+data-flex-basis="234px"
+>&lt;br>
+DHCP 由主路由负责，并禁用所有 ipv6 相关的内容（内网中使用 ipv4 更方便）。&lt;/p>
+&lt;h3 id="防火墙设置">防火墙设置
+&lt;/h3>&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-ed84345e429e7bfbc450e5f4bac8f1e5_b.jpg"
+width="600"
+height="529"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-ed84345e429e7bfbc450e5f4bac8f1e5_b_hu_dabf0b44a87515d6.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-ed84345e429e7bfbc450e5f4bac8f1e5_b_hu_66ddfff17a36f66a.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="113"
+data-flex-basis="272px"
+>&lt;br>
+取消勾选 SYN-flood 防御。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-7612ea0167d04d87c16d7c69071d9206_b.jpg"
+width="600"
+height="207"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-7612ea0167d04d87c16d7c69071d9206_b_hu_f4bc41d222d1dd42.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-7612ea0167d04d87c16d7c69071d9206_b_hu_c0c0258749773f2d.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="289"
+data-flex-basis="695px"
+>&lt;br>
+删除所有与 LAN 口无关的规则，主要是 WAN 口和 docker 相关规则。&lt;/p>
+&lt;h3 id="联网检测">联网检测
+&lt;/h3>&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-a48938003ed8042b5d16460a053e0100_b.jpg"
+width="600"
+height="416"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-a48938003ed8042b5d16460a053e0100_b_hu_54f219cdb9400fc5.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-a48938003ed8042b5d16460a053e0100_b_hu_79cd1d7ded9a10a1.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="144"
+data-flex-basis="346px"
+>&lt;br>
+ping 一下能联网就行了。&lt;/p>
+&lt;h3 id="设置域名劫持">设置域名劫持
+&lt;/h3>&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-e19d66e8950e05c3429d892042212864_b.jpg"
+width="600"
+height="209"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-e19d66e8950e05c3429d892042212864_b_hu_e48b8746b2f35d2e.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-e19d66e8950e05c3429d892042212864_b_hu_83ebb289ab0877a5.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="287"
+data-flex-basis="688px"
+>&lt;br>
+注意，&lt;strong>要添加一栏无用的接口&lt;/strong>，因为该版本的 OpenWRT 无法存储最后一个劫持数据。&lt;/p>
+&lt;h3 id="主路由设置">主路由设置
+&lt;/h3>&lt;p>以爱快为例，网关和首选 DNS 更改为 OpenWRT 的 IP 地址即可，可能设备需要重连一下路由器，以重新分配网关和 DNS。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-e658059e57553f309b00fdbca1e5682b_b.jpg"
+width="600"
+height="563"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-e658059e57553f309b00fdbca1e5682b_b_hu_682a9d8212c175c1.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-e658059e57553f309b00fdbca1e5682b_b_hu_ba482b97d84d2344.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="106"
+data-flex-basis="255px"
+>&lt;br>
+有些路由器不支持修改网关和 DNS，那么需要在终端设备手动设定，要麻烦一些。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-8b20060d2b0fdbee572dd8cf6f06a57c_b.jpg"
+width="600"
+height="391"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-8b20060d2b0fdbee572dd8cf6f06a57c_b_hu_630d29dad96d3778.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B-%E6%97%81%E8%B7%AF%E7%94%B1%E7%AF%87/v2-8b20060d2b0fdbee572dd8cf6f06a57c_b_hu_714b667730b7cab.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="153"
+data-flex-basis="368px"
+>&lt;/p>
+&lt;h2 id="主机设置">主机设置
+&lt;/h2>&lt;h3 id="这部分仅供参考我这里不起作用">这部分仅供参考，我这里不起作用
+&lt;/h3>&lt;p>家用的 windows 系统一般是优先 ipv6，如果解析不到 ipv6 再使用 ipv4，这导致我们做的域名劫持使得域名成为了双栈，虽然可以解析到内网的 ipv4 地址，但系统还是会默认使用 ipv6 地址。因此还需要在电脑上更改一下 v4 和 v6 的优先级。&lt;/p>
+&lt;p>参考这篇博客的方法：&lt;a class="link" href="https://blog.xiaoz.org/archives/20079" target="_blank" rel="noopener"
+>Windows 10/11 设置 IPv4 优先访问&lt;/a>&lt;/p>
+&lt;p>以管理员身份运行终端，然后输入下面的命令查看优先级：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cmd" data-lang="cmd">&lt;span class="line">&lt;span class="cl">netsh interface ipv6 show prefixpolicies
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>没有修改系统的输出如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">查询活动状态...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">优先顺序 标签 前缀
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">---------- ----- --------------------------------
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 50 0 ::1/128
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 40 1 ::/0
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 35 4 ::ffff:0:0/96
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 30 2 2002::/16
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 5 5 2001::/32
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 3 13 fc00::/7
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 1 11 fec0::/10
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 1 12 3ffe::/16
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 1 3 ::/96
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后修改优先级&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cmd" data-lang="cmd">&lt;span class="line">&lt;span class="cl">netsh interface ipv6 set prefixpolicy ::ffff:0:0/96 100 4
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这样设置后，将优先使用 IPv4 而不是 IPv6 进行访问。&lt;/p>
+&lt;p>ping 一下内网域名，可以看到优先返回了 v4 地址：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">$ ping debian12.example
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">正在 Ping debian12.example [192.168.9.99] 具有 32 字节的数据:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">来自 192.168.9.99 的回复: 字节=32 时间&amp;lt;1ms TTL=64
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">来自 192.168.9.99 的回复: 字节=32 时间=1ms TTL=64
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">192.168.9.99 的 Ping 统计信息:
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 数据包: 已发送 = 2，已接收 = 2，丢失 = 0 (0% 丢失)，
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">往返行程的估计时间(以毫秒为单位):
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 最短 = 0ms，最长 = 1ms，平均 = 0ms
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这个方法重启就会失效，不建议使用。实测下来直接使用 ipv6 的速度也不算慢。如果觉得麻烦的话，不做域名劫持也无所谓。&lt;/p>
+&lt;p>最近学习了一下 IPv6 的寻址方式，其实 IPv6 的寻址方式和 DNS 递归解析服务器比较像，都是一层层寻找的。因此你在自家路由器这一层就已经完成了寻址，所以用这个公网 IP 的速率与内网并没有什么区别。&lt;/p>
+&lt;h2 id="域名劫持的其他作用">域名劫持的其他作用
+&lt;/h2>&lt;p>域名劫持可以很方便地管理内网的设备，尤其是主机数量多的时候，例如。&lt;/p>
+&lt;ul>
+&lt;li>服务器 192.168.9.99&lt;/li>
+&lt;li>openwrt 192.168.9.77&lt;/li>
+&lt;li>群晖 192.168.9.106&lt;/li>
+&lt;li>ikuai 192.168.9.1&lt;/li>
+&lt;/ul>
+&lt;p>把这些设备的 ip 都记下来还是很有难度的。通过域名劫持搭建小型家用 DNS 服务器的话，可以很方便管理这些设备。如：&lt;/p>
+&lt;ul>
+&lt;li>linux.example -&amp;gt; 192.168.9.99&lt;/li>
+&lt;li>openwrt.example -&amp;gt; 192.168.9.77&lt;/li>
+&lt;li>nas.example -&amp;gt; 192.168.9.106&lt;/li>
+&lt;li>ikuai.example -&amp;gt; 192.168.9.1&lt;/li>
+&lt;/ul>
+&lt;p>这样的域名看着也比冷冰冰的数字更舒服。&lt;/p>
+&lt;h2 id="最终效果">最终效果
+&lt;/h2>&lt;p>假如我在阿里云中将域名 store.domain 解析到了群辉的 ipv6 地址 240e::1，那么当我在外面时，就会通过 ipv6 来访问家中的群辉。而我在家中，与群辉同处于一个内网时，OpenWRT 将我的域名解析请求劫持，并返回 ipv4 地址 192.168.9.100。&lt;/p>
+&lt;p>这个功能确实能够实现，但如上篇文章所说，并没有实际效果。&lt;/p>
+&lt;h2 id="能不能把域名劫持为-ipv6从而实现与-v4-类似的功能">能不能把域名劫持为 IPv6？从而实现与 v4 类似的功能
+&lt;/h2>&lt;p>这个思路其实是可以的，但效果并不比直接用公网地址好多少，并且容易出现一些切换错误的问题，所以在带宽不受限的情况下，不推荐用这种方式。&lt;/p>
+&lt;p>要使用这种方式，你需要修改路由器的 &lt;code>/etc/hosts&lt;/code> 文件，添加以下的内容：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">fe80::91e3 nas.example.com
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>将你的内网 v6 (这个地址在 windows 中叫本地链路回环地址，是固定的地址，系统不重装的话一般不会发生变化，可以放心劫持，其他系统在网络设置中找到 fe80 开头的就行) 劫持。&lt;/p>
+&lt;h2 id="真正有用的用户">真正有用的用户
+&lt;/h2>&lt;p>建议无公网 ip 的 v4 内网穿透用户采用这种方式，实测可以在公网与内网之间无缝切换，顶多就是重启一下 app，Synology Photos, Drive Server 等软件，Jellyfin，navidrome 等服务都可以正常使用。&lt;/p>
+&lt;p>例如：我首先把群晖的访问端口改为 52491（v4 用户默认端口必改）穿透为 &lt;code>192.168.9.100:52491 -&amp;gt; frp-example.cc:52491&lt;/code>。然后在内网劫持&lt;code>frp-example.cc&lt;/code>为&lt;code>192.168.9.100&lt;/code>，&lt;/p>
+&lt;p>由于 v4 之间不存在优先级关系，劫持了就是劫持了，内网下面只能放问到 &lt;code>192.168.9.100&lt;/code>，所以就很完美地实现了内外网无缝衔接。并且由于内网穿透往往上行带宽受限，这样做的效果是十分显著的，可以跑满内网带宽。只要注意群晖访问端口与穿透端口一致即可。&lt;/p>
+&lt;h2 id="总结">总结
+&lt;/h2>&lt;p>文章修修改改了很多次，自己也是在摸索中前进，想要把 NAS 做到完美，但后来发现，其实就用公网 v6 是最方便省事的。&lt;/p>
+&lt;p>文章被搞的比较杂乱，有空再进行整理。&lt;/p></description></item><item><title>黑群晖 NAS Two in One 从入坑到入土——激进向教程</title><link>https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/</link><pubDate>Sun, 07 Jul 2024 18:38:07 +0000</pubDate><guid>https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/</guid><description>&lt;h2 id="前言">前言
+&lt;/h2>&lt;p>作为一个计算机爱好者（***，毕业了都不敢说自己是学计算机的，只敢说自己是个爱好者），由于以下原因，让我有了入一台 NAS 的想法：&lt;/p>
+&lt;ol>
+&lt;li>看网上的在线电视剧和电影总是卡，体验感不佳。&lt;/li>
+&lt;li>刚需 onedrive，但由于 E5 被大面积封杀的原因，不再是长久之计，但又很馋它的功能。&lt;/li>
+&lt;li>不想再开音乐会员，反正就听那么几首歌而已。&lt;/li>
+&lt;/ol>
+&lt;p>在决定入手之前，我用手上的 mini 主机虚拟了一台黑群晖使用，发现体验不错，自带的 Drive, Photos, Audio 和 video 都很好用，所以我直接上网买了一台 N100 的 NAS。&lt;/p>
+&lt;p>（当时很想买绿联的 4800，但是怕翻车，就买了台小厂的成品 8 盘位 NAS，不到 1100。当时想的是这种组装机方便折腾，结果买回来之后出人意料的很好用……对比起来绿联真的是……）&lt;/p>
+&lt;p>我家是电信的宽带，并且一直都是使用路由器拨号，因此 ipv6 很简单就可以配置好，这也为 NAS 提供了一个良好的网络条件。&lt;/p>
+&lt;p>为什么说是激进向呢？因为本文将不会考虑任何公网 ipv4 相关的使用，包括 frp 等，只战未来（懒）。&lt;/p>
+&lt;h2 id="需求分析">需求分析
+&lt;/h2>&lt;p>从前言的三点可以看出，核心的需求就四点。&lt;/p>
+&lt;ul>
+&lt;li>存储&lt;/li>
+&lt;li>音乐&lt;/li>
+&lt;li>视频&lt;/li>
+&lt;li>相册&lt;/li>
+&lt;/ul>
+&lt;p>这些可以通过 docker 容器或者是群辉的套件进行解决。&lt;/p>
+&lt;h2 id="系统安装">系统安装
+&lt;/h2>&lt;p>&lt;a class="link" href="https://sspai.com/post/88898" target="_blank" rel="noopener"
+>https://sspai.com/post/88898&lt;/a>&lt;/p>
+&lt;p>这个教程很多，就不重复造轮子了。&lt;/p>
+&lt;h2 id="公网-ipv6-访问">公网 ipv6 访问
+&lt;/h2>&lt;h3 id="域名解析">域名解析
+&lt;/h3>&lt;p>&lt;a class="link" href="https://home.console.aliyun.com/home/dashboard/ProductAndService" target="_blank" rel="noopener"
+>https://home.console.aliyun.com/home/dashboard/ProductAndService&lt;/a>&lt;/p>
+&lt;p>首先购买一个阿里云的域名，找个便宜的就行，我买的是 icu 后缀的，9 块一年。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-26ac99001f11143087fb3a1adb6cf14b_b.jpg"
+width="600"
+height="54"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-26ac99001f11143087fb3a1adb6cf14b_b_hu_9d20ae8d15e69e19.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-26ac99001f11143087fb3a1adb6cf14b_b_hu_31526eba52e4a558.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="1111"
+data-flex-basis="2666px"
+>&lt;br>
+在域名管理中进行解析，假如你买的域名是 &lt;a class="link" href="http://example.com" target="_blank" rel="noopener"
+>http://example.com&lt;/a>&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-934edc3e2d2b82aa07477ba14e27b39e_b.jpg"
+width="600"
+height="395"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-934edc3e2d2b82aa07477ba14e27b39e_b_hu_6368b65655b3862a.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-934edc3e2d2b82aa07477ba14e27b39e_b_hu_3b863a7d28614692.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="151"
+data-flex-basis="364px"
+>&lt;br>
+记录类型为 AAAA，意思是把域名指向一个 ipv6 地址。主机记录填写子域名，例如 storage、nas、stg 等，本文以 nas 为例。记录值可以临时写一个::1，表示环回地址，类似于 127.0.0.1，后面会用 DDNS-GO 自动更新公网 ip。TTL 设置为 10 分钟即可。&lt;/p>
+&lt;h3 id="ddns-go">DDNS-GO
+&lt;/h3>&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-74757f965a161373a7dde9f05dcdc4ed_b.jpg"
+width="600"
+height="380"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-74757f965a161373a7dde9f05dcdc4ed_b_hu_bedf2027ff2480e2.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-74757f965a161373a7dde9f05dcdc4ed_b_hu_7d48998387a263dc.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="157"
+data-flex-basis="378px"
+>&lt;br>
+在套件中心中安装这个 DDNS-GO 套件，打开。登陆到 ddns 服务的后台后，主要填写这几个内容。在阿里云服务中填入 AccessKey 的 ID 和 Secret。这个相当于阿里云 ddns 服务的账号和密码。AccessKey 的 ID 和 Secret 可以在阿里云控制台中申请。现在阿里云不可以查看 Secret 了，所以你只有一次保存的机会，请务必保存好，不然就要重新创建了。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-76b9a747f9167853ebb6a67e2198066e_b.jpg"
+width="600"
+height="646"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-76b9a747f9167853ebb6a67e2198066e_b_hu_406a083bacf5ce7d.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-76b9a747f9167853ebb6a67e2198066e_b_hu_e3f0e8426c8ce6f5.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="92"
+data-flex-basis="222px"
+>&lt;br>
+&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-e47b590c9e29aefca540462b3266c76f_b.jpg"
+width="600"
+height="148"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-e47b590c9e29aefca540462b3266c76f_b_hu_31ec7cee39419039.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-e47b590c9e29aefca540462b3266c76f_b_hu_b3f91dc5074fa9e7.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="405"
+data-flex-basis="972px"
+>&lt;br>
+DDNS-GO 设置如下&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-b1d49407d41adb26a71e8ecf126cd9ce_b.jpg"
+width="600"
+height="353"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-b1d49407d41adb26a71e8ecf126cd9ce_b_hu_6467ccc55953af51.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-b1d49407d41adb26a71e8ecf126cd9ce_b_hu_7c236ff2c25e5655.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="169"
+data-flex-basis="407px"
+>&lt;br>
+&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-e1d86f2571d94cf28a762456c83ced42_b.jpg"
+width="600"
+height="539"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-e1d86f2571d94cf28a762456c83ced42_b_hu_90b5ba4f92053913.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-e1d86f2571d94cf28a762456c83ced42_b_hu_51390c14e2027bd8.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="111"
+data-flex-basis="267px"
+>&lt;br>
+不启用 ipv4，获取 ip 方式为通过网卡获取，domains 为 子域名。域名，例如 &lt;a class="link" href="http://nas.example.com" target="_blank" rel="noopener"
+>http://nas.example.com&lt;/a>，主要就修改这个地方，点击保存。如果设置无误。网页左边就会有解析成功的提示了。解析成功之后，我们就可以尝试用域名 &lt;a class="link" href="http://nas.example.com/" target="_blank" rel="noopener"
+>http://nas.example.com/&lt;/a> 登陆 nas。这回应该非常方便就可以登录，包括套件也可以用这个域名登录。&lt;/p>
+&lt;h3 id="ssl-证书">SSL 证书
+&lt;/h3>&lt;p>这一块其实很简单，但被我弄复杂了。建议域名是谁家的，就用谁家的 SSL。&lt;/p>
+&lt;p>我用的腾讯云 SSL，需要在阿里云域名解析下面添加一条 CNAME 解析，挺麻烦的，这里就不过多解释了。&lt;/p>
+&lt;p>如果域名和 SSL 是一家的话很简单，就不赘述了。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-c609d5dccc97e02ef6b660d986d21828_b.jpg"
+width="600"
+height="343"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-c609d5dccc97e02ef6b660d986d21828_b_hu_f54eaac046aa62d3.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-c609d5dccc97e02ef6b660d986d21828_b_hu_39f0983aab313be8.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="174"
+data-flex-basis="419px"
+>&lt;br>
+在这里添加证书即可，用 https 访问就不会再有“不安全“的提示了。&lt;/p>
+&lt;h3 id="ups">UPS
+&lt;/h3>&lt;p>如果家里的电不稳定，可以购置一台 UPS，我用的山特 TG-BOX 600，毕竟市面上就这一款排插型的 UPS，比较实用，可以插一些别的东西。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-754e289aea9b1d8004bf797dace00826_b.jpg"
+width="600"
+height="339"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-754e289aea9b1d8004bf797dace00826_b_hu_a282b8c2596f7b9.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-754e289aea9b1d8004bf797dace00826_b_hu_523b3d3c65f18511.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="176"
+data-flex-basis="424px"
+>&lt;br>
+在控制面板图示位置启用 UPS 即可。&lt;/p>
+&lt;h2 id="synology-drive-解决存储需求">Synology Drive 解决存储需求
+&lt;/h2>&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-d0082875805f3261fe3e21334a7789ad_b.jpg"
+width="600"
+height="328"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-d0082875805f3261fe3e21334a7789ad_b_hu_d64f0e7508d5781f.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-d0082875805f3261fe3e21334a7789ad_b_hu_dc43a55cdcfad671.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="182"
+data-flex-basis="439px"
+>&lt;/p>
+&lt;p>安装这个套件&lt;/p>
+&lt;p>一般在第一次进入系统时就会询问你是否安装这个套件，直接安装即可。&lt;/p>
+&lt;p>然后在电脑上也要下载对应的软件：&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.synology.cn/zh-cn/support/download" target="_blank" rel="noopener"
+>https://www.synology.cn/zh-cn/support/download&lt;/a>&lt;/p>
+&lt;p>然后使用你的域名 &lt;a class="link" href="http://nas.example.com/" target="_blank" rel="noopener"
+>http://nas.example.com/&lt;/a>，再加上账号和密码登录即可使用，如果开启按需同步功能的话，就和 onedrive 类似。&lt;/p>
+&lt;p>[https://kb.synology.cn/zh-cn/DSM/tutorial/What_is_On-demand_Sync#:&lt;del>:text=按需同步 是用于在计算机和 Synology NAS 之间配置 Synology Drive，同步任务的选项。启用此选项后，仅当您打开、修改本地副本或将其固定到计算机时，文件才会下载到本地计算机。下表提供了有关指示已启用 按需同步 的文件的同步状态的图标的详细信息。](&lt;a class="link" href="https://kb.synology.cn/zh-cn/DSM/tutorial/What" target="_blank" rel="noopener"
+>https://kb.synology.cn/zh-cn/DSM/tutorial/What&lt;/a>_is_On-demand_Sync#:&lt;/del>:text=按需同步 是用于在计算机和Synology NAS之间配置 Synology Drive,同步任务的选项。 启用此选项后，仅当您打开、修改本地副本或将其固定到计算机时，文件才会下载到本地计算机。 下表提供了有关指示已启用 按需同步 的文件的同步状态的图标的详细信息。)&lt;/p>
+&lt;p>按需同步这个功能对于我来说是刚需，如果你只需要一个网盘磁盘功能的话，就不需要安装这个，自带的 smb 访问就挺好了。这个功能目前好像就群辉有，别的平替我暂时没找到。&lt;/p>
+&lt;h2 id="synology-photos-实现相册备份">Synology Photos 实现相册备份
+&lt;/h2>&lt;p>安装这个套件，这个套件使用比较简单，就不多说了，可以参考以下链接。&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.zabit.cn/support/9289/" target="_blank" rel="noopener"
+>https://www.zabit.cn/support/9289/&lt;/a>&lt;/p>
+&lt;p>但是需要解释一下这些功能。&lt;/p>
+&lt;ol>
+&lt;li>人物相册应该是需要显卡才能正常使用，不过我没用过，没有这个需求。&lt;/li>
+&lt;li>AME 的安装还挺麻烦，需要完美黑才能在套件中心直接安装，这里提供一个安装方法&lt;a class="link" href="https://imnks.com/385.html" target="_blank" rel="noopener"
+>https://imnks.com/385.html&lt;/a>。&lt;strong>这一步一定要做，不然后续很多功能都会受限。&lt;/strong>&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-5c4ed4047399a743240467973e94b7a5_b.jpg"
+width="600"
+height="564"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-5c4ed4047399a743240467973e94b7a5_b_hu_bc61e9f53ec403b8.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-5c4ed4047399a743240467973e94b7a5_b_hu_cb8224d01bf07e8a.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="106"
+data-flex-basis="255px"
+>&lt;/p>
+&lt;h2 id="jellyfin-媒体服务器">Jellyfin 媒体服务器
+&lt;/h2>&lt;p>其实我最初使用群辉官方的 Video Station，但怎么说呢？这个程序有以下几个问题：&lt;/p>
+&lt;ol>
+&lt;li>刮削器老刮出英文源信息。&lt;/li>
+&lt;li>电视端播放器根本用不了。&lt;/li>
+&lt;li>手机端播放器不支持倍速，转码等功能。&lt;/li>
+&lt;/ol>
+&lt;p>综上所述，基本没啥用，所以最近给换成了 Jellyfin。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-3fbe0e9cb318de692dccb4514cf5f2cc_b.jpg"
+width="600"
+height="326"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-3fbe0e9cb318de692dccb4514cf5f2cc_b_hu_95d30799d9dfcffb.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-3fbe0e9cb318de692dccb4514cf5f2cc_b_hu_c7720bed852f3ea6.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="184"
+data-flex-basis="441px"
+>&lt;br>
+在套件中心安装这个套件。打开，会提示你创建管理员账户，自便即可。&lt;/p>
+&lt;p>进入之后，需要进行几项设置，主要是要把&lt;strong>语言和国家&lt;/strong>选择正确。&lt;/p>
+&lt;p>语言选 chinese，国家好像是 People&amp;rsquo;s Republic of China。&lt;/p>
+&lt;p>这种设定，刮削的信息会以中文优先。&lt;/p>
+&lt;h3 id="开启-ipv6-访问">开启 ipv6 访问
+&lt;/h3>&lt;p>Jellyfin 默认不支持 ipv6 访问，需要手动开启。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-77e919e5b33ecea34c3abc5e018bb814_b.jpg"
+width="600"
+height="476"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-77e919e5b33ecea34c3abc5e018bb814_b_hu_9d1706751d597fb7.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-77e919e5b33ecea34c3abc5e018bb814_b_hu_40e4ac2f8719d213.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="126"
+data-flex-basis="302px"
+>&lt;br>
+勾选启用 ipv4 和启用 ipv6 保存，需要重启一下套件才会生效，可以等我们所有内容设置完之后再重启套件。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-b3ff12453ffe2212cd046d3481df69ac_b.jpg"
+width="600"
+height="287"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-b3ff12453ffe2212cd046d3481df69ac_b_hu_5e9e51bccbc47192.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-b3ff12453ffe2212cd046d3481df69ac_b_hu_570d82f7897fa0b1.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="209"
+data-flex-basis="501px"
+>&lt;/p>
+&lt;h3 id="硬件加速设置">硬件加速设置
+&lt;/h3>&lt;p>有了这个，CPU 在转码的时候就不会 100% 了。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-1296092ba9a403c2066ed18492b18869_b.jpg"
+width="600"
+height="468"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-1296092ba9a403c2066ed18492b18869_b_hu_333628b645a5dcc9.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-1296092ba9a403c2066ed18492b18869_b_hu_1672cc81e1be7718.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="128"
+data-flex-basis="307px"
+>&lt;br>
+按图示设置即可。&lt;/p>
+&lt;h3 id="测试硬件转码是否有效">测试硬件转码是否有效
+&lt;/h3>&lt;p>在手机的 jellyfin 上播放一段视频，然后选择 360p 播放，看 NAS 的 CPU 使用率是否低于 50%，如果达到了八九十，就说明硬件加速没有生效。&lt;/p>
+&lt;h3 id="创建一个用于观影的普通用户">创建一个用于观影的普通用户
+&lt;/h3>&lt;p>我以前觉得这个操作没必要，直到我在电视上把整个媒体库清空。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-f63c4379b229e69715940ac1f340c64a_b.jpg"
+width="600"
+height="363"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-f63c4379b229e69715940ac1f340c64a_b_hu_4dc728c3cd9df109.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-f63c4379b229e69715940ac1f340c64a_b_hu_d0fe1440d63d81f.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="165"
+data-flex-basis="396px"
+>&lt;br>
+点击这个加号添加用户，把箭头所指的三个地方取消勾选（其实默认就是取消的）。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-4af559f31b76bf841ad1885c9b5461e7_b.jpg"
+width="600"
+height="870"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-4af559f31b76bf841ad1885c9b5461e7_b_hu_9a2bc1baf9677563.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-4af559f31b76bf841ad1885c9b5461e7_b_hu_ef50eec782945123.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="68"
+data-flex-basis="165px"
+>&lt;br>
+然后就可以在电视和手机上愉快的观影了。&lt;/p>
+&lt;h3 id="开启强制-https">开启强制 https
+&lt;/h3>&lt;p>参考该文即可，主要就是把群辉的证书转换为 PFX 格式。&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.bilibili.com/read/cv9244919/" target="_blank" rel="noopener"
+>https://www.bilibili.com/read/cv9244919/&lt;/a>&lt;/p>
+&lt;p>强制 https 可开可不开，建议开启（不然搞 SSL 证书干嘛）。&lt;/p>
+&lt;h2 id="navidrome-音乐服务器">Navidrome 音乐服务器
+&lt;/h2>&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-2ad5bab8b606b142a39acf3cd54560eb_b.jpg"
+width="600"
+height="326"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-2ad5bab8b606b142a39acf3cd54560eb_b_hu_90f3747414edfa6f.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-2ad5bab8b606b142a39acf3cd54560eb_b_hu_73271df41139fadf.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="184"
+data-flex-basis="441px"
+>&lt;br>
+安装这个套件，打开，同样会提示你设置管理员账户。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-5a224685d2faec0553c659a1ad7a8ca6_b.jpg"
+width="600"
+height="552"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-5a224685d2faec0553c659a1ad7a8ca6_b_hu_3b181f6dd17e8175.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-5a224685d2faec0553c659a1ad7a8ca6_b_hu_50d3554d2533c1f4.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="108"
+data-flex-basis="260px"
+>&lt;br>
+在个性化设置中可以调整为中文，注意，每个用户的配置文件是分开的，需要分别设定。&lt;/p>
+&lt;h3 id="创建只读权限用户">创建只读权限用户
+&lt;/h3>&lt;p>理由同上，在图示位置创建即可。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-76e0bee961715bb6c4855e840e2ddf89_b.jpg"
+width="600"
+height="94"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-76e0bee961715bb6c4855e840e2ddf89_b_hu_9680ccdd0464e882.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-76e0bee961715bb6c4855e840e2ddf89_b_hu_483a0c74fa93fddd.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="638"
+data-flex-basis="1531px"
+>&lt;/p>
+&lt;h3 id="手机上播放音乐">手机上播放音乐
+&lt;/h3>&lt;p>直接打开网站 &lt;a class="link" href="http://nas.example.com:8096/" target="_blank" rel="noopener"
+>http://nas.example.com:8096/&lt;/a> 即可，苹果手机和 mac 都可以把网页创建成一个 app 使用，安卓手机可以创建一个快捷方式。&lt;/p>
+&lt;p>也可以下载第三方的音乐 APP，例如 substreamer，但是体验我感觉一般，歌词支持不完善，还容易闪退，我建议直接网页。&lt;/p>
+&lt;h3 id="配合-musictag-软件搭建个人音乐库">配合 MusicTag 软件搭建个人音乐库
+&lt;/h3>&lt;p>网上下载的音乐多少带点私货，使用 MusicTag 可以实现：&lt;/p>
+&lt;ol>
+&lt;li>按规则（如：歌手 - 歌曲）重命名歌曲。&lt;/li>
+&lt;li>自动爬取歌曲的封面和歌词等信息。&lt;/li>
+&lt;li>判定重复、无效等音乐文件，供你删除。&lt;/li>
+&lt;/ol>
+&lt;p>功能很强大，建议人手一个。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-b9c80297c9658afa6fa8f5b7b229195b_b.jpg"
+width="600"
+height="342"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-b9c80297c9658afa6fa8f5b7b229195b_b_hu_4e3cc6ca0dee6a4d.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-b9c80297c9658afa6fa8f5b7b229195b_b_hu_e8a131a2cb8a6872.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="175"
+data-flex-basis="421px"
+>&lt;/p>
+&lt;h2 id="小结">小结
+&lt;/h2>&lt;p>到目前为止，我们实现了存储、相册、视频、音乐四个功能。但是头顶上还有两座乌云停留。&lt;/p>
+&lt;ol>
+&lt;li>数据的安全性如何保证。&lt;/li>
+&lt;li>如何实现无缝切换内网公网，也就是说，使用同一个域名，在家里的时候走内网，在外面的时候走公网。&lt;/li>
+&lt;/ol>
+&lt;p>这两点恰恰是最难处理的，尤其是第二点，需要路由器支持 DNS 劫持。如果不支持也没关系，我们也有其他方法应对。&lt;/p>
+&lt;h2 id="hyper-backup-备份到天翼云盘">Hyper Backup 备份到天翼云盘
+&lt;/h2>&lt;p>我个人认为，只要是存储在本地硬盘的内容，就没有绝对的安全一说，在备份这件事情上，还真得相信云盘。电信给了我家 4T 的空间，用来备份正合适。&lt;/p>
+&lt;p>天翼云盘不能直接挂载，需要通过 Alist 挂载 webdav 实现。&lt;/p>
+&lt;h3 id="alist-挂载天翼云盘">Alist 挂载天翼云盘
+&lt;/h3>&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-5d01251a33723ba0257f789ecbea083c_b.jpg"
+width="600"
+height="328"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-5d01251a33723ba0257f789ecbea083c_b_hu_cacd916c5b9ce7aa.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-5d01251a33723ba0257f789ecbea083c_b_hu_a8f1758855704b71.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="182"
+data-flex-basis="439px"
+>&lt;br>
+下载这个套件，打开，改掉默认的账户密码。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-9af2802f43090a8b833a4cc0aecc12fc_b.jpg"
+width="600"
+height="449"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-9af2802f43090a8b833a4cc0aecc12fc_b_hu_27b24be17467b6da.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-9af2802f43090a8b833a4cc0aecc12fc_b_hu_17573d80510047d0.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="133"
+data-flex-basis="320px"
+>&lt;br>
+点击管理，进入管理页面。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-1c3a8dc5a1403d9c8a1f240a1f457547_b.jpg"
+width="600"
+height="285"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-1c3a8dc5a1403d9c8a1f240a1f457547_b_hu_17b1b026f261fd81.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-1c3a8dc5a1403d9c8a1f240a1f457547_b_hu_c23179ebdb523800.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="210"
+data-flex-basis="505px"
+>&lt;br>
+添加一个客户端，需要设置的地方如下&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-2a40c20ecf131856dcb9e308f9d076b3_b.jpg"
+width="456"
+height="318"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-2a40c20ecf131856dcb9e308f9d076b3_b_hu_4be67da972ad5c1a.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-2a40c20ecf131856dcb9e308f9d076b3_b_hu_45002376decb72c8.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="143"
+data-flex-basis="344px"
+>&lt;br>
+用户名就是你的手机号。&lt;/p>
+&lt;p>然后点及保存，看到状态为 work 的话就成功了。重新打开 alist，可以看到挂载的网盘，&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-e3e845047633ecf6fb6990e7792cfade_b.jpg"
+width="600"
+height="149"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-e3e845047633ecf6fb6990e7792cfade_b_hu_1db15240a9509c7a.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-e3e845047633ecf6fb6990e7792cfade_b_hu_b838dcb1a4205e29.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="402"
+data-flex-basis="966px"
+>&lt;br>
+点进去，有文件就行&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-1451ff13daed395eb993e39e22072531_b.jpg"
+width="600"
+height="307"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-1451ff13daed395eb993e39e22072531_b_hu_d04159ee23bbe440.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-1451ff13daed395eb993e39e22072531_b_hu_c918d1dfe4c5fcd2.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="195"
+data-flex-basis="469px"
+>&lt;/p>
+&lt;h3 id="用户文件备份到天翼云盘">用户文件备份到天翼云盘
+&lt;/h3>&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-4ba49fa47b2c07c379c5acfe8a788f71_b.jpg"
+width="600"
+height="349"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-4ba49fa47b2c07c379c5acfe8a788f71_b_hu_e4c68475061242d3.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-4ba49fa47b2c07c379c5acfe8a788f71_b_hu_541fef625ac4a557.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="171"
+data-flex-basis="412px"
+>&lt;br>
+点击 + 创建备份任务&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-ea540f302f5597332ef6aa248087c60b_b.jpg"
+width="600"
+height="510"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-ea540f302f5597332ef6aa248087c60b_b_hu_81fd7056bc853620.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-ea540f302f5597332ef6aa248087c60b_b_hu_9c835fcf64fe5870.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="117"
+data-flex-basis="282px"
+>&lt;br>
+&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-f725d706da32586bff4c8ed0e1a05e7b_b.jpg"
+width="600"
+height="509"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-f725d706da32586bff4c8ed0e1a05e7b_b_hu_a8e1d6afd710c9ab.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-f725d706da32586bff4c8ed0e1a05e7b_b_hu_5ac5b2cb6361e734.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="117"
+data-flex-basis="282px"
+>&lt;br>
+&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-2800c4869741486912e40ba7435b98d9_b.jpg"
+width="600"
+height="510"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-2800c4869741486912e40ba7435b98d9_b_hu_cba71411bde27a19.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-2800c4869741486912e40ba7435b98d9_b_hu_6301a481b8362799.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="117"
+data-flex-basis="282px"
+>&lt;br>
+以上内容根据你的实际情况填写即可。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-3c4bad21aab2ec3c5e8f1529cc2e516d_b.jpg"
+width="1000"
+height="454"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-3c4bad21aab2ec3c5e8f1529cc2e516d_b_hu_22182b66cc8b670b.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-3c4bad21aab2ec3c5e8f1529cc2e516d_b_hu_8621a27b213d1dec.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="220"
+data-flex-basis="528px"
+>&lt;br>
+目的地这个地方需要注意，服务器地址抄我的即可，用户账号和密码是你在&lt;strong>alist 中所设置的账户和密码&lt;/strong>，而不是天翼云的账户和密码。&lt;/p>
+&lt;p>创建好任务之后，可以手动备份一次，后面他自己备份就行。Hyper Backup 的备份是增量的，每次只会备份修改过的内容，这一点非常好。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-fe8e1ca5a36c62aac051e6bd1aecd67b_b.jpg"
+width="600"
+height="307"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-fe8e1ca5a36c62aac051e6bd1aecd67b_b_hu_95aaef809a105aa3.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-fe8e1ca5a36c62aac051e6bd1aecd67b_b_hu_f341061229d14b58.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="195"
+data-flex-basis="469px"
+>&lt;br>
+在版本列表中可以追溯以前的文件，这个功能也非常实用。&lt;/p>
+&lt;h3 id="如果群辉崩了但我需要继续使用上面的文件怎么办">如果群辉崩了，但我需要继续使用上面的文件怎么办？
+&lt;/h3>&lt;p>这个情况虽然很少出现，但一出现就会很致命，因此，我们需要一个可靠的 plan B。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-cea2c884a943e963d7952a4287da65f8_b.jpg"
+width="600"
+height="329"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-cea2c884a943e963d7952a4287da65f8_b_hu_5da2d68d2d9ee85e.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-cea2c884a943e963d7952a4287da65f8_b_hu_3e16f90a278dc14b.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="182"
+data-flex-basis="437px"
+>&lt;br>
+安装这个同步插件。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-752bd94c27215438b34f900f103dbd6b_b.jpg"
+width="600"
+height="365"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-752bd94c27215438b34f900f103dbd6b_b_hu_3f6641e627fe7d23.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-752bd94c27215438b34f900f103dbd6b_b_hu_82db3caeeb872d35.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="164"
+data-flex-basis="394px"
+>&lt;br>
+选择你拥有的网盘，登录账号设置即可，比较简单，就不赘述了。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-e9d8da5d3992fc3ec548644dc4c93837_b.jpg"
+width="600"
+height="351"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-e9d8da5d3992fc3ec548644dc4c93837_b_hu_71aec79d91d0ef9d.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-e9d8da5d3992fc3ec548644dc4c93837_b_hu_43ef097175ae63b3.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="170"
+data-flex-basis="410px"
+>&lt;br>
+在任务列表中可以查看连接情况，途中的意思是同步群辉的 /homes/sukipai 文件夹和 onedrive 中的 /群辉同步文件/sukipai 文件夹。这样设定主要是考虑到 onedrive 中可能自动在根目录生成一些文件，这些没用的文件会反向同步到 NAS，因此同步文件夹最好不要放在根目录。当然，这个你可以自行设定。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-fae893a53264ad35621060570ab20c15_b.jpg"
+width="1472"
+height="364"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-fae893a53264ad35621060570ab20c15_b_hu_6dd06d8848526efd.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-fae893a53264ad35621060570ab20c15_b_hu_5c0179b0006df96e.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="404"
+data-flex-basis="970px"
+>&lt;br>
+这是我女朋友单纯备份照片的实例，她只使用群辉的相册功能，因此同步相册就够了。&lt;/p>
+&lt;h2 id="路由器-dns-劫持实现内外网访问">路由器 DNS 劫持实现内外网访问
+&lt;/h2>&lt;p>这一块比较复杂，这里仅简单讲解一下思路，后面我可能会单独拿一篇文章来写这个功能。&lt;/p>
+&lt;p>在阿里云的 DNS 解析中，我们将域名 &lt;a class="link" href="http://nas.example.com/" target="_blank" rel="noopener"
+>http://nas.example.com/&lt;/a> 解析为了 [ipv6] 地址，因此，理论上无论在何方，我都可以通过域名 &lt;a class="link" href="http://nas.example.com/" target="_blank" rel="noopener"
+>http://nas.example.com/&lt;/a> 来访问 NAS。在家中，除了使用域名，我们还可以直接使用内网的 ipv4 地址来访问 NAS，从而实现更快的访问速度，拒绝中间商。&lt;/p>
+&lt;p>而对比内外网，多了一个什么设备？路由器。如何在路由器中劫持域名 &lt;a class="link" href="http://nas.example.com" target="_blank" rel="noopener"
+>http://nas.example.com&lt;/a>，让他不通过 DNS 服务器来进行域名解析，而是直接被解析为群辉主机的 ipv4 地址，不就可以实现这个功能了吗？&lt;/p>
+&lt;p>这样的话，我们在外面，通过 DNS 服务器解析域名为 [ipv6]，在家中，通过路由器解析为 ipv4，岂不美哉。&lt;/p>
+&lt;p>不过这事说起来容易做起来难，路由器不支持的话，就需要虚拟一个旁路网关（旁路由）来实现 DNS 劫持——这样做不需要购买额外的设备，效果如下。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-f588fab776cb6740aaf575643ec7d686_b.jpg"
+width="600"
+height="120"
+srcset="https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-f588fab776cb6740aaf575643ec7d686_b_hu_fa45d27efd94c11.jpg 480w, https://songguokunsgg.github.io/p/%E9%BB%91%E7%BE%A4%E6%99%96-nas-two-in-one-%E4%BB%8E%E5%85%A5%E5%9D%91%E5%88%B0%E5%85%A5%E5%9C%9F%E6%BF%80%E8%BF%9B%E5%90%91%E6%95%99%E7%A8%8B/v2-f588fab776cb6740aaf575643ec7d686_b_hu_3555b725df31d815.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="500"
+data-flex-basis="1200px"
+>&lt;br>
+在内网直接将 &lt;a class="link" href="http://nas.example.com/" target="_blank" rel="noopener"
+>http://nas.example.com/&lt;/a> 劫持为 192.168.9.100（群辉 ipv4 地址）。&lt;/p>
+&lt;p>但这在实际操作会存在一些问题，内网解析 IPv4，公网解析 IPv6，实际上是把这个域名在内网变成了双栈（也就是既可以解析到 v6 地址，也可以解析到 v4 地址）。而在操作系统中，几乎都会优先使用 IPv6 解析地址，这是因为 v6 是下一代标准，未来肯定会全面向 v6 过渡。&lt;/p>
+&lt;p>这就导致我们的确在 v4 层面劫持了这一域名，但实际上并没有起到效果。&lt;/p>
+&lt;p>再者，我实测在同一局域网下，公网 v6 的传输速度与内网 v4 差不多，只是网页加载速度 v4 会快一些。所以，我觉得只使用公网 v6 也够了，不用多加配置，也不用添加旁路由，用 v4 的时候可以用 ip 地址访问。&lt;/p>
+&lt;h2 id="那么域名挟持真的一点用也没有吗">那么域名挟持真的一点用也没有吗？
+&lt;/h2>&lt;p>其实也不是的，域名挟持对于做内网穿透的用户有大用，能够真正实现内外网无缝切换。&lt;/p>
+&lt;p>例如：我首先把群晖的访问端口改为 52491（v4 用户默认端口必改）穿透为 &lt;code>192.168.9.100:52491 -&amp;gt; frp-example.cc:52491&lt;/code>。然后在内网劫持&lt;code>frp-example.cc&lt;/code>为&lt;code>192.168.9.100&lt;/code>，&lt;/p>
+&lt;p>由于 v4 之间不存在优先级关系，劫持了就是劫持了，内网下面只能放问到 &lt;code>192.168.9.100&lt;/code>，所以就很完美地实现了内外网无缝衔接。&lt;/p>
+&lt;p>只要注意群晖访问端口与穿透端口一致即可。&lt;/p>
+&lt;p>本来说不讲 v4 的，结果还是说了这么一大堆。。。。。。&lt;/p>
+&lt;p>下一篇文章还是会稍微讲讲旁路由和域名劫持相关的内容。&lt;/p></description></item><item><title>基于 windows host，USB 外接虚拟黑群晖方案分享</title><link>https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/</link><pubDate>Mon, 20 May 2024 16:38:44 +0000</pubDate><guid>https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/</guid><description>&lt;h2 id="简介">简介
+&lt;/h2>&lt;p>在校期间试了很多类型的网盘，包括 Onedrive, seafile（学校搭建），百度网盘等，都不是很满意。&lt;/p>
+&lt;p>Onedrive：网速慢&lt;/p>
+&lt;p>seafile：综合体验最好，学校自建。但是学校运维不太行，隔三差五崩掉，急用的时候简直崩溃。&lt;/p>
+&lt;p>百度网盘：你还是老实做个资源站吧&lt;/p>
+&lt;p>最终我决定搞一个黑群晖，正好快毕业了，把手里的机械君利用起来，做一个小型 All in One。&lt;/p>
+&lt;h3 id="为什么用-windows-做-host">为什么用 windows 做 host？
+&lt;/h3>&lt;p>其实我一开始是用的 NixOS，搭配 KVM 做虚拟黑群晖，其实这样做没啥问题，非常稳定，但是我偶尔要用一下电脑的话，就还得再开一个 windows 虚拟机，以使用 office、raylink 等软件。&lt;/p>
+&lt;p>考虑到有虚拟 NAS 之后，本地存储需求将会急剧减少，所以我觉得把闲置的 128G 硬盘拿来装 win10 LTSC（稳定），然后装几个常用软件和 vmware，存储需求就用 vmware 虚拟黑群晖，NAT 方案，我表达能力不太行，用图说话。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-33d353a13c80e0f1fcf3428b98288bb3_b.jpg"
+width="600"
+height="392"
+srcset="https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-33d353a13c80e0f1fcf3428b98288bb3_b_hu_ac74bd2457ab23e3.jpg 480w, https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-33d353a13c80e0f1fcf3428b98288bb3_b_hu_cf226ecfd0e82001.jpg 1024w"
+loading="lazy"
+alt="NAT 简单模型"
+class="gallery-image"
+data-flex-grow="153"
+data-flex-basis="367px"
+>&lt;/p>
+&lt;p>等毕业之后，如果有路由器的话，也可以从 NAT 很方便地改为&lt;strong>桥接&lt;/strong>，从而满足不同的需求。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-e2b34adff51daae17b21119ea07573b7_b.jpg"
+width="600"
+height="406"
+srcset="https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-e2b34adff51daae17b21119ea07573b7_b_hu_b104e8f97ceb94b5.jpg 480w, https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-e2b34adff51daae17b21119ea07573b7_b_hu_34b884e10352cc05.jpg 1024w"
+loading="lazy"
+alt="桥接设备"
+class="gallery-image"
+data-flex-grow="147"
+data-flex-basis="354px"
+>&lt;/p>
+&lt;p>注：由于需要做内网穿透，所以最好令内网访问与公网访问端口一致，方便做 DNS 劫持，从而实现内外网只能切换，所以可能需要做端口转发或者**直接修改端口（推荐），**让 5001 端口映射或修改为内网穿透的端口。这种情况下，将群晖链接到一台可以做 DNS 劫持的设备最合适。&lt;/p>
+&lt;p>第一张图中，电脑本身可以做 DNS 劫持（选择 &lt;strong>NAT&lt;/strong> 的原因）。&lt;/p>
+&lt;p>第二张图中，路由器可以做 DNS 劫持，或者直接修改群晖端口好（&lt;strong>桥接&lt;/strong>的原因）。&lt;/p>
+&lt;p>不过还是得根据实际需求来。&lt;/p>
+&lt;p>例如，穿透后的公网为 &lt;a class="link" href="http://example.com:58819" target="_blank" rel="noopener"
+>http://example.com:58819&lt;/a>&lt;/p>
+&lt;p>进行端口转发或修改端口 5001 -&amp;gt; 58819&lt;/p>
+&lt;p>这时候，你可以用 &lt;code>192.168.XX.XX:58819&lt;/code> 进行内网访问，也可以用 &lt;a class="link" href="http://example.com:58819/" target="_blank" rel="noopener"
+>http://example.com:58819/&lt;/a> 进行公网访问。&lt;/p>
+&lt;p>此时，将内网的 &lt;a class="link" href="http://example.com/" target="_blank" rel="noopener"
+>http://example.com/&lt;/a> 进行劫持，&lt;a class="link" href="http://example.com/" target="_blank" rel="noopener"
+>http://example.com/&lt;/a> -&amp;gt; 192.168.XX.XX。&lt;/p>
+&lt;p>就可以实现，连路由器的时候用内网，否则联公网（想出这个方案的真是人才）。&lt;/p>
+&lt;p>这个是后话，可能后面会对这篇文章进行补充。&lt;/p>
+&lt;h2 id="安装-ds918-黑群晖">安装 DS918+ 黑群晖
+&lt;/h2>&lt;h3 id="参考">参考
+&lt;/h3>&lt;p>&lt;a class="link" href="https://www.bilibili.com/read/cv30010953/" target="_blank" rel="noopener"
+>https://www.bilibili.com/read/cv30010953/&lt;/a> （USB 改内置）&lt;/p>
+&lt;p>&lt;a class="link" href="https://github.com/RROrg/rr/releases" target="_blank" rel="noopener"
+>https://github.com/RROrg/rr/releases&lt;/a> （黑群晖引导文件）下载 rr-&lt;version>.img.zip 文件解压&lt;/p>
+&lt;h3 id="硬盘格式转换">硬盘格式转换
+&lt;/h3>&lt;p>&lt;a class="link" href="https://www.starwindsoftware.com/download-starwind-products" target="_blank" rel="noopener"
+>https://www.starwindsoftware.com/download-starwind-products&lt;/a>&lt;/p>
+&lt;p>使用这个软件将 img 的 raw 硬盘转换为 vmdk&lt;/p>
+&lt;h3 id="虚拟机创建">虚拟机创建
+&lt;/h3>&lt;p>使用 vmware 创建一台 linux64 虚拟机，使用转换好的硬盘，除此之外，还需要添加一块 sata 系统盘，留下这些硬件即可（CD/DVD 也可以不要），配置不用太高，内存最好 4G+。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-829982a6d01365929258b99bcfb11b10_b.jpg"
+width="692"
+height="389"
+srcset="https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-829982a6d01365929258b99bcfb11b10_b_hu_e24b0638e4822dd.jpg 480w, https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-829982a6d01365929258b99bcfb11b10_b_hu_dfe9d9724cca4c19.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="177"
+data-flex-basis="426px"
+>&lt;/p>
+&lt;p>启动模式可以调成 UEFI。&lt;/p>
+&lt;p>注：群晖跟一般的电脑系统不一样，每插一块硬盘，该硬盘上面都会安装一个系统，从而实现硬盘拔插或坏掉不影响系统使用。这里添加的硬盘只是装系统用的，后面会使用 sata 或 usb 的实体硬盘进行数据存储。如果系统稳定的话，这块 sata 盘可以删掉。&lt;/p>
+&lt;h3 id="安装黑群晖系统">安装黑群晖系统
+&lt;/h3>&lt;p>&lt;a class="link" href="https://post.smzdm.com/p/am3epen4/" target="_blank" rel="noopener"
+>https://post.smzdm.com/p/am3epen4/&lt;/a>&lt;/p>
+&lt;p>根据这篇文章安装即可，主要为四个步骤&lt;/p>
+&lt;ol>
+&lt;li>更换语言&lt;/li>
+&lt;li>选择型号（如果只使用 SATA，可以选择 DS923+；如果需要外接 USB 硬盘，选 DS918+）&lt;/li>
+&lt;li>版本选择：最新版&lt;/li>
+&lt;li>编译引导并启动&lt;/li>
+&lt;/ol>
+&lt;p>然后浏览器 ip:5000 进入系统安装页面，点击安装，不要启动数据收集和更新等等服务。&lt;/p>
+&lt;p>注：这一步直接选择&lt;strong>自动下载&lt;/strong>即可，一般都能安装成功，如果不行再手动下载安装。&lt;/p>
+&lt;p>![]((20240520) 基于_windows_hostUSB_外接虚拟黑群晖方案分享_EberyThingSay/v2-857af01419147db1d74e957aa1e63dc1_b.jpg)&lt;br>
+装好之后进入系统，进行一些初始化啥的，不赘述。&lt;/p>
+&lt;h3 id="将-usb-设定为内置硬盘">将 USB 设定为内置硬盘
+&lt;/h3>&lt;p>&lt;a class="link" href="https://www.bilibili.com/read/cv30010953/" target="_blank" rel="noopener"
+>https://www.bilibili.com/read/cv30010953/&lt;/a>&lt;/p>
+&lt;p>直接跳到，&lt;strong>使用 RR 的设置方法&lt;/strong>。&lt;/p>
+&lt;p>跟着教程走就行，主要说一下计算。&lt;/p>
+&lt;p>打开计算器&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-0dd3be70291db9726facb97469e8da15_b.jpg"
+width="417"
+height="640"
+srcset="https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-0dd3be70291db9726facb97469e8da15_b_hu_4618e87896e2e89a.jpg 480w, https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-0dd3be70291db9726facb97469e8da15_b_hu_47e2844006385f1a.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="65"
+data-flex-basis="156px"
+>&lt;br>
+功能比较简陋，需要在“查看”调成程序员模式，并调成程序员模式&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-2aac833a183dba24416142253622ba07_b.jpg"
+width="600"
+height="556"
+srcset="https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-2aac833a183dba24416142253622ba07_b_hu_873b9a42ae0b9ec2.jpg 480w, https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-2aac833a183dba24416142253622ba07_b_hu_29b1540f259006be.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="107"
+data-flex-basis="258px"
+>&lt;br>
+然后用“or”按钮计算 usbportcfg | internalportcfg&lt;/p>
+&lt;p>然后设定 usbportcfg=0，internalportcfg=计算出的值即可，以我为例&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">root@HeiSynology:/etc.defaults$ cat synoinfo.conf &lt;span class="p">|&lt;/span> grep usbport
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">usbportcfg&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;0x3f00000&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">root@HeiSynology:/etc.defaults$ cat synoinfo.conf &lt;span class="p">|&lt;/span> grep internalport
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">internalportcfg&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;0xfffff&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>计算 &lt;code>0x3f00000 | 0xffff = 3FFFFFF&lt;/code>&lt;/p>
+&lt;p>所以设定&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">usbportcfg&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="m">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">internalportcfg&lt;/span>&lt;span class="o">=&lt;/span>0x3FFFFFF
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后重新编译引导，启动，就可以看到 usb 硬盘被识别为内置。&lt;/p>
+&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-f78ad3dd9b44630487f48a723c275ea8_b.jpg"
+width="600"
+height="174"
+srcset="https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-f78ad3dd9b44630487f48a723c275ea8_b_hu_5cdd21a800883f9a.jpg 480w, https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-f78ad3dd9b44630487f48a723c275ea8_b_hu_c8882fbeee95d22b.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="344"
+data-flex-basis="827px"
+>&lt;br>
+硬盘 2 是虚拟硬盘，硬盘 17 是我的测使用 U 盘。&lt;/p>
+&lt;h3 id="固定-ip">固定 ip
+&lt;/h3>&lt;p>vmware 创建的虚拟机 ipv4 地址似乎不会变，不用动。&lt;/p>
+&lt;h2 id="公网访问">公网访问
+&lt;/h2>&lt;p>&lt;a class="link" href="https://doc.natfrp.com/app/synology.html" target="_blank" rel="noopener"
+>https://doc.natfrp.com/app/synology.html&lt;/a>&lt;/p>
+&lt;p>在群晖系统中把访问端口修改为你申请到的内网穿透端口，例如 58819。&lt;/p>
+&lt;p>确认你此时能够在内网通过 内网 ip:58819 访问管理页面&lt;/p>
+&lt;p>然后做好内网穿透。&lt;/p>
+&lt;p>实测，穿透 5001 =&amp;gt; 58819 端口基本上够用了，内网里面手机电脑连接 photos，drive 都可以直接用 5001 =&amp;gt; 58819 端口进行登陆。&lt;/p>
+&lt;p>&lt;strong>但是外网有坑&lt;/strong>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/679868467" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/679868467&lt;/a>&lt;/p>
+&lt;p>如果电脑端需要外网连接 Drive，需要再映射一下 6690 端口，手机端和内网不用，直接 58819 访问即可。&lt;/p>
+&lt;h2 id="功能修复">功能修复
+&lt;/h2>&lt;p>&lt;a class="link" href="https://post.smzdm.com/p/a7pw05r9/" target="_blank" rel="noopener"
+>https://post.smzdm.com/p/a7pw05r9/&lt;/a>&lt;/p>
+&lt;p>主要是视频解码方面的内容，按以上文章一键修复。&lt;/p>
+&lt;h3 id="洗白修复除-qc-外功能">洗白：修复除 QC 外功能
+&lt;/h3>&lt;p>&lt;img src="https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-0d20dbc7add9db98d41eea32420a76b6_b.jpg"
+width="1024"
+height="768"
+srcset="https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-0d20dbc7add9db98d41eea32420a76b6_b_hu_b34dcc853bb983e1.jpg 480w, https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-0d20dbc7add9db98d41eea32420a76b6_b_hu_cb7f9817000f6cf1.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="133"
+data-flex-basis="320px"
+>&lt;br>
+&lt;img src="https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-c7584d0837975168edbeb6b4c98e07f7_b.jpg"
+width="644"
+height="536"
+srcset="https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-c7584d0837975168edbeb6b4c98e07f7_b_hu_2613fd15fbcf8b27.jpg 480w, https://songguokunsgg.github.io/p/%E5%9F%BA%E4%BA%8E-windows-hostusb-%E5%A4%96%E6%8E%A5%E8%99%9A%E6%8B%9F%E9%BB%91%E7%BE%A4%E6%99%96%E6%96%B9%E6%A1%88%E5%88%86%E4%BA%AB/v2-c7584d0837975168edbeb6b4c98e07f7_b_hu_bab543c69b539e40.jpg 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="120"
+data-flex-basis="288px"
+>&lt;br>
+找到这个自定义 SN/MAC 的选项，输入购买的 SN /MAC 即可。&lt;/p>
+&lt;h2 id="drive-空文件夹问题">Drive 空文件夹问题
+&lt;/h2>&lt;p>表现：某文件夹在网页端有内容，但使用 Drive 进行按需同步的时候，文件夹显示为空。&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/681513928" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/681513928&lt;/a>&lt;/p>
+&lt;p>将 homes/user 的属性勾选“应用到这个文件夹、子文件夹及文件夹”即可。&lt;/p>
+&lt;h2 id="注意事项">注意事项
+&lt;/h2>&lt;ol>
+&lt;li>如果虚拟机关机了，启动虚拟机时要把硬盘及时连通进去。&lt;/li>
+&lt;li>如果 host 不常使用的话，还是建议用 PVE 或者 linux 做 host，windows 还是有些不稳定。&lt;/li>
+&lt;li>如果 host windows 要搞操作，先关掉虚拟机再操作，比如垃圾清理内存释放之类的。&lt;/li>
+&lt;li>如果你不幸在操作之后，群晖系统出现&lt;strong>硬盘损坏的提示&lt;/strong>，不用慌，重启一下虚拟机，自动修复硬盘即可。&lt;/li>
+&lt;/ol></description></item></channel></rss>

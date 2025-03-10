@@ -1,0 +1,976 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="本文详细介绍了 2022 年 5 月版本的 Arch Linux 安装过程，涵盖了从系统安装到图形界面配置的各个步骤，特别强调了 UEFI 启动、网络配置、磁盘分区、包管理、引导安装等关键环节，并提供了常见问题的解决方案。文章适合有一定 Linux 基础的用户，建议新手先了解基本概念再尝试。细安装过程"><title>2022.5 archlinux 详细安装过程</title>
+<link rel=canonical href=https://songguokunsgg.github.io/p/2022.5-archlinux-%E8%AF%A6%E7%BB%86%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="2022.5 archlinux 详细安装过程"><meta property='og:description' content="本文详细介绍了 2022 年 5 月版本的 Arch Linux 安装过程，涵盖了从系统安装到图形界面配置的各个步骤，特别强调了 UEFI 启动、网络配置、磁盘分区、包管理、引导安装等关键环节，并提供了常见问题的解决方案。文章适合有一定 Linux 基础的用户，建议新手先了解基本概念再尝试。细安装过程"><meta property='og:url' content='https://songguokunsgg.github.io/p/2022.5-archlinux-%E8%AF%A6%E7%BB%86%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B/'><meta property='og:site_name' content='菘菓菌'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='技术'><meta property='article:published_time' content='2022-05-13T16:35:20+00:00'><meta property='article:modified_time' content='2022-05-13T16:35:20+00:00'><meta name=twitter:title content="2022.5 archlinux 详细安装过程"><meta name=twitter:description content="本文详细介绍了 2022 年 5 月版本的 Arch Linux 安装过程，涵盖了从系统安装到图形界面配置的各个步骤，特别强调了 UEFI 启动、网络配置、磁盘分区、包管理、引导安装等关键环节，并提供了常见问题的解决方案。文章适合有一定 Linux 基础的用户，建议新手先了解基本概念再尝试。细安装过程"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_598b466302713ded.png width=300 height=325 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>菘菓菌</a></h1><h2 class=site-description>热爱技术，热爱生活，梦想是像风般自由</h2></div></header><ol class=menu-social><li><a href=https://github.com/songguokunsgg target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://zhihu.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>主页</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>归档</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>搜索</span></a></li><li><a href=/%E9%93%BE%E6%8E%A5/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>链接</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#1-系统安装>1. 系统安装</a><ol><li><a href=#11-进入-live-系统>1.1 进入 live 系统</a></li><li><a href=#12-联网>1.2 联网</a></li><li><a href=#arch-的系统镜像只有-800m并没有包含所有的系统文件所以网络是必要的>arch 的系统镜像只有 800m，并没有包含所有的系统文件，所以网络是必要的。</a></li><li><a href=#121-电脑有-wifi-的情况跟参考文章中操作一致>1.2.1 电脑有 wifi 的情况，跟参考文章中操作一致</a></li><li><a href=#122-电脑没有-wifi-的情况>1.2.2 电脑没有 wifi 的情况</a></li><li><a href=#这种情况下usb-无线网卡一般是用不了的因为-arch-的-iso-中不带有驱动而网店里的免驱网卡驱动需要在-aur-里才能找到因此只能考虑-usb-共享手机网络或者连接网线这个就不多说了>这种情况下，usb 无线网卡一般是用不了的，因为 arch 的 iso 中不带有驱动，而网店里的免驱网卡驱动需要在 AUR 里才能找到，因此，只能考虑 USB 共享手机网络，或者连接网线（这个就不多说了）。</a></li><li><a href=#123-更新时间>1.2.3 更新时间</a></li><li><a href=#13-磁盘分区>1.3 磁盘分区</a></li><li><a href=#14-分区格式化>1.4 分区格式化</a></li><li><a href=#15-分区挂载>1.5 分区挂载</a></li><li><a href=#16-安装必要的包并在系统中写入分区表>1.6 安装必要的包，并在系统中写入分区表</a></li><li><a href=#17-新系统的配置>1.7 新系统的配置</a></li><li><a href=#171-安装必要软件包>1.7.1 安装必要软件包</a></li><li><a href=#172-一通设置>1.7.2 一通设置</a></li><li><a href=#173-安装引导并重启系统>1.7.3 安装引导并重启系统</a></li><li><a href=#18-打开联网服务和蓝牙>1.8 打开联网服务和蓝牙</a></li><li><a href=#19-安装一些硬件设备>1.9 安装一些硬件设备</a></li><li><a href=#110-创建一个用户>1.10 创建一个用户</a></li><li><a href=#111-重启系统>1.11 重启系统</a></li></ol></li><li><a href=#2-图形界面安装>2. 图形界面安装</a><ol><li><a href=#首先需要选择-x11-或者是-wayland现在来看-wayland-是比较先进的但为了方便和兼容性还是用-x11-吧>首先需要选择 X11 或者是 Wayland，现在来看 Wayland 是比较先进的，但为了方便和兼容性还是用 X11 吧。</a></li><li><a href=#21-kde>2.1 KDE</a></li><li><a href=#22-gnome>2.2 Gnome</a></li><li><a href=#23-i3>2.3 i3</a></li></ol></li><li><a href=#3-后续的配置>3. 后续的配置</a><ol><li><a href=#31-中文输入法>3.1 中文输入法</a></li><li><a href=#32-添加-archlinuxcn-源并配置-yay>3.2 添加 archlinuxcn 源，并配置 yay</a></li><li><a href=#33-配置-zsh可选>3.3 配置 zsh（可选）</a></li><li><a href=#34-安装必要软件>3.4 安装必要软件</a></li></ol></li><li><a href=#4-总结>4 总结</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%9D%82%E8%B0%88/>操作系统杂谈</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/2022.5-archlinux-%E8%AF%A6%E7%BB%86%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B/>2022.5 archlinux 详细安装过程</a></h2><h3 class=article-subtitle>本文详细介绍了 2022 年 5 月版本的 Arch Linux 安装过程，涵盖了从系统安装到图形界面配置的各个步骤，特别强调了 UEFI 启动、网络配置、磁盘分区、包管理、引导安装等关键环节，并提供了常见问题的解决方案。文章适合有一定 Linux 基础的用户，建议新手先了解基本概念再尝试。细安装过程</h3></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>May 13, 2022</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 14 分钟</time></div></footer></div></header><section class=article-content><p>2022 年 12 月 8 日小更新一波</p><ul><li>增加了 i3 的一些配置说明</li></ul><hr><p>2022 年 11 月 17 日小更新一波</p><ul><li>增加了一些双系统相关说明</li><li>增加了终端字体推荐</li><li>修改了一些错误内容</li></ul><hr><p>其实 arch 的安装不是一件很难的事情，但是随着时间的推移会出现一些坑，所以我记录一下安装过程。</p><p>参考文章：</p><p><a class=link href=https://zhuanlan.zhihu.com/p/478075538 target=_blank rel=noopener>https://zhuanlan.zhihu.com/p/478075538</a>本文分为三个部分进行讲解，第一部分是安装整个系统（不带图形界面），第二部分是安装桌面或者窗口管理器，第三部分是进行一些简单配置，第四部分是一些简单总结。</p><p>本文讲解虽然较为详细，但是不建议纯小白尝试（跟着来也没啥问题。。。）建议你能够做对下列名词解释再继续：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>vim neovim nvim NVME SATA BIOS UEFI kernel Nvidia console bash :q ^X ^C
+</span></span></code></pre></td></tr></table></div></div><p>如果上述单词中 80% 以上不知道什么意思，建议左转 ubuntu 或者 deepin，对 linux 稍作了解之后再尝试 Arch。</p><h2 id=1-系统安装>1. 系统安装</h2><h3 id=11-进入-live-系统>1.1 进入 live 系统</h3><p>其实这个 live 系统和 ubuntu 或者 manjaro 的 live 系统是完全一致的，只是有没有图形界面，以及系统安装程序的区别，在 arch 的 live 系统中，需要我们手动输入命令进行操作。</p><ol><li>制作启动盘的过程就不详细说了，建议使用 ventoy 进行制作（我们以 ventoy 为例），避免重复格式化 U 盘的问题，当然，使用 rufus 也是可以的，<strong>不推荐</strong>使用<strong>UltraISO，容易出问题。</strong></li><li>确认系统的引导方式是 UEFI,，如果不是，请进入 BIOS 开启。</li><li>插入 U 盘，重启电脑，根据电脑型号按相应的键盘按键进入启动引导选择，选择刚刚 USB 启动器。进入 ventoy 界面，选取你下载的 ArchLinux 安装镜像（*.iso），进入 Arch 安装界面。</li><li>选择画面中的第一项（Arch Linuxinstallmedium(x86_64,UEFI)），按回车键，待加载完成后，进入 ArchLinux 的 Live 环境。如果出现“root@archiso~#”，说明启动成功，已经进入终端。</li><li>验证是否为 UEFI 启动（如果你确定已经是 UEFI 的话可以略过）<br>输入“ls /sys/firmware/efi/efivars”<br>输入这一行代码后，如果反馈目录不存在，则说明电脑没有以 UEFI 启动，需要重新执行步骤 3，不要继续，因为没有 UEFI 启动在后面写入引导的时候几乎绝对报错。如果有输出，说明电脑是以 UEFI 启动的。</li></ol><h3 id=12-联网>1.2 联网</h3><h3 id=arch-的系统镜像只有-800m并没有包含所有的系统文件所以网络是必要的>arch 的系统镜像只有 800m，并没有包含所有的系统文件，所以网络是必要的。</h3><h3 id=121-电脑有-wifi-的情况跟参考文章中操作一致>1.2.1 电脑有 wifi 的情况，跟参考文章中操作一致</h3><ol><li><ol><li>输入“iwctl”进入 iwd 模式，也就是终端最前方有“[iwd]#”字样。</li></ol></li><li>在 iwd 模式下输入“device list”，按回车（按回车是基本操作，所以下文省略），查询电脑的网卡。记住你的网卡号，一般是 wlan0 或者 wlan1（本文以多数情况 wlan0 为例）</li><li>在 iwd 模式下输入“station wlan0 scan”，然后再输入“station wlan0 get-networks”，显示周围的 wifi 的 ssid 扫描结果。（如果你知道自己要连接的 wifi 名称，可以跳过这一步）</li><li>在 iwd 模式下输入“station wlan0 connect <ssid>”，如果是加密的 wifi，系统会提示输入 wifi 密码，如无意外，就连上网了。</li><li>验证联网。按 ctrl+c 退出 iwd 模式，回到[root@archiso~]模式，输入“ping baidu.com”，如果有返回数据，说明已经连上网了。</li></ol><h3 id=122-电脑没有-wifi-的情况>1.2.2 电脑没有 wifi 的情况</h3><h3 id=这种情况下usb-无线网卡一般是用不了的因为-arch-的-iso-中不带有驱动而网店里的免驱网卡驱动需要在-aur-里才能找到因此只能考虑-usb-共享手机网络或者连接网线这个就不多说了>这种情况下，usb 无线网卡一般是用不了的，因为 arch 的 iso 中不带有驱动，而网店里的免驱网卡驱动需要在 AUR 里才能找到，因此，只能考虑 USB 共享手机网络，或者连接网线（这个就不多说了）。</h3><ol><li>（以 iphone 为例）选一根质量好的线，连上电脑的 usb 口即可。</li><li>此时手机上会让你信任该设备，信任即可。</li><li>打开热点，输入“ping baidu.com”，如果有返回数据，说明已经连上网了。</li></ol><p>iphone 设备，以及 usb 接口的驱动在 live 系统中是存在的，所以非常简单，安卓设备也应该是类似的方法。但是有一点大坑需要注意，<strong>usb 接口驱动需要在后续所安装的系统中单独安装，否则，重启之后是连不上手机的。</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pacman -S usbmuxd
+</span></span></code></pre></td></tr></table></div></div><h3 id=123-更新时间>1.2.3 更新时间</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>timedatectl set-ntp true
+</span></span></code></pre></td></tr></table></div></div><h3 id=13-磁盘分区>1.3 磁盘分区</h3><p>以前的 arch 需要使用 fdisk 命令进行分区，劝退了不少人，现在提供了更人性化的 cfdisk 工具进行分区，操作简单很多了，操作过程与参考文章类似。</p><ol><li>输入“fdisk -l”，查看硬盘列表，SATA 硬盘或者机械硬盘是/dev/sdX，nvme 固态硬盘则显示/dev/nvme0nX。</li><li>认准你想作为系统盘的硬盘（sda 的例子参考文章已经给出，所以我以/dev/nvme0n1 为例），输入“cfdisk /dev/nvme0n1”进入伪图形界面进行分区。</li><li>参考划分大小如下</li></ol><div class=table-wrapper><table><thead><tr><th>分区</th><th>挂载点</th><th>我划分的大小，仅供参考</th></tr></thead><tbody><tr><td>/dev/nvme0n1p1</td><td>/</td><td>100g（软件包都会装在根目录，建议大一点）</td></tr><tr><td>/dev/nvme0n1p2</td><td>/boot/efi</td><td>500m（不要低于 500m）</td></tr><tr><td>/dev/nvme0n1p3</td><td>/home</td><td>60g（看个人情况，我的文件多为代码，占用空间较小）</td></tr><tr><td>/dev/nvme0n1p4</td><td>swap</td><td>24g（交换空间，即虚拟内存）</td></tr></tbody></table></div><p><strong>注意：</strong></p><ol><li><strong>boot 分区一定是挂载到/boot/efi，后续挂载的时候会再提到。</strong></li><li><strong>home 分区在重装系统的时候是可以复用的，建议单独分区以避免丢失文件。</strong></li><li><strong>swap 视自己内存情况而定，一般 &lt;= 电脑内存（我内存 16g，分了 24g swap 好像也没啥）</strong></li></ol><h3 id=14-分区格式化>1.4 分区格式化</h3><p>依次输入下面的命令：（需要确认时输入“y”）</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>mkfs.fat -F32 /dev/nvme0n1p2    (boot分区必须使用fat32格式)
+</span></span><span class=line><span class=cl>mkfs.ext4 /dev/nvme0n1p1    (/ 和 /home 一般使用ext4分区格式)
+</span></span><span class=line><span class=cl>mkswap /dev/nvme0n1p4    (swap分区使用swap格式)
+</span></span><span class=line><span class=cl>swapon /dev/nvme0n1p4    (激活swap分区，不激活不会使用这部分空间)
+</span></span><span class=line><span class=cl>mkfs.ext4 /dev/nvme0n1p3    (/home分区)
+</span></span></code></pre></td></tr></table></div></div><p>格式化结束之后，使用 lsblk 命令查看分区是否划分以及格式化正确</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>nvme0n1     259:0    0 476.9G  0 disk
+</span></span><span class=line><span class=cl>├─nvme0n1p1 259:1    0  59.3G  0 part 
+</span></span><span class=line><span class=cl>├─nvme0n1p2 259:2    0    24G  0 part 
+</span></span><span class=line><span class=cl>├─nvme0n1p3 259:3    0 117.9G  0 part 
+</span></span><span class=line><span class=cl>├─nvme0n1p4 259:4    0   477M  0 part 
+</span></span></code></pre></td></tr></table></div></div><p>我这里跟例子分区顺序不太一样，请根据自己实际情况确定。</p><h3 id=15-分区挂载>1.5 分区挂载</h3><p>基本和参考文章中一样，但是他犯了一个严重错误，<strong>boot 分区一定是挂载到/boot/efi，，而不是/efi</strong></p><p>依次输入下面的命令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>mount /dev/nvme0n1p1 /mnt    (将 / 分区挂载到 live系统中的 /mnt 目录，此时 /mnt 目录就是我们所安装系统的 / 目录)
+</span></span><span class=line><span class=cl>mkdir -p /mnt/boot/efi    (在新系统的 / 目录中新建 efi 文件夹，-p 参数表示递归创建)
+</span></span><span class=line><span class=cl>mount /dev/nvme0n1p2 /mnt/boot/efi    (将 boot 分区挂载到efi文件夹)
+</span></span><span class=line><span class=cl>mkdir /mnt/home    (同理，创建home目录)
+</span></span><span class=line><span class=cl>mount /dev/nvme0n1p3 /mnt/home    (将home分区挂载到home目录)
+</span></span></code></pre></td></tr></table></div></div><p>挂载完成之后会变成这样（根据你的实际分区情况显示）</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>nvme0n1     259:0    0 476.9G  0 disk
+</span></span><span class=line><span class=cl>├─nvme0n1p1 259:1    0  59.3G  0 part /home
+</span></span><span class=line><span class=cl>├─nvme0n1p2 259:2    0    24G  0 part [SWAP]
+</span></span><span class=line><span class=cl>├─nvme0n1p3 259:3    0 117.9G  0 part /
+</span></span><span class=line><span class=cl>├─nvme0n1p4 259:4    0   477M  0 part /boot/efi
+</span></span></code></pre></td></tr></table></div></div><h3 id=16-安装必要的包并在系统中写入分区表>1.6 安装必要的包，并在系统中写入分区表</h3><p>跟参考文章类似，但是，如果你使用 usb 分享网络，要多加一个 usbmuxd 包。</p><p>换源：很重要，不然等到天荒地老。方法很多，可以直接修改/etc/pacman.d/mirrorlist 文件，也可以直接</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>reflector --country China --age 72 --sort rate --protocol https --save /etc/pacman.d/mirrorlist
+</span></span></code></pre></td></tr></table></div></div><p>解决问题，我一般还是手动换，即替换/etc/pacman.d/mirrorlist 中内容为（任选其一，建议第一个）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Server = https://mirrors.bfsu.edu.cn/archlinux/$repo/os/$arch
+</span></span><span class=line><span class=cl>Server = https://mirrors.cqu.edu.cn/archlinux/$repo/os/$arch
+</span></span><span class=line><span class=cl>Server = https://mirrors.dgut.edu.cn/archlinux/$repo/os/$arch
+</span></span><span class=line><span class=cl>Server = https://mirrors.neusoft.edu.cn/archlinux/$repo/os/$arch
+</span></span><span class=line><span class=cl>Server = https://mirrors.nju.edu.cn/archlinux/$repo/os/$arch
+</span></span><span class=line><span class=cl>Server = https://mirror.redrock.team/archlinux/$repo/os/$arch
+</span></span><span class=line><span class=cl>Server = https://mirrors.sjtug.sjtu.edu.cn/archlinux/$repo/os/$arch
+</span></span><span class=line><span class=cl>Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
+</span></span><span class=line><span class=cl>Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch
+</span></span><span class=line><span class=cl>Server = https://mirrors.xjtu.edu.cn/archlinux/$repo/os/$arch
+</span></span></code></pre></td></tr></table></div></div><p>安装基本系统（包括 linux 内核以及基础软件包），这里相比参考文章多给了几个软件包，因为这些对用户来说还是比较重要的，有几种内核可以安装：</p><ul><li>普通内核 (linux linux-headers)</li><li>lts 稳定版内核 (linux-lts linux-lts-headers)</li><li>zen 内核 (linux-zen,linux-zen-headers)（高性能）</li></ul><p>按自己的需求安装就可以</p><p><strong>这里需要提前说一下，linux-zen 内核不支持 nvidia 显卡，有这个需求的就别装了，如果是原版 linux 内核的话，就要做好随时滚挂的准备，最近的 5.18 内核更新就会导致 nvidia-5.15 版本驱动失效无法开机（需要在启动选项中添加 ibt=off），如果你希望稳定使用，就选择 linux-lts 内核和 linux-lts-headers，并安装相应的 nvidia-lts 驱动（后面会有详细说明），不过不用太担心，即便是系统安装完成，你也可以随时切换自己想要的内核版本。</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pacstrap /mnt base linux linux-headers linux-firmware base-devel （usbmuxd）
+</span></span><span class=line><span class=cl>或者
+</span></span><span class=line><span class=cl>pacstrap /mnt base linux-lts linux-lts-headers linux-firmware base-devel （usbmuxd）
+</span></span></code></pre></td></tr></table></div></div><p>写入分区表：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>genfstab -U /mnt &gt;&gt; /mnt/etc/fstab
+</span></span></code></pre></td></tr></table></div></div><p>开机的时候，系统按照 fstab 文件的分区信息进行挂载，你也可以修改 fstab 以达到自动挂载某个磁盘的功能，例如</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>UUID=86ABB6FEAA91229C   /home/XXX/Documents                 ntfs-3g         defaults        0 0
+</span></span></code></pre></td></tr></table></div></div><p>就可以把 UUID 为 86ABB6FEAA91229C 的 ntfs 分区挂载到 /home/XXX/Documents 下面（PS：双系统用这个方式挂载 win 盘很爽</p><p>然后使用如下命令进入新系统，进入后会显示[root@archiso /]# 。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>arch-chroot /mnt
+</span></span></code></pre></td></tr></table></div></div><h3 id=17-新系统的配置>1.7 新系统的配置</h3><h3 id=171-安装必要软件包>1.7.1 安装必要软件包</h3><p>参考文章给出的命令如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pacman -S vim iwd networkmanager ttf-dejavu sudo bluez
+</span></span></code></pre></td></tr></table></div></div><p>我解释一下这都是干嘛的。</p><ol><li>vim：文本编辑器，可替代有 neovim，nano，其中 nano 对新手比较友好，推荐经验较少或者刚入坑的同志使用。</li><li>iwd,networkmanager：用 iwd 作为 nm 的 backend 进行使用。（但是我这样使用在 i3 下会出现不少问题，比如网络经常自动断，且短时间无法重连等 (KDE 也会出现，但感觉没有 i3 频繁，我觉得可能是命令行的原因，<strong>安装完成之后卸载</strong>掉 networkmanager 问题解决。另外，如果需要使用网线和 usb 网络共享，networkmanager 必须安装，最好加装一个 dhcpcd）</li><li>ttf-dejavu：开源字体</li><li>sudo：用于非 root 用户暂时获取 root 权限</li><li>bluez：蓝牙模块</li><li>usbmuxd：参考文章没给这个。现在系统中使用的网络来自于 live 系统，不装这个的话，重启是无法通过 usb 连接手机共享网络的，根据个人情况选择，建议安装。</li><li>wqy-zenhei：中文字体，避免进入系统后无法显示中</li><li>dhcpcd：连网线用</li><li>ntfs-3g：挂载 ntfs 磁盘需要</li></ol><p>我最后选择这样安装，所以后续以 vim 为例。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pacman -S neovim iwd ttf-dejavu sudo bluez usbmuxd networkmanager dhcpcd wqy-zenhei ntfs-3g
+</span></span></code></pre></td></tr></table></div></div><p>neovim 和 vim 的启动命令是不一样的，neovim 为“nvim”，vim 是“vim”我一般会通过软链接</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ln -s /bin/nvim /bin/vim
+</span></span><span class=line><span class=cl>ln -s /bin/nvim /bin/vi
+</span></span></code></pre></td></tr></table></div></div><p>将他们软链接起来看，这样的话，通过“vim”“vi”命令也可以启动 neovim 了。</p><p>nano 的启动命令是“nano”</p><h3 id=172-一通设置>1.7.2 一通设置</h3><p>这一部分都是差不多的，也没啥坑。</p><ol><li>设置时区和时间</li></ol><p>依次输入下面的命令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime    (设置时区为上海)
+</span></span><span class=line><span class=cl>hwclock --systohc
+</span></span></code></pre></td></tr></table></div></div><ol start=2><li>设置语言</li></ol><p>输入“vim /etc/locale.gen”，删除【en_US.UTF-8】和【zh_CN.UTF-8】两项前面的“#”，保存。（如果有其他语言需求也可以自行取消注释，比如台湾地区和港澳地区）</p><p>（vim 的光标移动、删除和保存退出等命令请另行百度），当然，也可以用 nano</p><p>输入“locale-gen”，再输入</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>echo LANG=en_US.UTF-8 &gt;&gt; /etc/locale.conf
+</span></span></code></pre></td></tr></table></div></div><p>，意思是将 &ldquo;en_US.UTF-8&rdquo; 追加到 /etc/locale.conf 文件里面，这里不建议使用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>echo LANG=zh_CN.UTF-8 &gt;&gt; /etc/locale.conf
+</span></span></code></pre></td></tr></table></div></div><p>这样会使系统语言成为中文，从而导致 tty 显示中文，但是 tty 本身是不支持中文的，所以会乱码。而中文的问题，一般会通过修改 ~/.xprofile（DE）或者 ~/.xinitrc（WM）进行解决</p><ol start=3><li>设置 root 用户的密码</li></ol><p>输入“passwd”，再输入密码，密码不会有任何显示，但是是输进去了的。</p><ol start=4><li>设置主机名（系统名）</li></ol><p>输入“echo {你要设置的主机名，随便一个，不要大括号，不要中文名} &#187; /etc/hostname”，例如</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>echo sukipai &gt;&gt; /etc/hostname
+</span></span></code></pre></td></tr></table></div></div><p>主机名会显示在 bash 中，例如</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[sukipai@sukipai ~]$
+</span></span></code></pre></td></tr></table></div></div><p>意为我用 sukipai(前) 用户登陆了名为 sukipai(后) 的主机。</p><ol start=5><li>设置网络</li></ol><p>输入“vim /etc/hosts”，把下面的文字打进去，保存（以sukipai为例）。（vim的光标移动、删除和保存退出等命令请另行百度。）</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>127.0.0.1 localhost
+</span></span><span class=line><span class=cl>::1 localhost
+</span></span><span class=line><span class=cl>127.0.1.1 sukipai.localdomain sukipai
+</span></span></code></pre></td></tr></table></div></div><h3 id=173-安装引导并重启系统>1.7.3 安装引导并重启系统</h3><p>与参考文章中安装引导有一些差异，输入下面的命令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pacman -S grub efibootmgr   (安装grub)
+</span></span><span class=line><span class=cl>grub-install /dev/nvme0n1    (超级大坑，注意选择的是整个硬盘，而不是boot分区)
+</span></span></code></pre></td></tr></table></div></div><p>一定要注意这个地方，是安装在整个磁盘，而不是 boot 分区。</p><p>创建 grub 配置文件</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>grub-mkconfig -o /boot/grub/grub.cfg
+</span></span></code></pre></td></tr></table></div></div><p>重启系统（请再次确认你是否需要，且已经安装 usbmuxd）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>exit    (退出新系统，回到live系统)
+</span></span><span class=line><span class=cl>umount -R /mnt    (递归卸载 /mnt 中的磁盘)
+</span></span><span class=line><span class=cl>reboot    (重启)
+</span></span></code></pre></td></tr></table></div></div><p>重启之后登录到 root 账户，密码就是你之前设置的。</p><h3 id=18-打开联网服务和蓝牙>1.8 打开联网服务和蓝牙</h3><ol><li>首先激活服务</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>systemctl start iwd.service
+</span></span><span class=line><span class=cl>systemctl enable iwd.service
+</span></span><span class=line><span class=cl>systemctl start systemd-resolved.service
+</span></span><span class=line><span class=cl>systemctl enable systemd-resolved.service
+</span></span><span class=line><span class=cl>systemctl enable bluetooth.service
+</span></span><span class=line><span class=cl>systemctl enable NetworkManager
+</span></span><span class=line><span class=cl>systemctl enable dhcpcd
+</span></span></code></pre></td></tr></table></div></div><ol start=2><li>配置网络连接和 DNS</li></ol><p>输入“vim /etc/iwd/main.conf”，把下面的文字打进去，保存。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[General]
+</span></span><span class=line><span class=cl>EnableNetworkConfiguration=true
+</span></span><span class=line><span class=cl>NameResolvingService=systemd
+</span></span></code></pre></td></tr></table></div></div><ol start=3><li>安装了 netwokmanager 的配置</li></ol><p>如果安装了 networkmanager，则需要将 backend 服务修改为 iwd，总体上 iwd 比 wpa 好用很多。</p><p>输入“vim /etc/NetworkManager/NetworkManager.conf”，把下面的文字打进去，保存。（vim的光标移动、删除和保存退出等命令请另行百度。）</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[device]
+</span></span><span class=line><span class=cl>wifi.backend=iwd
+</span></span></code></pre></td></tr></table></div></div><p>如果只安装 networkmanager 而不安装 iwd 的话，是不需要这一步的，nm 会使用默认的 wpa。（猜测）</p><p>然后重启，并安装先前的联网方法进行联网，并<strong>更换 mirrorlist 中的软件源 (如果前面更换过了，这里就不用更换了)</strong>，这里不再赘述。</p><h3 id=19-安装一些硬件设备>1.9 安装一些硬件设备</h3><ol><li>CPU 编码</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pacman -S intel-ucode    (intel的cpu装这个)
+</span></span><span class=line><span class=cl>pacman -S amd-ucode    (amd的cpu装这个)
+</span></span></code></pre></td></tr></table></div></div><p>注意是 <strong>CPU</strong> 编码，不是显卡</p><ol start=2><li>显卡驱动</li></ol><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pacman -S xf86-video-intel（Intel核心显卡驱动，用Intel核显就装，否则不用装）
+</span></span><span class=line><span class=cl>pacman -S mesa nvidia(-lts) nvidia-settings nvidia-dkms nvidia-utils nvidia-prime（nvidia显卡驱动，用nvidia显卡就装，否则不用装）
+</span></span><span class=line><span class=cl>pacman -S xf86-video-amdgpu (AMD显卡驱动，用amd显卡的就装)
+</span></span></code></pre></td></tr></table></div></div><p>这里举两个例子，我的笔记本，i7-11 代，搭配 intel 核显以及 3050 显卡，所以安装前两个。我的台式机，e3-1230 垃圾 CPU，搭配 HD6950 显卡，所以装第三个。nvidia-dkms 与 nvidia-lts 不兼容，如果装 lts 驱动的话无需安装 dkms。</p><p><strong>注意：nvidia 驱动的安装与前面选择的内核有关，如果你安装的是 linux-lts 内核，那么需要将 nvidia 更换为 nvidia-lts，linux-zen 不支持 nvidia 显卡（务必对号入座），如果你选择安装新内核，则需要修改一下 ibt=off，否则无法进入系统</strong></p><ol start=3><li>声卡驱动</li></ol><p>在我的设备上，只需这样安装</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pacman -S pipewire (alsa-utils) pipewire-pulse pipewire-jack pipewire-alsa
+</span></span></code></pre></td></tr></table></div></div><p>就可以了，使用参考文章中的 pulseaudio 也是可以的。alsa-utils 用于终端下的音量调节，如果你使用 KDE，Gnome 等桌面环境，可以不装这个。</p><p>使用 pulseaudio 的话，需要进行一下配置（我没试过），pipewire 则不用：</p><p>输入“vim /etc/modprobe.d/disable_dmic.conf”，把下面的文字打进去，保存。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>options snd_hda_intel dmic_detect=0
+</span></span></code></pre></td></tr></table></div></div><h3 id=110-创建一个用户>1.10 创建一个用户</h3><p>仍然以 sukipai 为例</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>useradd -m -G wheel -s /bin/bash sukipai    (添加一个名为sukipai的用户进入wheel用户组，并将bash作为启动命令)
+</span></span><span class=line><span class=cl>passwd sukipai    (设置密码，和设置root是类似的)
+</span></span></code></pre></td></tr></table></div></div><p>然后输入</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>visudo
+</span></span></code></pre></td></tr></table></div></div><p>如果报错的话 (应该不会)，就改为</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>vim /etc/sudoers
+</span></span></code></pre></td></tr></table></div></div><p>找到如下内容，取消掉“# %wheel ALL=(ALL:ALL) ALL”前面的“# ”</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>## User privilege specification
+</span></span><span class=line><span class=cl>##
+</span></span><span class=line><span class=cl>root ALL=(ALL:ALL) ALL
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>## Uncomment to allow members of group wheel to execute any command
+</span></span><span class=line><span class=cl># %wheel ALL=(ALL:ALL) ALL
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>## Same thing without a password
+</span></span><span class=line><span class=cl># %wheel ALL=(ALL:ALL) NOPASSWD: ALL
+</span></span></code></pre></td></tr></table></div></div><p>这里说一下，取消“# %wheel ALL=(ALL:ALL) NOPASSWD: ALL”前的“# ”也是可以的，区别就在于，取消这一行后，wheel 组的用户使用 sudo 就不用输密码了，<strong>如果你是新手，不建议这么做</strong>，如果你是老鸟，可以考虑取消 NOPASSWD 所在的这一行。（我取消的是 NOPASWD 这行，图方便）</p><p>下面还有个 sudo 组的选项，但是我没有试过加入 sudo 组是什么效果，这里就不多说了。</p><h3 id=111-重启系统>1.11 重启系统</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>reboot
+</span></span></code></pre></td></tr></table></div></div><p>此时的系统已经基本可以使用了，但是还没有配置图形界面，如果你不需要图形界面，就只需登陆 sukipai 用户就可以使用了。</p><h2 id=2-图形界面安装>2. 图形界面安装</h2><p><strong>！！！注意：从这里开始，如果登陆的是普通用户，则所有的 pacman 和 systemctl 都需要 sudo，如果嫌麻烦，可以先在 ~/.bashrc 中添加“alias pacman=&lsquo;sudo pacman&rsquo;和 alias systemctl=&lsquo;sudo systemctl&rsquo;”，我这里就不多写 sudo 了。如果提示需要权限，同样加 sudo 即可。所以这部分安装建议登陆 root 用户。</strong></p><h3 id=首先需要选择-x11-或者是-wayland现在来看-wayland-是比较先进的但为了方便和兼容性还是用-x11-吧>首先需要选择 X11 或者是 Wayland，现在来看 Wayland 是比较先进的，但为了方便和兼容性还是用 X11 吧。</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pacman -S xorg
+</span></span></code></pre></td></tr></table></div></div><p>这个是必须安装的，后面的 DE 和 WM 都是基于 x 服务。</p><h3 id=21-kde>2.1 KDE</h3><p>特点：美观，比较稳定，自定义功能强大，配置方便（最推荐）（括号中为推荐的可替代品）</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pacman -S plasma sddm konsole dolphin kate ark okular spectacle yay
+</span></span></code></pre></td></tr></table></div></div><p>plasma：桌面环境</p><p>sddm：登录管理器，KDE 配套的</p><p>konsole：kde 下的终端，功能多但是比较慢，也可以使用其他终端</p><p>（alacritty,kitty）</p><p>kate：文本编辑器，很强大，但是资料比较少，需要自己配置。我感觉比 vscode 好用很多，但是没火起来，很可惜。</p><p>（vim,neovim,gvim,nano,gedit,sublime,vscode,atom）（sublime,vscode 需要在 AUR 源或者 Clansty 源中安装）</p><p>ark：解压与压缩</p><p>okular：PDF 查看器</p><p>（wps,edge,chrome,zotero……）</p><p>spectacle：截图工具，这三件套配合 KDE 很方便</p><p>安装完成之后，需要启用 sddm</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>systemctl enable sddm
+</span></span></code></pre></td></tr></table></div></div><p>重启即可</p><h3 id=22-gnome>2.2 Gnome</h3><p>特点：自定义功能丰富（但是被阻隔了），</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pacman -S gnome
+</span></span><span class=line><span class=cl>systemctl enable gdm
+</span></span></code></pre></td></tr></table></div></div><p>重启即可，部分软件仍然可以用上述软件替代</p><h3 id=23-i3>2.3 i3</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pacman -S xorg-xinit xorg-server    （窗口管理器一般不会使用登陆管理器(dm)，所以xorg-xinit是必要的）
+</span></span><span class=line><span class=cl>pacman -S i3    (安装i3，或者i3-gaps)
+</span></span></code></pre></td></tr></table></div></div><p>由于窗口管理器配置比较复杂，所以这里只讲最基本的安装。</p><p><strong>在此之前，先补充一下用户登陆的时候发生了什么事。</strong></p><ol><li>用户输入账户 sukipai 以及密码，正确。</li><li>tty 会解释执行用户目录下的 .bashrc 文件（如果你用的 zsh，则读取.zshrc，以此类推），相当于手动执行 source <del>/.bashrc，（</del> 表示用户目录，我这里为/home/sukipai/）</li><li>此时登陆到了 tty1</li><li>你想要进入 i3，则需要执行 startx 命令</li><li>startx 会执行 ~/.xinitrc 中的内容</li></ol><p>所以我们的逻辑就很清楚了，如果你想要自动登陆 i3，就需要修改.bashrc 中的逻辑，而 startx 时要做的事情，就需要写在 ~/.xinitrc 文件中。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=k>export</span> <span class=n>LANG</span><span class=o>=</span><span class=n>zh_CN</span><span class=o>.</span><span class=n>UTF</span><span class=o>-</span><span class=mi>8</span>  <span class=c1># 将语言环境设置为中文</span>
+</span></span><span class=line><span class=cl><span class=n>xrdb</span> <span class=o>-</span><span class=n>merge</span> <span class=o>~/.</span><span class=n>Xresources</span>  <span class=c1># 读取~/.Xresources 文件中的信息，我用来修改dpi</span>
+</span></span><span class=line><span class=cl><span class=n>exec</span> <span class=n>i3</span>  <span class=c1># 进入i3wm</span>
+</span></span></code></pre></td></tr></table></div></div><p>为什么要把“export LANG=zh_CN.UTF-8”写在 ~/.xinitrc 里面，是因为，如果你不想进入图形界面，那么你就会停留在 tty，而 tty 本身是不支持中文的。此时，LANG 的值仍然是之前所设置的“en_US.UTF-8”就不会出现乱码的问题，如果把这句话写在 ~/.bashrc 中，那么每次一登陆就会将语言修改为中文，导致 tty 永远处在乱码状态。</p><p>说明一下.Xresources 文件，这个文件可以用来调节 dpi（默认 96），适合高分辨率屏幕，加入以下内容即可</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Xft.dpi: 192
+</span></span></code></pre></td></tr></table></div></div><p>里面的数字填 ( 放大倍数 ) * 96 就可以了，比如 192 就是放到 200%，给个简单参考</p><ul><li>15.5 寸笔记本，1920x1080，填 144</li><li>15.5 寸笔记本，2560x1440，填 192</li><li>如果觉得太大了，可以调小，建议为 25% 的倍数</li></ul><p>那么如何设置自动进入 i3 桌面呢？很简单，将一下代码贴在 ~/.bashrc 中即可</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>if [ -z &#34;${DISPLAY}&#34; ] &amp;&amp; [ &#34;${XDG_VTNR}&#34; -eq 1 ]; then
+</span></span><span class=line><span class=cl>    exec startx
+</span></span><span class=line><span class=cl>fi
+</span></span></code></pre></td></tr></table></div></div><p>这样我们就拥有了一个 i3wm 了。</p><h2 id=3-后续的配置>3. 后续的配置</h2><p>KDE,gnome,i3 等桌面环境的配置，就不在这里赘述了，每个人的需求不一样。</p><h3 id=31-中文输入法>3.1 中文输入法</h3><p>推荐使用 fcitx5</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>sudo</span> <span class=n>pacman</span> <span class=o>-</span><span class=n>S</span> <span class=n>fcitx5</span> <span class=n>fcitx5</span><span class=o>-</span><span class=n>chinese</span><span class=o>-</span><span class=n>addons</span> <span class=n>fcitx5</span><span class=o>-</span><span class=n>gtk</span> <span class=n>fcitx5</span><span class=o>-</span><span class=n>qt</span> <span class=n>fcitx5</span><span class=o>-</span><span class=n>configtool</span>
+</span></span></code></pre></td></tr></table></div></div><p>然后添加环境变量</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo vim /etc/environment
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>GTK_IM_MODULE=fcitx
+</span></span><span class=line><span class=cl>QT_IM_MODULE=fcitx
+</span></span><span class=line><span class=cl>XMODIFIERS=@im=fcitx
+</span></span><span class=line><span class=cl>INPUT_METHOD=fcitx
+</span></span><span class=line><span class=cl>SDL_IM_MODULE=fcitx
+</span></span><span class=line><span class=cl>GLFW_IM_MODULE=ibus
+</span></span></code></pre></td></tr></table></div></div><p>然后设置开机启动即可（桌面环境不同，方法也不同），这里提供一个简单的思路。</p><p>tty 下面是不需要中文输入法的（也用不了），所以修改 ~/.xinitrc，添加代码</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>fcitx5 -d &amp;    (后台运行fcitx5，且开机自启)
+</span></span></code></pre></td></tr></table></div></div><p>wiki 上的描述</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>注意：
+</span></span><span class=line><span class=cl>如果您使用的桌面环境是兼容 XDG 的（例如 KDE、GNOME、Xfce、LXDE等），则 无需 此步骤（添加自启）。
+</span></span><span class=line><span class=cl>如果使用i3、awesome等窗口管理器，需要在其脚本中添加 Fcitx5 以实现自启动。例如，如果您使用 i3 或 sway ,可以在配置文件中添加exec --no-startup-id fcitx5 -d
+</span></span><span class=line><span class=cl>如果使用dwm，则需要添加 autostart 补丁。在 ~/.dwm/autostart.sh 中添加fcitx5 -d
+</span></span></code></pre></td></tr></table></div></div><p>根据需求自取即可。</p><h3 id=32-添加-archlinuxcn-源并配置-yay>3.2 添加 archlinuxcn 源，并配置 yay</h3><p>在装系统时我们已经将 /etc/pacman.d/mirrorlist 换为了国内源（有时候会玄学变回国外源，需要自己查看一下），所以只需要添加 archlinuxcn 即可。</p><p>使用方法：在 /etc/pacman.conf 文件末尾添加以下两行：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[archlinuxcn]
+</span></span><span class=line><span class=cl>SigLevel = Optional TrustAll
+</span></span><span class=line><span class=cl>Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
+</span></span></code></pre></td></tr></table></div></div><p>如果 SigLevel 那一行不加，后面安装 archlinuxcn-keyring 时不会报错的话，可以不加，但是我报错了所以加上了。</p><p>这里有一个坑，要取消这两行前面的注释，不然有一部分 32 位包无法安装。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl> 84 # [muiltilib]
+</span></span><span class=line><span class=cl> 85 # Include = /etc/pacman.d/mirrorlist
+</span></span></code></pre></td></tr></table></div></div><p>之后安装 archlinuxcn-keyring 包导入 GPG key。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo pacman -Syyu
+</span></span><span class=line><span class=cl>sudo pacman -S archlinuxcn-keyring
+</span></span></code></pre></td></tr></table></div></div><p>然后运行</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo pacman -S yay
+</span></span></code></pre></td></tr></table></div></div><p>安装 yay 即可，现在 yay 不能换国内源了，所以无需多余配置。电信网使用 yay 容易连不上，建议使用联通。</p><p>安装终端字体，推荐 nerd-fonts-hack 需要 anchlinuxcn</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pacman -S nerd-fonts-hack
+</span></span></code></pre></td></tr></table></div></div><h3 id=33-配置-zsh可选>3.3 配置 zsh（可选）</h3><p>zsh 是一个非常好用的解释器，配置也不复杂。</p><p><a class=link href=https://zhuanlan.zhihu.com/p/345559097 target=_blank rel=noopener>Linux 中国：配置一个简洁高效的 Zsh | Linux 中国</a>这里就不多赘述，直接开搞</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo pacman -Sy zsh zsh-autosuggestions zsh-syntax-highlighting zsh-theme-powerlevel10k zsh-completions
+</span></span><span class=line><span class=cl>（安装zsh以及相应组件）
+</span></span><span class=line><span class=cl>chsh -s /usr/bin/zsh    （修改为默认解释器）
+</span></span></code></pre></td></tr></table></div></div><p>然后<strong>把 ~/.bashrc 中的所有内容迁移到 ~/.zshrc</strong> ，没有就自己创建，并加入</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+</span></span><span class=line><span class=cl>source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+</span></span><span class=line><span class=cl>source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+</span></span></code></pre></td></tr></table></div></div><p>然后重启就可以使用了，可以删除掉 ~/.bashrc 和 ~/.bash_history 中的内容，因为已经不用了。</p><p>再贴一份好用的配置文件，直接复制所有内容到 ~/.zshrc 最后就行了，然后按需修改，主要修改 alias 部分，以及删去 ibus 输入法相关配置。</p><p><a class=link href=https://blog.csdn.net/u013566722/article/details/51231818 target=_blank rel=noopener>zsh 配置文件_kuikuitage 的博客-CSDN 博客</a>链接里面的内容不太好复制，我这里直接贴上来吧 (一般来说，alias 和 function 用的比较多，其他内容不改就行)</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span><span class=lnt>163
+</span><span class=lnt>164
+</span><span class=lnt>165
+</span><span class=lnt>166
+</span><span class=lnt>167
+</span><span class=lnt>168
+</span><span class=lnt>169
+</span><span class=lnt>170
+</span><span class=lnt>171
+</span><span class=lnt>172
+</span><span class=lnt>173
+</span><span class=lnt>174
+</span><span class=lnt>175
+</span><span class=lnt>176
+</span><span class=lnt>177
+</span><span class=lnt>178
+</span><span class=lnt>179
+</span><span class=lnt>180
+</span><span class=lnt>181
+</span><span class=lnt>182
+</span><span class=lnt>183
+</span><span class=lnt>184
+</span><span class=lnt>185
+</span><span class=lnt>186
+</span><span class=lnt>187
+</span><span class=lnt>188
+</span><span class=lnt>189
+</span><span class=lnt>190
+</span><span class=lnt>191
+</span><span class=lnt>192
+</span><span class=lnt>193
+</span><span class=lnt>194
+</span><span class=lnt>195
+</span><span class=lnt>196
+</span><span class=lnt>197
+</span><span class=lnt>198
+</span><span class=lnt>199
+</span><span class=lnt>200
+</span><span class=lnt>201
+</span><span class=lnt>202
+</span><span class=lnt>203
+</span><span class=lnt>204
+</span><span class=lnt>205
+</span><span class=lnt>206
+</span><span class=lnt>207
+</span><span class=lnt>208
+</span><span class=lnt>209
+</span><span class=lnt>210
+</span><span class=lnt>211
+</span><span class=lnt>212
+</span><span class=lnt>213
+</span><span class=lnt>214
+</span><span class=lnt>215
+</span><span class=lnt>216
+</span><span class=lnt>217
+</span><span class=lnt>218
+</span><span class=lnt>219
+</span><span class=lnt>220
+</span><span class=lnt>221
+</span><span class=lnt>222
+</span><span class=lnt>223
+</span><span class=lnt>224
+</span><span class=lnt>225
+</span><span class=lnt>226
+</span><span class=lnt>227
+</span><span class=lnt>228
+</span><span class=lnt>229
+</span><span class=lnt>230
+</span><span class=lnt>231
+</span><span class=lnt>232
+</span><span class=lnt>233
+</span><span class=lnt>234
+</span><span class=lnt>235
+</span><span class=lnt>236
+</span><span class=lnt>237
+</span><span class=lnt>238
+</span><span class=lnt>239
+</span><span class=lnt>240
+</span><span class=lnt>241
+</span><span class=lnt>242
+</span><span class=lnt>243
+</span><span class=lnt>244
+</span><span class=lnt>245
+</span><span class=lnt>246
+</span><span class=lnt>247
+</span><span class=lnt>248
+</span><span class=lnt>249
+</span><span class=lnt>250
+</span><span class=lnt>251
+</span><span class=lnt>252
+</span><span class=lnt>253
+</span><span class=lnt>254
+</span><span class=lnt>255
+</span><span class=lnt>256
+</span><span class=lnt>257
+</span><span class=lnt>258
+</span><span class=lnt>259
+</span><span class=lnt>260
+</span><span class=lnt>261
+</span><span class=lnt>262
+</span><span class=lnt>263
+</span><span class=lnt>264
+</span><span class=lnt>265
+</span><span class=lnt>266
+</span><span class=lnt>267
+</span><span class=lnt>268
+</span><span class=lnt>269
+</span><span class=lnt>270
+</span><span class=lnt>271
+</span><span class=lnt>272
+</span><span class=lnt>273
+</span><span class=lnt>274
+</span><span class=lnt>275
+</span><span class=lnt>276
+</span><span class=lnt>277
+</span><span class=lnt>278
+</span><span class=lnt>279
+</span><span class=lnt>280
+</span><span class=lnt>281
+</span><span class=lnt>282
+</span><span class=lnt>283
+</span><span class=lnt>284
+</span><span class=lnt>285
+</span><span class=lnt>286
+</span><span class=lnt>287
+</span><span class=lnt>288
+</span><span class=lnt>289
+</span><span class=lnt>290
+</span><span class=lnt>291
+</span><span class=lnt>292
+</span><span class=lnt>293
+</span><span class=lnt>294
+</span><span class=lnt>295
+</span><span class=lnt>296
+</span><span class=lnt>297
+</span><span class=lnt>298
+</span><span class=lnt>299
+</span><span class=lnt>300
+</span><span class=lnt>301
+</span><span class=lnt>302
+</span><span class=lnt>303
+</span><span class=lnt>304
+</span><span class=lnt>305
+</span><span class=lnt>306
+</span><span class=lnt>307
+</span><span class=lnt>308
+</span><span class=lnt>309
+</span><span class=lnt>310
+</span><span class=lnt>311
+</span><span class=lnt>312
+</span><span class=lnt>313
+</span><span class=lnt>314
+</span><span class=lnt>315
+</span><span class=lnt>316
+</span><span class=lnt>317
+</span><span class=lnt>318
+</span><span class=lnt>319
+</span><span class=lnt>320
+</span><span class=lnt>321
+</span><span class=lnt>322
+</span><span class=lnt>323
+</span><span class=lnt>324
+</span><span class=lnt>325
+</span><span class=lnt>326
+</span><span class=lnt>327
+</span><span class=lnt>328
+</span><span class=lnt>329
+</span><span class=lnt>330
+</span><span class=lnt>331
+</span><span class=lnt>332
+</span><span class=lnt>333
+</span><span class=lnt>334
+</span><span class=lnt>335
+</span><span class=lnt>336
+</span><span class=lnt>337
+</span><span class=lnt>338
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>source</span> <span class=o>/</span><span class=n>usr</span><span class=o>/</span><span class=n>share</span><span class=o>/</span><span class=n>zsh</span><span class=o>/</span><span class=n>plugins</span><span class=o>/</span><span class=n>zsh</span><span class=o>-</span><span class=n>syntax</span><span class=o>-</span><span class=n>highlighting</span><span class=o>/</span><span class=n>zsh</span><span class=o>-</span><span class=n>syntax</span><span class=o>-</span><span class=n>highlighting</span><span class=o>.</span><span class=n>zsh</span>
+</span></span><span class=line><span class=cl><span class=n>source</span> <span class=o>/</span><span class=n>usr</span><span class=o>/</span><span class=n>share</span><span class=o>/</span><span class=n>zsh</span><span class=o>/</span><span class=n>plugins</span><span class=o>/</span><span class=n>zsh</span><span class=o>-</span><span class=n>autosuggestions</span><span class=o>/</span><span class=n>zsh</span><span class=o>-</span><span class=n>autosuggestions</span><span class=o>.</span><span class=n>zsh</span>
+</span></span><span class=line><span class=cl><span class=n>source</span> <span class=o>/</span><span class=n>usr</span><span class=o>/</span><span class=n>share</span><span class=o>/</span><span class=n>zsh</span><span class=o>-</span><span class=n>theme</span><span class=o>-</span><span class=n>powerlevel10k</span><span class=o>/</span><span class=n>powerlevel10k</span><span class=o>.</span><span class=n>zsh</span><span class=o>-</span><span class=n>theme</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#color{{{</span>
+</span></span><span class=line><span class=cl><span class=n>autoload</span> <span class=n>colors</span> <span class=o>&amp;&amp;</span> <span class=n>colors</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#命令别名 {{{</span>
+</span></span><span class=line><span class=cl><span class=n>alias</span> <span class=n>cp</span><span class=o>=</span><span class=s1>&#39;cp -i&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>alias</span> <span class=n>mv</span><span class=o>=</span><span class=s1>&#39;mv -i&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>alias</span> <span class=n>rm</span><span class=o>=</span><span class=s1>&#39;rm -i&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>alias</span> <span class=n>ls</span><span class=o>=</span><span class=s1>&#39;ls -a --color=auto&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>alias</span> <span class=n>grep</span><span class=o>=</span><span class=s1>&#39;grep --color=auto&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#终端代理</span>
+</span></span><span class=line><span class=cl><span class=n>function</span> <span class=n>proxy_on</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>export</span> <span class=n>http_proxy</span><span class=o>=</span><span class=n>http</span><span class=p>:</span><span class=o>//</span><span class=mf>127.0</span><span class=o>.</span><span class=mf>0.1</span><span class=p>:</span><span class=mi>7890</span>
+</span></span><span class=line><span class=cl>    <span class=k>export</span> <span class=n>https_proxy</span><span class=o>=$</span><span class=n>http_proxy</span>
+</span></span><span class=line><span class=cl>    <span class=n>echo</span> <span class=o>-</span><span class=n>e</span> <span class=s2>&#34;终端代理已开启。&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>function</span> <span class=n>proxy_off</span><span class=p>(){</span>
+</span></span><span class=line><span class=cl>    <span class=n>unset</span> <span class=n>http_proxy</span> <span class=n>https_proxy</span>
+</span></span><span class=line><span class=cl>    <span class=n>echo</span> <span class=o>-</span><span class=n>e</span> <span class=s2>&#34;终端代理已关闭。&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>color</span> <span class=ow>in</span> <span class=n>RED</span> <span class=n>GREEN</span> <span class=n>YELLOW</span> <span class=n>BLUE</span> <span class=n>MAGENTA</span> <span class=n>CYAN</span> <span class=n>WHITE</span><span class=p>;</span> <span class=k>do</span>
+</span></span><span class=line><span class=cl>	<span class=n>eval</span> <span class=n>_</span><span class=o>$</span><span class=n>color</span><span class=o>=</span><span class=s1>&#39;%{$terminfo[bold]$fg[${(L)color}]%}&#39;</span>
+</span></span><span class=line><span class=cl>	<span class=n>eval</span> <span class=o>$</span><span class=n>color</span><span class=o>=</span><span class=s1>&#39;%{$fg[${(L)color}]%}&#39;</span>
+</span></span><span class=line><span class=cl>	<span class=p>((</span> <span class=n>count</span> <span class=o>=</span> <span class=o>$</span><span class=n>count</span> <span class=o>+</span> <span class=mi>1</span> <span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>done</span>
+</span></span><span class=line><span class=cl><span class=n>FINISH</span><span class=o>=</span><span class=s2>&#34;%{$terminfo[sgr0]%}&#34;</span>
+</span></span><span class=line><span class=cl><span class=c1>#}}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#命令提示符</span>
+</span></span><span class=line><span class=cl><span class=n>RPROMPT</span><span class=o>=$</span><span class=p>(</span><span class=n>echo</span> <span class=s2>&#34;$RED%D %T$FINISH&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>PROMPT</span><span class=o>=$</span><span class=p>(</span><span class=n>echo</span> <span class=s2>&#34;$CYAN%n@$YELLOW%M:$GREEN%/$_YELLOW&gt;$FINISH &#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#PROMPT=$(echo &#34;$BLUE%M$GREEN%/</span>
+</span></span><span class=line><span class=cl><span class=c1>#$CYAN%n@$BLUE%M:$GREEN%/$_YELLOW&gt;&gt;&gt;$FINISH &#34;)</span>
+</span></span><span class=line><span class=cl><span class=c1>#标题栏、任务栏样式{{{</span>
+</span></span><span class=line><span class=cl><span class=k>case</span> <span class=o>$</span><span class=n>TERM</span> <span class=ow>in</span> <span class=p>(</span><span class=o>*</span><span class=n>xterm</span><span class=o>*|*</span><span class=n>rxvt</span><span class=o>*|</span><span class=p>(</span><span class=n>dt</span><span class=o>|</span><span class=n>k</span><span class=o>|</span><span class=n>E</span><span class=p>)</span><span class=n>term</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=n>precmd</span> <span class=p>()</span> <span class=p>{</span> <span class=nb>print</span> <span class=o>-</span><span class=n>Pn</span> <span class=s2>&#34;\e]0;%n@%M//%/</span><span class=se>\a</span><span class=s2>&#34;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>preexec</span> <span class=p>()</span> <span class=p>{</span> <span class=nb>print</span> <span class=o>-</span><span class=n>Pn</span> <span class=s2>&#34;\e]0;%n@%M//%/\ $1</span><span class=se>\a</span><span class=s2>&#34;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=p>;;</span>
+</span></span><span class=line><span class=cl><span class=n>esac</span>
+</span></span><span class=line><span class=cl><span class=c1>#}}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#编辑器</span>
+</span></span><span class=line><span class=cl><span class=k>export</span> <span class=n>EDITOR</span><span class=o>=</span><span class=n>vim</span>
+</span></span><span class=line><span class=cl><span class=c1>#关于历史纪录的配置 {{{</span>
+</span></span><span class=line><span class=cl><span class=c1>#历史纪录条目数量</span>
+</span></span><span class=line><span class=cl><span class=k>export</span> <span class=n>HISTSIZE</span><span class=o>=</span><span class=mi>10000</span>
+</span></span><span class=line><span class=cl><span class=c1>#注销后保存的历史纪录条目数量</span>
+</span></span><span class=line><span class=cl><span class=k>export</span> <span class=n>SAVEHIST</span><span class=o>=</span><span class=mi>10000</span>
+</span></span><span class=line><span class=cl><span class=c1>#历史纪录文件</span>
+</span></span><span class=line><span class=cl><span class=k>export</span> <span class=n>HISTFILE</span><span class=o>=~/.</span><span class=n>zhistory</span>
+</span></span><span class=line><span class=cl><span class=c1>#以附加的方式写入历史纪录</span>
+</span></span><span class=line><span class=cl><span class=n>setopt</span> <span class=n>INC_APPEND_HISTORY</span>
+</span></span><span class=line><span class=cl><span class=c1>#如果连续输入的命令相同，历史纪录中只保留一个</span>
+</span></span><span class=line><span class=cl><span class=n>setopt</span> <span class=n>HIST_IGNORE_DUPS</span>
+</span></span><span class=line><span class=cl><span class=c1>#为历史纪录中的命令添加时间戳</span>
+</span></span><span class=line><span class=cl><span class=n>setopt</span> <span class=n>EXTENDED_HISTORY</span>      
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#启用 cd 命令的历史纪录，cd -[TAB]进入历史路径</span>
+</span></span><span class=line><span class=cl><span class=n>setopt</span> <span class=n>AUTO_PUSHD</span>
+</span></span><span class=line><span class=cl><span class=c1>#相同的历史路径只保留一个</span>
+</span></span><span class=line><span class=cl><span class=n>setopt</span> <span class=n>PUSHD_IGNORE_DUPS</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#在命令前添加空格，不将此命令添加到纪录文件中</span>
+</span></span><span class=line><span class=cl><span class=c1>#setopt HIST_IGNORE_SPACE</span>
+</span></span><span class=line><span class=cl><span class=c1>#}}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#每个目录使用独立的历史纪录{{{</span>
+</span></span><span class=line><span class=cl><span class=n>cd</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>builtin</span> <span class=n>cd</span> <span class=s2>&#34;$@&#34;</span>                             <span class=c1># do actual cd</span>
+</span></span><span class=line><span class=cl>	<span class=n>fc</span> <span class=o>-</span><span class=n>W</span>                                       <span class=c1># write current history  file</span>
+</span></span><span class=line><span class=cl>	<span class=n>local</span> <span class=n>HISTDIR</span><span class=o>=</span><span class=s2>&#34;$HOME/.zsh_history$PWD&#34;</span>      <span class=c1># use nested folders for history</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span>  <span class=p>[</span> <span class=o>!</span> <span class=o>-</span><span class=n>d</span> <span class=s2>&#34;$HISTDIR&#34;</span> <span class=p>]</span> <span class=p>;</span> <span class=n>then</span>          <span class=c1># create folder if needed</span>
+</span></span><span class=line><span class=cl>		<span class=n>mkdir</span> <span class=o>-</span><span class=n>p</span> <span class=s2>&#34;$HISTDIR&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=n>fi</span>
+</span></span><span class=line><span class=cl>	<span class=k>export</span> <span class=n>HISTFILE</span><span class=o>=</span><span class=s2>&#34;$HISTDIR/zhistory&#34;</span>     <span class=c1># set new history file</span>
+</span></span><span class=line><span class=cl>	<span class=n>touch</span> <span class=o>$</span><span class=n>HISTFILE</span>
+</span></span><span class=line><span class=cl>	<span class=n>local</span> <span class=n>ohistsize</span><span class=o>=$</span><span class=n>HISTSIZE</span>
+</span></span><span class=line><span class=cl>	<span class=n>HISTSIZE</span><span class=o>=</span><span class=mi>0</span>                              <span class=c1># Discard previous dir&#39;s history</span>
+</span></span><span class=line><span class=cl>	<span class=n>HISTSIZE</span><span class=o>=$</span><span class=n>ohistsize</span>                     <span class=c1># Prepare for new dir&#39;s history</span>
+</span></span><span class=line><span class=cl>	<span class=n>fc</span> <span class=o>-</span><span class=n>R</span>                                       <span class=c1>#read from current histfile</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>mkdir</span> <span class=o>-</span><span class=n>p</span> <span class=o>$</span><span class=n>HOME</span><span class=o>/.</span><span class=n>zsh_history</span><span class=o>$</span><span class=n>PWD</span>
+</span></span><span class=line><span class=cl><span class=k>export</span> <span class=n>HISTFILE</span><span class=o>=</span><span class=s2>&#34;$HOME/.zsh_history$PWD/zhistory&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>function</span> <span class=n>allhistory</span> <span class=p>{</span> <span class=n>cat</span> <span class=o>$</span><span class=p>(</span><span class=n>find</span> <span class=o>$</span><span class=n>HOME</span><span class=o>/.</span><span class=n>zsh_history</span> <span class=o>-</span><span class=n>name</span> <span class=n>zhistory</span><span class=p>)</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>function</span> <span class=n>convhistory</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>sort</span> <span class=o>$</span><span class=mi>1</span> <span class=o>|</span> <span class=n>uniq</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl>		<span class=n>sed</span> <span class=s1>&#39;s/^:[0−9]∗:[0-9]*;.∗/</span><span class=se>\1</span><span class=s1>::::::</span><span class=se>\2</span><span class=s1>/&#39;</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl>		<span class=n>awk</span> <span class=o>-</span><span class=n>F</span><span class=s2>&#34;::::::&#34;</span> <span class=s1>&#39;{ $1=strftime(&#34;%Y-%m-</span><span class=si>%d</span><span class=s1> %T&#34;,$1) &#34;|&#34;; print }&#39;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=c1>#使用 histall 命令查看全部历史纪录</span>
+</span></span><span class=line><span class=cl>	<span class=n>function</span> <span class=n>histall</span> <span class=p>{</span> <span class=n>convhistory</span> <span class=o>=</span><span class=p>(</span><span class=n>allhistory</span><span class=p>)</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl>		<span class=n>sed</span> <span class=s1>&#39;/^.\{20\} *cd/i</span><span class=se>\\</span><span class=s1>&#39;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>			<span class=c1>#使用 hist 查看当前目录历史纪录</span>
+</span></span><span class=line><span class=cl>			<span class=n>function</span> <span class=n>hist</span> <span class=p>{</span> <span class=n>convhistory</span> <span class=o>$</span><span class=n>HISTFILE</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#全部历史纪录 top50</span>
+</span></span><span class=line><span class=cl><span class=n>function</span> <span class=n>top50</span> <span class=p>{</span> <span class=n>allhistory</span> <span class=o>|</span> <span class=n>awk</span> <span class=o>-</span><span class=n>F</span><span class=s1>&#39;:[ 0-9]*:[0-9]*;&#39;</span> <span class=s1>&#39;{ $1=&#34;&#34; ; print }&#39;</span> <span class=o>|</span> <span class=n>sed</span> <span class=s1>&#39;s/ /</span><span class=se>\n</span><span class=s1>/g&#39;</span> <span class=o>|</span> <span class=n>sed</span> <span class=s1>&#39;/^$/d&#39;</span> <span class=o>|</span> <span class=n>sort</span> <span class=o>|</span> <span class=n>uniq</span> <span class=o>-</span><span class=n>c</span> <span class=o>|</span> <span class=n>sort</span> <span class=o>-</span><span class=n>nr</span> <span class=o>|</span> <span class=n>head</span> <span class=o>-</span><span class=n>n</span> <span class=mi>50</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#}}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#杂项 {{{</span>
+</span></span><span class=line><span class=cl><span class=c1>#允许在交互模式中使用注释  例如：</span>
+</span></span><span class=line><span class=cl><span class=c1>#cmd #这是注释</span>
+</span></span><span class=line><span class=cl><span class=n>setopt</span> <span class=n>INTERACTIVE_COMMENTS</span>      
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#启用自动 cd，输入目录名回车进入目录</span>
+</span></span><span class=line><span class=cl><span class=c1>#稍微有点混乱，不如 cd 补全实用</span>
+</span></span><span class=line><span class=cl><span class=n>setopt</span> <span class=n>AUTO_CD</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#扩展路径</span>
+</span></span><span class=line><span class=cl><span class=c1>#/v/c/p/p =&gt; /var/cache/pacman/pkg</span>
+</span></span><span class=line><span class=cl><span class=n>setopt</span> <span class=n>complete_in_word</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#禁用 core dumps</span>
+</span></span><span class=line><span class=cl><span class=n>limit</span> <span class=n>coredumpsize</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#Emacs风格 键绑定</span>
+</span></span><span class=line><span class=cl><span class=n>bindkey</span> <span class=o>-</span><span class=n>e</span>
+</span></span><span class=line><span class=cl><span class=c1>#bindkey -v</span>
+</span></span><span class=line><span class=cl><span class=c1>#设置 [DEL]键 为向后删除</span>
+</span></span><span class=line><span class=cl><span class=c1>#bindkey &#34;\e[3~&#34; delete-char</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#以下字符视为单词的一部分</span>
+</span></span><span class=line><span class=cl><span class=n>WORDCHARS</span><span class=o>=</span><span class=s1>&#39;*?_-[]~=&amp;;!#$%^(){}&lt;&gt;&#39;</span>
+</span></span><span class=line><span class=cl><span class=c1>#}}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#自动补全功能 {{{</span>
+</span></span><span class=line><span class=cl><span class=n>setopt</span> <span class=n>AUTO_LIST</span>
+</span></span><span class=line><span class=cl><span class=n>setopt</span> <span class=n>AUTO_MENU</span>
+</span></span><span class=line><span class=cl><span class=c1>#开启此选项，补全时会直接选中菜单项</span>
+</span></span><span class=line><span class=cl><span class=c1>#setopt MENU_COMPLETE</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>autoload</span> <span class=o>-</span><span class=n>U</span> <span class=n>compinit</span>
+</span></span><span class=line><span class=cl><span class=n>compinit</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#自动补全缓存</span>
+</span></span><span class=line><span class=cl><span class=c1>#zstyle &#39;:completion::complete:*&#39; use-cache on</span>
+</span></span><span class=line><span class=cl><span class=c1>#zstyle &#39;:completion::complete:*&#39; cache-path .zcache</span>
+</span></span><span class=line><span class=cl><span class=c1>#zstyle &#39;:completion:*:cd:*&#39; ignore-parents parent pwd</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#自动补全选项</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*&#39;</span> <span class=n>verbose</span> <span class=n>yes</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*&#39;</span> <span class=n>menu</span> <span class=n>select</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:*:default&#39;</span> <span class=n>force</span><span class=o>-</span><span class=n>list</span> <span class=n>always</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*&#39;</span> <span class=n>select</span><span class=o>-</span><span class=n>prompt</span> <span class=s1>&#39;%SSelect:  lines: %L  matches: %M  [%p]&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:match:*&#39;</span> <span class=n>original</span> <span class=n>only</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion::prefix-1:*&#39;</span> <span class=n>completer</span> <span class=n>_complete</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:predict:*&#39;</span> <span class=n>completer</span> <span class=n>_complete</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:incremental:*&#39;</span> <span class=n>completer</span> <span class=n>_complete</span> <span class=n>_correct</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*&#39;</span> <span class=n>completer</span> <span class=n>_complete</span> <span class=n>_prefix</span> <span class=n>_correct</span> <span class=n>_prefix</span> <span class=n>_match</span> <span class=n>_approximate</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#路径补全</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*&#39;</span> <span class=n>expand</span> <span class=s1>&#39;yes&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*&#39;</span> <span class=n>squeeze</span><span class=o>-</span><span class=n>shlashes</span> <span class=s1>&#39;yes&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion::complete:*&#39;</span> <span class=s1>&#39;</span><span class=se>\\</span><span class=s1>&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#彩色补全菜单</span>
+</span></span><span class=line><span class=cl><span class=n>eval</span> <span class=o>$</span><span class=p>(</span><span class=n>dircolors</span> <span class=o>-</span><span class=n>b</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=k>export</span> <span class=n>ZLSCOLORS</span><span class=o>=</span><span class=s2>&#34;${LS_COLORS}&#34;</span>
+</span></span><span class=line><span class=cl><span class=n>zmodload</span> <span class=n>zsh</span><span class=o>/</span><span class=n>complist</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*&#39;</span> <span class=n>list</span><span class=o>-</span><span class=n>colors</span> <span class=o>$</span><span class=p>{(</span><span class=n>s</span><span class=o>.</span><span class=p>:</span><span class=o>.</span><span class=p>)</span><span class=n>LS_COLORS</span><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:*:kill:*:processes&#39;</span> <span class=n>list</span><span class=o>-</span><span class=n>colors</span> <span class=s1>&#39;=(#b) #([0-9]#)*=0=01;31&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#修正大小写</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*&#39;</span> <span class=n>matcher</span><span class=o>-</span><span class=n>list</span> <span class=s1>&#39;&#39;</span> <span class=s1>&#39;m:{a-zA-Z}={A-Za-z}&#39;</span>
+</span></span><span class=line><span class=cl><span class=c1>#错误校正</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*&#39;</span> <span class=n>completer</span> <span class=n>_complete</span> <span class=n>_match</span> <span class=n>_approximate</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:match:*&#39;</span> <span class=n>original</span> <span class=n>only</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:approximate:*&#39;</span> <span class=nb>max</span><span class=o>-</span><span class=n>errors</span> <span class=mi>1</span> <span class=n>numeric</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#kill 命令补全</span>
+</span></span><span class=line><span class=cl><span class=n>compdef</span> <span class=n>pkill</span><span class=o>=</span><span class=n>kill</span>
+</span></span><span class=line><span class=cl><span class=n>compdef</span> <span class=n>pkill</span><span class=o>=</span><span class=n>killall</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:*:kill:*&#39;</span> <span class=n>menu</span> <span class=n>yes</span> <span class=n>select</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:*:*:*:processes&#39;</span> <span class=n>force</span><span class=o>-</span><span class=n>list</span> <span class=n>always</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:processes&#39;</span> <span class=n>command</span> <span class=s1>&#39;ps -au$USER&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#补全类型提示分组</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:matches&#39;</span> <span class=n>group</span> <span class=s1>&#39;yes&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*&#39;</span> <span class=n>group</span><span class=o>-</span><span class=n>name</span> <span class=s1>&#39;&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:options&#39;</span> <span class=n>description</span> <span class=s1>&#39;yes&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:options&#39;</span> <span class=n>auto</span><span class=o>-</span><span class=n>description</span> <span class=s1>&#39;</span><span class=si>%d</span><span class=s1>&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:descriptions&#39;</span> <span class=n>format</span> <span class=o>$</span><span class=s1>&#39;\e[01;33m -- </span><span class=si>%d</span><span class=s1> --\e[0m&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:messages&#39;</span> <span class=n>format</span> <span class=o>$</span><span class=s1>&#39;\e[01;35m -- </span><span class=si>%d</span><span class=s1> --\e[0m&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:warnings&#39;</span> <span class=n>format</span> <span class=o>$</span><span class=s1>&#39;\e[01;31m -- No Matches Found --\e[0m&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:corrections&#39;</span> <span class=n>format</span> <span class=o>$</span><span class=s1>&#39;\e[01;32m -- </span><span class=si>%d</span><span class=s1> (errors: </span><span class=si>%e</span><span class=s1>) --\e[0m&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># cd ~ 补全顺序</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:-tilde-:*&#39;</span> <span class=n>group</span><span class=o>-</span><span class=n>order</span> <span class=s1>&#39;named-directories&#39;</span> <span class=s1>&#39;path-directories&#39;</span> <span class=s1>&#39;users&#39;</span> <span class=s1>&#39;expand&#39;</span>
+</span></span><span class=line><span class=cl><span class=c1>#}}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>##行编辑高亮模式 {{{</span>
+</span></span><span class=line><span class=cl><span class=c1># Ctrl+@ 设置标记，标记和光标点之间为 region</span>
+</span></span><span class=line><span class=cl><span class=n>zle_highlight</span><span class=o>=</span><span class=p>(</span><span class=n>region</span><span class=p>:</span><span class=n>bg</span><span class=o>=</span><span class=n>magenta</span> <span class=c1>#选中区域</span>
+</span></span><span class=line><span class=cl>	<span class=n>special</span><span class=p>:</span><span class=n>bold</span>      <span class=c1>#特殊字符</span>
+</span></span><span class=line><span class=cl>	<span class=n>isearch</span><span class=p>:</span><span class=n>underline</span><span class=p>)</span><span class=c1>#搜索时使用的关键字</span>
+</span></span><span class=line><span class=cl>	<span class=c1>#}}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>##空行(光标在行首)补全 &#34;cd &#34; {{{</span>
+</span></span><span class=line><span class=cl><span class=n>user</span><span class=o>-</span><span class=n>complete</span><span class=p>(){</span>
+</span></span><span class=line><span class=cl><span class=k>case</span> <span class=o>$</span><span class=n>BUFFER</span> <span class=ow>in</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;&#34;</span> <span class=p>)</span>                       <span class=c1># 空行填入 &#34;cd &#34;</span>
+</span></span><span class=line><span class=cl>		<span class=n>BUFFER</span><span class=o>=</span><span class=s2>&#34;cd &#34;</span>
+</span></span><span class=line><span class=cl>		<span class=n>zle</span> <span class=n>end</span><span class=o>-</span><span class=n>of</span><span class=o>-</span><span class=n>line</span>
+</span></span><span class=line><span class=cl>		<span class=n>zle</span> <span class=n>expand</span><span class=o>-</span><span class=ow>or</span><span class=o>-</span><span class=n>complete</span>
+</span></span><span class=line><span class=cl>		<span class=p>;;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;cd --&#34;</span> <span class=p>)</span>                  <span class=c1># &#34;cd --&#34; 替换为 &#34;cd +&#34;</span>
+</span></span><span class=line><span class=cl>		<span class=n>BUFFER</span><span class=o>=</span><span class=s2>&#34;cd +&#34;</span>
+</span></span><span class=line><span class=cl>		<span class=n>zle</span> <span class=n>end</span><span class=o>-</span><span class=n>of</span><span class=o>-</span><span class=n>line</span>
+</span></span><span class=line><span class=cl>		<span class=n>zle</span> <span class=n>expand</span><span class=o>-</span><span class=ow>or</span><span class=o>-</span><span class=n>complete</span>
+</span></span><span class=line><span class=cl>		<span class=p>;;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;cd +-&#34;</span> <span class=p>)</span>                  <span class=c1># &#34;cd +-&#34; 替换为 &#34;cd -&#34;</span>
+</span></span><span class=line><span class=cl>		<span class=n>BUFFER</span><span class=o>=</span><span class=s2>&#34;cd -&#34;</span>
+</span></span><span class=line><span class=cl>		<span class=n>zle</span> <span class=n>end</span><span class=o>-</span><span class=n>of</span><span class=o>-</span><span class=n>line</span>
+</span></span><span class=line><span class=cl>		<span class=n>zle</span> <span class=n>expand</span><span class=o>-</span><span class=ow>or</span><span class=o>-</span><span class=n>complete</span>
+</span></span><span class=line><span class=cl>		<span class=p>;;</span>
+</span></span><span class=line><span class=cl>	<span class=o>*</span> <span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=n>zle</span> <span class=n>expand</span><span class=o>-</span><span class=ow>or</span><span class=o>-</span><span class=n>complete</span>
+</span></span><span class=line><span class=cl>		<span class=p>;;</span>
+</span></span><span class=line><span class=cl><span class=n>esac</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>zle</span> <span class=o>-</span><span class=n>N</span> <span class=n>user</span><span class=o>-</span><span class=n>complete</span>
+</span></span><span class=line><span class=cl><span class=n>bindkey</span> <span class=s2>&#34;</span><span class=se>\t</span><span class=s2>&#34;</span> <span class=n>user</span><span class=o>-</span><span class=n>complete</span>
+</span></span><span class=line><span class=cl><span class=c1>#}}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>##在命令前插入 sudo {{{</span>
+</span></span><span class=line><span class=cl><span class=c1>#定义功能</span>
+</span></span><span class=line><span class=cl><span class=n>sudo</span><span class=o>-</span><span class=n>command</span><span class=o>-</span><span class=n>line</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=p>[[</span> <span class=o>-</span><span class=n>z</span> <span class=o>$</span><span class=n>BUFFER</span> <span class=p>]]</span> <span class=o>&amp;&amp;</span> <span class=n>zle</span> <span class=n>up</span><span class=o>-</span><span class=n>history</span>
+</span></span><span class=line><span class=cl><span class=p>[[</span> <span class=o>$</span><span class=n>BUFFER</span> <span class=o>!=</span> <span class=n>sudo</span>\ <span class=o>*</span> <span class=p>]]</span> <span class=o>&amp;&amp;</span> <span class=n>BUFFER</span><span class=o>=</span><span class=s2>&#34;sudo $BUFFER&#34;</span>
+</span></span><span class=line><span class=cl><span class=n>zle</span> <span class=n>end</span><span class=o>-</span><span class=n>of</span><span class=o>-</span><span class=n>line</span>                 <span class=c1>#光标移动到行末</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>zle</span> <span class=o>-</span><span class=n>N</span> <span class=n>sudo</span><span class=o>-</span><span class=n>command</span><span class=o>-</span><span class=n>line</span>
+</span></span><span class=line><span class=cl><span class=c1>#定义快捷键为： [Esc] [Esc]</span>
+</span></span><span class=line><span class=cl><span class=n>bindkey</span> <span class=s2>&#34;\e\e&#34;</span> <span class=n>sudo</span><span class=o>-</span><span class=n>command</span><span class=o>-</span><span class=n>line</span>
+</span></span><span class=line><span class=cl><span class=c1>#}}}</span>
+</span></span><span class=line><span class=cl><span class=c1>#[Esc][h] man 当前命令时，显示简短说明</span>
+</span></span><span class=line><span class=cl><span class=n>alias</span> <span class=n>run</span><span class=o>-</span><span class=n>help</span> <span class=o>&gt;&amp;/</span><span class=n>dev</span><span class=o>/</span><span class=n>null</span> <span class=o>&amp;&amp;</span> <span class=n>unalias</span> <span class=n>run</span><span class=o>-</span><span class=n>help</span>
+</span></span><span class=line><span class=cl><span class=n>autoload</span> <span class=n>run</span><span class=o>-</span><span class=n>help</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#历史命令 top10</span>
+</span></span><span class=line><span class=cl><span class=n>alias</span> <span class=n>top10</span><span class=o>=</span><span class=s1>&#39;print -l  ${(o)history</span><span class=si>%%</span><span class=s1> *} | uniq -c | sort -nr | head -n 10&#39;</span>
+</span></span><span class=line><span class=cl><span class=c1>#}}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#路径别名 {{{</span>
+</span></span><span class=line><span class=cl><span class=c1>#进入相应的路径时只要 cd ~xxx</span>
+</span></span><span class=line><span class=cl><span class=nb>hash</span> <span class=o>-</span><span class=n>d</span> <span class=n>A</span><span class=o>=</span><span class=s2>&#34;/media/ayu/dearest&#34;</span>
+</span></span><span class=line><span class=cl><span class=nb>hash</span> <span class=o>-</span><span class=n>d</span> <span class=n>H</span><span class=o>=</span><span class=s2>&#34;/media/data/backup/ayu&#34;</span>
+</span></span><span class=line><span class=cl><span class=nb>hash</span> <span class=o>-</span><span class=n>d</span> <span class=n>E</span><span class=o>=</span><span class=s2>&#34;/etc/&#34;</span>
+</span></span><span class=line><span class=cl><span class=nb>hash</span> <span class=o>-</span><span class=n>d</span> <span class=n>D</span><span class=o>=</span><span class=s2>&#34;/home/ayumi/Documents&#34;</span>
+</span></span><span class=line><span class=cl><span class=c1>#}}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>##for Emacs {{{</span>
+</span></span><span class=line><span class=cl><span class=c1>#在 Emacs终端 中使用 Zsh 的一些设置 不推荐在 Emacs 中使用它</span>
+</span></span><span class=line><span class=cl><span class=c1>#if [[ &#34;$TERM&#34; == &#34;dumb&#34; ]]; then</span>
+</span></span><span class=line><span class=cl><span class=c1>#setopt No_zle</span>
+</span></span><span class=line><span class=cl><span class=c1>#PROMPT=&#39;%n@%M %/</span>
+</span></span><span class=line><span class=cl><span class=c1>#&gt;&gt;&#39;</span>
+</span></span><span class=line><span class=cl><span class=c1>#alias ls=&#39;ls -F&#39;</span>
+</span></span><span class=line><span class=cl><span class=c1>#fi</span>
+</span></span><span class=line><span class=cl><span class=c1>#}}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#{{{自定义补全</span>
+</span></span><span class=line><span class=cl><span class=c1>#补全 ping</span>
+</span></span><span class=line><span class=cl><span class=n>zstyle</span> <span class=s1>&#39;:completion:*:ping:*&#39;</span> <span class=n>hosts</span> <span class=mf>192.168</span><span class=o>.</span><span class=mf>1.</span><span class=p>{</span><span class=mi>1</span><span class=p>,</span><span class=mi>50</span><span class=p>,</span><span class=mi>51</span><span class=p>,</span><span class=mi>100</span><span class=p>,</span><span class=mi>101</span><span class=p>}</span> <span class=n>www</span><span class=o>.</span><span class=n>google</span><span class=o>.</span><span class=n>com</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#补全 ssh scp sftp 等</span>
+</span></span><span class=line><span class=cl><span class=c1>#zstyle -e &#39;:completion::*:*:*:hosts&#39; hosts &#39;reply=(${=${${(f)&#34;$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)&#34;}%%[# ]*}//,/ })&#39;</span>
+</span></span><span class=line><span class=cl><span class=c1>#}}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#{{{ F1 计算器</span>
+</span></span><span class=line><span class=cl><span class=n>arith</span><span class=o>-</span><span class=n>eval</span><span class=o>-</span><span class=n>echo</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=n>LBUFFER</span><span class=o>=</span><span class=s2>&#34;${LBUFFER}echo \$(( &#34;</span>
+</span></span><span class=line><span class=cl><span class=n>RBUFFER</span><span class=o>=</span><span class=s2>&#34; ))$RBUFFER&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>zle</span> <span class=o>-</span><span class=n>N</span> <span class=n>arith</span><span class=o>-</span><span class=n>eval</span><span class=o>-</span><span class=n>echo</span>
+</span></span><span class=line><span class=cl><span class=n>bindkey</span> <span class=s2>&#34;^[[11~&#34;</span> <span class=n>arith</span><span class=o>-</span><span class=n>eval</span><span class=o>-</span><span class=n>echo</span>
+</span></span><span class=line><span class=cl><span class=c1>#}}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>####{{{</span>
+</span></span><span class=line><span class=cl><span class=n>function</span> <span class=n>timeconv</span> <span class=p>{</span> <span class=n>date</span> <span class=o>-</span><span class=n>d</span> <span class=err>@</span><span class=o>$</span><span class=mi>1</span> <span class=o>+</span><span class=s2>&#34;%Y-%m-</span><span class=si>%d</span><span class=s2> %T&#34;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># }}}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>zmodload</span> <span class=n>zsh</span><span class=o>/</span><span class=n>mathfunc</span>
+</span></span><span class=line><span class=cl><span class=n>autoload</span> <span class=o>-</span><span class=n>U</span> <span class=n>zsh</span><span class=o>-</span><span class=n>mime</span><span class=o>-</span><span class=n>setup</span>
+</span></span><span class=line><span class=cl><span class=n>zsh</span><span class=o>-</span><span class=n>mime</span><span class=o>-</span><span class=n>setup</span>
+</span></span><span class=line><span class=cl><span class=n>setopt</span> <span class=n>EXTENDED_GLOB</span>
+</span></span><span class=line><span class=cl><span class=c1>#autoload -U promptinit</span>
+</span></span><span class=line><span class=cl><span class=c1>#promptinit</span>
+</span></span><span class=line><span class=cl><span class=c1>#prompt redhat</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>setopt</span> <span class=n>correctall</span>
+</span></span><span class=line><span class=cl><span class=n>autoload</span> <span class=n>compinstall</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#漂亮又实用的命令高亮界面</span>
+</span></span><span class=line><span class=cl><span class=n>setopt</span> <span class=n>extended_glob</span>
+</span></span><span class=line><span class=cl><span class=n>TOKENS_FOLLOWED_BY_COMMANDS</span><span class=o>=</span><span class=p>(</span><span class=s1>&#39;|&#39;</span> <span class=s1>&#39;||&#39;</span> <span class=s1>&#39;;&#39;</span> <span class=s1>&#39;&amp;&#39;</span> <span class=s1>&#39;&amp;&amp;&#39;</span> <span class=s1>&#39;sudo&#39;</span> <span class=s1>&#39;do&#39;</span> <span class=s1>&#39;time&#39;</span> <span class=s1>&#39;strace&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>recolor</span><span class=o>-</span><span class=n>cmd</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=n>region_highlight</span><span class=o>=</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=n>colorize</span><span class=o>=</span><span class=bp>true</span>
+</span></span><span class=line><span class=cl><span class=n>start_pos</span><span class=o>=</span><span class=mi>0</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>arg</span> <span class=ow>in</span> <span class=o>$</span><span class=p>{(</span><span class=n>z</span><span class=p>)</span><span class=n>BUFFER</span><span class=p>};</span> <span class=k>do</span>
+</span></span><span class=line><span class=cl>	<span class=p>((</span><span class=n>start_pos</span><span class=o>+=$</span><span class=p>{</span><span class=c1>#BUFFER[$start_pos+1,-1]}-${#${BUFFER[$start_pos+1,-1]## #}}))</span>
+</span></span><span class=line><span class=cl>	<span class=p>((</span><span class=n>end_pos</span><span class=o>=$</span><span class=n>start_pos</span><span class=o>+$</span><span class=p>{</span><span class=c1>#arg}))</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=o>$</span><span class=n>colorize</span><span class=p>;</span> <span class=n>then</span>
+</span></span><span class=line><span class=cl>		<span class=n>colorize</span><span class=o>=</span><span class=bp>false</span>
+</span></span><span class=line><span class=cl>		<span class=n>res</span><span class=o>=$</span><span class=p>(</span><span class=n>LC_ALL</span><span class=o>=</span><span class=n>C</span> <span class=n>builtin</span> <span class=n>type</span> <span class=o>$</span><span class=n>arg</span> <span class=mi>2</span><span class=o>&gt;/</span><span class=n>dev</span><span class=o>/</span><span class=n>null</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>case</span> <span class=o>$</span><span class=n>res</span> <span class=ow>in</span>
+</span></span><span class=line><span class=cl>			<span class=o>*</span><span class=s1>&#39;reserved word&#39;</span><span class=o>*</span><span class=p>)</span>   <span class=n>style</span><span class=o>=</span><span class=s2>&#34;fg=magenta,bold&#34;</span><span class=p>;;</span>
+</span></span><span class=line><span class=cl>			<span class=o>*</span><span class=s1>&#39;alias for&#39;</span><span class=o>*</span><span class=p>)</span>       <span class=n>style</span><span class=o>=</span><span class=s2>&#34;fg=cyan,bold&#34;</span><span class=p>;;</span>
+</span></span><span class=line><span class=cl>			<span class=o>*</span><span class=s1>&#39;shell builtin&#39;</span><span class=o>*</span><span class=p>)</span>   <span class=n>style</span><span class=o>=</span><span class=s2>&#34;fg=yellow,bold&#34;</span><span class=p>;;</span>
+</span></span><span class=line><span class=cl>			<span class=o>*</span><span class=s1>&#39;shell function&#39;</span><span class=o>*</span><span class=p>)</span>  <span class=n>style</span><span class=o>=</span><span class=s1>&#39;fg=green,bold&#39;</span><span class=p>;;</span>
+</span></span><span class=line><span class=cl>			<span class=o>*</span><span class=s2>&#34;$arg is&#34;</span><span class=o>*</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>				<span class=p>[[</span> <span class=o>$</span><span class=n>arg</span> <span class=o>=</span> <span class=s1>&#39;sudo&#39;</span> <span class=p>]]</span> <span class=o>&amp;&amp;</span> <span class=n>style</span><span class=o>=</span><span class=s2>&#34;fg=red,bold&#34;</span> <span class=o>||</span> <span class=n>style</span><span class=o>=</span><span class=s2>&#34;fg=blue,bold&#34;</span><span class=p>;;</span>
+</span></span><span class=line><span class=cl>			<span class=o>*</span><span class=p>)</span>                   <span class=n>style</span><span class=o>=</span><span class=s1>&#39;none,bold&#39;</span><span class=p>;;</span>
+</span></span><span class=line><span class=cl>		<span class=n>esac</span>
+</span></span><span class=line><span class=cl>		<span class=n>region_highlight</span><span class=o>+=</span><span class=p>(</span><span class=s2>&#34;$start_pos $end_pos $style&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=n>fi</span>
+</span></span><span class=line><span class=cl>	<span class=p>[[</span> <span class=o>$</span><span class=p>{</span><span class=o>$</span><span class=p>{</span><span class=n>TOKENS_FOLLOWED_BY_COMMANDS</span><span class=p>[(</span><span class=n>r</span><span class=p>)</span><span class=o>$</span><span class=p>{</span><span class=n>arg</span><span class=o>//|/</span>\<span class=o>|</span><span class=p>}]}:</span><span class=o>+</span><span class=n>yes</span><span class=p>}</span> <span class=o>=</span> <span class=s1>&#39;yes&#39;</span> <span class=p>]]</span> <span class=o>&amp;&amp;</span> <span class=n>colorize</span><span class=o>=</span><span class=bp>true</span>
+</span></span><span class=line><span class=cl>	<span class=n>start_pos</span><span class=o>=$</span><span class=n>end_pos</span>
+</span></span><span class=line><span class=cl><span class=n>done</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>check</span><span class=o>-</span><span class=n>cmd</span><span class=o>-</span><span class=bp>self</span><span class=o>-</span><span class=n>insert</span><span class=p>()</span> <span class=p>{</span> <span class=n>zle</span> <span class=o>.</span><span class=n>self</span><span class=o>-</span><span class=n>insert</span> <span class=o>&amp;&amp;</span> <span class=n>recolor</span><span class=o>-</span><span class=n>cmd</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>check</span><span class=o>-</span><span class=n>cmd</span><span class=o>-</span><span class=n>backward</span><span class=o>-</span><span class=n>delete</span><span class=o>-</span><span class=n>char</span><span class=p>()</span> <span class=p>{</span> <span class=n>zle</span> <span class=o>.</span><span class=n>backward</span><span class=o>-</span><span class=n>delete</span><span class=o>-</span><span class=n>char</span> <span class=o>&amp;&amp;</span> <span class=n>recolor</span><span class=o>-</span><span class=n>cmd</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>zle</span> <span class=o>-</span><span class=n>N</span> <span class=bp>self</span><span class=o>-</span><span class=n>insert</span> <span class=n>check</span><span class=o>-</span><span class=n>cmd</span><span class=o>-</span><span class=bp>self</span><span class=o>-</span><span class=n>insert</span>
+</span></span><span class=line><span class=cl><span class=n>zle</span> <span class=o>-</span><span class=n>N</span> <span class=n>backward</span><span class=o>-</span><span class=n>delete</span><span class=o>-</span><span class=n>char</span> <span class=n>check</span><span class=o>-</span><span class=n>cmd</span><span class=o>-</span><span class=n>backward</span><span class=o>-</span><span class=n>delete</span><span class=o>-</span><span class=n>char</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=34-安装必要软件>3.4 安装必要软件</h3><p>这个就自己按需安装了，根据评论区建议，可以添加一个 pacman.ltd 源，里面有很多常用的软件，matlab 和 mathmatica 都有，直接 &ldquo;vim /etc/pacman.conf&rdquo;，在后面添加：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[Clansty]
+</span></span><span class=line><span class=cl>SigLevel = Never
+</span></span><span class=line><span class=cl>Server = https://repo.lwqwq.com/archlinux/$arch
+</span></span><span class=line><span class=cl>Server = https://pacman.ltd/archlinux/$arch
+</span></span><span class=line><span class=cl>Server = https://repo.clansty.com/archlinux/$arch
+</span></span></code></pre></td></tr></table></div></div><p>vscode、matlab、texlive-full 之类的东西都可以直接 pacman 安装了。</p><h2 id=4-总结>4 总结</h2><p>本来没想要写这么多的，但是写了就。。。。。应该还算比较详细了，罗列了很多教程里面的坑，资料来源几乎都是 wiki，流程主要参考开头的文章，希望可以帮助到大家。我很喜欢 archlinux，能高兴能出一份力。</p><p>然后总结一下需要注意的坑点</p><ul><li>pacman 务必先换源</li><li>如果需要有线网和 usb 共享的话，iwd 和 networkmanager 必须安装，且在第一次重启之前装好。如果只需要无线网，可以卸载 networkmanager，只使用 iwd</li><li>grub-install 是对整个硬盘，不是 boot 分区</li><li>KDE 有些组件比较臃肿，是可以替换的。</li><li>输入法不要再用旧版的 fcitx4</li><li>boot 分区挂载到 /boot/efi 而不是 /efi</li><li>usb 共享网络安装时，提前安装好 usbmuxd，networkmanager</li><li>如果需要开启 sshd 服务，请使用 sudo systemctl enble sshd，否则别人连不上你电脑</li><li>dhcpcd 是网线用户需要安装的必备组件</li><li>不取消注释 /etc/pacman.conf 中的 [multilib] 行，virtualbox 装不上。</li></ul></section><footer class=article-footer><section class=article-tags><a href=/tags/%E6%8A%80%E6%9C%AF/>技术</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/windows--openwrt-%E5%BC%82%E5%9C%B0-zerotier-%E7%BB%84%E7%BD%91/><div class=article-details><h2 class=article-title>Windows + OpenWRT 异地 Zerotier 组网</h2></div></a></article><article><a href=/p/%E8%87%AA%E8%A1%8C%E7%BC%96%E8%AF%91%E5%AE%9A%E5%88%B6-immortalwrt/><div class=article-details><h2 class=article-title>自行编译定制 immortalWRT</h2></div></a></article><article><a href=/p/%E5%B8%B8%E7%94%A8%E7%9A%84-windows-%E9%85%8D%E7%BD%AE%E8%84%9A%E6%9C%AC/><div class=article-details><h2 class=article-title>常用的 Windows 配置脚本</h2></div></a></article><article><a href=/p/pve-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/><div class=article-details><h2 class=article-title>PVE 内网穿透</h2></div></a></article><article><a href=/p/2022-%E5%B9%B4%E7%94%A8-wayland-%E5%BC%80%E5%90%AF-linux/><div class=article-details><h2 class=article-title>2022 年，用 Wayland 开启 linux</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 菘菓菌</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

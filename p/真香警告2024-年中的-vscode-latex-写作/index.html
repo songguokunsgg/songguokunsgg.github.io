@@ -1,0 +1,362 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="文章介绍了 2024 年使用 VSCode 和 LaTeX 进行写作的最新配置方法，重点推荐了 latexmk 工具，因其排错功能、增量编译和智能编译链的优势。文章还详细说明了在 Windows、Linux 和 macOS 上安装 TeX Live 和 VSCode 的步骤，并提供了 VSCode 中 LaTeX 插件的配置指南。vscode+latex 写作"><title>真香警告，2024 年中的 vscode+latex 写作</title>
+<link rel=canonical href=https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="真香警告，2024 年中的 vscode+latex 写作"><meta property='og:description' content="文章介绍了 2024 年使用 VSCode 和 LaTeX 进行写作的最新配置方法，重点推荐了 latexmk 工具，因其排错功能、增量编译和智能编译链的优势。文章还详细说明了在 Windows、Linux 和 macOS 上安装 TeX Live 和 VSCode 的步骤，并提供了 VSCode 中 LaTeX 插件的配置指南。vscode+latex 写作"><meta property='og:url' content='https://songguokunsgg.github.io/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/'><meta property='og:site_name' content='菘菓菌'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='学术'><meta property='article:published_time' content='2024-04-22T11:28:33+00:00'><meta property='article:modified_time' content='2024-04-22T11:28:33+00:00'><meta name=twitter:title content="真香警告，2024 年中的 vscode+latex 写作"><meta name=twitter:description content="文章介绍了 2024 年使用 VSCode 和 LaTeX 进行写作的最新配置方法，重点推荐了 latexmk 工具，因其排错功能、增量编译和智能编译链的优势。文章还详细说明了在 Windows、Linux 和 macOS 上安装 TeX Live 和 VSCode 的步骤，并提供了 VSCode 中 LaTeX 插件的配置指南。vscode+latex 写作"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_598b466302713ded.png width=300 height=325 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>菘菓菌</a></h1><h2 class=site-description>热爱技术，热爱生活，梦想是像风般自由</h2></div></header><ol class=menu-social><li><a href=https://github.com/songguokunsgg target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://zhihu.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>主页</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>归档</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>搜索</span></a></li><li><a href=/%E9%93%BE%E6%8E%A5/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>链接</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#安装-texlive>安装 texlive</a><ol><li><a href=#windows-端的安装>windows 端的安装</a></li><li><a href=#linux-端的安装windows-用户跳过>linux 端的安装（windows 用户跳过）</a></li><li><a href=#验证安装>验证安装</a></li><li><a href=#macos-端的安装>macOS 端的安装</a></li></ol></li><li><a href=#安装-visual-studio-codewindows>安装 visual studio code（windows）</a></li><li><a href=#安装-visual-studio-codelinux>安装 visual studio code（linux）</a><ol><li><a href=#安装-visual-studio-codemacos>安装 visual studio code（macOS）</a></li></ol></li><li><a href=#配置-latex>配置 latex</a><ol><li><a href=#安装插件>安装插件</a></li><li><a href=#使用浏览器作为-pdf-阅读器>使用浏览器作为 PDF 阅读器</a></li><li><a href=#配置-latex-workshop1>配置 latex-workshop[1]</a></li><li><a href=#自编译脚本可选>自编译脚本（可选）</a></li><li><a href=#注意事项>注意事项</a></li></ol></li><li><a href=#参考>参考</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E7%BB%88%E7%AB%AF%E4%B8%8E%E7%BC%96%E8%BE%91%E5%99%A8/>终端与编辑器</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/>真香警告，2024 年中的 vscode+latex 写作</a></h2><h3 class=article-subtitle>文章介绍了 2024 年使用 VSCode 和 LaTeX 进行写作的最新配置方法，重点推荐了 latexmk 工具，因其排错功能、增量编译和智能编译链的优势。文章还详细说明了在 Windows、Linux 和 macOS 上安装 TeX Live 和 VSCode 的步骤，并提供了 VSCode 中 LaTeX 插件的配置指南。vscode+latex 写作</h3></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Apr 22, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 4 分钟</time></div></footer></div></header><section class=article-content><p>2024 年 4 月 20 日诈尸更新，内容如下：</p><ul><li>去掉了使用第三方 PDF 阅读器的方法，因为浏览器已经足够好用，且跨平台性能强。</li><li>修改了配置文件，去除传统的 xe->bib->xe*2 类型的编译链，转为全部使用性能更好，使用更加简单的 latexmk。</li><li>去掉了可能有坑的配置项，尽量减少对插件默认配置的修改，代码量大幅缩水。</li></ul><p>我只说三点理由，劝你使用 latexmk 取代传统方法：</p><ol><li>排错功能。latexmk 对于错误容忍度低，一点小错都不会放过，可以对你起监督作用，避免写出屎山还不自知。</li><li>增量编译。xe 和 pdf 都是全量编译的，十分之慢，latexmk 只会编译你改动的部分，大大减少编译时间，不会出现你明明什么都没改，不小心点到编译还是会进行全量编译的情况（笔记本电池说谢谢你）。</li><li>智能编译链。从此再也不用管什么先 xe 后 bib 了，latexmk 直接一键搞定。</li></ol><hr><p>2023 年 6 月 8 日更新，内容如下：</p><ul><li>修改了增加了使用浏览器进行外部查看的方式</li><li>添加了自定义编译脚本的相关说明，并附有一个通用编译模板</li><li>增加了 macOS 的安装说明</li></ul><hr><p>2023 年 1 月 22 日大年初一更新一次，更新内容如下：</p><ul><li>修改了文章标题。。。与时俱进</li></ul><hr><p>2022 年 12 月 19 日更新一次，增加了用 winget 安装 okular 的配置方法</p><hr><p>2022 年 11 月 20 日更新一次，优化了 okular 路径的填写方法</p><p>git bash 可以找到 okular 程序路径，直接定位到路径即可，并不需要定位到图标</p><hr><p>2022 年 11 月 13 日更新一次，增加了一些 linux 端 (Archlinux 为例) 配置的说明</p><hr><p>为什么我不用 texwork 或者 texstudio？因为 vscode 太香了，不多 bb</p><h2 id=安装-texlive>安装 texlive</h2><h3 id=windows-端的安装>windows 端的安装</h3><p><a class=link href=https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/ target=_blank rel=noopener>https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/</a></p><p>直接下载 texlive.iso，运行里面的 install-tl-windows.bat</p><p><img src=/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-db20e80c4405dfb8254efa4ce3255211_b.jpg width=666 height=541 srcset="/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-db20e80c4405dfb8254efa4ce3255211_b_hu_b08edbf6fba52aec.jpg 480w, /p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-db20e80c4405dfb8254efa4ce3255211_b_hu_b992399f21f3e06a.jpg 1024w" loading=lazy class=gallery-image data-flex-grow=123 data-flex-basis=295px><br>取消勾选这个没用的 texwork（如果你觉得好用，请别打我）</p><p>等待一阵漫长的安装（什么时候才能用包管理器一键安装啊……）</p><h3 id=linux-端的安装windows-用户跳过>linux 端的安装（windows 用户跳过）</h3><p>linux 端 通过命令或者文件管理器挂载文件</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo mount -o loop texlive.iso /mnt
+</span></span></code></pre></td></tr></table></div></div><p>如果需要使用图形界面安装的话，需要安装下面两个软件包</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo pacman -S perl perl-tk
+</span></span></code></pre></td></tr></table></div></div><p>perl 一般发行版都自带了，perl-tk 可能需要自行安装，然后使用命令</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo ./install -gui
+</span></span></code></pre></td></tr></table></div></div><p>就会打开与 windows 相同的图形安装界面，直接点安装即可，也可以自行更改安装路径（建议 /usr/local 或者 /opt/）</p><p>有些发行版可以通过包管理器一键安装，不过需要网络，以 Archlinux 为例：</p><p>添加竹林源</p><p><a class=link href=https://pacman.ltd/ target=_blank rel=noopener>https://pacman.ltd/</a></p><p>然后</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo pacman -S texlive-full
+</span></span></code></pre></td></tr></table></div></div><p>最近这个源好像出了一些问题，有些包没有了，如果无法下载可以本地安装。</p><p>最后需要添加 windows 字体，不然 tex 编译的字体可能不正确，也很简单，直接找一台 windows 电脑，把 C:/windows/fonts 复制到 /usr/share/fonts/ 下面，然后</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>sudo fc-cache -fsv
+</span></span></code></pre></td></tr></table></div></div><p>就可以了，解决字体办法有很多，我认为这是最简单的一种了，双系统用户 0 难度。</p><p>这里默认 linux 用户都是懂电脑的，所以就不配图了。</p><h3 id=验证安装>验证安装</h3><p>打开终端，输入 xelatex，如果有以下输出，说明安装成功：</p><p><img src=/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-3e64b8f65ec9b0316b54087da991999d_b.jpg width=1462 height=164 srcset="/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-3e64b8f65ec9b0316b54087da991999d_b_hu_c0732475874e37c0.jpg 480w, /p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-3e64b8f65ec9b0316b54087da991999d_b_hu_3653f1f6af8afc63.jpg 1024w" loading=lazy class=gallery-image data-flex-grow=891 data-flex-basis=2139px></p><h3 id=macos-端的安装>macOS 端的安装</h3><p>最简单无脑的就是 macOS，安装包与前面 Linux 和 Windows 用的不同，下载地址：</p><p><a class=link href=https://tug.org/mactex/mactex-download.html target=_blank rel=noopener>https://tug.org/mactex/mactex-download.html</a></p><p>这个包是 universe 的，inter 和 m 芯片的都可以用。直接像装普通软件一样安装即可，安装后会多出几个这玩意</p><p><img src=/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-813c1aeb4ec28d69a4f80f19e664c347_b.jpg width=720 height=203 srcset="/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-813c1aeb4ec28d69a4f80f19e664c347_b_hu_8a9c1b4a2045bce7.jpg 480w, /p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-813c1aeb4ec28d69a4f80f19e664c347_b_hu_6376577d9a3267a9.jpg 1024w" loading=lazy class=gallery-image data-flex-grow=354 data-flex-basis=851px><br>除了 BibDesk 之外，用得都不多，BibDesk 也可以用别的文献管理软件替代。</p><p>进一步验证安装，在终端输入：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>latex -v
+</span></span></code></pre></td></tr></table></div></div><p>有形如下图的输出即可</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>pdfTeX 3.141592653-2.6-1.40.25 (TeX Live 2023)
+</span></span><span class=line><span class=cl>kpathsea version 6.3.5
+</span></span><span class=line><span class=cl>Copyright 2023 Han The Thanh (pdfTeX) et al.
+</span></span><span class=line><span class=cl>There is NO warranty.  Redistribution of this software is
+</span></span><span class=line><span class=cl>covered by the terms of both the pdfTeX copyright and
+</span></span><span class=line><span class=cl>the Lesser GNU General Public License.
+</span></span><span class=line><span class=cl>For more information about these matters, see the file
+</span></span><span class=line><span class=cl>named COPYING and the pdfTeX source.
+</span></span><span class=line><span class=cl>Primary author of pdfTeX: Han The Thanh (pdfTeX) et al.
+</span></span><span class=line><span class=cl>Compiled with libpng 1.6.39; using libpng 1.6.39
+</span></span><span class=line><span class=cl>Compiled with zlib 1.2.13; using zlib 1.2.13
+</span></span><span class=line><span class=cl>Compiled with xpdf version 4.04
+</span></span></code></pre></td></tr></table></div></div><h2 id=安装-visual-studio-codewindows>安装 visual studio code（windows）</h2><p>这个不用说了，应用商店一键安装，也可以下载安装包安装</p><p><img src=/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-5ba0b29fb14d860b57ccdd940b973aff_b.jpg width=720 height=625 srcset="/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-5ba0b29fb14d860b57ccdd940b973aff_b_hu_172ddcfc7a129386.jpg 480w, /p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-5ba0b29fb14d860b57ccdd940b973aff_b_hu_c3bc1a69b0b00915.jpg 1024w" loading=lazy class=gallery-image data-flex-grow=115 data-flex-basis=276px><br>设置中文之类的就不说了（我的 vscode 用作代码编辑，insider 版本当文档编辑，配置都是一样的）</p><h2 id=安装-visual-studio-codelinux>安装 visual studio code（linux）</h2><p>下载 deb 安装，通过包管理器安装都可以，ubuntu 用 ppa，arch 用 yay，略过。</p><p>我现在切换到了 NixOS，就顺便提一句，只能使用 vscode-fhs 才行（懂得都懂我在说什么，不懂的你也没必要懂）。</p><h3 id=安装-visual-studio-codemacos>安装 visual studio code（macOS）</h3><p>下载 universe 的版本安装即可，略过。</p><h2 id=配置-latex>配置 latex</h2><h3 id=安装插件>安装插件</h3><p><img src=/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-063179a134c4be3b49dbc69f1e6aa27d_b.jpg width=433 height=133 srcset="/p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-063179a134c4be3b49dbc69f1e6aa27d_b_hu_78fdca92a343166b.jpg 480w, /p/%E7%9C%9F%E9%A6%99%E8%AD%A6%E5%91%8A2024-%E5%B9%B4%E4%B8%AD%E7%9A%84-vscode-latex-%E5%86%99%E4%BD%9C/v2-063179a134c4be3b49dbc69f1e6aa27d_b_hu_1a19dab668dd414f.jpg 1024w" loading=lazy class=gallery-image data-flex-grow=325 data-flex-basis=781px><br>就这一个玩意就可以满足基本需求</p><h3 id=使用浏览器作为-pdf-阅读器>使用浏览器作为 PDF 阅读器</h3><p>这种方式可以很便携的实现反向定位和自动刷新。以下几种浏览器我都测过可以完美实现：</p><ul><li>Chrome，Edge，Arc</li><li>Firefox</li><li>Safari</li></ul><h3 id=配置-latex-workshop1>配置 latex-workshop[1]</h3><p>直接复制粘贴即可，</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;latex-workshop.intellisense.package.enabled&#34;</span><span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;latex-workshop.latex.autoBuild.run&#34;</span>         <span class=p>:</span> <span class=s2>&#34;onSave&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 文件清理
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=nt>&#34;latex-workshop.latex.clean.fileTypes&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;*.log&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>],</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;latex-workshop.latex.recipe.default&#34;</span><span class=p>:</span> <span class=s2>&#34;lastUsed&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 用于配置编译链
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=nt>&#34;latex-workshop.latex.recipes&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;name&#34;</span> <span class=p>:</span> <span class=s2>&#34;latexmk&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;tools&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;latexmk&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;name&#34;</span> <span class=p>:</span> <span class=s2>&#34;xelatex-latexmk&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;tools&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;xelatex-latexmk&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;name&#34;</span> <span class=p>:</span> <span class=s2>&#34;pdflatex-latexmk&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;tools&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;pdflatex-latexmk&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;name&#34;</span> <span class=p>:</span> <span class=s2>&#34;xelatex-latexmk-with-shell-escape&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;tools&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;xelatex-latexmk-with-shell-escape&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;name&#34;</span> <span class=p>:</span> <span class=s2>&#34;pdflatex-latexmk-with-shell-escape&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;tools&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;pdflatex-latexmk-with-shell-escape&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;name&#34;</span> <span class=p>:</span> <span class=s2>&#34;BibTeX&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;tools&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;bibtex&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>],</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;latex-workshop.latex.tools&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;args&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-f&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-synctex=1&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-interaction=nonstopmode&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-file-line-error&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-xelatex&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-outdir=%OUTDIR%&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;%DOC%&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=p>],</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;command&#34;</span><span class=p>:</span> <span class=s2>&#34;latexmk&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;name&#34;</span>   <span class=p>:</span> <span class=s2>&#34;xelatex-latexmk&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;args&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-f&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-synctex=1&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-interaction=nonstopmode&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-file-line-error&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-pdf&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-outdir=%OUTDIR%&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;%DOC%&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=p>],</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;command&#34;</span><span class=p>:</span> <span class=s2>&#34;latexmk&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;name&#34;</span>   <span class=p>:</span> <span class=s2>&#34;pdflatex-latexmk&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;args&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-f&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;--shell-escape&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-synctex=1&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-interaction=nonstopmode&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-file-line-error&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-xelatex&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-outdir=%OUTDIR%&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;%DOC%&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=p>],</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;command&#34;</span><span class=p>:</span> <span class=s2>&#34;latexmk&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;name&#34;</span>   <span class=p>:</span> <span class=s2>&#34;xelatex-latexmk-with-shell-escape&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;args&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-f&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;--shell-escape&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-synctex=1&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-interaction=nonstopmode&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-file-line-error&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-pdf&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-outdir=%OUTDIR%&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;%DOC%&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=p>],</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;command&#34;</span><span class=p>:</span> <span class=s2>&#34;latexmk&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;name&#34;</span>   <span class=p>:</span> <span class=s2>&#34;pdflatex-latexmk-with-shell-escape&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;args&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-f&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-synctex=1&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-interaction=nonstopmode&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-file-line-error&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;-pdf&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;%DOC%&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=p>],</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;command&#34;</span><span class=p>:</span> <span class=s2>&#34;latexmk&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;name&#34;</span>   <span class=p>:</span> <span class=s2>&#34;latexmk&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;args&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;%DOCFILE%&#34;</span>
+</span></span><span class=line><span class=cl>      <span class=p>],</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;command&#34;</span><span class=p>:</span> <span class=s2>&#34;bibtex&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&#34;name&#34;</span>   <span class=p>:</span> <span class=s2>&#34;bibtex&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>],</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;latex-workshop.showContextMenu&#34;</span>              <span class=p>:</span> <span class=kc>true</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;latex-workshop.view.pdf.external.viewer.args&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;%PDF%&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>],</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;latex-workshop.view.pdf.internal.synctex.keybinding&#34;</span><span class=p>:</span> <span class=s2>&#34;double-click&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;latex-workshop.view.pdf.ref.viewer&#34;</span>                 <span class=p>:</span> <span class=s2>&#34;auto&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&#34;latex-workshop.view.pdf.viewer&#34;</span>                     <span class=p>:</span> <span class=s2>&#34;browser&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>  
+</span></span></code></pre></td></tr></table></div></div><p>之前在每一个配置项上都写了注释，这里全部删了，因为但你把他们粘贴到 vscode 配置文件中时，鼠标移动到对应选项上都会出现相关说明，没有必要长篇大论。</p><h3 id=自编译脚本可选>自编译脚本（可选）</h3><p>针对一些比较特殊的需求，可增加一个自定义编译脚本选项。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&#34;latex-workshop.latex.external.build.command&#34;: &#34;./compile.sh&#34;
+</span></span></code></pre></td></tr></table></div></div><p>意思是，但你编译（无论自动还是手动）时，不使用 latexshop 的编译链，而是执行 compile.sh 脚本，这种方式能够控制得更加底层，我提供一个模板 <a class=link href=http://compile.sh/ target=_blank rel=noopener>http://compile.sh/</a>，编译链为<em>tex -> bibtex -> tex^2</em>，可按需修改：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/bash
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=c1># 脚本用于编译latex</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 主文件名</span>
+</span></span><span class=line><span class=cl><span class=nv>filename</span><span class=o>=</span><span class=s2>&#34;&lt;NAME&gt;&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 编译器</span>
+</span></span><span class=line><span class=cl><span class=c1># command=&#34;pdflatex&#34;</span>
+</span></span><span class=line><span class=cl><span class=nv>command</span><span class=o>=</span><span class=s2>&#34;xelatex&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 编译参数</span>
+</span></span><span class=line><span class=cl><span class=nv>args</span><span class=o>=</span><span class=s2>&#34;-synctex=1 -interaction=nonstopmode -file-line-error -pdf&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 编译链</span>
+</span></span><span class=line><span class=cl><span class=c1># xetex -&gt; bibtex -&gt; xetex^2</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> i in <span class=o>{</span><span class=m>1</span> .. 3<span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=k>do</span>
+</span></span><span class=line><span class=cl>	<span class=nv>$command</span> <span class=nv>$args</span> <span class=nv>$filename</span>.tex
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=o>[</span> <span class=nv>$i</span> -eq <span class=m>1</span> <span class=o>]</span><span class=p>;</span> <span class=k>then</span>
+</span></span><span class=line><span class=cl>		bibtex <span class=nv>$filename</span>
+</span></span><span class=line><span class=cl>	<span class=k>fi</span>
+</span></span><span class=line><span class=cl><span class=k>done</span>
+</span></span></code></pre></td></tr></table></div></div><p>该脚本可以完成大多数论文的编译工作。</p><h3 id=注意事项>注意事项</h3><p>latexmk 对于错误容忍度比较低，连 bib 不正确都会显示为编译失败（但是文档可以正确输出），这可以在一定程度上帮助你排错，但是如果你错误太多可能会比较烦，这时候可以考虑用自编译脚本。</p><h2 id=参考>参考</h2><ol><li>相比之前的版本有所改动</li></ol></section><footer class=article-footer><section class=article-tags><a href=/tags/%E5%AD%A6%E6%9C%AF/>学术</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/%E4%BD%BF%E7%94%A8-nix-darwin-%E4%B8%BA-sonoma-%E9%85%8D%E7%BD%AE%E4%B8%80%E4%B8%AA%E7%AE%80%E6%B4%81%E9%AB%98%E6%95%88%E7%9A%84-zsh/><div class=article-details><h2 class=article-title>使用 nix-darwin 为 sonoma 配置一个简洁高效的 zsh</h2></div></a></article><article><a href=/p/%E7%94%A8%E6%9C%80%E5%B0%91%E7%9A%84%E6%97%B6%E9%97%B4%E6%89%93%E9%80%A0%E4%B8%80%E4%B8%AA%E5%BC%BA%E5%A4%A7%E7%9A%84-neovim/><div class=article-details><h2 class=article-title>用最少的时间打造一个强大的 neovim</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 菘菓菌</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

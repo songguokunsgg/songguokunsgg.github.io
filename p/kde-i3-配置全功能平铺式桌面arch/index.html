@@ -1,0 +1,612 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="本文介绍了如何在 Arch Linux 上配置 KDE 与 i3 结合的平铺式桌面环境。文章详细说明了安装 i3 所需的软件、将 KDE 的窗口管理器从 KWin 更换为 i3 的步骤，以及如何配置 i3 的快捷键、外观和壁纸管理。适合喜欢平铺式窗口管理器且对效率要求高的用户。"><title>KDE+i3 配置全功能平铺式桌面（Arch）</title>
+<link rel=canonical href=https://songguokunsgg.github.io/p/kde-i3-%E9%85%8D%E7%BD%AE%E5%85%A8%E5%8A%9F%E8%83%BD%E5%B9%B3%E9%93%BA%E5%BC%8F%E6%A1%8C%E9%9D%A2arch/><link rel=stylesheet href=/scss/style.min.663803bebe609202d5b39d848f2d7c2dc8b598a2d879efa079fa88893d29c49c.css><meta property='og:title' content="KDE+i3 配置全功能平铺式桌面（Arch）"><meta property='og:description' content="本文介绍了如何在 Arch Linux 上配置 KDE 与 i3 结合的平铺式桌面环境。文章详细说明了安装 i3 所需的软件、将 KDE 的窗口管理器从 KWin 更换为 i3 的步骤，以及如何配置 i3 的快捷键、外观和壁纸管理。适合喜欢平铺式窗口管理器且对效率要求高的用户。"><meta property='og:url' content='https://songguokunsgg.github.io/p/kde-i3-%E9%85%8D%E7%BD%AE%E5%85%A8%E5%8A%9F%E8%83%BD%E5%B9%B3%E9%93%BA%E5%BC%8F%E6%A1%8C%E9%9D%A2arch/'><meta property='og:site_name' content='菘菓菌'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='技术'><meta property='article:published_time' content='2022-06-19T15:38:08+00:00'><meta property='article:modified_time' content='2022-06-19T15:38:08+00:00'><meta name=twitter:title content="KDE+i3 配置全功能平铺式桌面（Arch）"><meta name=twitter:description content="本文介绍了如何在 Arch Linux 上配置 KDE 与 i3 结合的平铺式桌面环境。文章详细说明了安装 i3 所需的软件、将 KDE 的窗口管理器从 KWin 更换为 i3 的步骤，以及如何配置 i3 的快捷键、外观和壁纸管理。适合喜欢平铺式窗口管理器且对效率要求高的用户。"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_598b466302713ded.png width=300 height=325 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><div class=site-meta><h1 class=site-name><a href=/>菘菓菌</a></h1><h2 class=site-description>热爱技术，热爱生活，梦想是像风般自由</h2></div></header><ol class=menu-social><li><a href=https://github.com/songguokunsgg target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://zhihu.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>主页</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>归档</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>搜索</span></a></li><li><a href=/%E9%93%BE%E6%8E%A5/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>链接</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#判断你是否需要-kdei3>判断你是否需要 KDE+i3</a><ol><li><a href=#适合-i3-的人>适合 i3 的人</a></li><li><a href=#适合-kde-的人>适合 KDE 的人</a></li><li><a href=#kdei3-你将获得>KDE+i3 你将获得</a></li></ol></li><li><a href=#安装-i3-所需的软件>安装 i3 所需的软件</a></li><li><a href=#将-kde-的-wm-从-kwin-更换为-i3>将 KDE 的 WM 从 KWin 更换为 i3</a><ol><li><a href=#添加自启动脚本适用某个用户>添加自启动脚本（适用某个用户）</a></li><li><a href=#添加-xsession-会话用于所有用户>添加 XSession 会话（用于所有用户）</a></li></ol></li><li><a href=#配置-i3>配置 i3</a><ol><li><a href=#配置-config>配置 config</a></li><li><a href=#配置按键>配置按键</a></li><li><a href=#配置-picom-和-feh>配置 picom 和 feh</a></li><li><a href=#picom>picom</a></li><li><a href=#feh>feh</a></li></ol></li><li><a href=#重启>重启</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E6%9D%82%E8%B0%88/>操作系统杂谈</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/kde-i3-%E9%85%8D%E7%BD%AE%E5%85%A8%E5%8A%9F%E8%83%BD%E5%B9%B3%E9%93%BA%E5%BC%8F%E6%A1%8C%E9%9D%A2arch/>KDE+i3 配置全功能平铺式桌面（Arch）</a></h2><h3 class=article-subtitle>本文介绍了如何在 Arch Linux 上配置 KDE 与 i3 结合的平铺式桌面环境。文章详细说明了安装 i3 所需的软件、将 KDE 的窗口管理器从 KWin 更换为 i3 的步骤，以及如何配置 i3 的快捷键、外观和壁纸管理。适合喜欢平铺式窗口管理器且对效率要求高的用户。</h3></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Jun 19, 2022</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 7 分钟</time></div></footer></div></header><section class=article-content><p><strong>此方法仅适用于 plasma 5.24 及之前的版本，今天是 2022 年 6 月 17 日，最新的 Plasma 5.25.0 已经无法使用这个方法，请不要再继续！！如何查看 plasma 版本：</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pacman -S neofetch
+</span></span><span class=line><span class=cl>neofetch
+</span></span></code></pre></td></tr></table></div></div><p><strong>输出内容中即可看见 plasma 版本</strong></p><p>5.18 内核滚挂之后，我的 i3wm 也跟着挂了，不过所幸我在 gitee 上有配置备份。但之后的一段时间用了 KDE+KWin 的平铺脚本，最开始的体验还不错，但随着时间的推移，一些 bug 开始暴露出来，不禁让我怀念起 i3wm，但是 i3 也有一些显示上的 bug……没办法，我觉得在 KDE 上使用 i3 也许是个不错的选择。</p><h2 id=判断你是否需要-kdei3>判断你是否需要 KDE+i3</h2><h3 id=适合-i3-的人>适合 i3 的人</h3><ol><li>喜欢平铺式窗口管理器</li><li>喜欢极简桌面</li><li>对效率要求大于美化</li><li>不追求边边角角的功能配置</li><li>年轻，有精力折腾</li></ol><h3 id=适合-kde-的人>适合 KDE 的人</h3><ol><li>不爱折腾</li><li>不喜欢写配置文件</li><li>偶尔用用，保留了 win 的使用习惯</li><li>不爱用命令行</li></ol><p>以上均为我个人瞎 bb，请勿以此人身攻击</p><h3 id=kdei3-你将获得>KDE+i3 你将获得</h3><ol><li>KDE 的全功能（KWin 除外：废话）</li><li>完善的平铺式窗口管理器</li><li>一些 bug（难免的）</li><li>比纯 i3 大得多的内存占用</li></ol><p>如果你觉得可以接受，就可以进行下一步了。这里需要说明一下，今天时间为 2022 年 6 月 7 日，高考的第一天，plasma 版本为 5.24.5，如果看到这里你不知道以下名词的概念和区别，请不要再继续</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>plasma kde WM DE 滚挂 平铺 konsole vim
+</span></span></code></pre></td></tr></table></div></div><h2 id=安装-i3-所需的软件>安装 i3 所需的软件</h2><p>KDE 已经自带了不少的系统软件，但是 KDE 的特效合成器与壁纸管理与 i3 是独立的，所以我们需要针对 i3 进行单独配置。主要为以下三个</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo pacman -S i3 picom feh alacritty
+</span></span></code></pre></td></tr></table></div></div><p>其中 picom 为特效管理器，管理 i3 的窗口动画，透明等等，feh 则负责管理 i3 的壁纸</p><p>其他的软件，例如 wifi 管理，蓝牙，剪切板，应用启动器都在 KDE 中带有了，无需额外配置。还有一个重要的东西是终端，我不喜欢 KDE 的终端 konsole，所以以 alacritty 为例.（konsole 在 i3 中不一定能用，推荐更换 i3 常用的终端，例如 alacritty、kitty、st 等）</p><p>还有，选 i3 仓库的时候选 i3-wm , 别选 i3-gaps 否则屏幕周边会有大边框很难看。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>:: 在组 i3 中有 5 成员：
+</span></span><span class=line><span class=cl>:: 软件仓库 community
+</span></span><span class=line><span class=cl>   1) i3-gaps  2) i3-wm  3) i3blocks  4) i3lock  5) i3status
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>输入某个选择 ( 默认=全部选定 ):2
+</span></span></code></pre></td></tr></table></div></div><h2 id=将-kde-的-wm-从-kwin-更换为-i3>将 KDE 的 WM 从 KWin 更换为 i3</h2><h3 id=添加自启动脚本适用某个用户>添加自启动脚本（适用某个用户）</h3><p>在某个位置创建一个 sh 脚本（以/usr/local/）为例</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>vim /usr/local/kde-i3.sh
+</span></span></code></pre></td></tr></table></div></div><p>加入</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/sh 
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=nb>export</span> <span class=nv>KDEWM</span><span class=o>=</span>/usr/bin/i3
+</span></span></code></pre></td></tr></table></div></div><p>添加执行权限</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo chmod +x /usr/local/kde-i3.sh
+</span></span></code></pre></td></tr></table></div></div><p>意为将 KDEWM 这个变量设为 /usr/bin/i3</p><p>然后将这个脚本添加到 KDE 的开机启动中：</p><p>设置—开机与关机—自动启动</p><p>然后添加一个软链接</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>cd $HOME/.config/plasma-workspace/env
+</span></span><span class=line><span class=cl>sudo ln -s /usr/local/kde-i3.sh ./
+</span></span></code></pre></td></tr></table></div></div><p>当然也可以一步到位</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo ln -s /usr/local/kde-i3.sh $HOME/.config/plasma-workspace/env/
+</span></span></code></pre></td></tr></table></div></div><p>根据官方的说法，这个软链接是为了让这个脚本在会话启动之前执行，但设置里面不提供这个选项了，所以只能通过软链接的方式进行。</p><h3 id=添加-xsession-会话用于所有用户>添加 XSession 会话（用于所有用户）</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>cd /usr/share/xsessions
+</span></span></code></pre></td></tr></table></div></div><p>在不同的发行版中，XSession 文件位置有所不同，需要根据实际情况确定，Arch 下面是这个路径。复制一份 plasma.desktop 文件为 plasma-i3.desktop</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>cp plasma.desktop plasma-i3.desktop
+</span></span></code></pre></td></tr></table></div></div><p>打开 plasma-i3.desktop</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>vim plasma-i3.desktop
+</span></span></code></pre></td></tr></table></div></div><p>最顶上有如下内容</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>  1 [Desktop Entry]
+</span></span><span class=line><span class=cl>  2 Type=XSession
+</span></span><span class=line><span class=cl>  3 Exec=/usr/bin/startplasma-x11
+</span></span><span class=line><span class=cl>  4 TryExec=/usr/bin/startplasma-x11
+</span></span><span class=line><span class=cl>  5 DesktopNames=KDE
+</span></span><span class=line><span class=cl>  6 Name=Plasma (X11)
+</span></span><span class=line><span class=cl>  7 Name[ar]=ﺏﻻﺰﻣﺍ (ﺎﻜﺳ  )
+</span></span><span class=line><span class=cl>  8 Name[ast]=Plasma (X11)
+</span></span><span class=line><span class=cl>  9 Name[az]=Plasma (X11)
+</span></span><span class=line><span class=cl> 10 Name[ca]=Plasma (X11)
+</span></span></code></pre></td></tr></table></div></div><p>需要注意的是 Exec 和 TryExec 所在的两行，将它们修改为</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>  3 Exec=/usr/share/xsessions/start.sh
+</span></span><span class=line><span class=cl>  4 TryExec=/usr/share/xsessions/start.sh
+</span></span></code></pre></td></tr></table></div></div><p>然后编辑 start.sh，加入如下内容</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=cp>#!/bin/sh
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=nb>export</span> <span class=nv>KDEWM</span><span class=o>=</span>/usr/bin/i3
+</span></span><span class=line><span class=cl>/usr/bin/startplasma-x11
+</span></span></code></pre></td></tr></table></div></div><p>添加执行权限</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo chmod +x start.sh
+</span></span></code></pre></td></tr></table></div></div><h2 id=配置-i3>配置 i3</h2><p>这一步比较复杂，我很想把我的配置贴出来，但是……</p><p>gitee 审核不通过！！！（因为我壁纸也放在配置文件夹，全是二次元美少女）</p><p>所以这里的话我手动贴一些配置……</p><p>i3 的配置文件位于 ~/.config/i3/config</p><h3 id=配置-config>配置 config</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=c1># i3 配置文件(sukipai)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>####################</span>
+</span></span><span class=line><span class=cl><span class=c1>#   i3wm  基础设置</span>
+</span></span><span class=line><span class=cl><span class=c1>####################</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 基础按键设置</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=o>$</span><span class=n>mod</span> <span class=n>Mod4</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=o>$</span><span class=n>left</span> <span class=n>j</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=o>$</span><span class=n>right</span> <span class=n>l</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=o>$</span><span class=n>up</span> <span class=n>i</span>
+</span></span><span class=line><span class=cl><span class=n>set</span> <span class=o>$</span><span class=n>down</span> <span class=n>k</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 标题字体</span>
+</span></span><span class=line><span class=cl><span class=n>font</span> <span class=n>pango</span><span class=p>:</span> <span class=n>Source</span> <span class=n>Code</span> <span class=n>Pro</span> <span class=mi>12</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Title format</span>
+</span></span><span class=line><span class=cl><span class=n>title_align</span> <span class=n>center</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Hide borders</span>
+</span></span><span class=line><span class=cl><span class=n>hide_edge_borders</span> <span class=n>none</span>
+</span></span><span class=line><span class=cl><span class=n>default_border</span> <span class=n>none</span>
+</span></span><span class=line><span class=cl><span class=n>default_floating_border</span> <span class=n>none</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># default windows layout</span>
+</span></span><span class=line><span class=cl><span class=n>workspace_layout</span> <span class=n>tabbed</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># i3 gaps</span>
+</span></span><span class=line><span class=cl><span class=c1># gaps inner i3</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># reload the configuration file</span>
+</span></span><span class=line><span class=cl><span class=n>bindsym</span> <span class=o>$</span><span class=n>mod</span><span class=o>+</span><span class=n>Shift</span><span class=o>+</span><span class=n>c</span> <span class=n>reload</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># restart i3 inplace (can be used to upgrade i3)</span>
+</span></span><span class=line><span class=cl><span class=n>bindsym</span> <span class=o>$</span><span class=n>mod</span><span class=o>+</span><span class=n>Shift</span><span class=o>+</span><span class=n>r</span> <span class=n>restart</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># exit i3 (logs you out of your X session)</span>
+</span></span><span class=line><span class=cl><span class=c1># bindsym Mod4+Shift+e exec &#34;i3-nagbar -t warning -f &#39;pango: Microsoft YaHei 12&#39; -m &#39;Do you really want to exit i3?&#39; -b &#39;Yes, exit i3&#39; &#39;i3-msg exit&#39;&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Theme colors</span>
+</span></span><span class=line><span class=cl><span class=c1># gruvbox theme</span>
+</span></span><span class=line><span class=cl><span class=c1># class                   border  backgr. text    indicator</span>
+</span></span><span class=line><span class=cl><span class=n>client</span><span class=o>.</span><span class=n>focused</span>          <span class=c1>#3c3836 #32302f #fabd2f #fabd2f</span>
+</span></span><span class=line><span class=cl><span class=n>client</span><span class=o>.</span><span class=n>focused_inactive</span> <span class=c1>#3c3836 #504945 #d5c4a1 #504945</span>
+</span></span><span class=line><span class=cl><span class=n>client</span><span class=o>.</span><span class=n>unfocused</span>        <span class=c1>#3c3836 #504945 #d5c4a1 #504945</span>
+</span></span><span class=line><span class=cl><span class=n>client</span><span class=o>.</span><span class=n>urgent</span>           <span class=c1>#7c6f64 #fabd2f #3c3836 #fabd2f</span>
+</span></span></code></pre></td></tr></table></div></div><p>这一部分主要为外观，说几点：</p><ol><li>Mod4 指 win 键</li><li>exit i3 的配置建议注释掉，有 kde 在，我们不需要这个功能，反而给自己找麻烦。</li></ol><h3 id=配置按键>配置按键</h3><p>仍然是在 config</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>#############
+</span></span><span class=line><span class=cl>#   快捷键
+</span></span><span class=line><span class=cl>#############
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>## application binding
+</span></span><span class=line><span class=cl># start a terminal
+</span></span><span class=line><span class=cl>bindsym $mod+Return exec --no-startup-id alacritty
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>## i3wm binding
+</span></span><span class=line><span class=cl># Use Mouse+$mod to drag floating windows
+</span></span><span class=line><span class=cl>floating_modifier $mod
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># kill focused window
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+q kill
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># change focus
+</span></span><span class=line><span class=cl>bindsym $mod+$left focus left
+</span></span><span class=line><span class=cl>bindsym $mod+$down focus down
+</span></span><span class=line><span class=cl>bindsym $mod+$up focus up
+</span></span><span class=line><span class=cl>bindsym $mod+$right focus right
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># alternatively, you can use the cursor keys:
+</span></span><span class=line><span class=cl>bindsym $mod+Left focus left
+</span></span><span class=line><span class=cl>bindsym $mod+Down focus down
+</span></span><span class=line><span class=cl>bindsym $mod+Up focus up
+</span></span><span class=line><span class=cl>bindsym $mod+Right focus right
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># move focused window
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+$left move left
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+$dowm move down
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+$up move up
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+$right move right
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># alternatively, you can use the cursor keys: bindsym $mod+Shift+Left move left
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+Down move down
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+Up move up
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+Right move right
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># split in horizontal orientation
+</span></span><span class=line><span class=cl>bindsym $mod+h split h
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># split in vertical orientation
+</span></span><span class=line><span class=cl>bindsym $mod+v split v
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># enter fullscreen mode for the focused container
+</span></span><span class=line><span class=cl>bindsym $mod+f fullscreen toggle
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># change container layout (stacked, tabbed, toggle split)
+</span></span><span class=line><span class=cl>bindsym $mod+s layout stacking
+</span></span><span class=line><span class=cl>bindsym $mod+w layout tabbed
+</span></span><span class=line><span class=cl>bindsym $mod+e layout toggle split
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># toggle tiling / floating
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+space floating toggle
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># change focus between tiling / floating windows
+</span></span><span class=line><span class=cl>bindsym $mod+space focus mode_toggle
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># focus the parent container
+</span></span><span class=line><span class=cl>bindsym $mod+a focus parent
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>####################
+</span></span><span class=line><span class=cl># Workspace behavier
+</span></span><span class=line><span class=cl>####################
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># set workspace
+</span></span><span class=line><span class=cl>set $ws1 &#34;1&#34;
+</span></span><span class=line><span class=cl>set $ws2 &#34;2&#34;
+</span></span><span class=line><span class=cl>set $ws3 &#34;3&#34;
+</span></span><span class=line><span class=cl>set $ws4 &#34;4&#34;
+</span></span><span class=line><span class=cl>set $ws5 &#34;5&#34;
+</span></span><span class=line><span class=cl>set $ws6 &#34;6&#34;
+</span></span><span class=line><span class=cl>set $ws7 &#34;7&#34;
+</span></span><span class=line><span class=cl>set $ws8 &#34;8&#34;
+</span></span><span class=line><span class=cl>set $ws9 &#34;9&#34;
+</span></span><span class=line><span class=cl>set $ws10 &#34;10&#34;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># switch to workspace
+</span></span><span class=line><span class=cl>bindsym $mod+1 workspace number $ws1
+</span></span><span class=line><span class=cl>bindsym $mod+2 workspace number $ws2
+</span></span><span class=line><span class=cl>bindsym $mod+3 workspace number $ws3
+</span></span><span class=line><span class=cl>bindsym $mod+4 workspace number $ws4
+</span></span><span class=line><span class=cl>bindsym $mod+5 workspace number $ws5
+</span></span><span class=line><span class=cl>bindsym $mod+6 workspace number $ws6
+</span></span><span class=line><span class=cl>bindsym $mod+7 workspace number $ws7
+</span></span><span class=line><span class=cl>bindsym $mod+8 workspace number $ws8
+</span></span><span class=line><span class=cl>bindsym $mod+9 workspace number $ws9
+</span></span><span class=line><span class=cl>bindsym $mod+0 workspace number $ws10
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># move focused container to workspace
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+1 move container to workspace number $ws1
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+2 move container to workspace number $ws2
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+3 move container to workspace number $ws3
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+4 move container to workspace number $ws4
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+5 move container to workspace number $ws5
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+6 move container to workspace number $ws6
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+7 move container to workspace number $ws7
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+8 move container to workspace number $ws8
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+9 move container to workspace number $ws9
+</span></span><span class=line><span class=cl>bindsym $mod+Shift+0 move container to workspace number $ws10
+</span></span></code></pre></td></tr></table></div></div><p>这一部分就不多说了，基本都是这样配置的。</p><h3 id=配置-picom-和-feh>配置 picom 和 feh</h3><h3 id=picom>picom</h3><p>还是 config……</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>exec --no-startup-id picom --config ~/.config/i3/picom/picom.conf -b --experimental-backends
+</span></span></code></pre></td></tr></table></div></div><p>意思是自启动 picom 并读取位于 ~/.config/i3/picom/picom.conf 的配置文件。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=c1># Backend</span>
+</span></span><span class=line><span class=cl><span class=c1># glx mode have more performance, prevent tearing</span>
+</span></span><span class=line><span class=cl><span class=n>backend</span> <span class=o>=</span> <span class=s2>&#34;glx&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># GLX backend</span>
+</span></span><span class=line><span class=cl><span class=n>glx</span><span class=o>-</span><span class=n>no</span><span class=o>-</span><span class=n>stencil</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>glx</span><span class=o>-</span><span class=n>copy</span><span class=o>-</span><span class=n>from</span><span class=o>-</span><span class=n>front</span> <span class=o>=</span> <span class=bp>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>glx</span><span class=o>-</span><span class=n>no</span><span class=o>-</span><span class=n>rebind</span><span class=o>-</span><span class=n>pixmap</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>glx</span><span class=o>-</span><span class=n>swap</span><span class=o>-</span><span class=n>method</span> <span class=o>=</span> <span class=o>-</span><span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=c1># prevent flickering after wake up</span>
+</span></span><span class=line><span class=cl><span class=n>glx</span><span class=o>-</span><span class=n>use</span><span class=o>-</span><span class=n>copysubbuffer</span><span class=o>-</span><span class=n>mesa</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Shadows</span>
+</span></span><span class=line><span class=cl><span class=n>shadow</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>shadow</span><span class=o>-</span><span class=n>radius</span> <span class=o>=</span> <span class=mi>50</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>shadow</span><span class=o>-</span><span class=n>offset</span><span class=o>-</span><span class=n>x</span> <span class=o>=</span> <span class=o>-</span><span class=mi>40</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>shadow</span><span class=o>-</span><span class=n>offset</span><span class=o>-</span><span class=n>y</span> <span class=o>=</span> <span class=o>-</span><span class=mi>40</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>shadow</span><span class=o>-</span><span class=n>opacity</span> <span class=o>=</span> <span class=mf>0.8</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>shadow</span><span class=o>-</span><span class=n>exclude</span> <span class=o>=</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;class_g = &#39;Dunst&#39;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;class_g ?= &#39;polybar&#39;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;class_g ?= &#39;fcitx&#39;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;class_g ?= &#39;fcitx5&#39;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;class_g ?= &#39;rofi&#39;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;class_g = &#39;i3-frame&#39;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;window_type = &#39;dnd&#39;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;window_type = &#39;tooltip&#39;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;_GTK_FRAME_EXTENTS@:c&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;_NET_WM_STATE@:32a *= &#39;_NET_WM_STATE_HIDDEN&#39;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>shadow</span><span class=o>-</span><span class=n>ignore</span><span class=o>-</span><span class=n>shaped</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Opacity</span>
+</span></span><span class=line><span class=cl><span class=n>active</span><span class=o>-</span><span class=n>opacity</span> <span class=o>=</span> <span class=mf>0.93</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>inactive</span><span class=o>-</span><span class=n>opacity</span> <span class=o>=</span> <span class=mf>0.85</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>frame</span><span class=o>-</span><span class=n>opacity</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>inactive</span><span class=o>-</span><span class=n>opacity</span><span class=o>-</span><span class=n>override</span> <span class=o>=</span> <span class=bp>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># to show inactive windows</span>
+</span></span><span class=line><span class=cl><span class=n>inactive</span><span class=o>-</span><span class=n>dim</span> <span class=o>=</span> <span class=mf>0.2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>opacity</span><span class=o>-</span><span class=n>rule</span> <span class=o>=</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;75:class_g = &#39;Dunst&#39;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;75:class_g = &#39;i3-frame&#39;&#34;</span><span class=p>,</span> <span class=c1># fix: i3 titlebar</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;99:class_g = &#39;Vmware&#39;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;99:class_g = &#39;Shotwell&#39;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;99:class_g = &#39;Google-chrome&#39;&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Fading</span>
+</span></span><span class=line><span class=cl><span class=n>fading</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>fade</span><span class=o>-</span><span class=n>delta</span> <span class=o>=</span> <span class=mi>10</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>fade</span><span class=o>-</span><span class=ow>in</span><span class=o>-</span><span class=n>step</span> <span class=o>=</span> <span class=mf>0.09</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>fade</span><span class=o>-</span><span class=n>out</span><span class=o>-</span><span class=n>step</span> <span class=o>=</span> <span class=mf>0.09</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>fade</span><span class=o>-</span><span class=n>exclude</span> <span class=o>=</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl><span class=c1>#     &#34;class_g = &#39;Dunst&#39;&#34;,</span>
+</span></span><span class=line><span class=cl><span class=c1>#     &#34;class_g ?= &#39;Vlc&#39;&#34;,</span>
+</span></span><span class=line><span class=cl><span class=c1>#     &#34;class_g ?= &#39;Fcitx&#39;&#34;,</span>
+</span></span><span class=line><span class=cl><span class=c1>#     &#34;class_g ?= &#39;fcitx&#39;&#34;,</span>
+</span></span><span class=line><span class=cl><span class=c1>#     &#34;class_g ?= &#39;Fcitx5&#39;&#34;,</span>
+</span></span><span class=line><span class=cl><span class=c1>#     &#34;class_g ?= &#39;fcitx5&#39;&#34;,</span>
+</span></span><span class=line><span class=cl><span class=c1>#     &#34;class_g ?= &#39;pycharm&#39;&#34;,</span>
+</span></span><span class=line><span class=cl><span class=c1>#     &#34;window_type = &#39;dnd&#39;&#34;,</span>
+</span></span><span class=line><span class=cl><span class=c1>#     &#34;window_type = &#39;tooltip&#39;&#34;,</span>
+</span></span><span class=line><span class=cl><span class=c1>#     &#34;_GTK_FRAME_EXTENTS@:c&#34;,</span>
+</span></span><span class=line><span class=cl><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Other</span>
+</span></span><span class=line><span class=cl><span class=n>mark</span><span class=o>-</span><span class=n>wmwin</span><span class=o>-</span><span class=n>focused</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>mark</span><span class=o>-</span><span class=n>ovredir</span><span class=o>-</span><span class=n>focused</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>use</span><span class=o>-</span><span class=n>ewmh</span><span class=o>-</span><span class=n>active</span><span class=o>-</span><span class=n>win</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>detect</span><span class=o>-</span><span class=n>rounded</span><span class=o>-</span><span class=n>corners</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>detect</span><span class=o>-</span><span class=n>client</span><span class=o>-</span><span class=n>opacity</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>vsync</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>dbe</span> <span class=o>=</span> <span class=bp>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>unredir</span><span class=o>-</span><span class=k>if</span><span class=o>-</span><span class=n>possible</span> <span class=o>=</span> <span class=bp>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>focus</span><span class=o>-</span><span class=n>exclude</span> <span class=o>=</span> <span class=p>[</span> <span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>detect</span><span class=o>-</span><span class=n>transient</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>detect</span><span class=o>-</span><span class=n>client</span><span class=o>-</span><span class=n>leader</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Window type settings</span>
+</span></span><span class=line><span class=cl><span class=n>wintypes</span><span class=p>:</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=n>tooltip</span> <span class=o>=</span> <span class=p>{</span> <span class=n>fade</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span> <span class=n>shadow</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span> <span class=n>opacity</span> <span class=o>=</span> <span class=mf>0.9</span><span class=p>;</span> <span class=n>focus</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;};</span>
+</span></span><span class=line><span class=cl>  <span class=n>dock</span> <span class=o>=</span> <span class=p>{</span> <span class=n>shadow</span> <span class=o>=</span> <span class=bp>false</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=n>dnd</span> <span class=o>=</span> <span class=p>{</span> <span class=n>shadow</span> <span class=o>=</span> <span class=bp>false</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=n>popup_menu</span> <span class=o>=</span> <span class=p>{</span> <span class=n>opacity</span> <span class=o>=</span> <span class=mf>0.9</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=n>dropdown_menu</span> <span class=o>=</span> <span class=p>{</span> <span class=n>opacity</span> <span class=o>=</span> <span class=mf>0.9</span><span class=p>;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># XSync</span>
+</span></span><span class=line><span class=cl><span class=n>xrender</span><span class=o>-</span><span class=n>sync</span><span class=o>-</span><span class=n>fence</span> <span class=o>=</span> <span class=bp>true</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>复制粘贴就行，你也可以自行更改，这个配置还算易读。</p><h3 id=feh>feh</h3><p>feh 一次只能设置一张图片，还是 config</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>feh --bg-fill --no-fehbg --randomize ~/.config/i3/wallpapers/src/1.png
+</span></span></code></pre></td></tr></table></div></div><p>~/.config/i3/wallpapers/src/1.png 为你的壁纸路径</p><p>但我显然不满足于一张图片，我想要切换，所以可以写个脚本，这里我选择 lua 实现，你也可以选择写 bash 脚本</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>vim ~/.config/i3/wallpapers/autochange.lua
+</span></span></code></pre></td></tr></table></div></div><p>内容如下</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>function sleep(n)
+</span></span><span class=line><span class=cl>   os.execute(&#34;sleep &#34; .. n)
+</span></span><span class=line><span class=cl>end
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>while (true)
+</span></span><span class=line><span class=cl>do
+</span></span><span class=line><span class=cl>  os.execute(&#34;feh --bg-fill --no-fehbg --randomize ~/.config/i3/wallpapers/src/*&#34;)
+</span></span><span class=line><span class=cl>  sleep(900)
+</span></span><span class=line><span class=cl>end
+</span></span></code></pre></td></tr></table></div></div><p>前提是你得装了 lua</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pacman -S lua
+</span></span></code></pre></td></tr></table></div></div><p>然后每过 15 分钟就会在 ~/.config/i3/wallpapers/src/* 下随机选取一张壁纸。</p><h2 id=重启>重启</h2><p>恭喜你，不出意外的话，已经可以使用了。</p></section><footer class=article-footer><section class=article-tags><a href=/tags/%E6%8A%80%E6%9C%AF/>技术</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/windows--openwrt-%E5%BC%82%E5%9C%B0-zerotier-%E7%BB%84%E7%BD%91/><div class=article-details><h2 class=article-title>Windows + OpenWRT 异地 Zerotier 组网</h2></div></a></article><article><a href=/p/%E8%87%AA%E8%A1%8C%E7%BC%96%E8%AF%91%E5%AE%9A%E5%88%B6-immortalwrt/><div class=article-details><h2 class=article-title>自行编译定制 immortalWRT</h2></div></a></article><article><a href=/p/%E5%B8%B8%E7%94%A8%E7%9A%84-windows-%E9%85%8D%E7%BD%AE%E8%84%9A%E6%9C%AC/><div class=article-details><h2 class=article-title>常用的 Windows 配置脚本</h2></div></a></article><article><a href=/p/pve-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/><div class=article-details><h2 class=article-title>PVE 内网穿透</h2></div></a></article><article><a href=/p/2022-%E5%B9%B4%E7%94%A8-wayland-%E5%BC%80%E5%90%AF-linux/><div class=article-details><h2 class=article-title>2022 年，用 Wayland 开启 linux</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
+2020 -
+2025 菘菓菌</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

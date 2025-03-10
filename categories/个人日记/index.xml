@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>个人日记 on 菘菓菌</title><link>https://songguokunsgg.github.io/categories/%E4%B8%AA%E4%BA%BA%E6%97%A5%E8%AE%B0/</link><description>Recent content in 个人日记 on 菘菓菌</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 23 Dec 2024 23:02:33 +0000</lastBuildDate><atom:link href="https://songguokunsgg.github.io/categories/%E4%B8%AA%E4%BA%BA%E6%97%A5%E8%AE%B0/index.xml" rel="self" type="application/rss+xml"/><item><title>为什么你不再搭建个人博客？</title><link>https://songguokunsgg.github.io/p/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E4%B8%8D%E5%86%8D%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</link><pubDate>Mon, 23 Dec 2024 23:02:33 +0000</pubDate><guid>https://songguokunsgg.github.io/p/%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E4%B8%8D%E5%86%8D%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</guid><description>&lt;p>记得大四下学期，我成功从土木工程考研考到了计算机，当时我真的感动得快哭了……但我当时的第一想法是——终于可以光明正大地折腾电脑了。&lt;/p>
+&lt;p>从初中拥有自己的第一部智能手机——天语小黄蜂 W619 起，就对着电脑有了浓厚的兴趣。那时候的安卓手机硬件配置很低，自带的阿里云 OS 也不好用，因此便开始研究刷机。从原生到乐蛙、从乐蛙到 MIUI……再后来，从小黄蜂开始，陆陆续续换了不少手机，印象深刻的有小米 3、iPhone 6s Plus、小米 8、小米 9、红米 K30、K30 Ultra……后来安卓系统功能越来越多，系统也越来越稳定，“刷机”这种玩法也渐渐离我远去了。&lt;/p>
+&lt;p>上大学的时候，每当我折腾手机电脑，都会有人问我：“你一个学土木的折腾这些东西有什么用？”我对此真的无言以对。因此，当我知道自己可以光明正大地学计算机的时候，那种兴奋感，直到现在都很难复刻。&lt;/p>
+&lt;p>现在来看，当初的想法确实有点幼稚，毕竟是学习、玩自己喜欢的东西。折腾电脑，和其他人刷抖音、追剧、看番、yp、玩乐器 等相比，并没有本质区别。难道不学音乐的人，就不配听歌弹吉他了吗？考虑到大学时期比较好面子，也还算可以理解。&lt;/p>
+&lt;h2 id="第一次接触博客">第一次接触博客
+&lt;/h2>&lt;p>知道自己可以学计算机之后，给自己找的第一件事就是，搭建自己的博客。当时先买了一个腾讯云的学生版服务器，然后用 wordpress 搭建了自己的博客，但是，第一个问题出现了：&lt;/p>
+&lt;ul>
+&lt;li>百度搜不到我的博客&lt;/li>
+&lt;/ul>
+&lt;p>研究了一段时间的 SSO 等，感觉很麻烦，放弃了。&lt;/p>
+&lt;h2 id="第二次接触博客">第二次接触博客
+&lt;/h2>&lt;p>这时候，我已经研二了，也完成了发论文和找对象这两件事。于是就想着再把这个博客做一做。&lt;/p>
+&lt;p>这个时间段，我对于网站部署已经有了一些经验，也成功地将网站做到了百度上，但这时候更严重的问题出现了：&lt;/p>
+&lt;ul>
+&lt;li>没人看&lt;/li>
+&lt;/ul>
+&lt;p>每次进后台看到个位数（或许都是我自己）、或者是 0 的访问次数，就会有一种挫败感。&lt;/p>
+&lt;p>几个月之后，云服务器到期，这个网站也就夭折了。&lt;/p>
+&lt;h2 id="第三次接触博客">第三次接触博客
+&lt;/h2>&lt;p>第二次到第三次的期间，我在知乎上发表了许多技术型的文章，有不少文章获得了很好的反馈。此外，我已经完成了研究生的学业，进入了一个企业进行工作。学习到工作是一个将自我意识打碎重建的过程，习惯了学生时代的懒散，便无法适应上班族的生活。刚上班的那些日子，真的非常痛苦，于是，我再次搭建了博客，一开始，是希望记录一些不想被人看见的情绪……后来，逐渐适应现在的生活之后，便把知乎的文章大多搬到了博客上，后来写的文章也都是两边进行发表。&lt;/p>
+&lt;p>而这一次，我思考清楚了，我为什么想要搭建博客？我的初心是什么？&lt;/p>
+&lt;p>我问自己，我写文章是为了挣钱吗？并不是，知乎目前只带给了我 2 块钱的收入。&lt;/p>
+&lt;p>是为了得到别人的赞扬吗？也不是，文章帮助到了别人，我会开心，文章没人看，我也不觉得有什么。&lt;/p>
+&lt;p>所以，我只是单纯地喜欢分享而已。&lt;/p>
+&lt;p>于是，我放弃了云服务器，放弃了 wordpress，放弃了浏览量统计，放弃了评论，我决定着重于内容本身，着重于分享本身。&lt;/p>
+&lt;p>所以我最终采用的方案是：hexo+github pages。&lt;/p>
+&lt;p>原因很简单，我不靠博客挣钱，所以我也不想多花钱，而着重于内容最好的方式就是静态网站。&lt;/p>
+&lt;p>摒弃世俗，方可重生。&lt;/p>
+&lt;p>我的文章你爱看，你就看；不爱看，也不爱喷。能帮助到你，我高兴，不能帮助到你，你可以提出意见，我改进。&lt;/p>
+&lt;p>在转变心态之后，我发现，我再也不会纠结于浏览量，不会纠结于点赞了，我真的可以，专注内容本身。&lt;/p>
+&lt;p>&lt;a class="link" href="https://songguokunsgg.github.io/" target="_blank" rel="noopener"
+>冬日小七&lt;/a> 的 blog，这将会是我的最后一个……&lt;/p></description></item></channel></rss>
